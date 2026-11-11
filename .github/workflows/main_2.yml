@@ -1,0 +1,118 @@
+name: Valoración bursátil V6 (Yahoo + SEC)
+
+on:
+  # Sigue permitiendo ejecutar manualmente con cualquier ticker.
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: "Ticker Yahoo, p.ej. MSFT o 000660.KS"
+        required: true
+        default: MSFT
+        type: string
+      trimestres:
+        description: "Número de trimestres (4-24)"
+        required: true
+        default: "12"
+        type: string
+      publicar_resumen:
+        description: "Guardar JSON resumido en el repositorio (sin Excel)"
+        required: true
+        type: boolean
+        default: false
+
+  # Al fusionar o subir cambios a main, vuelve a ejecutar el modelo.
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'Resultados_publicados/**'
+
+  # Cada nueva pull request, o nueva versión de ella, se verifica.
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - 'Resultados_publicados/**'
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements.txt
+      - name: Pruebas sin conexión
+        run: |
+          python autoprueba_modelo.py
+          python prueba_comparables_automaticos.py
+          python test_v5.py
+
+  valorar:
+    needs: pruebas
+    # No ejecutar código de pull requests procedentes de forks con secretos.
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements.txt
+      - name: Ejecutar análisis desde Internet
+        env:
+          SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
+          # workflow_dispatch tiene inputs; push y pull_request no.
+          ANALYSIS_TICKER: ${{ inputs.ticker || 'MSFT' }}
+          ANALYSIS_QUARTERS: ${{ inputs.trimestres || '12' }}
+        run: |
+          python ejecutar_analisis.py \
+            --ticker "$ANALYSIS_TICKER" \
+            --num-quarters "$ANALYSIS_QUARTERS" \
+            --outdir Resultados
+      - name: Conservar Excel, JSON y registro incluso en error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: valoracion-v5-${{ github.run_id }}-${{ github.run_attempt }}
+          path: Resultados/
+          if-no-files-found: warn
+          retention-days: 30
+
+  publicar-resumen:
+    # Publica automáticamente en main después de push; manual solo si se solicita.
+    # Nunca publica archivos generados en una pull request.
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publicar_resumen == true) }}
+    needs: valorar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: valoracion-v5-${{ github.run_id }}-${{ github.run_attempt }}
+          path: Resultados/
+      - name: Publicar solo JSON (sin credenciales ni Excel)
+        env:
+          ANALYSIS_TICKER: ${{ inputs.ticker || 'MSFT' }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          mkdir -p Resultados_publicados
+          cp "Resultados/${ANALYSIS_TICKER}_resumen.json" "Resultados_publicados/${ANALYSIS_TICKER}.json"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "Resultados_publicados/${ANALYSIS_TICKER}.json"
+          if ! git diff --staged --quiet; then
+            git commit -m "Actualiza auditoría ${ANALYSIS_TICKER}"
+            git push origin "HEAD:$REF_NAME"
+          fi
