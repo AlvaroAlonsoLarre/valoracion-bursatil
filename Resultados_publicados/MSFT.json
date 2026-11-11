@@ -1,0 +1,904 @@
+{
+  "schema_version": "v5.0",
+  "ticker": "MSFT",
+  "generado_utc": "2026-11-11T17:53:50.339166+00:00",
+  "excel": "valoracion_MSFT_20261111T175350Z.xlsx",
+  "fuente": "Yahoo Finance + SEC si está disponible",
+  "General": [
+    {
+      "Concepto": "Empresa",
+      "Valor": "Microsoft Corporation"
+    },
+    {
+      "Concepto": "Ticker",
+      "Valor": "MSFT"
+    },
+    {
+      "Concepto": "Divisa financiera",
+      "Valor": "USD"
+    },
+    {
+      "Concepto": "Divisa de cotización",
+      "Valor": "USD"
+    },
+    {
+      "Concepto": "Sector",
+      "Valor": "Technology"
+    },
+    {
+      "Concepto": "Industria",
+      "Valor": "Software - Infrastructure"
+    },
+    {
+      "Concepto": "Último cierre fiscal disponible",
+      "Valor": "2026-06-30T00:00:00"
+    },
+    {
+      "Concepto": "Fuente histórico anual",
+      "Valor": "SEC EDGAR (CompanyFacts + Inline XBRL), hasta 10 ejercicios"
+    },
+    {
+      "Concepto": "CIK SEC",
+      "Valor": "0000789019"
+    },
+    {
+      "Concepto": "FX moneda financiera a moneda cotización",
+      "Valor": 1
+    },
+    {
+      "Concepto": "Fuente FX",
+      "Valor": "mismas divisas"
+    },
+    {
+      "Concepto": "Previsión económica",
+      "Valor": "Base TTM + puente FY + sensibilidad, NO consenso de analistas"
+    },
+    {
+      "Concepto": "Fecha valoración",
+      "Valor": "2026-11-11T00:00:00"
+    },
+    {
+      "Concepto": "Comparables económicos",
+      "Valor": "Selección automática multi-región por actividad + finanzas"
+    },
+    {
+      "Concepto": "Candidatos comparables evaluados",
+      "Valor": 55
+    },
+    {
+      "Concepto": "Comparables elegibles",
+      "Valor": 1
+    },
+    {
+      "Concepto": "Ejercicios anuales disponibles",
+      "Valor": 10
+    },
+    {
+      "Concepto": "Cobertura SEC 10 ejercicios",
+      "Valor": "Completa"
+    },
+    {
+      "Concepto": "Auditoría Yahoo vs SEC",
+      "Valor": "OK (<1%) en campos comparados"
+    },
+    {
+      "Concepto": "Estado de extracción SEC",
+      "Valor": "OK"
+    },
+    {
+      "Concepto": "Próxima publicación indicada por Yahoo",
+      "Valor": "2027-01-27T00:00:00"
+    }
+  ],
+  "Control modelo": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "USD→USD; fuente: mismas divisas"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "OK",
+      "Detalle": "10 ejercicios fuente SEC EDGAR (CompanyFacts + Inline XBRL), hasta 10 ejercicios; sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "OK",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (42 días); falta identificador SEC para verificar presentaciones"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 42 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "1 trimestres publicados, ingresos YTD 92.28 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=41.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "OK",
+      "Detalle": "CAPEX TTM / ventas 39.2% si disponible; referencia anual 22.9%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "OK",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 15.3%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados -0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "9.82%; rf 4.10%; beta 1.04; Ke 9.85%; Kd 8.60%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); gasto intereses anual / deuda total reciente (aprox.)"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 9.82%, g terminal 2.50%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 21.545986/19.587 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "OK",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "OK",
+      "Detalle": "Sin normalización de ciclo explícita"
+    }
+  ],
+  "Actualidad resultados": [
+    {
+      "newer_filing_confirmed": false,
+      "status": "NO_VERIFICADO",
+      "latest_quarter_yahoo": "2026-09-30",
+      "days_since_latest_quarter": 42,
+      "sec_report_end": null,
+      "sec_filing_date": null,
+      "earnings_calendar_alert": null,
+      "sec_earnings_8k_date": null,
+      "source_url": null,
+      "detail": "Último cierre trimestral Yahoo: 2026-09-30 (42 días); falta identificador SEC para verificar presentaciones"
+    }
+  ],
+  "Referencia comparables": [
+    {
+      "Método": "PER forward (x)",
+      "Mediana": null,
+      "Observaciones": 1,
+      "Estado": "BLOQUEADO: 1/3 comparables válidos con confianza media/alta",
+      "Dispersión max/min": null
+    },
+    {
+      "Método": "EV/EBITDA (x)",
+      "Mediana": null,
+      "Observaciones": 1,
+      "Estado": "BLOQUEADO: 1/3 comparables válidos con confianza media/alta",
+      "Dispersión max/min": null
+    }
+  ],
+  "Comparables depurados": [
+    {
+      "Ticker": "4716.T",
+      "Empresa": "Oracle Corporation Japan",
+      "Descripción actividad": "Oracle Corporation Japan provides software, hardware, and cloud products and solutions in Japan. It operates through Cloud and Software; Hardware Systems; and Services segments. The Cloud and Software segment provides software and hardware resources as services via the internet; sells software licenses for database management software, various middleware, and business application software such as ERP; and offers technical support services. Its Hardware segment sells hardware products such as servers, storage, engineered systems, and network equipment; offers operating systems and related software; and provides technical support, repair, and maintenance for hardware products, as well as updates for OS and related software. The Services segment engages in the provision of support services for the implementation of products, preventative maintenance services and comprehensive operational management services for the IT environment. The company was incorporated in 1982 and is headquartered in Minato, Japan. Oracle Corporation Japan operates as a subsidiary of Oracle Japan Holding Inc.",
+      "Industria clave": "software-infrastructure",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Software - Infrastructure",
+      "Divisa cotización": "JPY",
+      "Divisa financiera": "JPY",
+      "Precio actual": 9691,
+      "Capitalización (miles de millones)": 1243.491729408,
+      "Ingresos TTM (miles de millones)": 293.658984448,
+      "PER trailing": 18.541336,
+      "PER forward": 18.717165,
+      "EV/EBITDA": 12.544,
+      "EV/Ingresos": 4.097,
+      "P/Ventas": 4.234475,
+      "P/Valor contable": 11.001049,
+      "Margen neto (%)": 0,
+      "Margen operativo (%)": 32.209998,
+      "Crecimiento ventas (%)": 13,
+      "Crecimiento beneficios (%)": 23.1,
+      "ROE (%)": null,
+      "Deuda/Patrimonio (%)": null,
+      "Rentabilidad FCF (%)": null,
+      "Beta": null,
+      "Similitud por tamaño (0-100)": null,
+      "Origen": "Industria Yahoo JP",
+      "Prioridad relación": 1,
+      "Prioridad origen": 0,
+      "Distancia de tamaño": null,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "software_empresa",
+      "Puntuación económica (0-100)": 53.5,
+      "Similitud de actividad (0-100)": 15.6,
+      "Solapamiento actividades (0-100)": 100,
+      "Actividades objetivo": "software_empresa",
+      "Actividades candidato": "software_empresa",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": true,
+      "EV/EBITDA admisible": true,
+      "PER forward (x)": 18.717165,
+      "EV/EBITDA (x)": 12.544,
+      "Observación": "Actividad similar; validar segmentos económicos"
+    }
+  ],
+  "Valoracion fundamental": [
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 16.69237305641152,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 0.9774578637341347,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 16.69237305641152,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 0.9774578637341347,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": 48.71479417280241,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": -90.65549102800536,
+      "Rentabilidad anualizada (%)": -90.65549102800536,
+      "EPS previsto (divisa financiera)": 16.69237305641152,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 11.32192401885468,
+      "G terminal (%)": 2.0,
+      "Deuda neta utilizada (miles MM)": 0.9774578637341347,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 18.12967159821541,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 66.70480987415256,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 18.12967159821541,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 66.70480987415256,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": 49.93204454516008,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": -90.421997133208,
+      "Rentabilidad anualizada (%)": -54.24642986556696,
+      "EPS previsto (divisa financiera)": 18.12967159821541,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 11.32192401885468,
+      "G terminal (%)": 2.0,
+      "Deuda neta utilizada (miles MM)": 66.70480987415256,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 18.98428562595035,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -23.49367991047453,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 18.98428562595035,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -23.49367991047453,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": 121.3536987170226,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": -76.72184095814039,
+      "Rentabilidad anualizada (%)": -76.72184095814039,
+      "EPS previsto (divisa financiera)": 18.98428562595035,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 9.821924018854684,
+      "G terminal (%)": 2.5,
+      "Deuda neta utilizada (miles MM)": -23.49367991047453,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 22.23208301357387,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -11.50796519659362,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 22.23208301357387,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -11.50796519659362,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": 128.9133888717085,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": -75.27173542704894,
+      "Rentabilidad anualizada (%)": -37.23302294950606,
+      "EPS previsto (divisa financiera)": 22.23208301357387,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 9.821924018854684,
+      "G terminal (%)": 2.5,
+      "Deuda neta utilizada (miles MM)": -11.50796519659362,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 21.39826706016415,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -42.87642530159385,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 21.39826706016415,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -42.87642530159385,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2027-11-11",
+      "Precio objetivo (divisa cotización)": 221.6919617358631,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": -57.47487881994493,
+      "Rentabilidad anualizada (%)": -57.47487881994493,
+      "EPS previsto (divisa financiera)": 21.39826706016415,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 8.821924018854684,
+      "G terminal (%)": 3.0,
+      "Deuda neta utilizada (miles MM)": -42.87642530159385,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 26.9457954395909,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -76.36727666508025,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "EPS previsto (divisa financiera)": 26.9457954395909,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -76.36727666508025,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2029-11-11",
+      "Precio objetivo (divisa cotización)": 230.3708062566967,
+      "Precio actual (divisa cotización)": 521.32,
+      "Potencial (%)": -55.8100962447831,
+      "Rentabilidad anualizada (%)": -23.83168435433626,
+      "EPS previsto (divisa financiera)": 26.9457954395909,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 8.821924018854684,
+      "G terminal (%)": 3.0,
+      "Deuda neta utilizada (miles MM)": -76.36727666508025,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    }
+  ],
+  "Base TTM y balance": [
+    {
+      "Campo": "Ingresos",
+      "Base TTM (unidades)": 346445000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Base TTM (unidades)": 163191000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Base TTM (unidades)": 142631000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "EPS diluido",
+      "Base TTM (unidades)": 19.16,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Base TTM (unidades)": 195878000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "CAPEX",
+      "Base TTM (unidades)": 135921000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "D&A",
+      "Base TTM (unidades)": 42131000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Base TTM (unidades)": 59957000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Base TTM (unidades)": 205322000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Recompras de acciones",
+      "Base TTM (unidades)": 21000000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Dividendos",
+      "Base TTM (unidades)": 27033000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Deuda neta",
+      "Base TTM (unidades)": -28813000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Deuda total",
+      "Base TTM (unidades)": 35481000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Efectivo",
+      "Base TTM (unidades)": 20281000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    }
+  ],
+  "Supuestos fundamentales": [
+    {
+      "Supuesto": "Fecha valoración",
+      "Valor": "2026-11-11",
+      "Origen y limitación": "Fecha de consulta del motor"
+    },
+    {
+      "Supuesto": "Último ejercicio disponible",
+      "Valor": 2026,
+      "Origen y limitación": "Fecha SEC/Yahoo anual"
+    },
+    {
+      "Supuesto": "Fecha base TTM",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "Cuatro trimestres, no ×4 de un trimestre"
+    },
+    {
+      "Supuesto": "Base operativa",
+      "Valor": "TTM",
+      "Origen y limitación": "TTM; puente FY si es necesario; bloquear si parcial sin base completa"
+    },
+    {
+      "Supuesto": "Ingresos base (miles MM)",
+      "Valor": 346.445,
+      "Origen y limitación": "TTM o FY si no hay cuatro trimestres"
+    },
+    {
+      "Supuesto": "Crecimiento ventas (%)",
+      "Valor": 8.216366537328955,
+      "Origen y limitación": "Combinación crecimiento TTM y mediana FY; ajustable"
+    },
+    {
+      "Supuesto": "Banda de escenarios (%)",
+      "Valor": 4,
+      "Origen y limitación": "Sensibilidad, NO intervalo de confianza"
+    },
+    {
+      "Supuesto": "Margen EBIT normalizado (%)",
+      "Valor": 46.659699487536,
+      "Origen y limitación": "70% margen TTM + 30% histórico si datos"
+    },
+    {
+      "Supuesto": "D&A / ingresos (%)",
+      "Valor": 11.7325766051466,
+      "Origen y limitación": "80/20 reciente/histórico aprox.; definición D&A revisar"
+    },
+    {
+      "Supuesto": "CAPEX / ingresos (%)",
+      "Valor": 35.96902401333655,
+      "Origen y limitación": "80% tasa TTM + 20% histórica si existe"
+    },
+    {
+      "Supuesto": "No operativos normalizados (%)",
+      "Valor": -0.5490785666728213,
+      "Origen y limitación": "Recorte extraordinarios/ausencia dato"
+    },
+    {
+      "Supuesto": "Impuestos normalizados (%)",
+      "Valor": 18.2313265978272,
+      "Origen y limitación": "Mediana tasas FY; acotada"
+    },
+    {
+      "Supuesto": "Capital trabajo / aumento ingresos (%)",
+      "Valor": 1,
+      "Origen y limitación": "Ajustable; requiere flujos capital trabajo"
+    },
+    {
+      "Supuesto": "Pagos accionistas / ingresos (%)",
+      "Valor": 15.25946966906815,
+      "Origen y limitación": "Dividendo + recompras cash; estimación"
+    },
+    {
+      "Supuesto": "Crecimiento acciones (%)",
+      "Valor": 0,
+      "Origen y limitación": "No relaciona automáticamente recompras con dilución"
+    },
+    {
+      "Supuesto": "Deuda neta reciente (miles MM)",
+      "Valor": -28.813,
+      "Origen y limitación": "Balance trimestral o anual más reciente"
+    },
+    {
+      "Supuesto": "Fecha balance",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "La deuda evoluciona en escenarios"
+    },
+    {
+      "Supuesto": "Acciones al cierre (miles MM)",
+      "Valor": 7.426194552,
+      "Origen y limitación": "Yahoo acciones en circulación"
+    },
+    {
+      "Supuesto": "FX contabilidad a cotización",
+      "Valor": 1,
+      "Origen y limitación": "mismas divisas"
+    },
+    {
+      "Supuesto": "WACC (%)",
+      "Valor": 9.821924018854684,
+      "Origen y limitación": "WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); gasto intereses anual / deuda total reciente (aprox.)"
+    },
+    {
+      "Supuesto": "Coste equity Ke (%)",
+      "Valor": 9.8475,
+      "Origen y limitación": "rf+beta*ERP+riesgo país"
+    },
+    {
+      "Supuesto": "Coste deuda Kd (%)",
+      "Valor": 8.598968461993744,
+      "Origen y limitación": "Gastos financieros / deuda o aproximación"
+    },
+    {
+      "Supuesto": "Beta",
+      "Valor": 1.045,
+      "Origen y limitación": "Yahoo o supuesto 1"
+    },
+    {
+      "Supuesto": "Tasa sin riesgo (%)",
+      "Valor": 4.100000000000001,
+      "Origen y limitación": "Supuesto moneda editable"
+    },
+    {
+      "Supuesto": "Prima mercado ERP (%)",
+      "Valor": 5.5,
+      "Origen y limitación": "Editable"
+    },
+    {
+      "Supuesto": "Crecimiento terminal (%)",
+      "Valor": 2.5,
+      "Origen y limitación": "Editable, compatible con WACC"
+    },
+    {
+      "Supuesto": "PER forward propio Yahoo (solo referencia)",
+      "Valor": 21.545986,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "EV/EBITDA Yahoo propio (solo referencia)",
+      "Valor": 19.587,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "PER de referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo PER"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo EV/EBITDA"
+    },
+    {
+      "Supuesto": "PER referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza el PER propio como sustituto"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza EV/EBITDA propio como sustituto"
+    },
+    {
+      "Supuesto": "Empresa cíclica",
+      "Valor": "No",
+      "Origen y limitación": "Catálogo económico o VALUACION_EMPRESA_CICLICA"
+    },
+    {
+      "Supuesto": "Margen EBIT de ciclo normalizado (%)",
+      "Valor": 44.64429957327371,
+      "Origen y limitación": "Mediana de hasta cinco FY o VALUACION_MARGEN_NORMALIZADO"
+    }
+  ],
+  "Resumen Yahoo SEC": [
+    {
+      "Ejercicio": 2023,
+      "Campos evaluados": 33,
+      "Comparaciones numéricas": 33,
+      "Coinciden (<1%)": 33,
+      "Diferencias >=1%": 0,
+      "No comparables": 0,
+      "Mayor diferencia (%)": 0.00937221762290246,
+      "Estado": "OK en campos comparados"
+    },
+    {
+      "Ejercicio": 2024,
+      "Campos evaluados": 33,
+      "Comparaciones numéricas": 33,
+      "Coinciden (<1%)": 33,
+      "Diferencias >=1%": 0,
+      "No comparables": 0,
+      "Mayor diferencia (%)": 0.05020710430525969,
+      "Estado": "OK en campos comparados"
+    },
+    {
+      "Ejercicio": 2025,
+      "Campos evaluados": 33,
+      "Comparaciones numéricas": 33,
+      "Coinciden (<1%)": 33,
+      "Diferencias >=1%": 0,
+      "No comparables": 0,
+      "Mayor diferencia (%)": 0.019453739008648,
+      "Estado": "OK en campos comparados"
+    },
+    {
+      "Ejercicio": 2026,
+      "Campos evaluados": 33,
+      "Comparaciones numéricas": 33,
+      "Coinciden (<1%)": 33,
+      "Diferencias >=1%": 0,
+      "No comparables": 0,
+      "Mayor diferencia (%)": 0.5280963775889137,
+      "Estado": "OK en campos comparados"
+    }
+  ],
+  "auditoria": {
+    "comparables_elegibles": 1,
+    "total_candidatos": 55,
+    "errores_bloqueantes": 0
+  }
+}
