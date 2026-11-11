@@ -7,6 +7,11 @@ sys.path.insert(0,str(Path(__file__).parent))
 import pandas as pd
 from comparables_inteligentes import score_and_filter,discover_candidates
 
+def synthetic_score(peers,*a,**kw):
+    peers=peers.assign(**{'PER periodo':'NTM','PER base':'GAAP','EV/EBITDA periodo':'NTM','Perímetro deuda':'Financiera sin leases'})
+    return score_and_filter(peers,*a,**kw)
+
+
 profiles={
 'MSFT':{'industryKey':'software-infrastructure','sectorKey':'technology','industry':'Software - Infrastructure','longBusinessSummary':'Microsoft provides Azure cloud computing infrastructure, enterprise software Microsoft 365, Office, Windows operating systems, database software and AI cloud platforms, business productivity and subscription software.'},
 '000660.KS':{'industryKey':'semiconductors','sectorKey':'technology','industry':'Semiconductors','longBusinessSummary':'SK Hynix manufactures DRAM high bandwidth memory HBM NAND flash memory semiconductors for datacenter AI cloud servers memory storage.'}
@@ -32,7 +37,7 @@ for ticker, test in [('MSFT',msft),('000660.KS',sk)]:
  peers=pd.DataFrame([{'Ticker':t,'Empresa':name,'Industria clave':ind,'Sector clave':'technology','Descripción actividad':desc,
      'PER forward':pe,'EV/EBITDA':12,'Margen operativo (%)':margin,'Crecimiento ventas (%)':growth,
      'Capitalización (miles de millones)':100} for t,name,ind,desc,pe,margin,growth in test])
- ranked,pe,ev,ref,universe=score_and_filter(peers,ticker,target_margin=30,target_growth=20,target_cap=200,
+ ranked,pe,ev,ref,universe=synthetic_score(peers,ticker,target_margin=30,target_growth=20,target_cap=200,
                                    target_info=profiles[ticker],max_peers=10,return_universe=True)
  print('\n',ticker, 'median',pe, ev)
  print(universe[['Ticker','Puntuación económica (0-100)','Similitud de actividad (0-100)','Elegible','PER admisible']].to_string(index=False))

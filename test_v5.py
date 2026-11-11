@@ -43,6 +43,7 @@ rows=[
  {'Ticker':'UMC','Descripción actividad':'Foundry company wafer fabrication semiconductor integrated circuits',
   'Industria clave':'semiconductors','Sector clave':'technology','PER forward':20,'EV/EBITDA':7,'Margen operativo (%)':17},
 ]
+for row in rows:row.update({'PER periodo':'NTM','PER base':'GAAP','EV/EBITDA periodo':'NTM','Perímetro deuda':'Financiera sin leases'})
 selected,pe,ev,refs,universe=score_and_filter(pd.DataFrame(rows),'000660.KS',target_info=info,return_universe=True)
 assert set(selected['Ticker'])=={'MU','2408.TW','285A.T'}, selected['Ticker'].tolist()
 assert set(universe.loc[~universe['Elegible'],'Ticker'])=={'TSM','UMC'}

@@ -61,7 +61,7 @@ import pandas as pd
 import yfinance as yf
 from sec_historical import download_sec_annual_history
 from modelo_fundamental import build_fundamental_model, fx_rate
-from comparables_inteligentes import selected_candidates, discover_candidates, score_and_filter
+from comparables_inteligentes import selected_candidates, discover_candidates, score_and_filter, economic_seeds
 
 # Import explícito para que la función de presentación no dependa de una
 # variable global llamada `display` que pudiera haberse sobrescrito en Jupyter.
@@ -386,6 +386,7 @@ NOMBRES = {
     "impuestos": ["TaxProvision", "IncomeTaxExpense"],
     "antes_impuestos": ["PretaxIncome", "IncomeBeforeTax"],
     "efectivo": ["CashAndCashEquivalents"],
+    "leases": ["CapitalLeaseObligations", "FinanceLeaseLiability"],
     "efectivo_inversiones": ["CashCashEquivalentsAndShortTermInvestments", "CashCashEquivalentsAndMarketableSecurities"],
     "inversiones_cp": ["OtherShortTermInvestments", "ShortTermInvestments", "MarketableSecuritiesCurrent", "AvailableForSaleSecuritiesCurrent"],
     "deuda_cp": ["CurrentDebt", "CurrentPortionOfLongTermDebt", "ShortTermDebt"],
@@ -502,6 +503,8 @@ def construir_fila_financiera(fecha, estado_resultados, estado_balance, estado_f
         "Flujo de caja operativo": flujo_operativo,
         "CAPEX": capex,
         "D&A": da,
+        "Definición D&A": "D&A consolidada Yahoo; desglose no verificado",
+        "Arrendamientos": get_b("leases"),
         "Flujo de caja libre": fcf,
         "EBITDA aproximado": ebitda,
         "Impuestos": impuestos,
@@ -553,8 +556,8 @@ if not tabla_financiera_sec_usd.empty and fechas_anuales_yahoo:
                 diferencia = np.nan
                 resultado = "No comparable (faltan datos)"
             elif abs(val_yahoo) < 1e-12:
-                diferencia = 0.0 if abs(val_sec) < 1e-12 else np.nan
-                resultado = "Coincide (<1%)" if diferencia == 0 else "No comparable (base Yahoo cero)"
+                diferencia = 0.0 if abs(val_sec) < 1e-12 else 100.0
+                resultado = "Coincide (<1%)" if diferencia == 0 else "Revisar (Yahoo cero, SEC no cero)"
             else:
                 diferencia = abs(val_yahoo - val_sec) / abs(val_yahoo) * 100
                 resultado = "Coincide (<1%)" if diferencia < 1 else "Revisar (>=1%)"
@@ -1274,6 +1277,10 @@ def agregar_candidato(simbolo, origen, prioridad, market_cap_previo=np.nan):
 # Se integran antes de la selección automática de Yahoo para tener preferencia.
 for simbolo, meta in comparables_economicos_config.items():
     agregar_candidato(simbolo, meta["Origen curado"], -10)
+# Semillas económicas se consultan siempre, sujetas a los mismos filtros.
+for simbolo in economic_seeds(TICKER):
+    agregar_candidato(simbolo,'Semilla económica: pendiente de evaluación',-5)
+registro_candidatos={}
 
 def procesar_resultado_screener(resultado, origen, prioridad):
     """Lee la respuesta de yf.screen() sin depender de columnas opcionales."""
@@ -1479,6 +1486,9 @@ def extraer_metricas_peer(simbolo, datos_info, origen, prioridad_origen):
         "Ingresos TTM (miles de millones)": ingresos / 1e9 if pd.notna(ingresos) else np.nan,
         "PER trailing": numero(datos_info.get("trailingPE")),
         "PER forward": numero(datos_info.get("forwardPE")),
+        "PER periodo": "No verificado FY1/NTM", "PER base": "No verificado GAAP/ajustado",
+        "EV/EBITDA periodo": "LTM Yahoo; no NTM", "Perímetro deuda": "No verificado",
+        "Emisor id": datos_info.get('underlyingSymbol') or datos_info.get('longName') or simbolo,
         "EV/EBITDA": numero(datos_info.get("enterpriseToEbitda")),
         "EV/Ingresos": numero(datos_info.get("enterpriseToRevenue")),
         "P/Ventas": numero(datos_info.get("priceToSalesTrailing12Months")),
@@ -1504,20 +1514,18 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
     lista = list(lista_candidatos.values())
     if not lista:
         return []
+    # Screener sin moneda acreditada: se conserva orden de prioridad, no tamaño nativo.
     # Reduce consultas: si Yahoo ofrece capitalización de screening, aproxima la cercanía
     # de tamaño antes de descargar info detallada.
     def distancia_previa(candidato):
-        cap_peer = numero(candidato.get("Capitalización de screener"))
-        if pd.notna(cap_peer) and cap_peer > 0 and pd.notna(capitalizacion_objetivo) and capitalizacion_objetivo > 0:
-            return abs(np.log(cap_peer / capitalizacion_objetivo))
-        return 999.0
+        return 999.0 # Screener no acredita divisa; nunca comparar capitalizaciones nativas
     # Muestreo diversificado: evita que una única región o el primer listado de
     # Industry consuma toda la cuota de get_info() y oculte empresas afines.
     grupos = {'manual': [], 'industria_local': [], 'industria_global': [],
               'actividad': [], 'sector': []}
     for item in lista:
         origen = str(item.get('Origen candidatos','')).lower()
-        if item['Ticker'] in comparables_economicos_config:
+        if item['Ticker'] in comparables_economicos_config or item['Ticker'] in economic_seeds(TICKER):
             key='manual'
         elif 'búsqueda actividad' in origen or 'busqueda actividad' in origen:
             key='actividad'
@@ -1532,7 +1540,7 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
         grupos[key].append(item)
     for items in grupos.values():
         items.sort(key=lambda c:(distancia_previa(c),c['Ticker']))
-    cuotas={'manual':max(3,int(max_candidatos*.10)),
+    cuotas={'manual':max(len(economic_seeds(TICKER)),len(comparables_economicos_config),3,int(max_candidatos*.10)),
             'industria_local':max(12,int(max_candidatos*.36)),
             'industria_global':max(10,int(max_candidatos*.25)),
             'actividad':max(7,int(max_candidatos*.20)),
@@ -1549,12 +1557,15 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
         if item['Ticker'] not in chosen_tickers:
             chosen.append(item);chosen_tickers.add(item['Ticker'])
     filas = []
+    for candidato in lista:
+        registro_candidatos.setdefault(candidato['Ticker'],{**candidato,'Estado descarga':'NO_INTENTADO (límite consultas)','Detalle descarga':''})
     for candidato in chosen:
         simbolo = candidato["Ticker"]
         try:
             peer_ticker = yf.Ticker(simbolo)
             peer_info = peer_ticker.get_info() or {}
             if not peer_info:
+                registro_candidatos[simbolo].update({'Estado descarga':'ERROR','Detalle descarga':'Perfil vacío'})
                 continue
             fila = extraer_metricas_peer(
                 simbolo, peer_info,
@@ -1562,7 +1573,10 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
             )
             if fila is not None:
                 filas.append(fila)
+                registro_candidatos[simbolo].update({'Estado descarga':'DESCARGADO'})
+            else:registro_candidatos[simbolo].update({'Estado descarga':'EXCLUIDO','Detalle descarga':'Fuera de sector/industria'})
         except Exception as error:
+            registro_candidatos[simbolo].update({'Estado descarga':'ERROR','Detalle descarga':str(error)[:250]})
             warnings.warn(f"No se pudieron descargar las métricas de {simbolo}: {error}")
     return filas
 
@@ -1783,8 +1797,14 @@ except Exception as exc:
        'status':'NO_VERIFICADO','detail':f'No se pudo comprobar fecha de presentación: {exc}'}
 tabla_actualidad = pd.DataFrame([comprobacion_actualidad])
 
-resultados_fundamentales = build_fundamental_model(
-    tabla_financiera_usd, universo_df, price=precio_actual,
+from referencias_oficiales import comprobar_ir
+comprobacion_ir=comprobar_ir(TICKER,tabla_trimestral_usd,divisa_financiera,hoy)
+if comprobacion_ir['status']=='BLOQUEO':
+    comprobacion_actualidad.update(status='BLOQUEO',
+       newer_filing_confirmed=comprobacion_ir['newer_filing_confirmed'],detail=comprobacion_ir['detail'])
+tabla_actualidad=pd.DataFrame([{k:v for k,v in comprobacion_actualidad.items() if k not in ('comparisons','extraordinary')}])
+fundamental_kwargs=dict(
+    price=precio_actual,
     market_cap=capitalizacion_actual, shares_outstanding=primer_valor_disponible(info.get("sharesOutstanding"), acciones_en_circulacion),
     financial_currency=divisa_financiera, quote_currency=divisa_cotizacion,
     fx=fx_fin_a_cot, fx_source=fx_origen, source=fuente_historico_anual,
@@ -1794,6 +1814,13 @@ resultados_fundamentales = build_fundamental_model(
     as_of=hoy, ticker=TICKER, info=info,
     recent_results_check=comprobacion_actualidad,
 )
+from auditoria_io import write_snapshot
+from pathlib import Path
+snapshot_dir=os.environ.get('VALUACION_SNAPSHOT_DIR','')
+if snapshot_dir:
+    write_snapshot(Path(snapshot_dir)/(TICKER+'_inputs.json'),tabla_financiera_usd,universo_df,fundamental_kwargs,
+        {'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf},evidence={'ir':comprobacion_ir})
+resultados_fundamentales = build_fundamental_model(tabla_financiera_usd,universo_df,**fundamental_kwargs)
 tabla_supuestos_fundamentales = resultados_fundamentales.assumptions
 tabla_proyeccion_fundamental = resultados_fundamentales.projected
 tabla_valoracion_fundamental = resultados_fundamentales.valuation
@@ -1802,6 +1829,10 @@ tabla_control_modelo = resultados_fundamentales.checks
 tabla_comparables_depurados = resultados_fundamentales.peers
 # V5: universo y lista seleccionada obtenidos del MISMO cálculo de puntuación.
 tabla_universo_peers = resultados_fundamentales.peer_universe
+if registro_candidatos:
+    tracked=pd.DataFrame(registro_candidatos.values())
+    if tabla_universo_peers.empty:tabla_universo_peers=tracked
+    else:tabla_universo_peers=tabla_universo_peers.merge(tracked[['Ticker','Estado descarga','Detalle descarga']],on='Ticker',how='outer')
 if not tabla_universo_peers.empty and not tabla_comparables_depurados.empty:
     elegidos=set(tabla_comparables_depurados['Ticker'])
     tabla_comparables=tabla_universo_peers[
@@ -1861,6 +1892,17 @@ if divisa_financiera != divisa_cotizacion:
             tabla_actual.loc[c,'Valor']=np.nan
     warnings.warn("Sin FX histórico, los escenarios de valoración heredados se bloquean para monedas diferentes. El modelo fundamental usa FX explícito.")
 
+from auditoria_io import valuation_registry
+tabla_registro=valuation_registry(tabla_valoracion_fundamental,tabla_escenarios_eps,tabla_escenarios_fcf,
+    as_of=hoy.date(),fy_date=fecha_ultimo_ejercicio.date(),
+    ttm_date=resultados_fundamentales.assumptions.set_index('Supuesto').loc['Fecha base TTM','Valor'],
+    currency=divisa_cotizacion,source=fuente_historico_anual,freshness=comprobacion_actualidad['status'])
+tabla_estadisticas_crecimiento=pd.DataFrame([
+    {'Indicador':name,'Media (%)':100*stats['media'],'Mediana (%)':100*stats['crecimientos'].median(),
+     'CAGR (%)':100*cagr,'Desviación (pp)':100*stats['desviacion'],'Intervalos':stats['observaciones'],
+     'Limitación':'Sensibilidad histórica; media compuesta no es pronóstico; atípicos conservados'}
+    for name,stats,cagr in [('EPS',stats_eps,cagr_eps),('FCF',stats_fcf,cagr_fcf)]])
+
 # Resumen de metadatos para la hoja general del Excel y el panel web.
 tabla_general = pd.DataFrame([
     {"Concepto": "Empresa", "Valor": nombre_empresa},
@@ -1878,7 +1920,7 @@ tabla_general = pd.DataFrame([
     {"Concepto": "Fecha valoración", "Valor": hoy.date()},
     {"Concepto": "Comparables económicos", "Valor": "Selección automática multi-región por actividad + finanzas"},
     {"Concepto": "Candidatos comparables evaluados", "Valor": len(tabla_universo_peers)},
-    {"Concepto": "Comparables elegibles", "Valor": int(tabla_universo_peers['Elegible'].sum()) if not tabla_universo_peers.empty else 0},
+    {"Concepto": "Comparables elegibles", "Valor": int(tabla_universo_peers.get('Elegible',pd.Series(dtype=bool)).fillna(False).sum())},
     {"Concepto": "Ejercicios anuales disponibles", "Valor": len(tabla_financiera_usd)},
     {"Concepto": "Cobertura SEC 10 ejercicios", "Valor": "Completa" if len(tabla_financiera_usd) >= 10 and not tabla_financiera_sec_usd.empty else "Incompleta / no SEC"},
     {"Concepto": "Auditoría Yahoo vs SEC", "Valor": ("OK (<1%) en campos comparados" if not tabla_resumen_comparacion.empty and (tabla_resumen_comparacion["Diferencias >=1%"] == 0).all() else "Con incidencias o no disponible")},
@@ -1897,17 +1939,23 @@ def escribir_informe_excel(ruta):
     """Escribe todas las tablas disponibles en el archivo indicado."""
     with pd.ExcelWriter(ruta, engine="openpyxl") as writer:
         tabla_general.to_excel(writer, sheet_name="General", index=False)
+        tabla_registro.to_excel(writer,sheet_name="Registro valoraciones",index=False)
+        tabla_estadisticas_crecimiento.to_excel(writer,sheet_name="Estadisticas crecimiento",index=False)
+        pd.DataFrame(comprobacion_ir['comparisons']).to_excel(writer,sheet_name="Contraste IR",index=False)
+        pd.DataFrame(comprobacion_ir['extraordinary']).to_excel(writer,sheet_name="Extraordinarios IR",index=False)
         # V2: la valoración principal (no requiere diez años SEC para funcionar).
         tabla_supuestos_fundamentales.to_excel(writer, sheet_name="Supuestos fundamentales", index=False)
         tabla_proyeccion_fundamental.to_excel(writer, sheet_name="Proyeccion negocio", index=False)
         tabla_valoracion_fundamental.to_excel(writer, sheet_name="Valoracion fundamental", index=False)
         tabla_dcf_detalle.to_excel(writer, sheet_name="DCF detalle", index=False)
+        resultados_fundamentales.risk_parameters.to_excel(writer,sheet_name="Parametros riesgo",index=False)
         tabla_control_modelo.to_excel(writer, sheet_name="Control modelo", index=False)
         tabla_actualidad.to_excel(writer, sheet_name="Actualidad resultados", index=False)
         tabla_comparables_depurados.to_excel(writer, sheet_name="Comparables depurados", index=False)
         if not tabla_universo_peers.empty:
             tabla_universo_peers.to_excel(writer, sheet_name="Universo comparables", index=False)
         tabla_roic_medio.to_excel(writer, sheet_name="ROIC capital medio", index=False)
+        resultados_fundamentales.roic_ttm.to_excel(writer,sheet_name="ROIC TTM capital medio",index=False)
         tabla_valoracion_inversa.to_excel(writer, sheet_name="Valoracion inversa", index=False)
         tabla_puente_fiscal.to_excel(writer, sheet_name="Puente ejercicio fiscal", index=False)
         tabla_base_ttm.to_excel(writer, sheet_name="Base TTM y balance", index=False)

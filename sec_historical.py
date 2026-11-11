@@ -403,7 +403,7 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
         "Patrimonio neto": ("money", False, ["StockholdersEquity", "Equity"]),
         "Flujo de caja operativo": ("money", True, ["NetCashProvidedByUsedInOperatingActivities", "CashFlowsFromUsedInOperatingActivities", "NetCashFlowsFromUsedInOperatingActivities"]),
         "CAPEX": ("money", True, ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsToAcquireProductiveAssets", "PaymentsToAcquirePropertyPlantAndEquipmentNetOfProceedsFromSale"]),
-        "D&A": ("money", True, ["DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "DepreciationDepletionAndAmortizationPropertyPlantAndEquipment"]),
+        "D&A": ("money", True, ["DepreciationDepletionAndAmortization", "DepreciationAndAmortization"]),
         "Impuestos": ("money", True, ["IncomeTaxExpenseBenefit", "IncomeTaxExpenseContinuingOperations"]),
         "Beneficio antes de impuestos": ("money", True, ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments", "IncomeLossFromContinuingOperationsBeforeIncomeTaxes", "ProfitLossBeforeTax"]),
         "Gastos por intereses": ("money", True, ["InterestExpenseNonOperating", "InterestAndDebtExpense", "InterestExpenseNonOperatingNetOfInterestIncomeExpense", "InterestExpense"]),
@@ -424,7 +424,10 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
         # preferible a sumar conceptos de otras notas. Esto replica la validación MSFT v4.
         inline_da = _inline_fact(filings, date, ["DepreciationAmortizationAndOther"], currency,
                                  user_agent, inline_cache, annual=True)
-        if inline_da:
+        row['D&A y otros']=inline_da['value'] if inline_da else np.nan
+        row['Definición D&A']='D&A consolidada' if pd.notna(row.get('D&A')) else 'N/D'
+        if inline_da and pd.isna(row.get('D&A')):
+            row['Definición D&A']='Agregado D&A y otros; no D&A pura'
             row["D&A"] = inline_da["value"]
             source = f"Inline XBRL: {inline_da['name']} (filing {inline_da['report_date']})"
             source_rows = [x for x in source_rows if not (x.get("Campo") == "D&A" and x.get("Ejercicio") == int(date[:4]))]

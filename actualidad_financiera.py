@@ -48,7 +48,7 @@ def comprobar_actualidad(*,sec_cik=None,sec_user_agent='',quarterly_dates=None,
         base['detail']+='; emisor sin CIK SEC: revisar fuentes oficiales del país'
     if cik and (not sec_user_agent or 'replace-with-your-email' in sec_user_agent):
         if base['status']=='OK':base['status']='NO_VERIFICADO'
-        base['detail']+='; falta identificador SEC para verificar presentaciones'
+        base['detail']+='; CIK conocido; falta User-Agent con contacto SEC para verificar presentaciones'
     if cik and sec_user_agent and 'replace-with-your-email' not in sec_user_agent:
         cik=cik.zfill(10)
         url=f'https://data.sec.gov/submissions/CIK{cik}.json'
@@ -65,6 +65,7 @@ def comprobar_actualidad(*,sec_cik=None,sec_user_agent='',quarterly_dates=None,
                 if form not in ('10-Q','10-K','10-Q/A','10-K/A','20-F','40-F'):continue
                 if report and filed and last_q<report<=today and filed<=today:
                     confirmed.append((report,filed,form))
+            if n==0:raise ValueError('SEC no devuelve presentaciones verificables')
             if confirmed:
                 report,filed,form=max(confirmed)
                 base.update(newer_filing_confirmed=True,status='BLOQUEO',
@@ -88,12 +89,13 @@ def comprobar_actualidad(*,sec_cik=None,sec_user_agent='',quarterly_dates=None,
                     if base['status']=='OK':base['status']='REVISAR'
                     base['detail']+=f'; SEC 8-K resultados ítem 2.02 presentado {last}: posible trimestre nuevo, revisar fecha del periodo'
                 elif base['status']=='OK':
+                    base['status']='VERIFICADO'
                     base['detail']+='; SEC sin 10-Q/10-K con periodo más reciente (no descarta comunicado de resultados externo)'
         except Exception as ex:
             if base['status']=='OK':base['status']='NO_VERIFICADO'
             base['detail']+=f'; SEC no pudo verificarse: {type(ex).__name__}: {str(ex)[:90]}'
     if base['earnings_calendar_alert'] and not base['newer_filing_confirmed']:
-        if base['status']=='OK':base['status']='REVISAR'
+        if base['status'] in ('OK','VERIFICADO'):base['status']='REVISAR'
         base['detail']+=('; Yahoo marca una fecha de resultados anterior a hoy ('+
                         base['earnings_calendar_alert']+'); NO confirma publicación: revisar web del emisor')
     return base

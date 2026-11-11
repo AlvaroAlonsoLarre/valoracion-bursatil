@@ -88,6 +88,11 @@ def selected_candidates(ticker):
     return result
 
 
+def economic_seeds(ticker):
+    """Ruta complementaria de descubrimiento; no otorga elegibilidad."""
+    return [x['ticker'] for x in load_config().get(str(ticker).upper(),{}).get('candidatos',[])]
+
+
 def normalize_ticker(t):
     t = str(t or '').upper().strip()
     return t if re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',t) else None
@@ -354,9 +359,13 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
             score+=4*math.exp(-abs(math.log(cap/target_cap))/3)
         pe=_num(r.get('PER forward'))
         ev=_num(r.get('EV/EBITDA'))
-        p_ok=bool(eligible and np.isfinite(pe) and 2<=pe<=65 and peer_margin>0)
-        ev_ok=bool(eligible and np.isfinite(ev) and 3<=ev<=38 and peer_margin>0)
+        p_definition=(r.get('PER periodo')=='NTM' and r.get('PER base')=='GAAP')
+        ev_definition=(r.get('EV/EBITDA periodo')=='NTM' and r.get('Perímetro deuda')=='Financiera sin leases')
+        p_ok=bool(p_definition and eligible and np.isfinite(pe) and 2<=pe<=65 and peer_margin>0)
+        ev_ok=bool(ev_definition and eligible and np.isfinite(ev) and 3<=ev<=38 and peer_margin>0)
         notes=[]
+        if not p_definition:notes.append('PER sin definición GAAP/NTM comprobada')
+        if not ev_definition:notes.append('EV/EBITDA sin NTM y perímetro de deuda comprobados')
         if not has_evidence:notes.append('Descripción del negocio insuficiente')
         if mismatch:notes.append(mismatch)
         if not sufficient:notes.append('Similitud insuficiente; no usar solo sector/industria')
@@ -389,6 +398,10 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
     refs=[]
     def metric_reference(label,allowed):
         values=pd.to_numeric(selected.loc[selected[allowed],label],errors='coerce').replace([np.inf,-np.inf],np.nan).dropna()
+        ids=selected.loc[selected[allowed]].copy()
+        ids['issuer_key']=ids.apply(lambda r:str(r.get('Emisor id') or r.get('Empresa') or r['Ticker']).strip().upper(),axis=1)
+        ids=ids.drop_duplicates('issuer_key')
+        values=pd.to_numeric(ids[label],errors='coerce').dropna()
         n=len(values)
         if n<min_peers:
             refs.append({'Método':label,'Mediana':np.nan,'Observaciones':n,
