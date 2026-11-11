@@ -1,0 +1,98 @@
+DASHBOARD DE VALORACIÓN MULTIEMPRESA - V3 (27/10/2026)
+====================================================
+
+CARPETA PORTÁTIL WINDOWS
+1. Descomprime el ZIP completo en cualquier carpeta: rutas con espacios y acentos admitidas.
+2. Entra en dashboard_valoracion_yahoo y ejecuta iniciar_dashboard.bat.
+3. Introduce el ticker (MSFT, 000660.KS, MU, SAN.MC...) y, para SEC, un email real.
+4. Usa preferentemente 12 trimestres para las tasas TTM y las comparaciones entre ejercicios.
+5. El dashboard guardará un Excel por ejecución en dashboard_valoracion_yahoo/Resultados.
+6. Usa cerrar_dashboard.bat para cerrar el servidor.
+7. Para comprobar las fórmulas sin internet: python autoprueba_modelo.py
+
+ARCHIVOS PRINCIPALES
+- valoracion_engine.py: descarga/normalización, fuente SEC si posible, Yahoo como fallback; crea el Excel.
+- sec_historical.py: obtiene hasta 10 ejercicios SEC cuando el emisor proporciona datos.
+- modelo_fundamental.py: nuevo motor de previsión desde TTM, puente FY, EBIT/EPS, CAPEX,
+  FCFF, deuda neta proyectada y valoración EPS/PER, EV/EBITDA y DCF.
+- comparables_inteligentes.py: selección/filtrado por relación económica y calidad de datos.
+- comparables_config.json: lista de candidatos por negocio, EDITABLE SIN CAMBIAR PYTHON.
+- dashboard_app.py: visualización; permite introducir tickers manuales de comparables.
+- autoprueba_modelo.py: tests sintéticos, sin descargas ni necesidad de SEC.
+
+MEJORAS ESENCIALES
+1. Base operativa TTM de 4 trimestres consecutivos, sin reemplazarla por un FY antiguo.
+2. La deuda y la caja neta salen del último balance trimestral si es posterior al FY.
+3. 'Puente ejercicio fiscal': YTD real + resto estimado usando homólogos; puede reconstruir
+   un trimestre ausente como FY anual menos los otros tres, si todos los datos existen.
+   Si no hay TTM y el puente parcial no es calculable, BLOQUEA la valoración.
+4. Los beneficios no operativos/extraordinarios se normalizan para estimar EPS.
+5. CAPEX reciente pondera más que la mediana histórica para evitar normalizar a la baja
+   inmediatamente inversiones que podrían mantenerse varios años.
+6. Escenarios cíclicos: para SK Hynix el crecimiento y márgenes convergen hacia niveles
+   históricos, en vez de mantener el boom actual indefinidamente.
+7. WACC aproximado específico: rf por divisa (SUPUESTO), beta de Yahoo, prima de riesgo
+   editable, coste de deuda por gasto intereses / deuda cuando esté disponible.
+8. FCFF = NOPAT + D&A - CAPEX - cambio de capital trabajo ESTIMADO; la deuda neta futura
+   se aproxima por FCFF menos interés after-tax y reparto de efectivo a accionistas.
+9. Los múltiplos se bloquean ante falta de tres comparables económicos válidos en
+   empresas cíclicas. Los candidatos de sector Yahoo no se imponen por fuerza.
+10. Emisores sin SEC (p. ej., 000660.KS) usan los años disponibles de Yahoo, NUNCA se
+    etiquetan como histórico SEC de 10 años.
+11. Moneda contable y de cotización: los objetivos se convierten con FX y se bloquean
+    si el tipo de cambio falta. Los múltiplos trimestrales se omiten si hay dos monedas.
+12. Bloqueo por inconsistencias entre capitalización y precio*acciones, o balance viejo.
+
+CÓMO ELEGIR MEJORES COMPARABLES
+- Microsoft: ORCL, SAP, CRM son candidatos de software empresarial.
+  ADBE, NOW, GOOGL, AMZN, IBM son exposiciones parciales, no empresas idénticas.
+- SK Hynix: MU es el comparable de memoria más directo; Samsung (005930.KS),
+  Nanya (2408.TW), Winbond (2344.TW) y Kioxia (285A.T) tienen diferente mix DRAM/NAND.
+  El listado es una propuesta revisable; algunas cotizaciones Yahoo pueden no responder.
+- Se puede editar comparables_config.json en la carpeta o introducir manualmente los
+  tickers separados por comas en el formulario del dashboard. Esa lista prevalece.
+- Para nuevas empresas no incluidas en el catálogo el dashboard mantiene el sistema
+  Yahoo por industria/sector como referencia secundaria. Sin >=3 peers adecuados,
+  el modelo NO debe inventar una mediana independiente.
+- El punto de partida para calidad de comparables no es solo el tamaño sino el mix
+  de ingresos, márgenes, crecimiento, ciclo de demanda y calidad contable.
+
+AJUSTES OPCIONALES (por el dashboard o por variables VALUACION_...)
+VALUACION_CRECIMIENTO_VENTAS=0.10
+VALUACION_WACC=0.09
+VALUACION_CRECIMIENTO_TERMINAL=0.025
+VALUACION_TIPO_LIBRE_RIESGO=0.04
+VALUACION_PRIMA_RIESGO_MERCADO=0.055
+VALUACION_EMPRESA_CICLICA=1
+VALUACION_MARGEN_NORMALIZADO=0.30
+VALUACION_COMPARABLES=MU,005930.KS,2408.TW
+
+QUÉ MIRAR EN EL EXCEL GENERADO
+- General / Control modelo: vigencia y cobertura de las fuentes, errores y bloqueos.
+- Base TTM y balance: datos que realmente alimentan el modelo.
+- Puente ejercicio fiscal: diferencia entre real YTD y restante pronosticado.
+- Supuestos fundamentales: tasas/márgenes/WACC y su procedencia.
+- Proyeccion negocio: cada escenario anual y deuda neta prevista.
+- Valoracion fundamental: precios a 1 y 3 años por método, sin promedio automático.
+- Comparables depurados / Referencia comparables: candidatos, motivos, nº elegible.
+- Estadisticas peers economicos: métricas de los candidatos económicamente próximos.
+- Auditoría Yahoo SEC y Fuentes SEC: comprobación histórica de Estados Unidos.
+
+LIMITACIONES QUE PERMANECEN
+* Proyección mecánica, NO orientación de la dirección ni consenso de analistas.
+* El periodo TTM puede acabar meses antes de la fecha actual de la cotización.
+* El WACC no es automáticamente la tasa de mercado verificada del día; rf/ERP son
+  supuestos ilustrativos que conviene adaptar al país y compañía.
+* El DCF sigue dependiendo fuertemente de CAPEX, WACC, valor terminal y márgenes.
+* La deuda neta futura es una aproximación por caja retenida, NO balance completo.
+* ADR, stock splits, stock-based compensation, extraordinarios, IFRS y negocios
+  conglomerados pueden requerir ajustes manuales.
+* Históricos PER basados en EPS de FY y precio del cierre FY tienen sesgo de fecha;
+  aparecen como referencia histórica, nunca como método principal.
+* No hay pruebas de descarga en vivo en Windows en esta sesión; los módulos se
+  han compilado y probado con los Excel congelados MSFT/SK Hynix y casos sintéticos.
+
+
+ACTUALIZACIÓN V4 (27/10/2026): La selección por ticker y listas fijas de esta
+versión se ha sustituido por selección AUTOMÁTICA por actividad/industria.
+Consulta LEEME_COMPARABLES_AUTO_V4.txt para instrucciones vigentes.

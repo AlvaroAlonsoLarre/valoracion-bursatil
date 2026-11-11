@@ -1,0 +1,14 @@
+V3 - Cambios respecto a la entrega de 27/10/2026:
+- Nuevo comparables_inteligentes.py + comparables_config.json editable.
+- TTM trimestral, puente del año fiscal, reconstrucción de trimestrales ausentes.
+- Actualización de deuda neta desde el balance más reciente y proyección aproximada.
+- CAPEX y D&A ponderados hacia los resultados recientes.
+- Normalización de beneficios extraordinarios y comportamiento cíclico para memoria.
+- WACC calculado por componentes (incluye supuestos claramente marcados).
+- Previsiones EPS, EV/EBITDA, DCF y sensibilidad actualizadas.
+- Bloqueos por datos insuficientes, divisas inconsistentes o mercado/acciones incoherentes.
+- Nuevas hojas Excel: Base TTM y balance; Puente ejercicio fiscal; Referencia comparables;
+  Estadisticas peers economicos.
+- Dashboard ajustado: escenario Base = tarjeta Medio; deuda neta del último balance;
+  selector de peers manuales y ajustes avanzados de riesgo/ciclo.
+- autoprueba_modelo.py actualizado sin internet.

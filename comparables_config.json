@@ -1,0 +1,78 @@
+{
+  "MSFT": {
+    "segmento": "Software empresarial y servicios cloud; negocios múltiples",
+    "candidatos": [
+      {
+        "ticker": "ORCL",
+        "grupo": "Directo",
+        "justificacion": "Cloud y aplicaciones empresariales; cartera más concentrada"
+      },
+      {
+        "ticker": "SAP",
+        "grupo": "Directo",
+        "justificacion": "Software ERP y suscripciones empresariales"
+      },
+      {
+        "ticker": "CRM",
+        "grupo": "Directo",
+        "justificacion": "Software empresarial recurrente (CRM)"
+      },
+      {
+        "ticker": "ADBE",
+        "grupo": "Parcial",
+        "justificacion": "Software SaaS, producto y mezcla comercial diferentes"
+      },
+      {
+        "ticker": "NOW",
+        "grupo": "Parcial",
+        "justificacion": "Software empresarial, perfil de crecimiento diferente"
+      },
+      {
+        "ticker": "GOOGL",
+        "grupo": "Parcial",
+        "justificacion": "Cloud y AI, pero publicidad domina el grupo"
+      },
+      {
+        "ticker": "AMZN",
+        "grupo": "Parcial",
+        "justificacion": "AWS, pero retail y otros negocios alteran múltiplos"
+      },
+      {
+        "ticker": "IBM",
+        "grupo": "Parcial",
+        "justificacion": "Software híbrido y servicios, crecimiento y negocio diferentes"
+      }
+    ]
+  },
+  "000660.KS": {
+    "segmento": "Memoria DRAM, HBM y NAND; muy cíclico",
+    "candidatos": [
+      {
+        "ticker": "MU",
+        "grupo": "Directo",
+        "justificacion": "Memoria DRAM/NAND y exposición HBM"
+      },
+      {
+        "ticker": "005930.KS",
+        "grupo": "Parcial",
+        "justificacion": "Samsung Memory, pero conglomerado con móviles/foundry"
+      },
+      {
+        "ticker": "2408.TW",
+        "grupo": "Parcial",
+        "justificacion": "Fabricante DRAM más especializado"
+      },
+      {
+        "ticker": "2344.TW",
+        "grupo": "Parcial",
+        "justificacion": "Memoria especializada y otras líneas"
+      },
+      {
+        "ticker": "285A.T",
+        "grupo": "Parcial",
+        "justificacion": "Kioxia, especialización NAND"
+      }
+    ],
+    "ciclica": true
+  }
+}

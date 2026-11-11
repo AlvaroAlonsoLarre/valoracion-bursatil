@@ -1,0 +1,54 @@
+VERSIÓN V5: consulta LEEME_V5_AUTOMATIZACION.md para ejecutar el dashboard localmente o mediante GitHub Actions.
+
+DASHBOARD PORTABLE DE VALORACION BURSATIL - SEC + YAHOO
+====================================================
+Version: 26/10/2026 - lanzamiento compatible con cualquier carpeta de Windows
+
+INICIO RAPIDO
+-------------
+1. Extrae TODO el ZIP (no ejecutes los archivos directamente desde el ZIP).
+2. Guarda la carpeta "dashboard_valoracion_yahoo" donde quieras, por ejemplo:
+     C:\Users\TuUsuario\Documents\Bolsa\dashboard_valoracion_yahoo\
+     D:\Mis proyectos\Valoracion\dashboard_valoracion_yahoo\
+3. Dentro de esa carpeta haz doble clic en "iniciar_dashboard.bat".
+   No hace falta abrir Anaconda Prompt ni escribir rutas.
+4. Si faltan bibliotecas, el lanzador intentara instalarlas con pip (necesita
+   Internet y permisos de instalacion del entorno Python).
+5. Se abrira Chrome en una ventana de app, o tu navegador predeterminado.
+6. En el dashboard selecciona ticker y correo de contacto SEC; pulsa Analizar.
+7. Para parar el servidor usa "cerrar_dashboard.bat".
+
+Puedes ejecutar el .bat desde cualquier ubicacion o desde un acceso directo:
+usa siempre la carpeta donde esta guardado el lanzador (%~dp0 / PSScriptRoot),
+no la carpeta actual de CMD / PowerShell. Son compatibles rutas con espacios.
+
+PARA CREAR ACCESO DIRECTO
+-------------------------
+- Doble clic en "crear_acceso_directo.bat".
+- Si despues mueves la carpeta, ejecuta otra vez "crear_acceso_directo.bat"
+  en la nueva ubicacion: los accesos directos de Windows guardan la ruta
+  de destino y no pueden encontrar carpetas que se han movido.
+
+SI NO SE INICIA
+---------------
+- No cierres inmediatamente la ventana: mostrara la causa del fallo.
+- Confirma que todos los archivos esten juntos:
+    iniciar_dashboard.bat, iniciar_dashboard.ps1, dashboard_app.py,
+    valoracion_engine.py, sec_historical.py, requirements.txt
+- Comprueba que Python o Anaconda estan instalados (Python >= 3.10).
+- Los errores internos de Streamlit se guardan en:
+    logs\servidor_errores.log
+  Ese archivo aparece dentro de la misma carpeta del dashboard.
+- Si el puerto 8501 esta ocupado, buscara automaticamente otro hasta 8540.
+- La ventana del navegador no es el servidor. Para detener el servidor,
+  ejecuta "cerrar_dashboard.bat" antes de mover de sitio los archivos.
+
+NOTA METODOLOGICA
+-----------------
+El historico SEC reconstruye hasta diez ejercicios cuando estan disponibles.
+Las medias/medianas a 5 y 10 ejercicios, escenarios EPS x PER y FCF, auditoria
+Yahoo-SEC y hojas Excel se mantienen iguales que la entrega anterior.
+La auditoria guardada MSFT 2024-2026 no sustituye una extraccion en vivo.
+
+
+COMPARABLES AUTOMÁTICOS V4: Ver LEEME_COMPARABLES_AUTO_V4.txt.

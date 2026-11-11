@@ -1,0 +1,22 @@
+V4 / 27 OCT 2026 — COMPARABLES AUTOMÁTICOS
+
+CAMBIOS
+1. Nuevo descubrimiento de empresas de la industria en varios mercados
+   y búsqueda de empresas por actividad (yf.Industry / yf.Search / yf.Sector).
+2. Candidatos de lista manual / presets ya NO son imprescindibles.
+3. Cupos de candidatos internacionales y de búsqueda por actividad.
+4. Ranking por similitud de actividad TF-IDF + industria + sector + ratios.
+5. No comparar tamaños bursátiles en distintas divisas nominales.
+6. Auditar criterios de exclusión, confianza y origen de cada ticker.
+7. Hoja nueva 'Universo comparables' en el Excel, y panel de auditoría web.
+8. Si faltan descripciones, comparar solo industria y métricas con aviso
+   de baja confianza y requerir al menos 5 empresas para mediana.
+9. Las empresas cíclicas siguen sujetas a los bloqueos del modelo V3.
+10. Se conservaron las validaciones SEC, cálculo TTM y motor DCF existentes.
+
+SIN GARANTÍAS DE COBERTURA
+Los datos de Yahoo/yfinance y la búsqueda de emisores dependen de
+servidores externos, regiones, contenido de perfiles y límites operativos.
+Un mismo ticker puede devolver candidatos diferentes en cada ejecución.
+Las medianas nunca equivalen por sí solas a valor razonable garantizado.
+Pruebas automáticas incluidas solo con datos sintéticos/sin red.

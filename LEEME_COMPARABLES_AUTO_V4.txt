@@ -1,0 +1,50 @@
+COMPARABLES AUTOMÁTICOS V4 — 27/10/2026
+======================================
+
+QUÉ CAMBIA
+- Basta con introducir el ticker, como MSFT, 000660.KS, SAN.MC o AAPL.
+- No es necesario editar comparables_config.json ni introducir comparables.
+- Las listas antiguas de MSFT/SK continúan en el paquete solo para soportar
+  configuración optativa del ciclo y una alternativa manual (NO se usan por defecto).
+- Se buscan empresas de la misma industria en Yahoo Finance para distintas
+  regiones, se amplía con búsquedas por actividad y con listas sectoriales.
+- Antes de descargar los perfiles se reserva un cupo por fuente/mercado para
+  que un sector local no desplace a todos los candidatos extranjeros.
+- Se prioriza por similitud TF-IDF de las descripciones de negocio, industria,
+  sector, margen operativo, crecimiento y tamaño (solo cuando divisas coinciden).
+- NO se necesita usar IA de pago ni claves de API adicionales.
+- Los candidatos sin descripción, con baja similitud o con múltiplos poco
+  representativos NO participan en las medianas usadas para valorar.
+- PER forward y EV/EBITDA requieren 3 observaciones admisibles. Cuando no
+  existen suficientes, se muestra N/D (o fallback propio no cíclico del modelo).
+- La hoja 'Universo comparables' registra puntuaciones, exclusiones y fuente.
+
+CÓMO EJECUTAR
+1. Descomprime el ZIP en una carpeta de tu elección.
+2. Abre dashboard_valoracion_yahoo\iniciar_dashboard.bat.
+3. Introduce ticker y selecciona 12 trimestres.
+4. Deja vacío 'Añadir comparables manuales' para búsqueda automática.
+5. Analiza 'Comparables depurados' y 'Universo comparables' en la pestaña
+   Comparables, y las hojas del Excel en la subcarpeta Resultados.
+
+CONFIGURACIÓN OPTATIVA
+- VALUACION_MAX_CANDIDATOS=55: nº máximo de perfiles consultados a Yahoo.
+  Mayor = más comparables potenciales y ejecución más lenta. Límites: 15–100.
+- VALUACION_REGIONES_PEERS=US,KR,TW,JP,DE,GB: regiones para búsqueda.
+  Dejar sin definir para valor por defecto según región objetivo.
+- VALUACION_COMPARABLES=ORCL,SAP,CRM: candidatos añadidos por usuario.
+- VALUACION_MODO_COMPARABLES=catalogo: recuperar listas manuales antiguas.
+- VALUACION_EMPRESA_CICLICA=1/0: ajuste de ciclicidad del motor (si aplica).
+
+PRUEBAS INCLUIDAS (SIN INTERNET)
+python autoprueba_modelo.py
+python prueba_comparables_automaticos.py
+
+LIMITACIONES
+La actividad declarada en Yahoo puede ser genérica/incompleta y compañías
+con varios segmentos (Microsoft, Samsung, Amazon, etc.) NO son perfectamente
+comparables. La similitud de texto es heurística; no analiza peso de ventas
+por segmento, ciclos o normas contables. Valora medianas con estas reservas.
+En caso de ausencia de perfiles comparables suficientes, no inventa valores.
+Una prueba sintética no sustituye la ejecución en Windows con Yahoo/SEC.
+El programa sigue requiriendo conexión a Internet para datos reales.

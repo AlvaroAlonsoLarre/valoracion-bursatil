@@ -1,0 +1,71 @@
+DASHBOARD PORTÁTIL DE VALORACIÓN — VERSIÓN FUNDAMENTAL, 27-10-2026
+=================================================================
+
+REQUISITOS: Windows, Python o Anaconda, conexión a Internet para Yahoo/SEC.
+1) Extraer TODA la carpeta dashboard_valoracion_yahoo en cualquier ubicación.
+2) Hacer doble clic en iniciar_dashboard.bat, no en dashboard_app.py.
+3) En el navegador introducir MSFT y correo real para la SEC; pulsar Analizar empresa.
+4) En «Modelo fundamental», revisar «Control modelo» y «Supuestos fundamentales».
+5) En «Datos y exportación», descargar el Excel o recuperarlo de
+   dashboard_valoracion_yahoo/Resultados/. Se guarda automáticamente por ticker y fecha.
+
+PARA SK HYNIX: introducir 000660.KS (con los ceros iniciales).
+Las sociedades sin historial SEC utilizan el histórico Yahoo disponible. NO se
+inventan diez ejercicios SEC. La valoración fundamental funciona sin 10 ejercicios
+cuando existen las partidas necesarias; los escenarios históricos que exigen
+10 ejercicios siguen siendo una herramienta de contraste aparte.
+
+ARCHIVOS
+- dashboard_app.py: Streamlit, pestañas, gráficas, descargas y controles manuales.
+- valoracion_engine.py: descarga, auditoría SEC/Yahoo, comparables y Excel vivo.
+- sec_historical.py: extractor financiero histórico de SEC.
+- modelo_fundamental.py: proyecciones, ROIC medio, valoración inversa, PE, EV/EBITDA, DCF.
+- iniciar_dashboard.bat / .ps1: ejecución portátil.
+- requirements.txt: bibliotecas a instalar.
+- autoprueba_modelo.py: prueba sintética de cálculos KRW/FX, sin Internet.
+
+CRITERIOS DE VALORACIÓN
+Ingresos: mediana del crecimiento anual histórico (últimos 5 intervalos válidos,
+recortada a -20%...35%, salvo override). Escenarios con +/- media desviación
+estándar recortada. Se trata de reglas de partida, NO consenso de analistas.
+EBIT: ingresos por margen operativo normalizado (mediana últimos 3 años).
+Beneficio neto estimado: NOPAT + resultado no operativo sobre ventas (aprox.).
+EPS: beneficio neto / acciones en circulación proyectadas.
+FCFF: EBIT*(1-impuestos) + D&A - CAPEX - incremento capital trabajo.
+DCF: valor en el año futuro 1/3, a partir de los siguientes cinco flujos
+anuales más terminal; convertidos a valor del accionista descontando deuda neta.
+PER forward: EPS futuro x mediana de PER forward de comparables depurados.
+EV/EBITDA forward: EBITDA x múltiplo - deuda neta, entre acciones futuras.
+Se aplican conversiones FX explícitas cuando las divisas son diferentes.
+ROIC alternativo: NOPAT/capital invertido MEDIO entre inicio y fin año;
+sus partidas contables siguen siendo aproximaciones que se deben revisar.
+
+PARÁMETROS AVANZADOS (opcionales):
+En el formulario del dashboard puedes escribir WACC (%), crecimiento terminal
+(%), crecimiento ventas (%), inversión capital trabajo sobre aumento ventas (%).
+También hay variables de entorno 
+VALUACION_CRECIMIENTO_ACCIONES, VALUACION_TASA_IMPOSITIVA, etc.
+ATENCIÓN: los parámetros deben estar fundamentados por sector, divisa y compañía.
+
+LIMITACIONES CLAVES (también indicadas en Control modelo):
+- El WACC es por defecto ilustrativo (9.5% USD, 11% KRW); NO es un WACC calculado
+  a partir de prima de riesgo, beta, estructura de deuda y coste de financiación.
+- No se importan todavía guidance ni consenso de analistas.
+- La deuda neta se mantiene constante y las recompras/SBC no se proyectan
+  individualmente; revisar en empresas con dilución/adquisiciones grandes.
+- D&A SEC puede incluir «and other»; el EBITDA debe ser confirmado manualmente.
+- Los múltiplos históricos a cierre fiscal no son point-in-time respecto al EPS.
+- Los comparables automáticos son filtros HEURÍSTICOS, no comparables manuales.
+- La comparación SEC/Yahoo cubre solo años comunes y campos comparables.
+- No mezclar divisas: sin FX disponible, no se calculan precios objetivo nuevos.
+- Un escenario es condicional, NO una predicción fiable ni consejo de inversión.
+- Los históricos Yahoo no tienen normalmente 10 años de estados financieros.
+
+PRUEBA MSFT
+El archivo separado Prueba_MSFT_Modelo_Fundamental_20261027.xlsx se elaboró
+utilizando el Excel guardado de MSFT de esta conversación (6 años SEC 2021–2026,
+precio de referencia 524.51 USD). NO se han obtenido datos de Yahoo o SEC en vivo.
+Contiene 108 comparaciones Yahoo/SEC previas guardadas de 2024–2026, no una
+validación de 10 años. Es un test de fórmulas y estructura para discutir supuestos.
+Para tener el Excel real de hoy: ejecutar el dashboard, seleccionar MSFT y compartir
+el Excel de la subcarpeta Resultados (o descargarlo en Datos y exportación).
