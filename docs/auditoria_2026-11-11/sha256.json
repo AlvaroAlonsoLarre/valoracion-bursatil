@@ -1,0 +1,11 @@
+{
+  "INFORME.md": "4a8157e4219229d22a48f0991c9ef7ac608b5b26ad1b99e137c60161d117bd09",
+  "cobertura.json": "1cd4091fcccdfa6459b7cff0c2ef2b3319794ed4ce81a5f365ea638c5c5ef310",
+  "comparacion_por_cambio.csv": "82299c4afe549eccbb4702380467d8cec369db4a406eb7caad2dbdacbc702f32",
+  "inputs/000660.KS_after.json": "c1d3efb250df5e682d764d3b8e4075990e2d3e2139f4166299795d664e6e40b7",
+  "inputs/000660.KS_baseline.json": "961077dabbf11f328e8059ab5f55a1c094b560fa58d4ebd4380009d462095f36",
+  "inputs/MSFT_after.json": "bd2663c5215cd56e688c04af3d77d433e002d341be0cec316ef203b79dc46c6a",
+  "inputs/MSFT_baseline.json": "045c3c54812248df63679f1c5e27ffe6ea9f0f6e449976de3e5c8e18f6652c13",
+  "resultados/000660.KS_diagnostico.json": "a06b4c355890cc5c0e452dafc09530a3194de375f2ceae9d966396071cd855e5",
+  "resultados/MSFT_diagnostico.json": "5fe3ed1301b6bef30ba0d9cb771cde9b7d6e19dde59027e57b0ba638fa69b771"
+}

@@ -110,3 +110,18 @@ def test_failed_engine_retains_log_and_failure_summary(tmp_path,monkeypatch):
     assert run('OTHER',tmp_path,12,'')==1
     assert 'provider failed' in (tmp_path/'OTHER_ejecucion.log').read_text()
     assert json.loads((tmp_path/'OTHER_resumen.json').read_text())['estado_tecnico']=='ERROR'
+
+
+@pytest.mark.parametrize('ticker',['MSFT','000660.KS'])
+def test_frozen_real_inputs_keep_unsupported_targets_unavailable(ticker):
+    from modelo_fundamental import build_fundamental_model
+    path=Path('docs/auditoria_2026-11-11/inputs')/(ticker+'_after.json')
+    annual,peers,kwargs,payload=read_snapshot(path)
+    result=build_fundamental_model(annual,peers,**kwargs)
+    if ticker=='MSFT':
+        assert result.valuation['Precio objetivo (divisa cotización)'].isna().all()
+        assert 'Agregado D&A y otros' in result.checks.to_string()
+    else:
+        assert result.valuation.empty
+        assert kwargs['recent_results_check']['status']=='BLOQUEO'
+    assert kwargs['financial_currency']==kwargs['quote_currency']==('USD' if ticker=='MSFT' else 'KRW')
