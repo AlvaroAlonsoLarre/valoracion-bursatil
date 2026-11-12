@@ -9,6 +9,7 @@ from io import BytesIO
 from pathlib import Path
 import hashlib
 import json
+import os
 import re
 import numpy as np
 import pandas as pd
@@ -197,7 +198,9 @@ def enrich_financials(ticker,annual,quarterly,currency,as_of,*,requests_get=None
         if doc.get('fallback') and intervals and _covers_snapshot(intervals,a,q):continue
         source=doc['url']
         try:
-            response=(requests_get or requests.get)(source,timeout=60);response.raise_for_status()
+            agent=os.environ.get('VALUACION_SEC_USER_AGENT','').strip()
+            if not agent or 'replace-with-your-email' in agent:agent='StockValuationProject/1.0'
+            response=(requests_get or requests.get)(source,headers={'User-Agent':agent},timeout=60);response.raise_for_status()
             digest=hashlib.sha256(response.content).hexdigest()
             evidence['documents'].append({'url':source,'published':doc.get('published'),'sha256':digest,'kind':doc['kind']})
             if doc['kind']=='companyfacts':
