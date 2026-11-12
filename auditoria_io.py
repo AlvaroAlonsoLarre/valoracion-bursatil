@@ -65,7 +65,7 @@ def read_snapshot(path):
     payload=json.loads(Path(path).read_text())
     if payload['schema']!='audit-inputs-v1':raise ValueError('Schema snapshot no compatible')
     frames={k:restore_frame(v) for k,v in payload['frames'].items()}
-    kwargs=payload['kwargs']
+    kwargs=dict(payload['kwargs'])
     kwargs['quarterly']=frames.get('quarterly')
     return frames['annual'],frames['peers'],kwargs,payload
 

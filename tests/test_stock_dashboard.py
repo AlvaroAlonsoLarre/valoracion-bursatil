@@ -342,3 +342,23 @@ def test_unavailable_pe_does_not_hide_an_available_optional_dcf(stock_inputs):
     registry=tables['Registro valoraciones']
     assert registry[registry['scenario_type'].eq('opcional_dcf')]['price'].notna().sum()==9
     assert result.summary['optional_available']==9 and pd.isna(result.summary['fair_value'])
+
+
+def test_cli_edited_snapshot_and_optional_export_remain_json_serializable(tmp_path,stock_inputs):
+    from auditoria_io import read_snapshot
+    args=stock_inputs.copy();annual=args.pop('annual');peers=args.pop('peers');history=args.pop('history')
+    snapshot=tmp_path/'inputs.json';write_snapshot(snapshot,annual,peers,args,{'Referencia histórica auditada':history},
+        evidence={'stock_model':{'version':'stock-dashboard-v1','settings':{}}})
+    original=snapshot.read_bytes()
+    _,_,_,raw=read_snapshot(snapshot)
+    json.dumps(raw,allow_nan=False) # El lector no inserta un DataFrame dentro del JSON original.
+    overrides=tmp_path/'assumptions.json';overrides.write_text(json.dumps({'scenarios':{'Base':{'growth':.10}}}))
+    process=subprocess.run([sys.executable,'ejecutar_analisis.py','--snapshot',str(snapshot),'--advanced','--assumptions',str(overrides),'--outdir',str(tmp_path/'edited')],capture_output=True,text=True)
+    assert process.returncode==0,process.stdout+process.stderr
+    assert snapshot.read_bytes()==original
+    exported=json.loads((tmp_path/'edited/TEST_inputs.json').read_text())
+    assert exported['evidence']['stock_model']['settings']['advanced']
+    assert exported['evidence']['stock_model']['settings']['scenarios']['Base']['growth']==.10
+    summary=json.loads((tmp_path/'edited/TEST_resumen.json').read_text())
+    assert summary['auditoria']['objetivos_principales_disponibles']==6
+    assert any(r['method_id']=='dcf_fcff_future' and r['price'] is not None for r in summary['Registro valoraciones'])
