@@ -321,7 +321,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
             check('EPS × PER','Supuestos exigentes',False,'Crecimiento >25% o margen >50%; no es previsión verificada')
         for key,value in values.items():assumptions.append({'Escenario':name,'Parámetro':key,'Valor':value,
              'Origen':'Usuario' if key in custom else per_note if key=='pe' else 'Incluido en PBT; no sumar financiero dos veces' if key=='financial_sales' and pbt_direct else financial_note if key=='financial_sales' else 'CAGR compuesto de hasta 5/10 FY; menor extremo al año 3' if key in ('growth','growth_terminal') and (cyclical or exceptional) else 'Margen normalizado mediana hasta 5 FY' if key in ('margin','margin_terminal') else 'Calculado del histórico; ajuste escenario '+str(variations[name].get(key,0)),
-             'Definición':'Margen PBT; incluye financiero' if key=='margin' and pbt_direct else 'PBT−EBIT / ventas; no sólo intereses' if key=='financial_sales' else 'Tasa decimal salvo PER en veces'})
+             'Definición':'Margen PBT; incluye financiero' if key=='margin' and pbt_direct else 'Resultado no operativo recurrente / ventas; ver Origen' if key=='financial_sales' else 'Tasa decimal salvo PER en veces'})
         bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.),'growth_terminal':(-.8,1.),'margin_terminal':(-.8,.9)}
         valid={key:np.isfinite(number(v)) and bounds[key][0]<=v<=bounds[key][1] for key,v in values.items()}
         check('EPS × PER',name+' supuestos',all(v for k,v in valid.items() if k!='pe'),'Fuera de rango/ausentes: '+', '.join(k for k,v in valid.items() if not v),True)
