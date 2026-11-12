@@ -37,7 +37,7 @@ def safe_records(df,max_rows=100):
     return output
 
 
-def run(ticker,outdir,quarters,contact):
+def run(ticker,outdir,quarters,contact,settings=None):
     import pandas as pd
     ticker=ticker.strip().upper()
     if not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):
@@ -49,6 +49,9 @@ def run(ticker,outdir,quarters,contact):
     env['VALUACION_SNAPSHOT_DIR']=str(out)
     if contact:
         env['VALUACION_SEC_USER_AGENT']=f'StockValuationV5/1.0 (contact: {contact})'
+    if settings is not None:
+        from analisis_acciones import validate_settings
+        env['VALUACION_STOCK_SETTINGS']=json.dumps(validate_settings(settings),allow_nan=False)
     start=datetime.now(timezone.utc)
     name=re.sub(r'[^A-Za-z0-9._-]','_',ticker)
     with tempfile.TemporaryDirectory(prefix='valoracionV5_') as temp:
@@ -89,15 +92,21 @@ def save_summary(ticker,out,excel,sheets,start):
           'Comparables depurados','Universo comparables','Comparables requisitos','Fuentes comparables','Revision filings','Componentes CAPEX DA','DCF sensibilidad','DCF validacion','Valoracion fundamental','Base TTM y balance',
           'Supuestos fundamentales','Resumen Yahoo SEC','Registro valoraciones','Escenarios EPS PER',
           'Escenarios FCF','Estadisticas crecimiento','Parametros riesgo','ROIC TTM capital medio','Fuentes fundamentales','Conciliacion TTM','Pendientes fundamentales','Contraste IR','Extraordinarios IR']
+    if 'Estado metodos' in sheets:
+        summary['schema_version']='stock-dashboard-v1'
+        keep=list(sheets)
     for sheet in keep:
         if sheet in sheets:summary[sheet]=safe_records(sheets[sheet],len(sheets[sheet]))
     summary['auditoria']=assess(sheets)
-    peers=sheets.get('Comparables depurados')
+    peers=sheets.get('Comparables seleccionados',sheets.get('Comparables depurados'))
     summary['auditoria']['comparables_elegibles']=int(peers['Elegible'].fillna(False).sum()) if peers is not None and 'Elegible' in peers else 0
     summary['auditoria']['total_candidatos']=len(sheets.get('Universo comparables',[]))
     definitions=sheets.get('Comparables requisitos',pd.DataFrame())
     for method,key in [('PER','definiciones_per_completas'),('EV/EBITDA','definiciones_ev_ebitda_completas')]:
         summary['auditoria'][key]=int((definitions['Método'].eq(method)&definitions['Definición completa'].eq(True)).sum()) if 'Método' in definitions else 0
+    if peers is not None:
+        for column,key in [('PER TTM verificado','comparables_per_ttm'),('PER NTM verificado','comparables_per_ntm')]:
+            summary['auditoria'][key]=int(pd.to_numeric(peers.get(column,pd.Series(dtype=float)),errors='coerce').notna().sum())
     snapshot=out/f'{ticker}_inputs.json'
     if snapshot.exists():
         import hashlib
@@ -109,12 +118,15 @@ def save_summary(ticker,out,excel,sheets,start):
     return summary['auditoria']['exit_code']
 
 
-def replay(snapshot,outdir):
+def replay(snapshot,outdir,settings=None):
     """Reproduce un snapshot propio en JSON; no consulta red ni evalúa código."""
     import pandas as pd
     from auditoria_io import read_snapshot,restore_frame,valuation_registry
     from modelo_fundamental import build_fundamental_model
     annual,peers,kwargs,payload=read_snapshot(snapshot)
+    if payload.get('evidence',{}).get('stock_model'):
+        return replay_stock(snapshot,outdir,payload,settings)
+    if settings is not None:raise ValueError('Este snapshot antiguo no tiene referencias auditadas del modelo EPS/PER; usar el flujo nuevo')
     if kwargs.get('share_schedule'):kwargs['share_schedule']={int(k):v for k,v in kwargs['share_schedule'].items()}
     # Sólo parámetros consumidos por el modelo; el snapshot no modifica rutas, UA ni credenciales.
     allowed=['TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','RIESGO_PAIS','WACC','BETA','COSTE_DEUDA',
@@ -169,9 +181,43 @@ def replay(snapshot,outdir):
     return save_summary(ticker,out,excel,sheets,datetime.now(timezone.utc))
 
 
+def replay_stock(snapshot,outdir,payload,settings=None):
+    from flujo_acciones import analysis_from_snapshot,excel_bytes
+    from analisis_acciones import validate_settings
+    from auditoria_io import clean
+    # Sólo variables financieras conocidas; ni rutas ni credenciales desde el snapshot.
+    names=['WACC','TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','BETA','COSTE_DEUDA','RIESGO_PAIS',
+        'PARAMETROS_MONEDA','ERP_INCLUYE_PAIS','CRECIMIENTO_TERMINAL','CRECIMIENTO_VENTAS','TASA_IMPOSITIVA',
+        'VAR_CAPITAL_TRABAJO_PCT','CRECIMIENTO_ACCIONES','PAGOS_ACCIONISTAS_SOBRE_VENTAS','EMPRESA_CICLICA','MARGEN_NORMALIZADO']
+    keys={'VALUACION_'+n for n in names}
+    for n in ['TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','BETA','COSTE_DEUDA']:
+        keys.update('VALUACION_'+n+s for s in ['_FECHA','_FUENTE','_CADUCIDAD'])
+    original={k:os.environ.get(k) for k in keys}
+    try:
+        for k in keys:
+            value=payload.get('assumption_environment',{}).get(k)
+            if value is None:os.environ.pop(k,None)
+            else:os.environ[k]=value
+        result,tables=analysis_from_snapshot(payload,settings)
+    finally:
+        for k,value in original.items():
+            if value is None:os.environ.pop(k,None)
+            else:os.environ[k]=value
+    out=Path(outdir).resolve();out.mkdir(parents=True,exist_ok=True);ticker=result.summary['ticker']
+    excel=out/f'valoracion_{ticker}_replay.xlsx';excel.write_bytes(excel_bytes(tables))
+    if settings is None:(out/f'{ticker}_inputs.json').write_bytes(Path(snapshot).read_bytes())
+    else:
+        payload['evidence']['stock_model']['settings']=validate_settings(settings)
+        (out/f'{ticker}_inputs.json').write_text(json.dumps(clean(payload),ensure_ascii=False,allow_nan=False,indent=2))
+    (out/f'{ticker}_ejecucion.log').write_text('Replay offline stock-dashboard-v1; snapshot '+str(Path(snapshot).resolve()))
+    return save_summary(ticker,out,excel,tables,datetime.now(timezone.utc))
+
+
 def main():
     ap=argparse.ArgumentParser(description='Ejecuta y audita valoración V5')
     ap.add_argument('--ticker')
+    ap.add_argument('--advanced',action='store_true',help='Incluir DCF/EV opcionales, sin bloquear EPS/PER')
+    ap.add_argument('--assumptions',help='Archivo JSON de escenarios y umbrales explícitos')
     ap.add_argument('--snapshot',help='Reproducir entradas JSON offline (sin --ticker)')
     ap.add_argument('--outdir',default='Resultados')
     ap.add_argument('--num-quarters',type=int,default=12)
@@ -181,7 +227,9 @@ def main():
         ap.error('Selecciona de 4 a 24 trimestres')
     if not args.ticker and not args.snapshot:ap.error('Indica --ticker o --snapshot')
     if args.ticker and args.snapshot:ap.error('Selecciona --ticker o --snapshot, no ambos')
-    try:return replay(args.snapshot,args.outdir) if args.snapshot else run(args.ticker,args.outdir,args.num_quarters,args.sec_email)
+    settings=json.loads(Path(args.assumptions).read_text()) if args.assumptions else {}
+    if args.advanced:settings['advanced']=True
+    try:return replay(args.snapshot,args.outdir,settings if args.assumptions or args.advanced else None) if args.snapshot else run(args.ticker,args.outdir,args.num_quarters,args.sec_email,settings)
     except Exception as e:
         print(f'FALLO: {type(e).__name__}: {e}',file=sys.stderr)
         return 1

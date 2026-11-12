@@ -1,32 +1,61 @@
-# Valoración bursátil multiempresa
+# V6 simplificada · dashboard fundamental de acciones
 
-Motor de sensibilidades financieras con entradas Yahoo, histórico SEC cuando existe cobertura y contraste IR fechado. Los resultados son condicionales; una ejecución técnica completada no acredita una valoración financiera validada.
-
-Instalación reproducible (Python 3.12):
+Análisis del negocio y escenarios de precio a **1 y 3 años**, con foco en acciones de Estados Unidos y soporte multiempresa/multibolsa. SEC es la fuente anual principal; Yahoo aporta cotizaciones, trimestres, acciones corporativas y datos complementarios. Las fuentes oficiales específicas conservan su auditoría.
 
 ```bash
 python -m venv .venv
 .venv/bin/pip install -r requirements.lock
-.venv/bin/python -m pytest -q tests
-.venv/bin/python autoprueba_modelo.py
-.venv/bin/python prueba_comparables_automaticos.py
-.venv/bin/python test_v5.py
-.venv/bin/python ejecutar_analisis.py --ticker MSFT --outdir Resultados/MSFT
-.venv/bin/python ejecutar_analisis.py --ticker 000660.KS --outdir Resultados/000660.KS
+.venv/bin/streamlit run dashboard_app.py
 ```
 
-Cada análisis guarda Excel, JSON, log y entradas financieras en JSON. Código 0 indica que hay al menos un resultado fundamental condicional utilizable, 2 indica insuficiencia financiera/bloqueo y 1 un fallo técnico. Los artefactos se conservan. Comparables insuficientes afectan a sus múltiplos; por sí solos no invalidan un DCF que cumpla sus requisitos. Los objetivos históricos se identifican como sensibilidades FY y no se agregan con DCF.
+En Windows siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real.
 
-Para reproducir las entradas sin consultar red:
+## Modelo principal
+
+Se proyectan ingresos TTM, crecimiento previsto, margen normalizado, resultado no operativo, impuestos y acciones diluidas. Los tres escenarios son hipótesis editables, no probabilidades. **EPS proyectado × PER razonable** produce los precios; el precio actual no recalibra sus parámetros. Los impuestos no generan un crédito automático si el PBT es negativo.
+
+El margen se normaliza con la mediana de hasta cinco FY; el resultado no operativo se obtiene de PBT−EBIT y no se presenta como interés puro. Si el emisor no publica una serie EBIT suficiente, se identifica un modelo PBT directo, con financiero ya incluido. No se inventa EBIT. Para bancos y aseguradoras se usa PBT directo y se advierte sobre capital regulatorio/provisiones; FCF/FCFF/EV genéricos no se aplican. Los REIT requieren FFO/AFFO/NAV documentados. EPS negativo exige un caso de recuperación justificado; no se valoran pérdidas con PER positivo.
+
+El PER se obtiene de comparables con evidencia suficiente o del histórico propio (mediana y cuartiles de cinco FY, mínimo tres observaciones; alternativa diez FY, mínimo cinco). El histórico propio se marca con menor confianza. Se conserva cobertura y estadística a **5 y 10 ejercicios**. Se concilian acciones, EPS, splits y beneficio común/continuado. Sin FX histórico o base ADR histórica no se calculan múltiplos incompatibles. Los cierres de primera semana de enero se identifican como el FY de diciembre, manteniendo siempre la fecha real de 52/53 semanas.
+
+Los comparables se descubren por actividad; se prefieren **3–6**, sin forzar el mínimo. PER TTM y NTM tienen evidencia y filtros separados. Un PER TTM valora el EPS de los doce meses hasta el horizonte; NTM requiere EPS de los doce meses posteriores. FY1 o `normalized` del proveedor no se renombra como GAAP NTM. Se conservan candidatos descartados y motivos.
+
+**Precio/FCF** sirve de contraste actual cuando OCF−CAPEX es completo, positivo y representativo (mínimo tres FY positivos y conversión FCF/neto entre 0,5 y 2). No se confunde con EV/FCF ni se extrapola automáticamente. EV/EBITDA y DCF se calculan sólo si se solicitan; sus controles no bloquean el EPS/PER que disponga de sus propios datos. La implementación anterior se conserva para estos análisis y para reproducir auditorías antiguas.
+
+## Escenarios, criterios y exportación
+
+En Valoración se editan crecimiento, margen EBIT/PBT, fiscalidad, resultado no operativo, variación de acciones y PER por escenario. Un PER manual requiere justificación. Para ADR se exige ratio ordinarias/ADR, fuente y fecha. WACC y g terminal opcionales no cambian el motor principal.
+
+La referencia razonable hoy es el precio Base a un año descontado al retorno exigido editable; no se promedian métodos. Los potenciales son retornos de precio, sin dividendos, costes ni impuestos personales. La clasificación de atractivo exige más descuento cuanto menor sea la confianza y mayor sea la dispersión. Los umbrales de retorno, margen, prima de reducción, caída tolerada y peso máximo son transparentes y editables. La posición es opcional y debe estar en la moneda de cotización. Los datos de coste no cambian el valor del negocio. Las señales son orientativas y no envían órdenes.
+
+Excel, resultados JSON y captura reproducible JSON exportan el mismo análisis visible y sus supuestos. `CRITICO` bloquea su ámbito; `ADVERTENCIA` identifica incertidumbre. Nunca se rellenan huecos con cero para obtener un precio.
+
+## Terminal y verificación
 
 ```bash
-.venv/bin/python ejecutar_analisis.py --snapshot Resultados/MSFT/MSFT_inputs.json --outdir Resultados/replay
+python ejecutar_analisis.py --ticker MSFT --outdir Resultados/MSFT
+python ejecutar_analisis.py --ticker 000660.KS --outdir Resultados/SK
+python ejecutar_analisis.py --ticker JNJ --outdir Resultados/JNJ
+python ejecutar_analisis.py --ticker JPM --outdir Resultados/JPM
+python ejecutar_analisis.py --ticker MSFT --advanced --outdir Resultados/MSFT_opcionales
+python ejecutar_analisis.py --snapshot Resultados/MSFT/MSFT_inputs.json --outdir Resultados/replay
+python ejecutar_analisis.py --snapshot Resultados/MSFT/MSFT_inputs.json --assumptions mis_supuestos.json --outdir Resultados/editado
+python -m pytest -q tests
+python autoprueba_modelo.py
+python prueba_comparables_automaticos.py
+python test_v5.py
 ```
 
-Configura un contacto SEC real con `SEC_CONTACT_EMAIL` si dispones de él. Su ausencia se declara `NO_VERIFICADO`; no se inventa un contacto. Los parámetros WACC tienen fuente/fecha/moneda/estado en `Parametros riesgo`; los valores por defecto siguen siendo supuestos. Los overrides usan `VALUACION_TIPO_LIBRE_RIESGO`, `VALUACION_PRIMA_RIESGO_MERCADO`, `VALUACION_BETA`, `VALUACION_COSTE_DEUDA`, `VALUACION_WACC` y `VALUACION_PARAMETROS_MONEDA`. Para los cuatro primeros se admite `_FECHA`, `_FUENTE`, `_CADUCIDAD`. La caducidad vencida bloquea y `VALUACION_ERP_INCLUYE_PAIS=true` impide volver a añadir `VALUACION_RIESGO_PAIS`.
+Ejemplo de supuestos parciales; tasas decimales, no porcentajes:
 
-El workflow instalado es `.github/workflows/main.yml`; `analisis_bursatil.yml` es una copia de referencia. Push/PR analiza MSFT y 000660.KS con el mismo SHA. La ejecución manual admite cualquier ticker o la matriz por defecto. No escribe resultados en `main` ni fusiona PRs. Los artefactos por ticker y el manifiesto distinguen cobertura completa de suficiencia financiera. En particular, un job de valoración puede fallar correctamente por código 2 y conservar todo su diagnóstico.
+```json
+{"scenarios":{"Base":{"growth":0.08,"margin":0.30}},"policy":{"required_return":0.10},"advanced":false}
+```
 
-Los JSON de `Resultados_publicados/` y los documentos V3/V5/V6 son evidencia histórica del comportamiento anterior. **No son objetivos validados ni describen las garantías actuales.** Consulta el [informe de correcciones](docs/auditoria_2026-11-11/INFORME.md), sus entradas congeladas y el CSV de comparación.
+Sólo se aceptan claves reconocidas y números finitos. Un PER manual exige `per_reason`; al cambiar a NTM se deben especificar los tres PER. `optional_assumptions` admite `wacc` y `terminal_growth`. Las hipótesis no son datos reportados. Los snapshots antiguos mantienen su replay V7 y no reciben referencias históricas inventadas.
 
-La [continuación del 12/11/2026](docs/auditoria_2026-11-12/INFORME.md) incorpora D&A pura oficial de MSFT y Q3 oficial de SK. MSFT dispone de DCF condicional; los múltiplos y las valoraciones de SK conservan sus bloqueos. Las nuevas hojas `Fuentes fundamentales`, `Conciliacion TTM`, `Comparables requisitos` y `Pendientes fundamentales` detallan fuentes y cobertura por método.
+Cada ejecución conserva entradas, Excel, resumen y log. Código **0**: algún método condicional disponible; **2**: insuficiencia financiera; **1**: fallo técnico. Un contraste FCF no equivale a un objetivo futuro. Los estados por método y el número de objetivos principales evitan confundir ambos casos. `publicable=false` conserva el carácter condicional del análisis.
+
+El workflow `.github/workflows/main.yml` ejecuta **MSFT, 000660.KS, JNJ y JPM**, además de pruebas y manifiesto de cobertura; permite un ticker manual. No escribe resultados en `main` ni fusiona PRs. Usa un contacto SEC real mediante `SEC_CONTACT_EMAIL` si dispones de él; el identificador por defecto es el nombre del software, sin correo ficticio.
+
+Los informes de [11/11](docs/auditoria_2026-11-11/INFORME.md) y [12/11](docs/auditoria_2026-11-12/INFORME.md) documentan las etapas anteriores. No se modifican sus cifras históricas para presentarlas como resultados del nuevo modelo. La nueva comparación y sus límites se documentan en `docs/v6_simplificada_2026-11-12/INFORME.md`.

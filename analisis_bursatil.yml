@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       ticker:
-        description: 'Vacío ejecuta MSFT y 000660.KS; cualquier otro ticker ejecuta solo ese emisor'
+        description: 'Vacío ejecuta MSFT, 000660.KS, JNJ y JPM; otro ticker ejecuta sólo ese emisor'
         required: false
         default: ''
         type: string
@@ -52,7 +52,7 @@ jobs:
           ticker=os.environ.get('MANUAL_TICKER','').strip().upper()
           if ticker and not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):
               raise ValueError('Ticker no válido')
-          tickers=[ticker] if ticker else ['MSFT','000660.KS']
+          tickers=[ticker] if ticker else ['MSFT','000660.KS','JNJ','JPM']
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('tickers='+json.dumps(tickers)+'\n')
           PY

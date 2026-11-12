@@ -11,10 +11,10 @@ Incluye:
 - Ratios históricos y valoración al cierre fiscal.
 - Valoración actual de mercado.
 - CAGR de ventas, EPS y flujo de caja libre (FCF).
-- Escenarios pesimista, medio y optimista a 1 y 3 años:
+- Escenarios pesimista, base y optimista a 1 y 3 años:
     * EPS proyectado × PER histórico.
     * Valoración complementaria por FCF yield.
-- Empresas comparables de Yahoo (máximo 10), métricas de comparación y media/mediana.
+- Empresas comparables de Yahoo (preferentemente 3 a 6), métricas de comparación y media/mediana.
 - Revisión de datos ausentes y exportación de todas las tablas a un Excel.
 
 Notas metodológicas:
@@ -38,13 +38,13 @@ import os
 TICKER = os.environ.get("VALUACION_TICKER", "MSFT").strip().upper() or "MSFT"
 NUM_TRIMESTRES = int(os.environ.get("VALUACION_NUM_TRIMESTRES", "12"))
 HORIZONTES = (1, 3)
-MAX_COMPARABLES = 10
+MAX_COMPARABLES = 6
 MAX_CANDIDATOS_INFO = max(15, min(100, int(os.environ.get("VALUACION_MAX_CANDIDATOS", "55"))))
 ANIOS_HISTORICO_SEC = 10
-# Sustituye el correo de ejemplo por una dirección de contacto real para SEC EDGAR.
+# Se admite un contacto real opcional; el valor por defecto identifica el software.
 SEC_USER_AGENT = os.environ.get(
     "VALUACION_SEC_USER_AGENT",
-    "StockValuationProject/1.0 (contact: replace-with-your-email@example.com)"
+    "StockValuationProject/1.0"
 )
 SEC_CIK_OVERRIDE = os.environ.get("VALUACION_SEC_CIK", "").strip() or None
 
@@ -70,6 +70,7 @@ try:
 except ImportError:
     ipy_display = None
 
+hoy=pd.Timestamp.now().normalize()
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 320)
 pd.set_option("display.float_format", lambda x: f"{x:,.2f}")
@@ -329,7 +330,7 @@ try:
         financial_currency=divisa_financiera,
         years=ANIOS_HISTORICO_SEC,
         user_agent=SEC_USER_AGENT,
-        override_cik=SEC_CIK_OVERRIDE,
+        override_cik=SEC_CIK_OVERRIDE, as_of=hoy,
     )
 except Exception as error:
     warnings.warn(f"No se pudo descargar el histórico anual de SEC EDGAR para {TICKER}: {error}")
@@ -1047,159 +1048,10 @@ for nombre, stats in [("EPS", stats_eps), ("FCF", stats_fcf)]:
     print(f"{nombre}: desviación estándar muestral = {desviacion * 100:.2f} puntos porcentuales" if pd.notna(desviacion) else f"{nombre}: desviación estándar no disponible")
     print(f"Número de crecimientos interanuales válidos: {stats['observaciones']}")
 
-# ============================================================
-# 11. PER HISTÓRICO Y ESCENARIOS DE PRECIO EPS × PER
-# ============================================================
-per_historico = pd.to_numeric(tabla_historica_usd["PER"].tail(10), errors="coerce")
-per_historico = per_historico[np.isfinite(per_historico) & (per_historico > 0)]
-per_medio = per_historico.mean()
-per_desviacion = per_historico.std(ddof=1)
-tabla_per = pd.DataFrame({"PER histórico": per_historico})
-tabla_per.index.name = "Ejercicio"
-
-print("\n--- PER HISTÓRICO USADO EN LOS ESCENARIOS ---")
-mostrar(tabla_per)
-print(f"PER medio: {per_medio:.2f}" if pd.notna(per_medio) else "PER medio no disponible")
-print(f"Desviación estándar muestral del PER: {per_desviacion:.2f}" if pd.notna(per_desviacion) else "Desviación estándar del PER no disponible")
-print(f"Ejercicios válidos utilizados: {len(per_historico)}")
-
-# Escenario medio usa la media de crecimientos anuales del EPS y el PER medio.
-# Pesimista/optimista ajustan ambos parámetros en -/+ una desviación estándar.
-crecimiento_medio_eps = stats_eps["media"]
-desviacion_crecimiento_eps = stats_eps["desviacion"]
-
-escenarios_eps = {}
-ventana_diez_anios_completa = len(tabla_financiera_usd.tail(10)) == 10
-if not ventana_diez_anios_completa:
-    warnings.warn(f"Solo hay {len(tabla_financiera_usd)} ejercicios anuales; no se publicarán escenarios etiquetados a 10 años.")
-if ventana_diez_anios_completa and len(per_historico) >= 8 and stats_eps["observaciones"] >= 7 and all(pd.notna(x) for x in [eps_ultimo, precio_actual, per_medio, per_desviacion, crecimiento_medio_eps, desviacion_crecimiento_eps]) and eps_ultimo > 0 and precio_actual > 0:
-    escenarios_eps = {
-        "Pesimista": {"crecimiento": crecimiento_medio_eps - desviacion_crecimiento_eps, "PER": per_medio - per_desviacion},
-        "Medio": {"crecimiento": crecimiento_medio_eps, "PER": per_medio},
-        "Optimista": {"crecimiento": crecimiento_medio_eps + desviacion_crecimiento_eps, "PER": per_medio + per_desviacion},
-    }
-    for nombre in list(escenarios_eps):
-        if escenarios_eps[nombre]["PER"] <= 0 or 1 + escenarios_eps[nombre]["crecimiento"] <= 0:
-            warnings.warn(f"Se omite escenario {nombre}: PER o crecimiento EPS no positivos/viables.")
-            del escenarios_eps[nombre]
-else:
-    warnings.warn("No hay datos suficientes para completar escenarios EPS/PER.")
-
-tabla_parametros = pd.DataFrame([
-    {"Escenario": nombre, "Crecimiento EPS (%)": porcentaje(datos["crecimiento"]), "PER utilizado": datos["PER"]}
-    for nombre, datos in escenarios_eps.items()
-])
-if not tabla_parametros.empty:
-    tabla_parametros = tabla_parametros.set_index("Escenario")
-else:
-    tabla_parametros = pd.DataFrame(columns=["Crecimiento EPS (%)", "PER utilizado"])
-    tabla_parametros.index.name = "Escenario"
-
-filas_escenarios_eps = []
-for nombre, datos in escenarios_eps.items():
-    crecimiento = datos["crecimiento"]
-    per_escenario = datos["PER"]
-    for horizonte in HORIZONTES:
-        eps_futuro = eps_ultimo * (1 + crecimiento) ** horizonte
-        precio_objetivo = eps_futuro * per_escenario
-        potencial = precio_objetivo / precio_actual - 1
-        rentabilidad_anualizada = (precio_objetivo / precio_actual) ** (1 / horizonte) - 1 if precio_objetivo > 0 else np.nan
-        filas_escenarios_eps.append({
-            "Escenario": nombre,
-            "Horizonte (años)": horizonte,
-            "EPS base último ejercicio": eps_ultimo,
-            "Crecimiento anual EPS (%)": porcentaje(crecimiento),
-            "EPS estimado": eps_futuro,
-            "PER medio histórico (ventana 10 años)": per_medio,
-            "PER: ejercicios válidos": len(per_historico),
-            "Crecimiento EPS: intervalos válidos": stats_eps["observaciones"],
-            "Desviación estándar PER": per_desviacion,
-            "PER aplicado": per_escenario,
-            "Precio objetivo": precio_objetivo,
-            "Precio actual": precio_actual,
-            "Potencial acumulado (%)": porcentaje(potencial),
-            "Rentabilidad anualizada (%)": porcentaje(rentabilidad_anualizada),
-        })
-tabla_escenarios_eps = pd.DataFrame(filas_escenarios_eps)
-
-print("\n" + "=" * 100)
-print("ESCENARIOS DE PRECIO MEDIANTE EPS × PER")
-print("Los escenarios extremos aplican simultáneamente una desviación al crecimiento EPS y al PER.")
-print("=" * 100)
-if not tabla_parametros.empty:
-    mostrar(tabla_parametros)
-if not tabla_escenarios_eps.empty:
-    mostrar(tabla_escenarios_eps.round(2))
-
-# ============================================================
-# 12. ESCENARIOS DE VALORACIÓN POR FCF Y FCF YIELD
-# ============================================================
-# Capitalización objetivo = FCF proyectado / rentabilidad FCF exigida.
-# Precio objetivo = capitalización objetivo / número estimado de acciones.
-# Para mantener una base coherente, el número de acciones se aproxima como
-# capitalización bursátil actual / precio actual.
-acciones_actuales_estimadas = (
-    capitalizacion_actual / precio_actual
-    if pd.notna(capitalizacion_actual) and pd.notna(precio_actual) and precio_actual > 0
-    else np.nan
-)
-
-yield_fcf_historico = pd.to_numeric(tabla_historica_usd["Rentabilidad FCF (%)"].tail(10), errors="coerce") / 100
-yield_fcf_historico = yield_fcf_historico[np.isfinite(yield_fcf_historico) & (yield_fcf_historico > 0)]
-yield_fcf_media = yield_fcf_historico.mean()
-yield_fcf_desviacion = yield_fcf_historico.std(ddof=1)
-
-filas_escenarios_fcf = []
-if ventana_diez_anios_completa and len(yield_fcf_historico) >= 8 and stats_fcf["observaciones"] >= 7 and all(pd.notna(x) for x in [fcf_ultimo, cagr_fcf, stats_fcf["media"], stats_fcf["desviacion"], yield_fcf_media, acciones_actuales_estimadas, precio_actual]) and fcf_ultimo > 0 and acciones_actuales_estimadas > 0 and yield_fcf_media > 0:
-    escenarios_fcf = {
-        "Pesimista": {
-            "crecimiento": stats_fcf["media"] - stats_fcf["desviacion"],
-            "yield": yield_fcf_media + (yield_fcf_desviacion if pd.notna(yield_fcf_desviacion) else 0),
-        },
-        "Medio": {"crecimiento": stats_fcf["media"], "yield": yield_fcf_media},
-        "Optimista": {
-            "crecimiento": stats_fcf["media"] + stats_fcf["desviacion"],
-            "yield": max(yield_fcf_media - (yield_fcf_desviacion if pd.notna(yield_fcf_desviacion) else 0), 0.0001),
-        },
-    }
-    for nombre, datos in escenarios_fcf.items():
-        crecimiento = datos["crecimiento"]
-        yield_objetivo = datos["yield"]
-        for horizonte in HORIZONTES:
-            fcf_futuro = fcf_ultimo * (1 + crecimiento) ** horizonte if 1 + crecimiento > 0 else np.nan
-            capitalizacion_objetivo = fcf_futuro / yield_objetivo if pd.notna(fcf_futuro) and yield_objetivo > 0 else np.nan
-            precio_objetivo = capitalizacion_objetivo / acciones_actuales_estimadas if pd.notna(capitalizacion_objetivo) else np.nan
-            potencial = precio_objetivo / precio_actual - 1 if pd.notna(precio_objetivo) else np.nan
-            rentabilidad_anualizada = (precio_objetivo / precio_actual) ** (1 / horizonte) - 1 if pd.notna(precio_objetivo) and precio_objetivo > 0 else np.nan
-            filas_escenarios_fcf.append({
-                "Escenario": nombre,
-                "Horizonte (años)": horizonte,
-                "FCF base (miles de millones)": fcf_ultimo / 1e9,
-                "Crecimiento anual FCF (%)": porcentaje(crecimiento),
-                "FCF estimado (miles de millones)": fcf_futuro / 1e9 if pd.notna(fcf_futuro) else np.nan,
-                "Rentabilidad FCF histórica media (%)": porcentaje(yield_fcf_media),
-                "FCF yield: ejercicios válidos": len(yield_fcf_historico),
-                "Crecimiento FCF: intervalos válidos": stats_fcf["observaciones"],
-                "Desviación estándar yield FCF (p.p.)": porcentaje(yield_fcf_desviacion),
-                "Rentabilidad FCF objetivo (%)": porcentaje(yield_objetivo),
-                "Capitalización objetivo (miles de millones)": capitalizacion_objetivo / 1e9 if pd.notna(capitalizacion_objetivo) else np.nan,
-                "Precio objetivo": precio_objetivo,
-                "Precio actual": precio_actual,
-                "Potencial acumulado (%)": porcentaje(potencial),
-                "Rentabilidad anualizada (%)": porcentaje(rentabilidad_anualizada),
-            })
-else:
-    warnings.warn("No hay datos suficientes para completar escenarios FCF.")
-
-tabla_escenarios_fcf = pd.DataFrame(filas_escenarios_fcf)
-print("\n" + "=" * 100)
-print("ESCENARIOS DE VALORACIÓN MEDIANTE FCF Y FCF YIELD")
-print("Modelo simplificado: no descuenta flujos futuros como un DCF completo.")
-print("=" * 100)
-print(f"CAGR del FCF: {porcentaje(cagr_fcf):.2f}%" if pd.notna(cagr_fcf) else "CAGR del FCF no disponible")
-print(f"Media histórica de FCF yield: {porcentaje(yield_fcf_media):.2f}%" if pd.notna(yield_fcf_media) else "Media histórica de FCF yield no disponible")
-if not tabla_escenarios_fcf.empty:
-    mostrar(tabla_escenarios_fcf.round(2))
+# Los escenarios heredados EPS CAGR × PER medio y FCF compuesto se retiran.
+# El modelo principal proyecta el negocio TTM en analisis_acciones.py.
+tabla_escenarios_eps=pd.DataFrame();tabla_escenarios_fcf=pd.DataFrame()
+tabla_parametros=pd.DataFrame();tabla_per=pd.DataFrame()
 
 # ============================================================
 # 13. EMPRESAS COMPARABLES: MISMA INDUSTRIA Y, SI HACE FALTA, SECTOR
@@ -1367,7 +1219,7 @@ if industria_key_objetivo and hasattr(yf, "Industry"):
             region=(region_key_objetivo.upper() if region_key_objetivo else "US"),
         )
         procesar_tabla_empresas(
-            industria_yahoo.top_companies, "Top companies: misma industria", 
+            industria_yahoo.top_companies, "Top companies: misma industria",
             0 if region_key_objetivo else 1
         )
         # Estas listas complementan el universo si la tabla principal es pequeña.
@@ -1788,7 +1640,7 @@ def _precio_fx(ticker_fx):
         return np.nan
 
 from multiple_evidence import attach_observed_evidence
-universo_df,evidencia_comparables=attach_observed_evidence(universo_df,yf,hoy)
+evidencia_comparables=[]
 # Enriquecimiento oficial con periodos/unidades explícitos, antes de comprobar actualidad.
 from fuentes_fundamentales import enrich_financials,ttm_reconciliation
 anuales_proveedor=tabla_financiera_usd.copy()
@@ -1799,6 +1651,8 @@ tabla_trimestral_usd=enriquecimiento.quarterly
 from filing_review import review_filings,components_reconciliation
 import json
 source_config=json.loads(Path(__file__).with_name("fuentes_fundamentales.json").read_text())
+if sec_metadata.get('Base contable') in ('US_GAAP','IFRS'):
+    info={**info,'valuation_accounting_basis':sec_metadata['Base contable']}
 if source_config.get(TICKER,{}).get('accounting_basis'):
     info={**info,'valuation_accounting_basis':source_config[TICKER]['accounting_basis']}
 revision_filings=review_filings(source_config.get(TICKER,{}).get("regulatory_search"),hoy)
@@ -1837,71 +1691,40 @@ fundamental_kwargs=dict(
     as_of=hoy, ticker=TICKER, info=info,
     recent_results_check=comprobacion_actualidad,
 )
+from analisis_acciones import validate_settings,needs_adr_bridge
+stock_settings=validate_settings(json.loads(os.environ.get('VALUACION_STOCK_SETTINGS','{}')))
+from historico_acciones import historical_multiples
+historico_auditado=historical_multiples(tabla_financiera_usd,precios,divisa_financiera,divisa_cotizacion,hoy,
+    is_adr=needs_adr_bridge(info,divisa_financiera,divisa_cotizacion))
+# Seleccionar por economía antes de gastar consultas de evidencia; preferencia 3–6, sin forzar el mínimo.
+peers_economicos,_,_,_=score_and_filter(universo_df,TICKER,target_info=info,max_peers=6,as_of=hoy)
+peers_economicos,evidencia_comparables=attach_observed_evidence(peers_economicos,yf,hoy,limit=6)
+if not peers_economicos.empty:
+    universo_df['Evidencia múltiplos']=universo_df['Ticker'].map(peers_economicos.set_index('Ticker')['Evidencia múltiplos'])
+from comparables_ttm import collect_ttm_evidence
+peers_economicos,fuentes_ttm=collect_ttm_evidence(peers_economicos,yf,hoy,tabla_trimestral_usd.index.max(),SEC_USER_AGENT)
+if not peers_economicos.empty:
+    universo_df['Evidencia TTM']=universo_df['Ticker'].map(peers_economicos.set_index('Ticker')['Evidencia TTM'])
 from auditoria_io import write_snapshot
 from risk_references import official_risk_reference
-referencias_riesgo=official_risk_reference(divisa_financiera,hoy)
+referencias_riesgo=official_risk_reference(divisa_financiera,hoy) if stock_settings.get('advanced') else []
 from pathlib import Path
 snapshot_dir=os.environ.get('VALUACION_SNAPSHOT_DIR','')
 if snapshot_dir:
     write_snapshot(Path(snapshot_dir)/(TICKER+'_inputs.json'),tabla_financiera_usd,universo_df,fundamental_kwargs,
-        {'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
+        {'Referencia histórica auditada':historico_auditado,
+         'Fuentes SEC':tabla_fuentes_sec,'General datos':pd.DataFrame([{'Ticker':TICKER,'Empresa':nombre_empresa,'Sector':sector_objetivo,'Industria':industria_objetivo}]),
+         'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
          'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
-         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo})
-resultados_fundamentales = build_fundamental_model(tabla_financiera_usd,universo_df,**fundamental_kwargs)
-from dcf_audit import audit_dcf
-dcf_sensibilidad,dcf_validacion=audit_dcf(tabla_financiera_usd,universo_df,fundamental_kwargs,resultados_fundamentales,references=referencias_riesgo)
-tabla_supuestos_fundamentales = resultados_fundamentales.assumptions
-tabla_proyeccion_fundamental = resultados_fundamentales.projected
-tabla_valoracion_fundamental = resultados_fundamentales.valuation
-tabla_dcf_detalle = resultados_fundamentales.dcf_detail
-tabla_control_modelo = resultados_fundamentales.checks
-tabla_comparables_depurados = resultados_fundamentales.peers
-# V5: universo y lista seleccionada obtenidos del MISMO cálculo de puntuación.
-tabla_universo_peers = resultados_fundamentales.peer_universe
+         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo,'stock_model':{'version':'stock-dashboard-v1','product_version':'V6 simplificada','settings':stock_settings},'peer_ttm_sources':fuentes_ttm})
+from flujo_acciones import stock_tables
+resultado_acciones,tablas_acciones=stock_tables(tabla_financiera_usd,universo_df,fundamental_kwargs,historico_auditado,stock_settings)
+# Registros de descubrimiento incluyen candidatos sin descarga; no se confunden con pares válidos.
 if registro_candidatos:
-    tracked=pd.DataFrame(registro_candidatos.values())
-    if tabla_universo_peers.empty:tabla_universo_peers=tracked
-    else:tabla_universo_peers=tabla_universo_peers.merge(tracked[['Ticker','Estado descarga','Detalle descarga']],on='Ticker',how='outer')
-if not tabla_universo_peers.empty and not tabla_comparables_depurados.empty:
-    elegidos=set(tabla_comparables_depurados['Ticker'])
-    tabla_comparables=tabla_universo_peers[
-        tabla_universo_peers['Ticker'].isin(elegidos)].copy().reset_index(drop=True)
-    tabla_comparacion_empresa=pd.concat([
-        pd.DataFrame([fila_objetivo_peer]) if fila_objetivo_peer is not None else pd.DataFrame(),
-        tabla_comparables],ignore_index=True)
-else:
-    tabla_comparables=pd.DataFrame()
-    tabla_comparacion_empresa=(pd.DataFrame([fila_objetivo_peer])
-                               if fila_objetivo_peer is not None else pd.DataFrame())
-
-tabla_roic_medio = resultados_fundamentales.roic
-tabla_valoracion_inversa = resultados_fundamentales.reverse
-tabla_puente_fiscal = resultados_fundamentales.fiscal_bridge
-tabla_base_ttm = resultados_fundamentales.base_ttm
-tabla_referencia_peers = resultados_fundamentales.peer_reference
-# Comparación de métricas: se eligen solo los peers ECONÓMICAMENTE comparables,
-# evitando contaminar las medias con toda la lista sectorial de Yahoo.
-seleccion_peers_calidad = (set(tabla_comparables_depurados.loc[
-    tabla_comparables_depurados['Elegible'] == True, 'Ticker'])
-    if not tabla_comparables_depurados.empty else set())
-peers_para_stats = tabla_comparables[tabla_comparables['Ticker'].isin(seleccion_peers_calidad)] if not tabla_comparables.empty else pd.DataFrame()
-filas_stats_economicos = []
-for campo in metricas_para_estadisticas:
-    v=pd.to_numeric(peers_para_stats[campo],errors='coerce').replace([np.inf,-np.inf],np.nan).dropna() if campo in peers_para_stats else pd.Series(dtype=float)
-    if campo in ('PER trailing','PER forward','EV/EBITDA','EV/Ingresos','P/Ventas','P/Valor contable'):
-        v=v[v>0]
-    v=v if len(v)>=3 else pd.Series(dtype=float)
-    filas_stats_economicos.append({'Métrica':campo,'Media comparables':v.mean() if len(v) else np.nan,
-             'Mediana comparables':v.median() if len(v) else np.nan,'Número de empresas con dato':len(v)})
-tabla_stats_peers_economicos=pd.DataFrame(filas_stats_economicos).set_index('Métrica')
-# Este resumen es el único autorizado para promedios de comparables.
-# Se abandona la tabla preliminar (vacía antes del scoring definitivo).
-tabla_estadisticas_comparables = tabla_stats_peers_economicos.copy()
-print(f"V5: {len(tabla_universo_peers)} candidatos revisados; "
-      f"{len(tabla_comparables_depurados)} comparables económicos seleccionados; "
-      f"medianas PER / EV: {tabla_referencia_peers.to_dict('records') if not tabla_referencia_peers.empty else 'N/D'}")
-
-
+    discovered=pd.DataFrame(registro_candidatos.values())
+    full=tablas_acciones['Universo comparables']
+    missing=discovered[~discovered['Ticker'].isin(full['Ticker'])] if 'Ticker' in full else discovered
+    tablas_acciones['Universo comparables']=pd.concat([full,missing.assign(Elegible=False,Observación='Sin descarga/cobertura')],ignore_index=True)
 
 if divisa_financiera != divisa_cotizacion:
     # Los escenarios antiguos no aplicaban conversión FX de moneda por acción.
@@ -1921,11 +1744,7 @@ if divisa_financiera != divisa_cotizacion:
             tabla_actual.loc[c,'Valor']=np.nan
     warnings.warn("Sin FX histórico, los escenarios de valoración heredados se bloquean para monedas diferentes. El modelo fundamental usa FX explícito.")
 
-from auditoria_io import valuation_registry
-tabla_registro=valuation_registry(tabla_valoracion_fundamental,tabla_escenarios_eps,tabla_escenarios_fcf,
-    as_of=hoy.date(),fy_date=fecha_ultimo_ejercicio.date(),
-    ttm_date=resultados_fundamentales.assumptions.set_index('Supuesto').loc['Fecha base TTM','Valor'],
-    currency=divisa_cotizacion,source=fuente_historico_anual,freshness=comprobacion_actualidad['status'])
+tabla_registro=tablas_acciones['Registro valoraciones']
 tabla_estadisticas_crecimiento=pd.DataFrame([
     {'Indicador':name,'Media (%)':100*stats['media'],'Mediana (%)':100*stats['crecimientos'].median(),
      'CAGR (%)':100*cagr,'Desviación (pp)':100*stats['desviacion'],'Intervalos':stats['observaciones'],
@@ -1946,11 +1765,11 @@ tabla_general = pd.DataFrame([
     {"Concepto": "FX moneda financiera a moneda cotización", "Valor": fx_fin_a_cot},
     {"Concepto": "Fuente FX", "Valor": fx_origen},
     {"Concepto": "Enriquecimiento oficial", "Valor": enriquecimiento.evidence["status"]},
-    {"Concepto": "Previsión económica", "Valor": "Base TTM + puente FY + sensibilidad, NO consenso de analistas"},
+    {"Concepto": "Previsión económica", "Valor": "TTM → ingresos/margen/fiscalidad/acciones → EPS × PER; escenarios, no consenso"},
     {"Concepto": "Fecha valoración", "Valor": hoy.date()},
     {"Concepto": "Comparables económicos", "Valor": "Selección automática multi-región por actividad + finanzas"},
-    {"Concepto": "Candidatos comparables evaluados", "Valor": len(tabla_universo_peers)},
-    {"Concepto": "Comparables elegibles", "Valor": int(tabla_universo_peers.get('Elegible',pd.Series(dtype=bool)).fillna(False).sum())},
+    {"Concepto": "Candidatos comparables evaluados", "Valor": len(tablas_acciones['Universo comparables'])},
+    {"Concepto": "Comparables elegibles", "Valor": int(resultado_acciones.peers.get('Elegible',pd.Series(dtype=bool)).fillna(False).sum())},
     {"Concepto": "Ejercicios anuales disponibles", "Valor": len(tabla_financiera_usd)},
     {"Concepto": "Cobertura SEC 10 ejercicios", "Valor": "Completa" if len(tabla_financiera_usd) >= 10 and not tabla_financiera_sec_usd.empty else "Incompleta / no SEC"},
     {"Concepto": "Auditoría Yahoo vs SEC", "Valor": ("OK (<1%) en campos comparados" if not tabla_resumen_comparacion.empty and (tabla_resumen_comparacion["Diferencias >=1%"] == 0).all() else "Con incidencias o no disponible")},
@@ -1967,72 +1786,18 @@ archivo_salida = Path(f"valoracion_completa_{ticker_archivo}.xlsx")
 
 def escribir_informe_excel(ruta):
     """Escribe todas las tablas disponibles en el archivo indicado."""
-    with pd.ExcelWriter(ruta, engine="openpyxl") as writer:
-        tabla_general.to_excel(writer, sheet_name="General", index=False)
-        tabla_registro.to_excel(writer,sheet_name="Registro valoraciones",index=False)
-        tabla_conciliacion_ttm.to_excel(writer,sheet_name="Conciliacion TTM",index=False)
-        pd.DataFrame(evidencia_comparables).to_excel(writer,sheet_name="Fuentes comparables",index=False)
-        pd.DataFrame(revision_filings).to_excel(writer,sheet_name="Revision filings",index=False)
-        conciliacion_componentes.to_excel(writer,sheet_name="Componentes CAPEX DA",index=False)
-        pd.DataFrame(enriquecimiento.evidence['changes']).drop(columns=['Componentes'],errors='ignore').to_excel(writer,sheet_name="Fuentes fundamentales",index=False)
-        pd.DataFrame({'Incidencia':enriquecimiento.evidence['issues']}).to_excel(writer,sheet_name="Pendientes fundamentales",index=False)
-        anuales_proveedor.to_excel(writer,sheet_name="Anuales proveedor")
-        trimestres_proveedor.to_excel(writer,sheet_name="Trimestres proveedor")
-        tabla_estadisticas_crecimiento.to_excel(writer,sheet_name="Estadisticas crecimiento",index=False)
-        pd.DataFrame(comprobacion_ir['comparisons']).to_excel(writer,sheet_name="Contraste IR",index=False)
-        pd.DataFrame(comprobacion_ir['extraordinary']).to_excel(writer,sheet_name="Extraordinarios IR",index=False)
-        # V2: la valoración principal (no requiere diez años SEC para funcionar).
-        tabla_supuestos_fundamentales.to_excel(writer, sheet_name="Supuestos fundamentales", index=False)
-        tabla_proyeccion_fundamental.to_excel(writer, sheet_name="Proyeccion negocio", index=False)
-        tabla_valoracion_fundamental.to_excel(writer, sheet_name="Valoracion fundamental", index=False)
-        tabla_dcf_detalle.to_excel(writer, sheet_name="DCF detalle", index=False)
-        dcf_sensibilidad.to_excel(writer,sheet_name="DCF sensibilidad",index=False)
-        dcf_validacion.to_excel(writer,sheet_name="DCF validacion",index=False)
-        resultados_fundamentales.risk_parameters.to_excel(writer,sheet_name="Parametros riesgo",index=False)
-        resultados_fundamentales.peer_definitions.to_excel(writer,sheet_name="Comparables requisitos",index=False)
-        tabla_control_modelo.to_excel(writer, sheet_name="Control modelo", index=False)
-        tabla_actualidad.to_excel(writer, sheet_name="Actualidad resultados", index=False)
-        tabla_comparables_depurados.to_excel(writer, sheet_name="Comparables depurados", index=False)
-        if not tabla_universo_peers.empty:
-            tabla_universo_peers.to_excel(writer, sheet_name="Universo comparables", index=False)
-        tabla_roic_medio.to_excel(writer, sheet_name="ROIC capital medio", index=False)
-        resultados_fundamentales.roic_ttm.to_excel(writer,sheet_name="ROIC TTM capital medio",index=False)
-        tabla_valoracion_inversa.to_excel(writer, sheet_name="Valoracion inversa", index=False)
-        tabla_puente_fiscal.to_excel(writer, sheet_name="Puente ejercicio fiscal", index=False)
-        tabla_base_ttm.to_excel(writer, sheet_name="Base TTM y balance", index=False)
-        tabla_referencia_peers.to_excel(writer, sheet_name="Referencia comparables", index=False)
-        tabla_stats_peers_economicos.to_excel(writer, sheet_name="Estadisticas peers economicos")
-        if not tabla_trimestral.empty:
-            tabla_trimestral.to_excel(writer, sheet_name="Resultados trimestrales", index=False)
-        tabla_financiera.to_excel(writer, sheet_name="Financieros anuales")
-        if not tabla_fuentes_sec.empty:
-            tabla_fuentes_sec.to_excel(writer, sheet_name="Fuentes SEC", index=False)
-        if not tabla_resumen_comparacion.empty:
-            tabla_resumen_comparacion.to_excel(writer, sheet_name="Resumen Yahoo SEC", index=False)
-        if not tabla_comparacion_fuentes.empty:
-            tabla_comparacion_fuentes.to_excel(writer, sheet_name="Comparacion Yahoo SEC", index=False)
-        tabla_historica.to_excel(writer, sheet_name="Valoracion historica")
-        estadisticas.to_excel(writer, sheet_name="Estadisticas historicas")
-        tabla_actual.to_excel(writer, sheet_name="Valoracion actual")
-        if not tabla_comparables.empty:
-            tabla_comparables.to_excel(writer, sheet_name="Comparables", index=False)
-        if not tabla_comparacion_empresa.empty:
-            tabla_comparacion_empresa.to_excel(writer, sheet_name="Empresa y comparables", index=False)
-        tabla_estadisticas_comparables.to_excel(writer, sheet_name="Estadisticas comparables")
-        tabla_publicacion.to_excel(writer, sheet_name="Fecha resultados", index=False)
-        tabla_cagr.to_excel(writer, sheet_name="CAGR", index=False)
-        tabla_cagr_ventanas.to_excel(writer, sheet_name="CAGR 5 y 10", index=False)
-        tabla_crecimientos.to_excel(writer, sheet_name="Crecimientos EPS FCF", index=False)
-        tabla_per.to_excel(writer, sheet_name="PER historico")
-        if not tabla_parametros.empty:
-            tabla_parametros.to_excel(writer, sheet_name="Parametros escenarios")
-        if not tabla_escenarios_eps.empty:
-            tabla_escenarios_eps.to_excel(writer, sheet_name="Escenarios EPS PER", index=False)
-        if not tabla_escenarios_fcf.empty:
-            tabla_escenarios_fcf.to_excel(writer, sheet_name="Escenarios FCF", index=False)
-        if not comparacion.empty:
-            comparacion.to_excel(writer, sheet_name="Comparacion", index=False)
-        tabla_datos_ausentes.to_excel(writer, sheet_name="Datos ausentes", index=False)
+    tables=dict(tablas_acciones)
+    tables.update({'General':tabla_general,'Fuentes SEC':tabla_fuentes_sec,
+
+        'Fuentes fundamentales':pd.DataFrame(enriquecimiento.evidence['changes']).drop(columns=['Componentes'],errors='ignore'),
+        'Conciliacion TTM':tabla_conciliacion_ttm,'Pendientes fundamentales':pd.DataFrame({'Incidencia':enriquecimiento.evidence['issues']}),
+        'Contraste IR':pd.DataFrame(comprobacion_ir['comparisons']),'Extraordinarios IR':pd.DataFrame(comprobacion_ir['extraordinary']),
+        'Actualidad resultados':tabla_actualidad,'Fuentes comparables':pd.DataFrame(evidencia_comparables),
+        'Fuentes comparables TTM':pd.DataFrame(fuentes_ttm),'Revision filings':pd.DataFrame(revision_filings),
+        'Componentes CAPEX DA':conciliacion_componentes,'Resumen Yahoo SEC':tabla_resumen_comparacion,
+        'Comparacion Yahoo SEC':tabla_comparacion_fuentes})
+    with pd.ExcelWriter(ruta,engine='openpyxl') as writer:
+        for name,table in tables.items():table.to_excel(writer,sheet_name=name,index=False)
 
 
 try:
@@ -2065,9 +1830,5 @@ print("ANÁLISIS FINALIZADO")
 print("=" * 100)
 print(f"Empresa: {nombre_empresa} ({TICKER})")
 print(f"Archivo Excel creado: {archivo_salida.resolve()}")
-print("Hojas: General, Resultados trimestrales, Financieros anuales, Valoracion historica,")
-print("       Fuentes SEC (si está disponible), Estadisticas historicas, Valoracion actual, Comparables,")
-print("       Empresa y comparables, Estadisticas comparables, Fecha resultados,")
-print("       CAGR, Crecimientos EPS FCF, PER historico, Parametros escenarios,")
-print("       Escenarios EPS PER, Escenarios FCF, Comparacion y Datos ausentes.")
-print("\nIMPORTANTE: los escenarios son cálculos condicionados a supuestos históricos; no son predicciones garantizadas.")
+print("Hojas: Resumen, Valoracion EPS PER, Supuestos EPS PER, Estado metodos,")
+print("       Comparables seleccionados, Historico, Trimestres y auditoria de fuentes.")

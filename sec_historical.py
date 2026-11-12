@@ -20,7 +20,17 @@ from bs4 import BeautifulSoup
 SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 SEC_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
 SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
-DEFAULT_USER_AGENT = "StockValuationProject/1.0 (contact: replace-with-your-email@example.com)"
+DEFAULT_USER_AGENT = "StockValuationProject/1.0"
+
+
+def fiscal_year_label(date):
+    """Cierres semanales de primeros 7 días de enero pertenecen al FY de diciembre.
+
+    Se conserva siempre la fecha de cierre real. Evita que Jan-01 y Dec-31 del
+    mismo año calendario creen un único índice duplicado o un CAGR de cero años.
+    """
+    day=pd.Timestamp(date)
+    return day.year-1 if day.month==1 and day.day<=7 else day.year
 
 
 def _norm(value: Any) -> str:
@@ -353,7 +363,7 @@ def _inline_fact(filings: list[dict], target_date: str, tags: list[str], currenc
 def _fact_value(companyfacts: dict, source_rows: list[dict], key: str, tags: list[str],
                 date: str, *, currency: str, mode: str = "money", annual: bool = True) -> float:
     result = sec_fact(companyfacts, tags, date, currency=currency, mode=mode, annual=annual)
-    source_rows.append({"Ejercicio": int(date[:4]), "Fecha cierre fiscal": date, "Campo": key,
+    source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date, "Campo": key,
                         "Valor original": result["value"], "Unidad": result["unit"],
                         "Concepto SEC": result["tag"], "Formulario": result["form"],
                         "Presentado": result["filed"], "Fuente": "CompanyFacts"})
@@ -363,7 +373,7 @@ def _fact_value(companyfacts: dict, source_rows: list[dict], key: str, tags: lis
 def download_sec_annual_history(ticker: str, company_name: str | None = None,
                                 financial_currency: str = "USD", years: int = 10,
                                 user_agent: str = DEFAULT_USER_AGENT,
-                                override_cik: str | None = None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+                                override_cik: str | None = None, as_of=None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     """Descarga los últimos ejercicios fiscales SEC y calcula ratios.
 
     Si no se localiza un CIK o SEC no aporta datos suficientes, devuelve tabla vacía
@@ -375,10 +385,22 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
 
     facts = _get_json(SEC_FACTS_URL.format(cik=cik), user_agent)
     submissions = _get_json(SEC_SUBMISSIONS_URL.format(cik=cik), user_agent)
+    cutoff=pd.Timestamp(as_of or pd.Timestamp.now()).tz_localize(None).normalize()
+    # CompanyFacts es una respuesta actual: excluir hechos presentados o cerrados después del corte.
+    for concepts in facts.get('facts',{}).values():
+        for concept in concepts.values():
+            for unit,records in concept.get('units',{}).items():
+                concept['units'][unit]=[r for r in records if r.get('filed') and r.get('end')
+                    and pd.Timestamp(r['filed'])<=cutoff and pd.Timestamp(r['end'])<=cutoff]
     currency = (financial_currency or "USD").upper().strip()
     if currency in {"N/A", "NONE", "NO DISPONIBLE", ""}:
         currency = "USD"
-    filings = _filings_for_sec(submissions, cik)
+    recent=submissions.get('filings',{}).get('recent',{})
+    filing_dates=recent.get('filingDate',[])
+    indices=[i for i,d in enumerate(filing_dates) if d and pd.Timestamp(d)<=cutoff]
+    for key,values in list(recent.items()):
+        if isinstance(values,list) and len(values)==len(filing_dates):recent[key]=[values[i] for i in indices]
+    filings = [f for f in _filings_for_sec(submissions, cik) if pd.Timestamp(f["filing_date"])<=cutoff]
     dates = _annual_periods(facts, submissions, years)
     if not dates:
         return pd.DataFrame(), pd.DataFrame(), {"CIK": cik, "Empresa SEC": facts.get("entityName", sec_name), "Estado": "No se identificaron ejercicios anuales SEC"}
@@ -388,10 +410,13 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
     output_rows: list[dict] = []
 
     tags = {
-        "Ingresos": ("money", True, ["RevenueFromContractWithCustomerExcludingAssessedTax", "Revenues", "SalesRevenueNet", "RevenueFromContractWithCustomerIncludingAssessedTax", "Revenue"]),
+        "Ingresos": ("money", True, ["RevenueFromContractWithCustomerExcludingAssessedTax", "Revenues", "SalesRevenueNet", "RevenueFromContractWithCustomerIncludingAssessedTax", "Revenue", "RevenuesNetOfInterestExpense"]),
         "Beneficio bruto": ("money", True, ["GrossProfit"]),
         "Beneficio operativo": ("money", True, ["OperatingIncomeLoss", "OperatingProfitLoss"]),
         "Beneficio neto": ("money", True, ["NetIncomeLoss", "ProfitLoss", "NetIncomeLossAttributableToParent"]),
+        "Beneficio neto común": ("money", True, ["NetIncomeLossAvailableToCommonStockholdersBasic"]),
+        "Beneficio neto continuado": ("money", True, ["IncomeLossFromContinuingOperations", "ProfitLossFromContinuingOperations"]),
+        "EPS continuado diluido": ("eps", True, ["IncomeLossFromContinuingOperationsPerDilutedShare", "IncomeLossFromContinuingOperationsDilutedEarningsPerShare"]),
         "EPS básico": ("eps", True, ["EarningsPerShareBasic", "BasicEarningsLossPerShare"]),
         "EPS diluido": ("eps", True, ["EarningsPerShareDiluted", "DilutedEarningsLossPerShare"]),
         "Acciones diluidas medias": ("shares", True, ["WeightedAverageNumberOfDilutedSharesOutstanding"]),
@@ -412,13 +437,16 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
     }
 
     for date in dates:
-        row: dict[str, Any] = {"Fecha cierre fiscal": pd.Timestamp(date), "Ejercicio": int(date[:4])}
+        row: dict[str, Any] = {"Fecha cierre fiscal": pd.Timestamp(date), "Ejercicio": fiscal_year_label(date)}
         for field, (mode, annual, candidates) in tags.items():
             fact = sec_fact(facts, candidates, date, currency=currency, mode=mode, annual=annual)
             row[field] = fact["value"]
-            source_rows.append({"Ejercicio": int(date[:4]), "Fecha cierre fiscal": date, "Campo": field,
+            if field=='EPS diluido':row['EPS fuente presentado']=fact['filed']
+            if field=='EPS continuado diluido':row['EPS continuado fuente presentado']=fact['filed']
+            if field=='Acciones diluidas medias':row['Acciones fuente presentado']=fact['filed']
+            source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date, "Campo": field,
                                 "Valor original": fact["value"], "Unidad": fact["unit"], "Concepto SEC": fact["tag"],
-                                "Formulario": fact["form"], "Presentado": fact["filed"], "Fuente": "CompanyFacts"})
+                                "Formulario": fact["form"], "Presentado": fact["filed"], "Accession": fact["accn"], "Fuente": "CompanyFacts"})
 
         # El D&A consolidado de flujo de caja, si está en el filing comparativo, es
         # preferible a sumar conceptos de otras notas. Esto replica la validación MSFT v4.
@@ -430,8 +458,8 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
             row['Definición D&A']='Agregado D&A y otros; no D&A pura'
             row["D&A"] = inline_da["value"]
             source = f"Inline XBRL: {inline_da['name']} (filing {inline_da['report_date']})"
-            source_rows = [x for x in source_rows if not (x.get("Campo") == "D&A" and x.get("Ejercicio") == int(date[:4]))]
-            source_rows.append({"Ejercicio": int(date[:4]), "Fecha cierre fiscal": date, "Campo": "D&A",
+            source_rows = [x for x in source_rows if not (x.get("Campo") == "D&A" and x.get("Ejercicio") == fiscal_year_label(date))]
+            source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date, "Campo": "D&A",
                                 "Valor original": inline_da["value"], "Unidad": inline_da["unitref"],
                                 "Concepto SEC": inline_da["name"], "Formulario": inline_da["form"],
                                 "Presentado": inline_da["filed"], "Fuente": source})
@@ -446,8 +474,8 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
                 currency, user_agent, inline_cache, annual=True)
             if inline_interest:
                 row["Gastos por intereses"] = abs(inline_interest["value"])
-                source_rows = [x for x in source_rows if not (x.get("Campo") == "Gastos por intereses" and x.get("Ejercicio") == int(date[:4]))]
-                source_rows.append({"Ejercicio": int(date[:4]), "Fecha cierre fiscal": date,
+                source_rows = [x for x in source_rows if not (x.get("Campo") == "Gastos por intereses" and x.get("Ejercicio") == fiscal_year_label(date))]
+                source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date,
                                     "Campo": "Gastos por intereses", "Valor original": row["Gastos por intereses"],
                                     "Unidad": inline_interest["unitref"], "Concepto SEC": inline_interest["name"],
                                     "Formulario": inline_interest["form"], "Presentado": inline_interest["filed"],
@@ -495,7 +523,7 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
         row["Deuda a corto plazo"] = debt_current
         row["Origen deuda"] = source_cp
         row["Deuda incluye arrendamientos"] = False
-        source_rows.append({"Ejercicio": int(date[:4]), "Fecha cierre fiscal": date, "Campo": "Deuda a corto plazo",
+        source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date, "Campo": "Deuda a corto plazo",
                             "Valor original": debt_current, "Unidad": currency, "Concepto SEC": source_cp,
                             "Formulario": "SEC XBRL", "Presentado": "", "Fuente": source_cp})
 
@@ -586,4 +614,8 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
             "Años recuperados": len(df), "Años con ingresos": annual_revenue_count,
             "Primera fecha fiscal": df["Fecha cierre fiscal"].min(),
             "Última fecha fiscal": df["Fecha cierre fiscal"].max(), "Divisa reportada esperada": currency}
+    accounting=set(str(x['Concepto SEC']).split(':')[0] for x in source_rows
+        if x.get('Campo') in ('Ingresos','Beneficio neto','EPS diluido') and pd.notna(x.get('Valor original')) and ':' in str(x['Concepto SEC']))
+    meta['Base contable']='US_GAAP' if accounting=={'us-gaap'} else 'IFRS' if accounting=={'ifrs-full'} else 'UNKNOWN'
+    meta['Fecha corte']=str(cutoff.date())
     return df, audit, meta

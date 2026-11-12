@@ -105,6 +105,17 @@ def valuation_registry(fundamental,historical_eps,historical_fcf,*,as_of,fy_date
 
 
 def assess(sheets):
+    if 'Estado metodos' in sheets:
+        methods=sheets['Estado metodos'];registry=sheets.get('Registro valoraciones',pd.DataFrame())
+        prices=pd.to_numeric(registry.get('price',pd.Series(dtype=float)),errors='coerce')
+        controls=sheets.get('Control por metodo',pd.DataFrame())
+        shared=controls[controls['Método'].eq('Todos')&controls['Estado'].eq('BLOQUEO')] if len(controls) else controls
+        main=registry[registry.get('method_id',pd.Series(dtype=str)).eq('eps_pe_projected')] if len(registry) else registry
+        available=int(prices.notna().sum());primary=int(pd.to_numeric(main.get('price',pd.Series(dtype=float)),errors='coerce').notna().sum())
+        return {'errores_bloqueantes':len(shared),'objetivos_fundamentales_disponibles':available,
+            'objetivos_principales_disponibles':primary,'estado_financiero':'PARCIAL' if available else 'BLOQUEO',
+            'publicable':False,'exit_code':0 if available and not len(shared) else 2,
+            'metodos':clean(methods.to_dict('records'))}
     control=sheets.get('Control modelo',pd.DataFrame())
     blockers=int(control.get('Estado',pd.Series(dtype=str)).eq('BLOQUEO').sum())
     registry=sheets.get('Registro valoraciones',pd.DataFrame())

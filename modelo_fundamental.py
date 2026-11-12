@@ -45,15 +45,17 @@ def env_float(key,default):
 
 
 def fx_rate(fin_currency,quote_currency,fetcher=None):
-    a=str(fin_currency or '').upper().strip(); b=str(quote_currency or '').upper().strip()
-    if a==b and a:return 1.0,'mismas divisas'
-    if a=='GBP' and b in ('GBX','GBPENCE'):return 100.,'GBP → peniques'
-    if a in ('GBX','GBPENCE') and b=='GBP':return .01,'peniques → GBP'
+    def unit(value):
+        raw=str(value or '').strip()
+        if raw=='GBp' or raw.upper() in ('GBX','GBPENCE'):return 'GBP',.01
+        return raw.upper(),1.
+    a,au=unit(fin_currency);b,bu=unit(quote_currency)
+    if a==b and a:return au/bu,'mismas monedas; factor de unidad '+str(au/bu)
     if not a or not b or fetcher is None:return np.nan,'No hay divisas o consulta FX'
     for pair,inv in ((a+b+'=X',False),(b+a+'=X',True)):
         try:
             val=f(fetcher(pair))
-            if np.isfinite(val) and val>0:return (1/val if inv else val),pair+(' inverso' if inv else '')
+            if np.isfinite(val) and val>0:return (1/val if inv else val)*au/bu,pair+(' inverso' if inv else '')+'; factor unidad '+str(au/bu)
         except Exception:pass
     return np.nan,'FX ausente; objetivos bloqueados'
 
