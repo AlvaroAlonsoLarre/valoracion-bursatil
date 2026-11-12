@@ -374,6 +374,7 @@ def test_sec_identity_fallback_uses_exact_ticker_and_official_submission(monkeyp
     monkeypatch.setattr(sec,'_get_json',fetch)
     assert sec.cik_from_filing_links('MSFT','StockValuationProject/1.0',links)==('0000789019','Microsoft Corporation')
     assert len(calls)==1 and calls[0].startswith('https://data.sec.gov/submissions/')
+    assert sec.cik_from_filing_links('MSFT','StockValuationProject/1.0',[{'edgarUrl':'https://finance.yahoo.com/sec-filing/MSFT/0001193125-26-453698_789019'}])==('0000789019','Microsoft Corporation')
     assert sec.cik_from_filing_links('OTHER','StockValuationProject/1.0',links)==(None,None)
 
 

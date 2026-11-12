@@ -80,8 +80,13 @@ def cik_from_filing_links(ticker,user_agent,filings=None):
     candidates=set()
     for item in filings or []:
         if not isinstance(item,dict):continue
-        match=re.match(r'^https://(?:www\.)?sec\.gov/Archives/edgar/data/(\d+)/',str(item.get('edgarUrl','')))
+        url=str(item.get('edgarUrl',''))
+        match=re.match(r'^https://(?:www\.)?sec\.gov/Archives/edgar/data/(\d+)/',url)
         if match:candidates.add(match.group(1).lstrip('0').zfill(10))
+        # Versiones del SDK enlazan a una ficha de filing en Yahoo. Es una pista,
+        # nunca prueba de identidad: sigue siendo obligatorio el ticker exacto SEC.
+        mirror=re.match(r'^https://finance\.yahoo\.com/sec-filing/'+re.escape(ticker.upper())+r'/\d{10}-\d{2}-\d{6}_(\d+)(?:[?#].*)?$',url)
+        if mirror:candidates.add(mirror.group(1).lstrip('0').zfill(10))
     verified=[]
     for cik in sorted(candidates):
         try:
