@@ -35,6 +35,19 @@ def stock_tables(annual,peers,kwargs,history,settings=None,optional_environment=
             found=v[v['Método'].str.contains(pattern,regex=False)] if not v.empty else v
             ok=not found.empty and found['Precio objetivo (divisa cotización)'].notna().any()
             tables['Estado metodos'].loc[tables['Estado metodos']['Método'].eq(label),'Estado']='ERROR' if getattr(optional,'error',False) else 'CONDICIONAL' if ok else 'BLOQUEO'
+        for _,row in optional.valuation.iterrows():
+            h=int(row['Horizonte (años)']);is_dcf='DCF' in row['Método']
+            registry.append({'method_id':('dcf_fcff_present' if h==0 else 'dcf_fcff_future') if is_dcf else 'peer_ev_ebitda_ntm',
+                'scenario':row['Escenario'],'scenario_type':'opcional_dcf' if is_dcf else 'opcional_ev_ebitda',
+                'horizon_years':h,'valuation_date':result.summary['as_of'],'target_date':row.get('Fecha objetivo aprox.'),
+                'currency':kwargs['quote_currency'],'price':row['Precio objetivo (divisa cotización)'],
+                'validation_state':row.get('Estado validación','CONDICIONAL') if pd.notna(row['Precio objetivo (divisa cotización)']) else 'BLOQUEO',
+                'source':kwargs.get('source','Modelo opcional'),'limitation':row.get('Limitación',''),
+                'flow_period':'FCFF proyectado' if is_dcf else 'EBITDA NTM proyectado'})
+        tables['Registro valoraciones']=pd.DataFrame(registry)
+        result.summary['available_targets']=int(tables['Registro valoraciones']['price'].notna().sum())
+        result.summary['optional_available']=int(tables['Registro valoraciones'].loc[tables['Registro valoraciones']['scenario_type'].str.startswith('opcional'),'price'].notna().sum())
+        tables['Resumen']=pd.DataFrame([{'Concepto':k,'Valor':v} for k,v in result.summary.items()])
     return result,tables
 
 
@@ -91,6 +104,11 @@ def analysis_from_snapshot(payload,settings=None):
     result,tables=stock_tables(frames['annual'],frames['peers'],kwargs,
         historical.get('Referencia histórica auditada',pd.DataFrame()),chosen,optional_environment=payload.get('assumption_environment',{}))
     evidence=payload.get('evidence',{});official=evidence.get('official_fundamentals',{});ir=evidence.get('ir',{})
+    discovered=pd.DataFrame(evidence.get('peer_discovery',[]))
+    if not discovered.empty:
+        full=tables['Universo comparables']
+        missing=discovered[~discovered['Ticker'].isin(full['Ticker'])] if 'Ticker' in full else discovered
+        tables['Universo comparables']=pd.concat([full,missing.assign(Elegible=False,Observación='Sin descarga/cobertura')],ignore_index=True)
     for key in ['Fuentes SEC']:
         if key in historical:tables[key]=historical[key]
     tables.update({'Fuentes fundamentales':pd.DataFrame(official.get('changes',[])).drop(columns=['Componentes'],errors='ignore'),

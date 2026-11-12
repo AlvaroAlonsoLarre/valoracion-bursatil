@@ -1716,7 +1716,7 @@ if snapshot_dir:
          'Fuentes SEC':tabla_fuentes_sec,'General datos':pd.DataFrame([{'Ticker':TICKER,'Empresa':nombre_empresa,'Sector':sector_objetivo,'Industria':industria_objetivo}]),
          'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
          'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
-         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo,'stock_model':{'version':'stock-dashboard-v1','product_version':'V6 simplificada','settings':stock_settings},'peer_ttm_sources':fuentes_ttm})
+         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo,'stock_model':{'version':'stock-dashboard-v1','product_version':'V6 simplificada','settings':stock_settings},'peer_ttm_sources':fuentes_ttm,'peer_discovery':list(registro_candidatos.values())})
 from flujo_acciones import stock_tables
 resultado_acciones,tablas_acciones=stock_tables(tabla_financiera_usd,universo_df,fundamental_kwargs,historico_auditado,stock_settings)
 # Registros de descubrimiento incluyen candidatos sin descarga; no se confunden con pares válidos.

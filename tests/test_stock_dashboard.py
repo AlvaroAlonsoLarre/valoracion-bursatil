@@ -317,3 +317,28 @@ def test_negative_projected_earnings_do_not_generate_a_price_or_tax_credit(stock
     assert (loss['Beneficio común normalizado']<0).all() and loss['Impuestos'].eq(0).all()
     assert result.valuation.query("Método=='EPS × PER' and Escenario=='Pesimista'")['Precio objetivo'].isna().all()
     assert result.summary['Atractivo']=='No evaluable'
+
+
+def test_replay_keeps_discovered_candidates_without_inventing_financial_data(tmp_path,stock_inputs):
+    args=stock_inputs.copy();annual=args.pop('annual');peers=args.pop('peers');history=args.pop('history')
+    path=tmp_path/'capture.json'
+    write_snapshot(path,annual,peers,args,{'Referencia histórica auditada':history},evidence={
+        'stock_model':{'version':'stock-dashboard-v1','settings':{}},
+        'peer_discovery':[{'Ticker':'NO_DATA','Origen candidatos':'Descubrimiento sintético','Estado descarga':'Sin datos'}]})
+    result,tables=analysis_from_snapshot(json.loads(path.read_text()))
+    row=tables['Universo comparables'].iloc[0]
+    assert row['Ticker']=='NO_DATA' and not row['Elegible'] and row['Observación']=='Sin descarga/cobertura'
+    assert 'PER TTM verificado' not in row or pd.isna(row['PER TTM verificado'])
+    assert result.summary['target_1y']==pytest.approx(87.48)
+
+
+def test_unavailable_pe_does_not_hide_an_available_optional_dcf(stock_inputs):
+    args=stock_inputs.copy();annual=args.pop('annual');peers=args.pop('peers');args.pop('history')
+    result,tables=stock_tables(annual,peers,args,pd.DataFrame(),{'advanced':True})
+    audit=assess(tables)
+    assert not result.summary['primary_available']
+    assert audit['exit_code']==0 and audit['objetivos_principales_disponibles']==0
+    assert audit['objetivos_fundamentales_disponibles']==9
+    registry=tables['Registro valoraciones']
+    assert registry[registry['scenario_type'].eq('opcional_dcf')]['price'].notna().sum()==9
+    assert result.summary['optional_available']==9 and pd.isna(result.summary['fair_value'])
