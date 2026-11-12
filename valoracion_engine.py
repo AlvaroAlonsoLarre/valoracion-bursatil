@@ -1781,6 +1781,14 @@ def _precio_fx(ticker_fx):
     except Exception:
         return np.nan
 
+# Enriquecimiento oficial con periodos/unidades explícitos, antes de comprobar actualidad.
+from fuentes_fundamentales import enrich_financials,ttm_reconciliation
+anuales_proveedor=tabla_financiera_usd.copy()
+trimestres_proveedor=tabla_trimestral_usd.copy()
+enriquecimiento=enrich_financials(TICKER,tabla_financiera_usd,tabla_trimestral_usd,divisa_financiera,hoy)
+tabla_financiera_usd=enriquecimiento.annual
+tabla_trimestral_usd=enriquecimiento.quarterly
+tabla_conciliacion_ttm=ttm_reconciliation(tabla_trimestral_usd,tabla_financiera_usd,hoy,fecha_ultimo_ejercicio)
 fx_fin_a_cot, fx_origen = fx_rate(divisa_financiera, divisa_cotizacion, _precio_fx)
 # Vigencia: se contrasta el último trimestre Yahoo con publicaciones posteriores
 # mediante SEC cuando haya CIK; para el resto se advierte con fecha Yahoo.
@@ -1819,7 +1827,9 @@ from pathlib import Path
 snapshot_dir=os.environ.get('VALUACION_SNAPSHOT_DIR','')
 if snapshot_dir:
     write_snapshot(Path(snapshot_dir)/(TICKER+'_inputs.json'),tabla_financiera_usd,universo_df,fundamental_kwargs,
-        {'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf},evidence={'ir':comprobacion_ir})
+        {'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
+         'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
+         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence})
 resultados_fundamentales = build_fundamental_model(tabla_financiera_usd,universo_df,**fundamental_kwargs)
 tabla_supuestos_fundamentales = resultados_fundamentales.assumptions
 tabla_proyeccion_fundamental = resultados_fundamentales.projected
@@ -1916,6 +1926,7 @@ tabla_general = pd.DataFrame([
     {"Concepto": "CIK SEC", "Valor": sec_metadata.get("CIK") or "No disponible"},
     {"Concepto": "FX moneda financiera a moneda cotización", "Valor": fx_fin_a_cot},
     {"Concepto": "Fuente FX", "Valor": fx_origen},
+    {"Concepto": "Enriquecimiento oficial", "Valor": enriquecimiento.evidence["status"]},
     {"Concepto": "Previsión económica", "Valor": "Base TTM + puente FY + sensibilidad, NO consenso de analistas"},
     {"Concepto": "Fecha valoración", "Valor": hoy.date()},
     {"Concepto": "Comparables económicos", "Valor": "Selección automática multi-región por actividad + finanzas"},
@@ -1940,6 +1951,11 @@ def escribir_informe_excel(ruta):
     with pd.ExcelWriter(ruta, engine="openpyxl") as writer:
         tabla_general.to_excel(writer, sheet_name="General", index=False)
         tabla_registro.to_excel(writer,sheet_name="Registro valoraciones",index=False)
+        tabla_conciliacion_ttm.to_excel(writer,sheet_name="Conciliacion TTM",index=False)
+        pd.DataFrame(enriquecimiento.evidence['changes']).drop(columns=['Componentes'],errors='ignore').to_excel(writer,sheet_name="Fuentes fundamentales",index=False)
+        pd.DataFrame({'Incidencia':enriquecimiento.evidence['issues']}).to_excel(writer,sheet_name="Pendientes fundamentales",index=False)
+        anuales_proveedor.to_excel(writer,sheet_name="Anuales proveedor")
+        trimestres_proveedor.to_excel(writer,sheet_name="Trimestres proveedor")
         tabla_estadisticas_crecimiento.to_excel(writer,sheet_name="Estadisticas crecimiento",index=False)
         pd.DataFrame(comprobacion_ir['comparisons']).to_excel(writer,sheet_name="Contraste IR",index=False)
         pd.DataFrame(comprobacion_ir['extraordinary']).to_excel(writer,sheet_name="Extraordinarios IR",index=False)
@@ -1949,6 +1965,7 @@ def escribir_informe_excel(ruta):
         tabla_valoracion_fundamental.to_excel(writer, sheet_name="Valoracion fundamental", index=False)
         tabla_dcf_detalle.to_excel(writer, sheet_name="DCF detalle", index=False)
         resultados_fundamentales.risk_parameters.to_excel(writer,sheet_name="Parametros riesgo",index=False)
+        resultados_fundamentales.peer_definitions.to_excel(writer,sheet_name="Comparables requisitos",index=False)
         tabla_control_modelo.to_excel(writer, sheet_name="Control modelo", index=False)
         tabla_actualidad.to_excel(writer, sheet_name="Actualidad resultados", index=False)
         tabla_comparables_depurados.to_excel(writer, sheet_name="Comparables depurados", index=False)

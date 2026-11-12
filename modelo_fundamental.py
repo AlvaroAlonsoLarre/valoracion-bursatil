@@ -74,6 +74,7 @@ class FundamentalResult:
     peer_universe:pd.DataFrame = field(default_factory=pd.DataFrame)
     risk_parameters:pd.DataFrame = field(default_factory=pd.DataFrame)
     roic_ttm:pd.DataFrame = field(default_factory=pd.DataFrame)
+    peer_definitions:pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
 def quarterly_snapshot(quarterly,annual,as_of,fiscal_end_date=None):
@@ -89,7 +90,7 @@ def quarterly_snapshot(quarterly,annual,as_of,fiscal_end_date=None):
     q.index=pd.to_datetime(q.index,errors='coerce',dayfirst=False).tz_localize(None)
     q=q[~q.index.isna() & (q.index<=as_of)].sort_index()
     notes=[]
-    invalid=set()
+    invalid=set(q.attrs.get("invalid_flows",[]))
     for date, group in q.groupby(level=0):
         if len(group)>1:
             for col in group.columns:
@@ -476,6 +477,8 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
     latest_definition=str(df.get('Definición D&A',pd.Series(dtype=str)).iloc[-1]) if 'Definición D&A' in df and len(df) else 'No declarada'
     da_origin=str(df.get('Origen D&A',pd.Series(dtype=str)).iloc[-1]) if 'Origen D&A' in df and len(df) else ''
     da_aggregate='otros' in latest_definition.lower() or 'ppe' in latest_definition.lower() or 'DepreciationAmortizationAndOther' in da_origin
+    if len(df) and pd.notna(df.iloc[-1].get('D&A validada')) and bool(df.iloc[-1].get('D&A validada')):
+        da_aggregate=da_aggregate or 'D&A validada' not in q or not q.tail(4)['D&A validada'].fillna(False).eq(True).all()
     lease_mismatch=False
     balance_row=None
     for table in [q,df]:
@@ -722,6 +725,7 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
             row['Precio objetivo (divisa cotización)']=np.nan
             row['Potencial (%)']=np.nan; row['Rentabilidad anualizada (%)']=np.nan
             row['Retorno total (%)']=np.nan; row['Estado validación']='BLOQUEO'
+    from comparables_definiciones import definition_coverage
     return FundamentalResult(assumptions,pd.DataFrame(projected),pd.DataFrame(valued),pd.DataFrame(dcf),
                              pd.DataFrame(checks),peer_table,pd.DataFrame(roic),pd.DataFrame(reverse),
-                             bridge,ttm_table,peer_refs,peer_universe,pd.DataFrame(risk_rows),roic_ttm)
+                             bridge,ttm_table,peer_refs,peer_universe,pd.DataFrame(risk_rows),roic_ttm,definition_coverage(peers))

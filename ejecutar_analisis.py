@@ -80,20 +80,24 @@ def save_failure(ticker,out,message,start):
 
 
 def save_summary(ticker,out,excel,sheets,start):
+    import pandas as pd
     from auditoria_io import assess,provenance
     summary={'schema_version':'v7.0','ticker':ticker,'generado_utc':start.isoformat(),
         'excel':excel.name,'fuente':'Yahoo Finance + SEC/IR con cobertura explícita',
         'provenance':provenance(),'estado_tecnico':'COMPLETADO'}
     keep=['General','Control modelo','Actualidad resultados','Referencia comparables',
-          'Comparables depurados','Universo comparables','Valoracion fundamental','Base TTM y balance',
+          'Comparables depurados','Universo comparables','Comparables requisitos','Valoracion fundamental','Base TTM y balance',
           'Supuestos fundamentales','Resumen Yahoo SEC','Registro valoraciones','Escenarios EPS PER',
-          'Escenarios FCF','Estadisticas crecimiento','Parametros riesgo','ROIC TTM capital medio','Contraste IR','Extraordinarios IR']
+          'Escenarios FCF','Estadisticas crecimiento','Parametros riesgo','ROIC TTM capital medio','Fuentes fundamentales','Conciliacion TTM','Pendientes fundamentales','Contraste IR','Extraordinarios IR']
     for sheet in keep:
         if sheet in sheets:summary[sheet]=safe_records(sheets[sheet],len(sheets[sheet]))
     summary['auditoria']=assess(sheets)
     peers=sheets.get('Comparables depurados')
     summary['auditoria']['comparables_elegibles']=int(peers['Elegible'].fillna(False).sum()) if peers is not None and 'Elegible' in peers else 0
     summary['auditoria']['total_candidatos']=len(sheets.get('Universo comparables',[]))
+    definitions=sheets.get('Comparables requisitos',pd.DataFrame())
+    for method,key in [('PER','definiciones_per_completas'),('EV/EBITDA','definiciones_ev_ebitda_completas')]:
+        summary['auditoria'][key]=int((definitions['Método'].eq(method)&definitions['Definición completa'].eq(True)).sum()) if 'Método' in definitions else 0
     snapshot=out/f'{ticker}_inputs.json'
     if snapshot.exists():
         import hashlib
@@ -141,8 +145,13 @@ def replay(snapshot,outdir):
       'Base TTM y balance':result.base_ttm,'Proyeccion negocio':result.projected,'DCF detalle':result.dcf_detail,
       'Supuestos fundamentales':result.assumptions,'Comparables depurados':result.peers,
       'Universo comparables':result.peer_universe,'Referencia comparables':result.peer_reference,
-      'Parametros riesgo':result.risk_parameters,'ROIC TTM capital medio':result.roic_ttm,'Escenarios EPS PER':eps,'Escenarios FCF':fcf}
+      'Parametros riesgo':result.risk_parameters,'ROIC TTM capital medio':result.roic_ttm,'Comparables requisitos':result.peer_definitions,'Escenarios EPS PER':eps,'Escenarios FCF':fcf}
     evidence=payload.get('evidence',{}).get('ir',{})
+    fundamentals=payload.get('evidence',{}).get('official_fundamentals',{})
+    sheets['Fuentes fundamentales']=pd.DataFrame(fundamentals.get('changes',[])).drop(columns=['Componentes'],errors='ignore')
+    from fuentes_fundamentales import ttm_reconciliation
+    sheets['Conciliacion TTM']=ttm_reconciliation(kwargs['quarterly'],annual,kwargs['as_of'],kwargs['fiscal_end_date'])
+    sheets['Pendientes fundamentales']=pd.DataFrame({'Incidencia':fundamentals.get('issues',[])})
     sheets['Contraste IR']=pd.DataFrame(evidence.get('comparisons',[]))
     sheets['Extraordinarios IR']=pd.DataFrame(evidence.get('extraordinary',[]))
     excel=out/f'valoracion_{ticker}_replay.xlsx'
