@@ -243,17 +243,21 @@ with valoracion:
     st.caption('Ingresos TTM → crecimiento previsto → EBIT normalizado + resultado no operativo → impuestos → beneficio común / acciones diluidas. Para financieras se usa margen PBT, con resultado financiero ya incluido. Un REIT requiere FFO/AFFO/NAV.')
     if s['profit_model']=='PBT directo':st.info('Esta captura utiliza margen PBT normalizado: el resultado financiero ya está incluido. No se inventa una serie EBIT ni se suma el financiero dos veces.')
     table(tables,'Valoracion EPS PER')
-    with st.expander('Sensibilidad y expectativas que descuenta la cotización'):
+    with st.expander('Sensibilidad y comparación con la cotización'):
         st.caption('Cada variable cambia por separado. Sensibilidad: ±5 puntos de crecimiento, ±3 de margen y ±20% PER. Los supuestos no se ajustan automáticamente al precio.')
         data=tables.get('Sensibilidad EPS PER',pd.DataFrame()).copy()
         if not data.empty:
             data['Parámetro']=data['Parámetro'].map({'growth':'Crecimiento','margin':'Margen','pe':'PER'})
+            data['Cambio']=[f'{v*100:+.0f} %' if parameter=='PER' else f'{v*100:+.0f} pp' for v,parameter in zip(data['Cambio'],data['Parámetro'])]
             st.dataframe(data[['Horizonte (años)','Parámetro','Cambio','Precio sensibilidad','Moneda']],hide_index=True,width='stretch')
         implied=tables.get('Expectativas implicitas',pd.DataFrame()).copy()
         for col in ['Crecimiento uniforme implícito','Margen implícito']:
             if col in implied:implied[col+' (%)']=implied.pop(col)*100
-        st.dataframe(implied,hide_index=True,width='stretch')
-        st.caption('Los implícitos resuelven una incógnita manteniendo el resto Base: no son un pronóstico. El crecimiento implícito es uniforme hasta el año del EPS, distinto de una senda desacelerada. Sin dividendos ni descuento.')
+        st.markdown('**Contraste de retorno de precio cero**')
+        display=['Horizonte (años)','Precio observado','Precio objetivo Base','Crecimiento uniforme implícito (%)','Margen implícito (%)','PER implícito','Año EPS']
+        st.dataframe(implied[[c for c in display if c in implied]].rename(columns={
+            'Precio observado':'Cotización','Precio objetivo Base':'Objetivo Base','Crecimiento uniforme implícito (%)':'Crecim. uniforme (%)'}),hide_index=True,width='stretch')
+        st.caption('Este contraste iguala el precio futuro a la cotización observada: retorno de precio cero. Resuelve una incógnita manteniendo el resto Base; no estima las expectativas del mercado ni es un pronóstico. El crecimiento implícito es uniforme hasta el año del EPS, distinto de una senda desacelerada. Sin dividendos ni descuento.')
     with st.expander('Resultados recurrentes y calidad del PER histórico'):
         table(tables,'Puente recurrencia');table(tables,'Recurrencia trimestral');table(tables,'Referencias historicas');table(tables,'Notas inversiones oficiales')
         st.caption('Importes pretax en moneda financiera. Los beneficios reportados se conservan: no se inventa un impuesto ni un EPS ajustado. Un PER puede excluirse de la referencia sin ocultar el dato histórico.')

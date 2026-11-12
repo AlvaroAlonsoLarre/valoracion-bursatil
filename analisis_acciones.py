@@ -398,7 +398,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     summary.update(evaluate_position(summary,policy))
     debt=number(ttm.get('Deuda neta reciente'));ebit=number(ttm.get('Beneficio operativo'))
     diagnostics=pd.DataFrame([
-        {'Diagnóstico':'Crecimiento','Lectura':'Expansión' if growth>0 else 'Contracción' if np.isfinite(growth) else 'N/D','Valor':growth,'Detalle':'CAGR de últimos hasta 4 FY y TTM interanual si completo; no consenso'},
+        {'Diagnóstico':'Crecimiento','Lectura':'Expansión' if growth>0 else 'Contracción' if np.isfinite(growth) else 'N/D','Valor':growth,'Detalle':'CAGR compuesto hasta 5 FY, con extremo hasta 10 FY; no consenso' if cyclical or exceptional else 'CAGR de últimos hasta 4 FY y TTM interanual si completo; no consenso'},
         {'Diagnóstico':'Rentabilidad','Lectura':'Positiva' if profit_margin>0 else 'Débil' if np.isfinite(profit_margin) else 'N/D','Valor':profit_margin,'Detalle':'Mediana de margen '+('PBT directo' if pbt_direct else 'EBIT')+' de hasta 5 FY'},
         {'Diagnóstico':'Solidez financiera','Lectura':'Revisión sectorial' if kind!='OPERATIVA' else 'Caja neta' if debt<0 else 'Revisar deuda' if debt>3*ebit else 'Deuda moderada' if np.isfinite(debt) and ebit>0 else 'N/D',
          'Valor':debt/ebit if ebit>0 and np.isfinite(debt) else np.nan,'Detalle':'Deuda neta/EBIT orientativo; no sustituye vencimientos/liquidez; bancos requieren capital regulatorio'},
