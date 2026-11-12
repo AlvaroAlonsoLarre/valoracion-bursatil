@@ -8,7 +8,7 @@ SHOCKS=[('Base',{}),('WACC -1 pp',{'wacc':-.01}),('WACC +1 pp',{'wacc':.01}),
         ('g terminal -0.5 pp',{'terminal_growth':-.005}),('g terminal +0.5 pp',{'terminal_growth':.005})]
 
 
-def audit_dcf(annual,peers,kwargs,baseline=None):
+def audit_dcf(annual,peers,kwargs,baseline=None,references=None):
     from modelo_fundamental import build_fundamental_model
     arguments=dict(kwargs);arguments.pop('sensitivity_shocks',None)
     base=baseline or build_fundamental_model(annual,peers,**arguments)
@@ -30,6 +30,14 @@ def audit_dcf(annual,peers,kwargs,baseline=None):
     for _,row in base.risk_parameters.iterrows():
         validation.append({'Comprobación':row['Parámetro'],'Valor':row['Valor'],'Estado':row['Estado'],
             'Evidencia/limitación':str(row['Fuente'])+'; fecha '+str(row['Fecha fuente'])+'; '+str(row['Moneda'])})
+    for reference in references or []:
+        parameter=reference.get('Parámetro','Referencia por moneda')
+        matches=base.risk_parameters[base.risk_parameters['Parámetro'].eq(parameter)]
+        observed=reference.get('Valor observado');value=matches.iloc[0]['Valor'] if len(matches) else np.nan
+        delta=(value-observed)*100 if observed is not None and np.isfinite(value) else np.nan
+        validation.append({'Comprobación':'Contraste oficial '+parameter,'Valor':delta,
+            'Estado':'DIFIERE_REFERENCIA' if pd.notna(delta) and abs(delta)>.01 else reference['Estado'],
+            'Evidencia/limitación':str(reference)+'; diferencia supuesto menos referencia en pp; no sustituye el supuesto ni valida el resto del WACC'})
     if not base.valuation.empty:
         valuations=base.valuation[(base.valuation['Escenario']=='Base')&base.valuation['Método'].str.contains('DCF')]
         for _,row in valuations.iterrows():

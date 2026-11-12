@@ -1838,16 +1838,18 @@ fundamental_kwargs=dict(
     recent_results_check=comprobacion_actualidad,
 )
 from auditoria_io import write_snapshot
+from risk_references import official_risk_reference
+referencias_riesgo=official_risk_reference(divisa_financiera,hoy)
 from pathlib import Path
 snapshot_dir=os.environ.get('VALUACION_SNAPSHOT_DIR','')
 if snapshot_dir:
     write_snapshot(Path(snapshot_dir)/(TICKER+'_inputs.json'),tabla_financiera_usd,universo_df,fundamental_kwargs,
         {'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
          'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
-         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings})
+         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo})
 resultados_fundamentales = build_fundamental_model(tabla_financiera_usd,universo_df,**fundamental_kwargs)
 from dcf_audit import audit_dcf
-dcf_sensibilidad,dcf_validacion=audit_dcf(tabla_financiera_usd,universo_df,fundamental_kwargs,resultados_fundamentales)
+dcf_sensibilidad,dcf_validacion=audit_dcf(tabla_financiera_usd,universo_df,fundamental_kwargs,resultados_fundamentales,references=referencias_riesgo)
 tabla_supuestos_fundamentales = resultados_fundamentales.assumptions
 tabla_proyeccion_fundamental = resultados_fundamentales.projected
 tabla_valoracion_fundamental = resultados_fundamentales.valuation

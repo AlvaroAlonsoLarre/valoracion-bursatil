@@ -132,7 +132,7 @@ def replay(snapshot,outdir):
             else:os.environ[key]=value
         result=build_fundamental_model(annual,peers,**kwargs)
         from dcf_audit import audit_dcf
-        sensitivity,validation=audit_dcf(annual,peers,kwargs,result)
+        sensitivity,validation=audit_dcf(annual,peers,kwargs,result,references=payload.get('evidence',{}).get('risk_references',[]))
     finally:
         for key,value in previous.items():
             if value is None:os.environ.pop(key,None)

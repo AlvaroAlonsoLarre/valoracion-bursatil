@@ -134,7 +134,18 @@ def attach_observed_evidence(peers,yf,as_of,limit=10):
             source='https://query2.finance.yahoo.com/v10/finance/quoteSummary/'+ticker+'?modules=earningsTrend'
             output.at[index,'Evidencia múltiplos']={'schema':'multiple-evidence-v1','payload':payload,'sha256':digest(payload),
                  'source_url':source,'retrieved_at':record['Fecha consulta'],'hash_kind':'SDK result canonical JSON'}
-            record.update({'Fuente':source,'SHA256 payload':digest(payload),'Periodos devueltos':','.join(estimates.keys()),
+            # El SDK puede devolver columnas -> periodos o periodos -> columnas.
+            periods=sorted({str(k) for k in estimates if re.fullmatch(r'[+\-]?\d+[yq]',str(k))} |
+                {str(k) for v in estimates.values() if isinstance(v,dict) for k in v if re.fullmatch(r'[+\-]?\d+[yq]',str(k))})
+            def reported(metric,period):
+                column=estimates.get(metric,{})
+                if isinstance(column,dict) and period in column:return column[period]
+                item=estimates.get(period,{})
+                return item.get(metric) if isinstance(item,dict) else None
+            methods=sorted({str(reported('methodology',period)) for period in periods if reported('methodology',period) is not None})
+            record.update({'Fuente':source,'SHA256 payload':digest(payload),'Periodos devueltos':','.join(periods),
+                'EPS FY0 proveedor':reported('avg','0y'),'EPS FY1 proveedor':reported('avg','+1y'),
+                'Metodología publicada':','.join(methods) or 'No declarada',
                 'Motivo':'No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda'})
         except Exception as exc:record['Motivo']=type(exc).__name__+': '+str(exc)[:160]
         records.append(record)

@@ -59,7 +59,7 @@ def test_ev_lease_and_da_bridge_and_three_issuers_are_required():
 
 def test_sdk_observation_records_forecasts_without_inventing_ntm_basis_or_quote_date():
     class Ticker:
-        def get_earnings_estimate(self,as_dict=False):return {'+1y':{'avg':10.,'numberOfAnalysts':3}}
+        def get_earnings_estimate(self,as_dict=False):return {'avg':{'+1y':10.},'numberOfAnalysts':{'+1y':3},'methodology':{'+1y':'normalized'}}
     class YF:
         def Ticker(self,ticker):return Ticker()
     result,records=attach_observed_evidence(frame().head(1),YF(),'2026-11-12')
@@ -68,6 +68,8 @@ def test_sdk_observation_records_forecasts_without_inventing_ntm_basis_or_quote_
     assert evidence['payload']['market']['date'] is None
     assert evidence['payload']['forecasts']['PER']['accounting_basis']=='UNKNOWN'
     assert not validate(result.iloc[0])[0] and records[0]['Estado']=='NO_VERIFICADO'
+    assert records[0]['Periodos devueltos']=='+1y'
+    assert records[0]['EPS FY1 proveedor']==10. and records[0]['Metodología publicada']=='normalized'
 
 
 def test_full_sensitivity_is_separate_and_inputs_are_unchanged(model_inputs,build):
@@ -140,3 +142,24 @@ def test_replay_sensitivity_uses_snapshot_assumptions_not_ambient_environment(tm
     np.testing.assert_allclose(actual['Precio condicional'],expected['Precio condicional'],rtol=1e-12)
     import os
     assert os.environ['VALUACION_WACC']=='.20'
+
+
+def test_treasury_reference_rejects_future_stale_and_ambiguous_rates():
+    from risk_references import treasury_10y,official_risk_reference
+    table='<table><tr><th>Date</th><th>2 Yr</th><th>10 Yr</th></tr>{}</table>'
+    row=lambda date,value:f'<tr><td>{date}</td><td>4.73</td><td>{value}</td></tr>'
+    date,rate=treasury_10y(table.format(row('11/10/2026',4.98)+row('11/13/2026',5.20)),'2026-11-12')
+    assert date=='2026-11-10' and rate==pytest.approx(.0498)
+    with pytest.raises(ValueError):treasury_10y(table.format(row('11/01/2026',4.80)),'2026-11-12')
+    with pytest.raises(ValueError):treasury_10y(table.format(row('11/10/2026',4.98)+row('11/10/2026',5.00)),'2026-11-12')
+    def no_network(*a,**k):raise AssertionError('Treasury USD no es KRW')
+    assert official_risk_reference('KRW','2026-11-12',requests_get=no_network)[0]['Estado']=='SIN_FUENTE_CONFIGURADA'
+
+
+def test_reference_comparison_does_not_override_model_or_certify_wacc(model_inputs,build):
+    args=dict(model_inputs);annual=args.pop('annual');peers=args.pop('peers')
+    reference=[{'Parámetro':'TIPO_LIBRE_RIESGO','Moneda':'USD','Estado':'REFERENCIA_OFICIAL','Valor observado':.0498}]
+    expected=build();sens,validation=audit_dcf(annual,peers,args,expected,references=reference)
+    row=validation[validation['Comprobación']=='Contraste oficial TIPO_LIBRE_RIESGO'].iloc[0]
+    assert row['Estado']=='DIFIERE_REFERENCIA' and row['Valor']==pytest.approx(-.88)
+    assert expected.valuation.equals(build().valuation)
