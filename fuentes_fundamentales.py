@@ -68,6 +68,49 @@ def pure_da_facts(html, *, currency, entity_id, source, published):
     return result
 
 
+def pure_da_companyfacts(data, *,currency,entity_id,source,as_of):
+    """CompanyFacts: hechos entity-wide; une componentes del MISMO accession.
+
+    El endpoint oficial es una ruta alternativa a Archives, no una fuente
+    secundaria ni un reemplazo de conceptos ausentes por estimaciones.
+    """
+    if str(data.get('cik','')).lstrip('0')!=entity_id.lstrip('0'):
+        raise ValueError('Emisor CompanyFacts distinto del solicitado')
+    grouped={}
+    for tag in ['Depreciation','AmortizationOfIntangibleAssets']:
+        records=data.get('facts',{}).get('us-gaap',{}).get(tag,{}).get('units',{}).get(currency,[])
+        for row in records:
+            if row.get('form') not in ('10-K','10-K/A','10-Q','10-Q/A'):continue
+            start=row.get('start');end=row.get('end');filed=row.get('filed');accn=row.get('accn')
+            if not all([start,end,filed,accn]):continue
+            if pd.Timestamp(filed)>pd.Timestamp(as_of) or pd.Timestamp(end)>pd.Timestamp(as_of):continue
+            if not 65<=(pd.Timestamp(end)-pd.Timestamp(start)).days+1<=400:continue
+            value=float(row.get('val',np.nan))
+            if not np.isfinite(value) or value<0:continue
+            key=(start,end,filed,accn);parts=grouped.setdefault(key,{})
+            if tag in parts and parts[tag]!=value:raise ValueError('Componentes CompanyFacts conflictivos')
+            parts[tag]=value
+    result={}
+    for (start,end,filed,accn),parts in grouped.items():
+        if len(parts)!=2:continue
+        key=(start,end)
+        if key not in result or filed>result[key]['published']:
+            result[key]={'value':sum(parts.values()),'components':{'us-gaap:'+k:v for k,v in parts.items()},
+               'source':source+' (accession '+accn+')','published':filed,
+               'precision':'Valores reportados; API no acredita precisión adicional',
+               'derivation':'Depreciation + AmortizationOfIntangibleAssets; mismo accession'}
+    return result
+
+
+def _covers_snapshot(intervals,annual,quarterly):
+    quarters=quarter_da(intervals)
+    ends={pd.Timestamp(end) for start,end in quarters}
+    if quarterly is None or quarterly.empty or not set(quarterly.sort_index().tail(4).index)<=ends:return False
+    if 'Fecha cierre fiscal' not in annual:return False
+    annual_ends={pd.Timestamp(end) for start,end in intervals if 330<=(pd.Timestamp(end)-pd.Timestamp(start)).days+1<=400}
+    return set(pd.to_datetime(annual['Fecha cierre fiscal'].tail(3)))<=annual_ends
+
+
 def quarter_da(intervals):
     """Resta intervalos anidados, nunca reparte un acumulado proporcionalmente."""
     result=dict(intervals)
@@ -150,13 +193,18 @@ def enrich_financials(ticker,annual,quarterly,currency,as_of,*,requests_get=None
         evidence['issues'].append('Divisa de fuente oficial distinta de contabilidad');return Enrichment(a,q,evidence)
     intervals={}
     for doc in entry['documents']:
-        if pd.Timestamp(doc['published'])>pd.Timestamp(as_of):continue
+        if doc.get('published') and pd.Timestamp(doc['published'])>pd.Timestamp(as_of):continue
+        if doc.get('fallback') and intervals and _covers_snapshot(intervals,a,q):continue
         source=doc['url']
         try:
             response=(requests_get or requests.get)(source,timeout=60);response.raise_for_status()
             digest=hashlib.sha256(response.content).hexdigest()
-            evidence['documents'].append({'url':source,'published':doc['published'],'sha256':digest,'kind':doc['kind']})
-            if doc['kind']=='inline_xbrl':
+            evidence['documents'].append({'url':source,'published':doc.get('published'),'sha256':digest,'kind':doc['kind']})
+            if doc['kind']=='companyfacts':
+                facts=pure_da_companyfacts(json.loads(response.content),currency=currency,entity_id=entry['entity_id'],source=source,as_of=as_of)
+                if not facts:raise ValueError('CompanyFacts no contiene ambos componentes en el mismo accession')
+                intervals.update(facts)
+            elif doc['kind']=='inline_xbrl':
                 facts=pure_da_facts(response.content.decode('utf-8'),currency=currency,entity_id=entry['entity_id'],source=source,published=doc['published'])
                 if not facts:raise ValueError('Sin componentes D&A puros completos, consolidados y en divisa declarada')
                 for key,value in facts.items():

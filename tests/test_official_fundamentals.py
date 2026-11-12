@@ -136,3 +136,19 @@ def test_ttm_reconciliation_distinguishes_missing_and_conflicted_flows(model_inp
     assert data.loc['CAPEX','Observaciones fuente']==4
     assert data.loc['CAPEX','Periodos utilizables']==0
     assert data.loc['CAPEX','Estado']=='N/D'
+
+
+def test_companyfacts_is_an_official_fallback_with_same_filing_components():
+    from fuentes_fundamentales import pure_da_companyfacts
+    def row(value,accn='same',filed='2026-07-29'):
+        return {'start':'2025-07-01','end':'2026-06-30','filed':filed,'accn':accn,'form':'10-K','val':value}
+    data={'cik':789019,'facts':{'us-gaap':{
+        'Depreciation':{'units':{'USD':[row(34.3e9)]}},
+        'AmortizationOfIntangibleAssets':{'units':{'USD':[row(4.7e9)]}}}}}
+    def extract(value):return pure_da_companyfacts(value,currency='USD',entity_id='789019',source='fixture',as_of='2026-11-12')
+    assert extract(data)[('2025-07-01','2026-06-30')]['value']==39e9
+    bad=deepcopy(data);bad['facts']['us-gaap']['AmortizationOfIntangibleAssets']['units']['USD'][0]['accn']='other'
+    assert not extract(bad)
+    bad=deepcopy(data);bad['facts']['us-gaap']['AmortizationOfIntangibleAssets']['units']['USD'][0]['filed']='2027-01-01'
+    assert not extract(bad)
+    with pytest.raises(ValueError):extract({**data,'cik':1})
