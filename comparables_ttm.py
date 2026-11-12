@@ -63,11 +63,15 @@ def collect_ttm_evidence(peers,yf,as_of,target_end,user_agent='StockValuationPro
         mapping=r.json();mapping=list(mapping.values()) if isinstance(mapping,dict) and 'fields' not in mapping else []
         tickers={str(x.get('ticker','')).upper():str(int(x['cik_str'])).zfill(10) for x in mapping if x.get('cik_str')}
     except Exception as exc:
-        return output,[{'Estado':'NO_VERIFICADO','Fuente':'https://www.sec.gov/files/company_tickers.json','Detalle':str(exc)[:180]}]
+        tickers={}
+        records.append({'Estado':'INDICE_NO_DISPONIBLE','Fuente':'https://www.sec.gov/files/company_tickers.json','Detalle':str(exc)[:180]+'; intentar identidad validada por submissions'})
     for index,row in output.iterrows():
         ticker=str(row['Ticker']);record={'Ticker':ticker,'Estado':'NO_VERIFICADO','Fecha consulta':datetime.now(timezone.utc).isoformat()}
         try:
             cik=tickers.get(ticker)
+            if not cik:
+                from sec_historical import cik_from_filing_links
+                cik,_=cik_from_filing_links(ticker,user_agent)
             if not cik:raise ValueError('Sin CIK SEC exacto; no inferir identidad por ticker base')
             source=f'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json'
             r=get(source,headers=headers,timeout=20);r.raise_for_status();facts=r.json()

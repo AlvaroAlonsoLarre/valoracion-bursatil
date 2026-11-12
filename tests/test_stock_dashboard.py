@@ -362,3 +362,25 @@ def test_cli_edited_snapshot_and_optional_export_remain_json_serializable(tmp_pa
     summary=json.loads((tmp_path/'edited/TEST_resumen.json').read_text())
     assert summary['auditoria']['objetivos_principales_disponibles']==6
     assert any(r['method_id']=='dcf_fcff_future' and r['price'] is not None for r in summary['Registro valoraciones'])
+
+
+def test_sec_identity_fallback_uses_exact_ticker_and_official_submission(monkeypatch):
+    import sec_historical as sec
+    links=[{'edgarUrl':'https://www.sec.gov/Archives/edgar/data/789019/000000/filing.htm'},
+           {'edgarUrl':'https://example.invalid/Archives/edgar/data/999/evil.htm'}]
+    calls=[]
+    def fetch(url,ua):
+        calls.append(url);return {'cik':789019,'tickers':['MSFT'],'name':'Microsoft Corporation'}
+    monkeypatch.setattr(sec,'_get_json',fetch)
+    assert sec.cik_from_filing_links('MSFT','StockValuationProject/1.0',links)==('0000789019','Microsoft Corporation')
+    assert len(calls)==1 and calls[0].startswith('https://data.sec.gov/submissions/')
+    assert sec.cik_from_filing_links('OTHER','StockValuationProject/1.0',links)==(None,None)
+
+
+def test_sec_index_403_does_not_force_yahoo_financial_history(monkeypatch):
+    import sec_historical as sec
+    import requests
+    monkeypatch.setattr(sec,'_get_json',lambda *a,**k:(_ for _ in ()).throw(requests.HTTPError('403 índice')))
+    monkeypatch.setattr(sec,'cik_from_filing_links',lambda ticker,ua:('0000789019','Microsoft Corporation') if ticker=='MSFT' else (None,None))
+    assert sec.resolve_cik('MSFT','StockValuationProject/1.0')==('0000789019','Microsoft Corporation')
+    assert sec.resolve_cik('UNKNOWN','StockValuationProject/1.0')==(None,None)

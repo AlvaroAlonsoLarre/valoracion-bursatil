@@ -68,13 +68,45 @@ def _get_json(url: str, user_agent: str) -> dict:
     return response.json()
 
 
+def cik_from_filing_links(ticker,user_agent,filings=None):
+    """Sólo un enlace SEC más ticker exacto en submissions permite el fallback.
+
+    Yahoo descubre el identificador; SEC valida el emisor y sigue aportando las
+    cuentas. Ni el nombre parecido ni el ticker base autorizan una identidad.
+    """
+    if filings is None:
+        import yfinance as yf
+        filings=yf.Ticker(ticker).sec_filings
+    candidates=set()
+    for item in filings or []:
+        if not isinstance(item,dict):continue
+        match=re.match(r'^https://(?:www\.)?sec\.gov/Archives/edgar/data/(\d+)/',str(item.get('edgarUrl','')))
+        if match:candidates.add(match.group(1).lstrip('0').zfill(10))
+    verified=[]
+    for cik in sorted(candidates):
+        try:
+            data=_get_json(SEC_SUBMISSIONS_URL.format(cik=cik),user_agent)
+            symbols={str(t).upper().strip() for t in data.get('tickers',[])}
+            if str(data.get('cik','')).lstrip('0')==cik.lstrip('0') and ticker.upper().strip() in symbols:
+                verified.append((cik,data.get('name')))
+        except (requests.RequestException,ValueError,TypeError):continue
+    if len(verified)==1:
+        warnings.warn('Identidad SEC validada por ticker exacto en submissions; CIK descubierto desde enlace SEC de Yahoo: '+verified[0][0])
+        return verified[0]
+    return None,None
+
+
 def resolve_cik(ticker: str, user_agent: str, company_name: str | None = None,
                 override_cik: str | None = None) -> tuple[str | None, str | None]:
     """Resuelve ticker a CIK. Admite override; para tickers con sufijo usa alias base conservador."""
     if override_cik:
         return str(override_cik).strip().lstrip("0").zfill(10), "CIK configurado manualmente"
 
-    mapping = _get_json(SEC_TICKERS_URL, user_agent)
+    try:mapping = _get_json(SEC_TICKERS_URL, user_agent)
+    except requests.RequestException as exc:
+        warnings.warn('Índice ticker SEC no accesible; se contrasta identidad mediante filings/submissions: '+str(exc)[:130])
+        try:return cik_from_filing_links(ticker,user_agent)
+        except Exception:return None,None
     if isinstance(mapping, dict) and "data" in mapping and "fields" in mapping:
         fields = mapping["fields"]
         rows = [dict(zip(fields, row)) for row in mapping["data"]]
