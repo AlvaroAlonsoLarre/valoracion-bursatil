@@ -1,0 +1,25 @@
+{
+  "run_id": 43086248781,
+  "sha": "35db5f80fa3f7d0c5f6eb81646ed7ad4bfc06e97",
+  "artifacts": [
+    {
+      "artifact_id": 13886821618,
+      "ticker": "MSFT",
+      "size": 235914,
+      "sha256": "bce4425d515b9b6fedcf83bd83ea144bed224f42b20b4436fdabf3bed217cc67",
+      "input_sha256": "5a2d4d6616d29c45bf70f9e60cd4d085517e5bd00697562b15b9fbf6dee4131e"
+    },
+    {
+      "artifact_id": 13886472200,
+      "ticker": "000660.KS",
+      "size": 170778,
+      "sha256": "c82a0c64b4fe03577260a9f9bf2a61b400d1915d94db11425b814baafa5e92e2",
+      "input_sha256": "3255209f128b7f0b2be34d54abe69e2ceb95fa5dd1c06b191ecaa8d71df991fa"
+    },
+    {
+      "artifact_id": 13887780089,
+      "size": 425,
+      "sha256": "6cfdaa22ee6867c2b864e69941d3a06b012b7c500566809eb38aa8cf588b756e"
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 # Corrección de la auditoría MSFT y SK hynix
 
-Fecha: 11 de noviembre de 2026. Las horas de los artefactos se expresan en UTC.
+Fecha inicial: 11 de noviembre de 2026. Actualizado el 12 de noviembre de 2026. Las horas de los artefactos se expresan en UTC.
+
+**Estado más reciente:** [continuación del 12/11/2026](../auditoria_2026-11-12/INFORME.md), con revisión de Actions 43086248781 y comparación con Actions 43189252381. MSFT recupera nueve DCF condicionales gracias a D&A pura oficial; sus múltiplos y las valoraciones de SK continúan bloqueados. Las cifras y el dictamen del resto de este documento corresponden a la fase inicial del 11/11 y se conservan como evidencia histórica.
 
 ## Resultado
 

@@ -152,3 +152,47 @@ def test_companyfacts_is_an_official_fallback_with_same_filing_components():
     bad=deepcopy(data);bad['facts']['us-gaap']['AmortizationOfIntangibleAssets']['units']['USD'][0]['filed']='2027-01-01'
     assert not extract(bad)
     with pytest.raises(ValueError):extract({**data,'cik':1})
+
+
+@pytest.mark.parametrize('ticker',['MSFT','000660.KS'])
+def test_real_enriched_snapshots_preserve_method_controls_and_ttm(ticker):
+    from auditoria_io import read_snapshot
+    from modelo_fundamental import build_fundamental_model
+    annual,peers,kwargs,_=read_snapshot(Path('docs/auditoria_2026-11-12/inputs')/(ticker+'_after.json'))
+    result=build_fundamental_model(annual,peers,**kwargs)
+    if ticker=='MSFT':
+        assert annual.loc[2026,'D&A']==pytest.approx(39e9)
+        # Prefer the directly reported 9.1bn Q2 to a 9.0bn residual of rounded notes.
+        assert kwargs['quarterly'].tail(4)['D&A'].sum()==pytest.approx(42.6e9)
+        assert kwargs['quarterly'].loc['2025-07-01':'2026-06-30','D&A'].sum()-annual.loc[2026,'D&A']==pytest.approx(.1e9)
+        targets=result.valuation['Precio objetivo (divisa cotización)']
+        assert targets.notna().sum()==9
+        assert result.valuation.loc[result.valuation['Método'].str.contains('forward'),'Precio objetivo (divisa cotización)'].isna().all()
+        # Independent Gordon calculation from the real explicit path for each scenario.
+        for scenario in ['Pesimista','Base','Optimista']:
+            path=result.projected.query('Escenario == @scenario').set_index('Año futuro')
+            for h in [0,1,3]:
+                row=result.valuation[(result.valuation['Escenario']==scenario)&(result.valuation['Horizonte (años)']==h)&result.valuation['Método'].str.contains('DCF')].iloc[0]
+                w=row['WACC (%)']/100;g=row['G terminal (%)']/100
+                terminal=path.loc[8,'FCFF (miles MM)']*1e9*(1+g)/(w-g)
+                ev=sum(path.loc[y,'FCFF (miles MM)']*1e9/(1+w)**(y-h) for y in range(h+1,9))+terminal/(1+w)**(8-h)
+                nd=kwargs['quarterly'].iloc[-1]['Deuda neta'] if h==0 else path.loc[h,'Deuda neta proyectada (miles MM)']*1e9
+                shares=kwargs['shares_outstanding'] if h==0 else path.loc[h,'Acciones (miles MM)']*1e9
+                assert row['Precio objetivo (divisa cotización)']==pytest.approx((ev-nd)/shares)
+    else:
+        assert kwargs['quarterly'].index.max()==pd.Timestamp('2026-09-30')
+        assert result.valuation.empty
+        ttm=result.base_ttm.set_index('Campo')['Base TTM (unidades)']
+        assert ttm['Ingresos']==pytest.approx(269336686e6)
+        assert np.isnan(ttm['CAPEX']) and np.isnan(ttm['D&A'])
+
+
+def test_source_identifies_software_without_inventing_a_contact(monkeypatch,model_inputs):
+    monkeypatch.delenv('VALUACION_SEC_USER_AGENT',raising=False)
+    seen=[]
+    def request(url,**kwargs):
+        seen.append(kwargs['headers']['User-Agent'])
+        raise ConnectionError('fixture')
+    config={'OTHER':{'currency':'USD','entity_id':'789019','documents':[{'kind':'companyfacts','url':'https://example.invalid/source'}]}}
+    enrich_financials('OTHER',model_inputs['annual'],model_inputs['quarterly'],'USD','2026-11-12',requests_get=request,config=config)
+    assert seen==['StockValuationProject/1.0']

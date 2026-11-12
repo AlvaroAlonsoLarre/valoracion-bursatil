@@ -1,0 +1,169 @@
+Etapa,Ticker,Escenario,Método,Horizonte,Precio,Moneda
+antes_43086248781,MSFT,Pesimista,PER forward,1,,USD
+antes_43086248781,MSFT,Pesimista,PER forward,3,,USD
+antes_43086248781,MSFT,Pesimista,EV/EBITDA forward,1,,USD
+antes_43086248781,MSFT,Pesimista,EV/EBITDA forward,3,,USD
+antes_43086248781,MSFT,Pesimista,DCF FCFF (valor futuro),1,,USD
+antes_43086248781,MSFT,Pesimista,DCF FCFF (valor futuro),3,,USD
+antes_43086248781,MSFT,Pesimista,DCF FCFF (valor presente),0,,USD
+antes_43086248781,MSFT,Base,PER forward,1,,USD
+antes_43086248781,MSFT,Base,PER forward,3,,USD
+antes_43086248781,MSFT,Base,EV/EBITDA forward,1,,USD
+antes_43086248781,MSFT,Base,EV/EBITDA forward,3,,USD
+antes_43086248781,MSFT,Base,DCF FCFF (valor futuro),1,,USD
+antes_43086248781,MSFT,Base,DCF FCFF (valor futuro),3,,USD
+antes_43086248781,MSFT,Base,DCF FCFF (valor presente),0,,USD
+antes_43086248781,MSFT,Optimista,PER forward,1,,USD
+antes_43086248781,MSFT,Optimista,PER forward,3,,USD
+antes_43086248781,MSFT,Optimista,EV/EBITDA forward,1,,USD
+antes_43086248781,MSFT,Optimista,EV/EBITDA forward,3,,USD
+antes_43086248781,MSFT,Optimista,DCF FCFF (valor futuro),1,,USD
+antes_43086248781,MSFT,Optimista,DCF FCFF (valor futuro),3,,USD
+antes_43086248781,MSFT,Optimista,DCF FCFF (valor presente),0,,USD
+01_inline_y_pdf,MSFT,Pesimista,PER forward,1,,USD
+01_inline_y_pdf,MSFT,Pesimista,PER forward,3,,USD
+01_inline_y_pdf,MSFT,Pesimista,EV/EBITDA forward,1,,USD
+01_inline_y_pdf,MSFT,Pesimista,EV/EBITDA forward,3,,USD
+01_inline_y_pdf,MSFT,Pesimista,DCF FCFF (valor futuro),1,71.80126827624187,USD
+01_inline_y_pdf,MSFT,Pesimista,DCF FCFF (valor futuro),3,69.48671518311673,USD
+01_inline_y_pdf,MSFT,Pesimista,DCF FCFF (valor presente),0,72.27338337036993,USD
+01_inline_y_pdf,MSFT,Base,PER forward,1,,USD
+01_inline_y_pdf,MSFT,Base,PER forward,3,,USD
+01_inline_y_pdf,MSFT,Base,EV/EBITDA forward,1,,USD
+01_inline_y_pdf,MSFT,Base,EV/EBITDA forward,3,,USD
+01_inline_y_pdf,MSFT,Base,DCF FCFF (valor futuro),1,162.8055283779349,USD
+01_inline_y_pdf,MSFT,Base,DCF FCFF (valor futuro),3,173.96830860258237,USD
+01_inline_y_pdf,MSFT,Base,DCF FCFF (valor presente),0,156.33947210071616,USD
+01_inline_y_pdf,MSFT,Optimista,PER forward,1,,USD
+01_inline_y_pdf,MSFT,Optimista,PER forward,3,,USD
+01_inline_y_pdf,MSFT,Optimista,EV/EBITDA forward,1,,USD
+01_inline_y_pdf,MSFT,Optimista,EV/EBITDA forward,3,,USD
+01_inline_y_pdf,MSFT,Optimista,DCF FCFF (valor futuro),1,281.29636169263676,USD
+01_inline_y_pdf,MSFT,Optimista,DCF FCFF (valor futuro),3,308.1469814594671,USD
+01_inline_y_pdf,MSFT,Optimista,DCF FCFF (valor presente),0,266.8969821232773,USD
+02_companyfacts,MSFT,Pesimista,PER forward,1,,USD
+02_companyfacts,MSFT,Pesimista,PER forward,3,,USD
+02_companyfacts,MSFT,Pesimista,EV/EBITDA forward,1,,USD
+02_companyfacts,MSFT,Pesimista,EV/EBITDA forward,3,,USD
+02_companyfacts,MSFT,Pesimista,DCF FCFF (valor futuro),1,71.97997863777418,USD
+02_companyfacts,MSFT,Pesimista,DCF FCFF (valor futuro),3,69.70404270995843,USD
+02_companyfacts,MSFT,Pesimista,DCF FCFF (valor presente),0,72.43393197494086,USD
+02_companyfacts,MSFT,Base,PER forward,1,,USD
+02_companyfacts,MSFT,Base,PER forward,3,,USD
+02_companyfacts,MSFT,Base,EV/EBITDA forward,1,,USD
+02_companyfacts,MSFT,Base,EV/EBITDA forward,3,,USD
+02_companyfacts,MSFT,Base,DCF FCFF (valor futuro),1,163.06781349966727,USD
+02_companyfacts,MSFT,Base,DCF FCFF (valor futuro),3,174.2808767145828,USD
+02_companyfacts,MSFT,Base,DCF FCFF (valor presente),0,156.57832065975165,USD
+02_companyfacts,MSFT,Optimista,PER forward,1,,USD
+02_companyfacts,MSFT,Optimista,PER forward,3,,USD
+02_companyfacts,MSFT,Optimista,EV/EBITDA forward,1,,USD
+02_companyfacts,MSFT,Optimista,EV/EBITDA forward,3,,USD
+02_companyfacts,MSFT,Optimista,DCF FCFF (valor futuro),1,281.67824927851876,USD
+02_companyfacts,MSFT,Optimista,DCF FCFF (valor futuro),3,308.5956571060012,USD
+02_companyfacts,MSFT,Optimista,DCF FCFF (valor presente),0,267.2479420316296,USD
+03_diagnostico_definiciones,MSFT,Pesimista,PER forward,1,,USD
+03_diagnostico_definiciones,MSFT,Pesimista,PER forward,3,,USD
+03_diagnostico_definiciones,MSFT,Pesimista,EV/EBITDA forward,1,,USD
+03_diagnostico_definiciones,MSFT,Pesimista,EV/EBITDA forward,3,,USD
+03_diagnostico_definiciones,MSFT,Pesimista,DCF FCFF (valor futuro),1,71.97997863777418,USD
+03_diagnostico_definiciones,MSFT,Pesimista,DCF FCFF (valor futuro),3,69.70404270995843,USD
+03_diagnostico_definiciones,MSFT,Pesimista,DCF FCFF (valor presente),0,72.43393197494086,USD
+03_diagnostico_definiciones,MSFT,Base,PER forward,1,,USD
+03_diagnostico_definiciones,MSFT,Base,PER forward,3,,USD
+03_diagnostico_definiciones,MSFT,Base,EV/EBITDA forward,1,,USD
+03_diagnostico_definiciones,MSFT,Base,EV/EBITDA forward,3,,USD
+03_diagnostico_definiciones,MSFT,Base,DCF FCFF (valor futuro),1,163.06781349966727,USD
+03_diagnostico_definiciones,MSFT,Base,DCF FCFF (valor futuro),3,174.2808767145828,USD
+03_diagnostico_definiciones,MSFT,Base,DCF FCFF (valor presente),0,156.57832065975165,USD
+03_diagnostico_definiciones,MSFT,Optimista,PER forward,1,,USD
+03_diagnostico_definiciones,MSFT,Optimista,PER forward,3,,USD
+03_diagnostico_definiciones,MSFT,Optimista,EV/EBITDA forward,1,,USD
+03_diagnostico_definiciones,MSFT,Optimista,EV/EBITDA forward,3,,USD
+03_diagnostico_definiciones,MSFT,Optimista,DCF FCFF (valor futuro),1,281.67824927851876,USD
+03_diagnostico_definiciones,MSFT,Optimista,DCF FCFF (valor futuro),3,308.5956571060012,USD
+03_diagnostico_definiciones,MSFT,Optimista,DCF FCFF (valor presente),0,267.2479420316296,USD
+antes_43086248781,000660.KS,Pesimista,PER forward,1,,KRW
+antes_43086248781,000660.KS,Pesimista,PER forward,3,,KRW
+antes_43086248781,000660.KS,Pesimista,EV/EBITDA forward,1,,KRW
+antes_43086248781,000660.KS,Pesimista,EV/EBITDA forward,3,,KRW
+antes_43086248781,000660.KS,Pesimista,DCF FCFF (valor futuro),1,,KRW
+antes_43086248781,000660.KS,Pesimista,DCF FCFF (valor futuro),3,,KRW
+antes_43086248781,000660.KS,Pesimista,DCF FCFF (valor presente),0,,KRW
+antes_43086248781,000660.KS,Base,PER forward,1,,KRW
+antes_43086248781,000660.KS,Base,PER forward,3,,KRW
+antes_43086248781,000660.KS,Base,EV/EBITDA forward,1,,KRW
+antes_43086248781,000660.KS,Base,EV/EBITDA forward,3,,KRW
+antes_43086248781,000660.KS,Base,DCF FCFF (valor futuro),1,,KRW
+antes_43086248781,000660.KS,Base,DCF FCFF (valor futuro),3,,KRW
+antes_43086248781,000660.KS,Base,DCF FCFF (valor presente),0,,KRW
+antes_43086248781,000660.KS,Optimista,PER forward,1,,KRW
+antes_43086248781,000660.KS,Optimista,PER forward,3,,KRW
+antes_43086248781,000660.KS,Optimista,EV/EBITDA forward,1,,KRW
+antes_43086248781,000660.KS,Optimista,EV/EBITDA forward,3,,KRW
+antes_43086248781,000660.KS,Optimista,DCF FCFF (valor futuro),1,,KRW
+antes_43086248781,000660.KS,Optimista,DCF FCFF (valor futuro),3,,KRW
+antes_43086248781,000660.KS,Optimista,DCF FCFF (valor presente),0,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,PER forward,1,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,PER forward,3,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,EV/EBITDA forward,1,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,EV/EBITDA forward,3,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,DCF FCFF (valor futuro),1,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,DCF FCFF (valor futuro),3,,KRW
+01_inline_y_pdf,000660.KS,Pesimista,DCF FCFF (valor presente),0,,KRW
+01_inline_y_pdf,000660.KS,Base,PER forward,1,,KRW
+01_inline_y_pdf,000660.KS,Base,PER forward,3,,KRW
+01_inline_y_pdf,000660.KS,Base,EV/EBITDA forward,1,,KRW
+01_inline_y_pdf,000660.KS,Base,EV/EBITDA forward,3,,KRW
+01_inline_y_pdf,000660.KS,Base,DCF FCFF (valor futuro),1,,KRW
+01_inline_y_pdf,000660.KS,Base,DCF FCFF (valor futuro),3,,KRW
+01_inline_y_pdf,000660.KS,Base,DCF FCFF (valor presente),0,,KRW
+01_inline_y_pdf,000660.KS,Optimista,PER forward,1,,KRW
+01_inline_y_pdf,000660.KS,Optimista,PER forward,3,,KRW
+01_inline_y_pdf,000660.KS,Optimista,EV/EBITDA forward,1,,KRW
+01_inline_y_pdf,000660.KS,Optimista,EV/EBITDA forward,3,,KRW
+01_inline_y_pdf,000660.KS,Optimista,DCF FCFF (valor futuro),1,,KRW
+01_inline_y_pdf,000660.KS,Optimista,DCF FCFF (valor futuro),3,,KRW
+01_inline_y_pdf,000660.KS,Optimista,DCF FCFF (valor presente),0,,KRW
+02_companyfacts,000660.KS,Pesimista,PER forward,1,,KRW
+02_companyfacts,000660.KS,Pesimista,PER forward,3,,KRW
+02_companyfacts,000660.KS,Pesimista,EV/EBITDA forward,1,,KRW
+02_companyfacts,000660.KS,Pesimista,EV/EBITDA forward,3,,KRW
+02_companyfacts,000660.KS,Pesimista,DCF FCFF (valor futuro),1,,KRW
+02_companyfacts,000660.KS,Pesimista,DCF FCFF (valor futuro),3,,KRW
+02_companyfacts,000660.KS,Pesimista,DCF FCFF (valor presente),0,,KRW
+02_companyfacts,000660.KS,Base,PER forward,1,,KRW
+02_companyfacts,000660.KS,Base,PER forward,3,,KRW
+02_companyfacts,000660.KS,Base,EV/EBITDA forward,1,,KRW
+02_companyfacts,000660.KS,Base,EV/EBITDA forward,3,,KRW
+02_companyfacts,000660.KS,Base,DCF FCFF (valor futuro),1,,KRW
+02_companyfacts,000660.KS,Base,DCF FCFF (valor futuro),3,,KRW
+02_companyfacts,000660.KS,Base,DCF FCFF (valor presente),0,,KRW
+02_companyfacts,000660.KS,Optimista,PER forward,1,,KRW
+02_companyfacts,000660.KS,Optimista,PER forward,3,,KRW
+02_companyfacts,000660.KS,Optimista,EV/EBITDA forward,1,,KRW
+02_companyfacts,000660.KS,Optimista,EV/EBITDA forward,3,,KRW
+02_companyfacts,000660.KS,Optimista,DCF FCFF (valor futuro),1,,KRW
+02_companyfacts,000660.KS,Optimista,DCF FCFF (valor futuro),3,,KRW
+02_companyfacts,000660.KS,Optimista,DCF FCFF (valor presente),0,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,PER forward,1,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,PER forward,3,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,EV/EBITDA forward,1,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,EV/EBITDA forward,3,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,DCF FCFF (valor futuro),1,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,DCF FCFF (valor futuro),3,,KRW
+03_diagnostico_definiciones,000660.KS,Pesimista,DCF FCFF (valor presente),0,,KRW
+03_diagnostico_definiciones,000660.KS,Base,PER forward,1,,KRW
+03_diagnostico_definiciones,000660.KS,Base,PER forward,3,,KRW
+03_diagnostico_definiciones,000660.KS,Base,EV/EBITDA forward,1,,KRW
+03_diagnostico_definiciones,000660.KS,Base,EV/EBITDA forward,3,,KRW
+03_diagnostico_definiciones,000660.KS,Base,DCF FCFF (valor futuro),1,,KRW
+03_diagnostico_definiciones,000660.KS,Base,DCF FCFF (valor futuro),3,,KRW
+03_diagnostico_definiciones,000660.KS,Base,DCF FCFF (valor presente),0,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,PER forward,1,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,PER forward,3,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,EV/EBITDA forward,1,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,EV/EBITDA forward,3,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,DCF FCFF (valor futuro),1,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,DCF FCFF (valor futuro),3,,KRW
+03_diagnostico_definiciones,000660.KS,Optimista,DCF FCFF (valor presente),0,,KRW

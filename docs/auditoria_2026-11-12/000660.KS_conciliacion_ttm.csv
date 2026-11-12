@@ -1,0 +1,8 @@
+Campo,Periodo inicial,Periodo final,Observaciones fuente,Periodos utilizables,TTM (unidades),Estado,Conciliación FY,Motivo
+Ingresos,2025-10-01,2026-09-30,4,4,269336686000000.0,COMPLETO,N/D: sin cuatro trimestres FY completos,
+Beneficio operativo,2025-10-01,2026-09-30,4,4,200656465000000.0,COMPLETO,N/D: sin cuatro trimestres FY completos,
+Flujo de caja operativo,2025-10-01,2026-09-30,4,4,167385237000000.0,COMPLETO,N/D: sin cuatro trimestres FY completos,
+CAPEX,2025-10-01,2026-09-30,3,0,,N/D,N/D: sin cuatro trimestres FY completos,Flujo invalidado por definición o integridad
+D&A,2025-10-01,2026-09-30,4,0,,N/D,N/D: sin cuatro trimestres FY completos,Flujo invalidado por definición o integridad
+Flujo de caja libre,2025-10-01,2026-09-30,3,0,,N/D,N/D: sin cuatro trimestres FY completos,Flujo invalidado por definición o integridad
+EBITDA aproximado,2025-10-01,2026-09-30,4,0,,N/D,N/D: sin cuatro trimestres FY completos,Flujo invalidado por definición o integridad

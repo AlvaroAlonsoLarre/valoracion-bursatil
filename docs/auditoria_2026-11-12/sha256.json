@@ -1,0 +1,22 @@
+{
+  "000660.KS_conciliacion_ttm.csv": "c454087a1f2c2b5265f787f3147c547eff6919e74d50125e8c1130b528d1df8f",
+  "INFORME.md": "869c53b44406dc00cfab1b31d66b3056c91dcb7d7065210d8023815716a03adf",
+  "MSFT_conciliacion_ttm.csv": "2b05195f7ad8233e81eb25212e11c9912fed84a6dd977ec494c5e361871bd92b",
+  "artefactos_43086248781.json": "b6352a4ecf5b78a2e77863b50ce4ce783bfbf335e401e7e188145ae76ceb09df",
+  "artefactos_43189252381.json": "50e6d24bb8ca6f9fb8d3d1f8b393cc82e8a879a07c119cf9e1cbe8cd131c3e0f",
+  "cobertura.json": "9ca96b3a4032936d3cdcd88b1283fa263c786a9ac6bc22f978bdf0b33d7cb8ec",
+  "comparacion_bloqueos_entradas_fijas.csv": "f0b1b7c03f0020b1524614b18a14673d71a010b50384ece39f595b9c6c44ec19",
+  "comparacion_precios_entradas_fijas.csv": "5d9352c91e810ddfae0fe325a2318d70ae0b6e8049e8789e148716812366ae89",
+  "inputs/000660.KS_after.json": "ca6ab3aade90dd21f603a57114166325562da3967059068602794b7d3c5eb092",
+  "inputs/000660.KS_after_fixed_inputs.json": "1dcec50cdf0217de266581f924a34ffb389f5faacf80ec520a921e0b39984f1a",
+  "inputs/000660.KS_before.json": "3255209f128b7f0b2be34d54abe69e2ceb95fa5dd1c06b191ecaa8d71df991fa",
+  "inputs/MSFT_after.json": "9962ee5ee4221dbf9d55164ef5f007371bfc177cd611f0fe7398b7df361d0d70",
+  "inputs/MSFT_after_fixed_inputs.json": "cd4f55767f352fe6c2751c8aa9e68f7f154dbebf008446c62e269a85a4fc2ac2",
+  "inputs/MSFT_before.json": "5a2d4d6616d29c45bf70f9e60cd4d085517e5bd00697562b15b9fbf6dee4131e",
+  "resultados/000660.KS_after.json": "a8d4a058c2b00b04beaf55be269105669fc1dc418acfa7a05e4d444fc3dde52b",
+  "resultados/000660.KS_before.json": "d9f70793ab8437a0e4e8e74ff41985d11f1e88268b1a780aaa6d76bcfe8b81eb",
+  "resultados/000660.KS_local.json": "44a846a7ea277c709fafcba38d4b2b84abcbf8b9cf9cd73e2e2be086c6eb7b4a",
+  "resultados/MSFT_after.json": "52e62fa6475085e1f7a42367eb5fd0d74d5302d621df872e9bac847ecf0056ab",
+  "resultados/MSFT_before.json": "08af8ea612eb2700a6b33b802545c9d57a9fb9544948e69eb13848ccb088b1fc",
+  "resultados/MSFT_local.json": "a86fb942ef2998ab9a322a52bda05cf0b8e5208fdd2d00093f0195b14a9d038c"
+}
