@@ -63,3 +63,5 @@ El workflow `.github/workflows/main.yml` ejecuta pruebas rápidas sin descargas 
 Los informes de [11/11](docs/auditoria_2026-11-11/INFORME.md) y [12/11](docs/auditoria_2026-11-12/INFORME.md) documentan las etapas anteriores. No se modifican sus cifras históricas para presentarlas como resultados del nuevo modelo. La nueva comparación y sus límites se documentan en `docs/v6_simplificada_2026-11-12/INFORME.md`.
 
 La conciliación `Conciliacion SEC Yahoo` conserva ambos importes, unidades, conceptos, componentes YTD, URL y hash. Una fecha fiscal semanal sólo sustituye a la de calendario si al menos dos flujos concilian a menos del 1%. Los prospectos SEC sin CompanyFacts anual tienen un extractor limitado a tablas consolidadas con periodo anual y escala expresa; no se inventan conceptos XBRL ni cotizaciones anteriores a una IPO. Los registros de separación excluyen el periodo anterior a cotizar de los supuestos automáticos mientras no se acredite continuidad económica.
+
+Validación ampliada con trece tickers, tablas de cobertura, estados oficiales de IPO y artefactos completos: [informe de generalización V6](docs/v6_generalizada_2026-11-12/INFORME.md).

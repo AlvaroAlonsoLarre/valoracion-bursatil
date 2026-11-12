@@ -1,0 +1,11 @@
+{
+  "tabs": [
+    "Resumen",
+    "Histórico",
+    "Trimestrales",
+    "Comparables",
+    "Valoración",
+    "Datos y auditoría"
+  ],
+  "all_without_exceptions": true
+}

@@ -1,0 +1,4293 @@
+{
+  "before": {
+    "JPM": {
+      "ticker": "JPM",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 4,
+      "Métricas disponibles (%)": 61.5,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 6,
+      "Comparables PER TTM": 1,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 290.933370395285,
+      "Base 3 años": 383.6809889009414,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Modelo sectorial financiera"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 198653000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Beneficio operativo"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 65979000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 23.84,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": -84159000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 2683000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 531499000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 326271000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 14.45805788590604,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "000660.KS": {
+      "ticker": "000660.KS",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [],
+      "SEC FY validados": [],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 4,
+      "Métricas disponibles (%)": 61.5,
+      "PER histórico observaciones": 3,
+      "Comparables económicos": 6,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 976869.5012672036,
+      "Base 3 años": 1602159.4070786,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Actualidad externa",
+        "Acciones diluidas recientes",
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Supuestos exigentes"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 269336686000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 200656465000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 189146195000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: EPS diluido"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 167385237000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 710843138.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida FY 2025-12-31"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 15800000000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 26835986000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.37327384342124287,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "MSFT": {
+      "ticker": "MSFT",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 1,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 696.8406273758014,
+      "Base 3 años": 940.6814417866705,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 346445000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 163191000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 142631000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 19.159999999999997,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 195878000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 135921000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 59957000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 7446000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 35481000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 20281000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3083171575171484,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 27.567849686847605,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "AMZN": {
+      "ticker": "AMZN",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 6,
+      "Cobertura TTM flujos (de 7)": 1,
+      "Métricas disponibles (%)": 46.2,
+      "PER histórico observaciones": 9,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Ingresos TTM",
+        "Flujos de resultados"
+      ],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Ingresos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Beneficio operativo"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Beneficio neto"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 12.370000000000001,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 10929000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 173125000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 55783000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.18013645200061912,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 21.855699272433306,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "SNDK": {
+      "ticker": "SNDK",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 1,
+      "Comparables económicos": 2,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Resultados posteriores no incorporados",
+        "Referencia PER",
+        "Pesimista supuestos",
+        "Base supuestos",
+        "Optimista supuestos"
+      ],
+      "Advertencias": [
+        "Actualidad externa",
+        "Confianza de múltiplo",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 28971000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 21056000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 19422000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 124.75,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 17546000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 181000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 17365000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 154000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 178000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 5136000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.9915636460257444,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 7.571062124248497,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "NFLX": {
+      "ticker": "NFLX",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 93.86422540907589,
+      "Base 3 años": 121.7799718969586,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 49734633000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 15564870000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 14766653000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 3.46,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 12307938000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 932875000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 11375063000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 4195127000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 15132394000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 8194275000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3592762177506294,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 18.34826589595376,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "GOOG": {
+      "ticker": "GOOG",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 4,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Precio × acciones = capitalización"
+      ],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 471098000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 156976000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 235694000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 19.16,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 179551000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 159804000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 19747000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 12368000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 125102000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 56334000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.31867462733273916,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 15.41580375782881,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "META": {
+      "ticker": "META",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 84.6,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Precio × acciones = capitalización"
+      ],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 241606000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 79380000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 75249000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 29.33,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 133087000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 104438000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 28649000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 2573000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 83669000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 11222000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 21.347084896010912,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "GOOGL": {
+      "ticker": "GOOGL",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 4,
+      "Comparables económicos": 1,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Precio × acciones = capitalización"
+      ],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 471098000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 156976000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 235694000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 19.16,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 179551000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 159804000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 19747000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 12368000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 125102000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 56334000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.31867462733273916,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 15.57463465553236,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-07-31",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 2,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 2,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Base supuestos",
+        "Optimista supuestos"
+      ],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Supuestos exigentes",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 302969000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 197579000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 192879000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 7.91,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 134360000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 7354000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 127006000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 24285000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-07-31"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 33366000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 22443000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.7133233260959281,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 21.015170670037925,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "MU": {
+      "ticker": "MU",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-08-31",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 84.6,
+      "PER histórico observaciones": 9,
+      "Comparables económicos": 5,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Resultados posteriores no incorporados",
+        "Base supuestos",
+        "Optimista supuestos"
+      ],
+      "Advertencias": [
+        "Actualidad externa",
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Supuestos exigentes",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 133188000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 99340000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 84969000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 74.21000000000001,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 89675000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 30712000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 58963000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 1147000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-08-31"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 2792000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 38364000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 10.677536720118582,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "JNJ": {
+      "ticker": "JNJ",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 84.6,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 234.2303058550797,
+      "Base 3 años": 282.7386884409116,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Margen PBT directo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 99335000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 25525000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 16095000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 6.5972409999999995,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 26159000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 6564000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 19595000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 2448600000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 44651000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 16910000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 42.900509470549885,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "SPCX": {
+      "ticker": "SPCX",
+      "sha": "f508b480ebacf085b9d8af467f0986f8d06ee119",
+      "SEC FY disponibles": [],
+      "SEC FY validados": [],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 6,
+      "Cobertura TTM flujos (de 7)": 6,
+      "Métricas disponibles (%)": 76.9,
+      "PER histórico observaciones": 0,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Precio × acciones = capitalización",
+        "Referencia PER",
+        "Puente beneficio / acciones diluidas",
+        "EPS TTM positivo",
+        "Pesimista supuestos",
+        "Base supuestos",
+        "Optimista supuestos"
+      ],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 32043000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": -650000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": -2760000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: EPS diluido"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 15762000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 55919000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": -40157000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 12475000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 38844000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 51294000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": -0.06118601347467959,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    }
+  },
+  "after": {
+    "JPM": {
+      "ticker": "JPM",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 4,
+      "Métricas disponibles (%)": 61.5,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 6,
+      "Comparables PER TTM": 1,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 290.933370395285,
+      "Base 3 años": 383.6809889009414,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Modelo sectorial financiera"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 198653000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Beneficio operativo"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 65979000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 23.84,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": -84159000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 2683000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 531499000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 326271000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 14.49244966442953,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "000660.KS": {
+      "ticker": "000660.KS",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [],
+      "SEC FY validados": [],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 4,
+      "Métricas disponibles (%)": 61.5,
+      "PER histórico observaciones": 3,
+      "Comparables económicos": 6,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 3519301.945312357,
+      "Base 3 años": 2326328.419996805,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Actualidad externa",
+        "Acciones diluidas recientes",
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Supuestos exigentes"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 269336686000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 200656465000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 189146195000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: EPS diluido"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 167385237000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 710843138.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida FY 2025-12-31"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 15800000000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 26835986000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3732738434212429,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "MSFT": {
+      "ticker": "MSFT",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 1,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 696.8406273758014,
+      "Base 3 años": 940.6814417866705,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 346445000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 163191000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 142631000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 19.16,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 195878000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 135921000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 59957000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 7446000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 35481000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 20281000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3083171575171484,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 27.57828810020877,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "AMZN": {
+      "ticker": "AMZN",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 6,
+      "Cobertura TTM flujos (de 7)": 5,
+      "Métricas disponibles (%)": 76.9,
+      "PER histórico observaciones": 9,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 198.9964402646086,
+      "Base 3 años": 237.9254260315928,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 797455000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 104366000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 134779000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 12.37,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 168300000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 10929000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 173125000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 55783000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.1801364520006191,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 21.85147130153597,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "SNDK": {
+      "ticker": "SNDK",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-10-02",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 6,
+      "Métricas disponibles (%)": 84.6,
+      "PER histórico observaciones": 1,
+      "Comparables económicos": 2,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Flujos de resultados",
+        "Referencia PER",
+        "Pesimista supuestos",
+        "Base supuestos",
+        "Optimista supuestos"
+      ],
+      "Advertencias": [
+        "Historia financiera y bursátil",
+        "Perímetro anterior a separación",
+        "Confianza de múltiplo",
+        "Margen PBT directo",
+        "Ciclo económico",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 28971000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Beneficio operativo"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 19422000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 124.75,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 17546000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 181000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 17365000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 154000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-10-02"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 178000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 5136000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.9915636460257444,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 7.581403607214429,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "NFLX": {
+      "ticker": "NFLX",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 93.86422540907589,
+      "Base 3 años": 121.7799718969586,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 49734633000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 15564870000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 14766653000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 3.46,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 12307938000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 932875000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 11375063000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 4195127000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 15132394000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 8194275000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3592762177506294,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 18.38294797687861,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "GOOG": {
+      "ticker": "GOOG",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 4,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 287.7673055264809,
+      "Base 3 años": 380.5560049888064,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Perímetro de clases",
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 471098000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 156976000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 235694000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 19.16,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 179551000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 159804000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 19747000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 12368000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 125102000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 56334000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3186746273327392,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 15.41466597077244,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "META": {
+      "ticker": "META",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 84.6,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 924.3334981626145,
+      "Base 3 años": 1370.302505989992,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Perímetro de clases",
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 241606000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 79380000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 75249000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 29.33,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 133087000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 104438000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 28649000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 2573000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 83669000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 11222000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 21.33242413910672,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "GOOGL": {
+      "ticker": "GOOGL",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 4,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 285.6348615827938,
+      "Base 3 años": 377.7359683394468,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Perímetro de clases",
+        "Confianza de múltiplo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 471098000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 156976000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 235694000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 19.16,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 179551000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 159804000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 19747000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 12368000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 125102000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 56334000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.3186746273327392,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 15.5741127348643,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-07-26",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 92.3,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 2,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 619.7235455833828,
+      "Base 3 años": 1268.892742671136,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Supuestos exigentes"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 302969000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 197579000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 192879000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 7.91,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 134360000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 7354000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 127006000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 24285000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-07-26"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 33366000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 22443000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": 0.7133233260959281,
+          "Estado": "ADVERTENCIA",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 20.80278128950695,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "MU": {
+      "ticker": "MU",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "SEC FY validados": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "Último trimestre": "2026-09-03",
+      "Trimestres consecutivos": 5,
+      "Cobertura TTM flujos (de 7)": 7,
+      "Métricas disponibles (%)": 84.6,
+      "PER histórico observaciones": 9,
+      "Comparables económicos": 5,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 1590.10116635866,
+      "Base 3 años": 964.0447011175432,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Supuestos exigentes"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 133188000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 99340000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 84969000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 74.21000000000001,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 89675000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 30712000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": 58963000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 1147000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-03"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 2792000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 38364000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 10.65274221802991,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "JNJ": {
+      "ticker": "JNJ",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-27",
+      "Trimestres consecutivos": 7,
+      "Cobertura TTM flujos (de 7)": 5,
+      "Métricas disponibles (%)": 69.2,
+      "PER histórico observaciones": 10,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 6,
+      "Base 1 año": 234.2303058550797,
+      "Base 3 años": 282.7386884409116,
+      "Críticas / ausencias": [],
+      "Advertencias": [
+        "Confianza de múltiplo",
+        "Margen PBT directo"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 99335000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": 25525000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": 16095000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": 6.6,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 26159000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: CAPEX"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Flujo de caja operativo, CAPEX"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 2448600000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-27"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 44651000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 16910000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": 42.98181818181818,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    },
+    "SPCX": {
+      "ticker": "SPCX",
+      "sha": "5b9140121d624948841134b59973b8c4c92c0d47",
+      "SEC FY disponibles": [
+        2023,
+        2024,
+        2025
+      ],
+      "SEC FY validados": [
+        2023,
+        2024,
+        2025
+      ],
+      "Último trimestre": "2026-09-30",
+      "Trimestres consecutivos": 6,
+      "Cobertura TTM flujos (de 7)": 5,
+      "Métricas disponibles (%)": 61.5,
+      "PER histórico observaciones": 0,
+      "Comparables económicos": 0,
+      "Comparables PER TTM": 0,
+      "Comparables PER NTM": 0,
+      "Precios objetivo EPS": 0,
+      "Base 1 año": null,
+      "Base 3 años": null,
+      "Críticas / ausencias": [
+        "Referencia PER",
+        "Puente beneficio / acciones diluidas",
+        "EPS TTM positivo",
+        "Pesimista supuestos",
+        "Base supuestos",
+        "Optimista supuestos"
+      ],
+      "Advertencias": [
+        "Historia financiera y bursátil",
+        "Perímetro de clases",
+        "Confianza de múltiplo",
+        "Ciclo económico",
+        "Coherencia de escenarios"
+      ],
+      "Métricas": [
+        {
+          "Indicador": "Ingresos",
+          "Valor": 32043000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EBIT",
+          "Valor": null,
+          "Estado": "BLOQUEADO",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: Beneficio operativo"
+        },
+        {
+          "Indicador": "Beneficio neto",
+          "Valor": -2760000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "EPS diluido",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Falta cobertura de los componentes: EPS diluido"
+        },
+        {
+          "Indicador": "OCF",
+          "Valor": 15762000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "CAPEX",
+          "Valor": 55909000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "FCF",
+          "Valor": -40147000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Datos completos"
+        },
+        {
+          "Indicador": "Acciones diluidas",
+          "Valor": 12475000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Media diluida del trimestre 2026-09-30"
+        },
+        {
+          "Indicador": "Deuda",
+          "Valor": 38844000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "Efectivo",
+          "Valor": 51294000000.0,
+          "Estado": "DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "Balance observado; no sumar flujos"
+        },
+        {
+          "Indicador": "ROIC",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "Último cierre / FY indicado",
+          "Motivo": "ROIC FY aproximado sobre capital al cierre; no es ROIC TTM sobre capital medio"
+        },
+        {
+          "Indicador": "PER TTM",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Precio de esta clase / EPS TTM diluido positivo; no forward"
+        },
+        {
+          "Indicador": "EV/EBITDA",
+          "Valor": null,
+          "Estado": "NO DISPONIBLE",
+          "Periodo": "TTM",
+          "Motivo": "Requiere D&A consolidada pura y puente EV del mismo perímetro; ver método opcional"
+        }
+      ]
+    }
+  },
+  "formula_checks": [
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    }
+  ]
+}

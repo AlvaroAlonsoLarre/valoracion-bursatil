@@ -1,0 +1,106 @@
+[
+  {
+    "ticker": "JPM",
+    "baseline_primary_targets": 6,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": 290.933370395285,
+    "same_inputs_new_base_1y": 290.933370395285,
+    "same_inputs_new_base_3y": 383.6809889009414
+  },
+  {
+    "ticker": "000660.KS",
+    "baseline_primary_targets": 6,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": 976869.5012672036,
+    "same_inputs_new_base_1y": 3519301.945312357,
+    "same_inputs_new_base_3y": 2326328.4199968055
+  },
+  {
+    "ticker": "MSFT",
+    "baseline_primary_targets": 6,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": 696.8406273758014,
+    "same_inputs_new_base_1y": 696.8406273758014,
+    "same_inputs_new_base_3y": 940.6814417866705
+  },
+  {
+    "ticker": "AMZN",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 0,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": null,
+    "same_inputs_new_base_3y": null
+  },
+  {
+    "ticker": "SNDK",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 0,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": null,
+    "same_inputs_new_base_3y": null
+  },
+  {
+    "ticker": "NFLX",
+    "baseline_primary_targets": 6,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": 93.86422540907589,
+    "same_inputs_new_base_1y": 93.86422540907589,
+    "same_inputs_new_base_3y": 121.7799718969586
+  },
+  {
+    "ticker": "GOOG",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": 287.76730552648087,
+    "same_inputs_new_base_3y": 380.55600498880636
+  },
+  {
+    "ticker": "META",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": 924.3334981626145,
+    "same_inputs_new_base_3y": 1370.3025059899924
+  },
+  {
+    "ticker": "GOOGL",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": 285.6348615827938,
+    "same_inputs_new_base_3y": 377.7359683394468
+  },
+  {
+    "ticker": "NVDA",
+    "baseline_primary_targets": 2,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": 619.7235455833828,
+    "same_inputs_new_base_3y": 1268.8927426711361
+  },
+  {
+    "ticker": "MU",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 0,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": null,
+    "same_inputs_new_base_3y": null
+  },
+  {
+    "ticker": "JNJ",
+    "baseline_primary_targets": 6,
+    "new_code_same_inputs_primary_targets": 6,
+    "baseline_base_1y": 234.2303058550797,
+    "same_inputs_new_base_1y": 234.23030585507968,
+    "same_inputs_new_base_3y": 282.7386884409116
+  },
+  {
+    "ticker": "SPCX",
+    "baseline_primary_targets": 0,
+    "new_code_same_inputs_primary_targets": 0,
+    "baseline_base_1y": null,
+    "same_inputs_new_base_1y": null,
+    "same_inputs_new_base_3y": null
+  }
+]
