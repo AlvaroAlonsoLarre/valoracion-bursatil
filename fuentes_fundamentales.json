@@ -25,7 +25,8 @@
         "url": "https://microsoft.gcs-web.com/node/35416/html",
         "fallback": true
       }
-    ]
+    ],
+    "accounting_basis": "US_GAAP"
   },
   "000660.KS": {
     "currency": "KRW",
@@ -75,6 +76,12 @@
         "income_header": "Q3'26",
         "cashflow_header": "’26 Q3"
       }
-    ]
+    ],
+    "regulatory_search": {
+      "cik": "2120882",
+      "period_end": "2026-09-30",
+      "dart_index": "https://dart.fss.or.kr/navi/searchNavi.do?naviCode=C001&naviCrpCik=00164779&naviCrpNm=SK%ED%95%98%EC%9D%B4%EB%8B%89%EC%8A%A4"
+    },
+    "accounting_basis": "K_IFRS"
   }
 }

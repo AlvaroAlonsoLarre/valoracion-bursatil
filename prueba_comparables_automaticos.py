@@ -9,6 +9,10 @@ from comparables_inteligentes import score_and_filter,discover_candidates
 
 def synthetic_score(peers,*a,**kw):
     peers=peers.assign(**{'PER periodo':'NTM','PER base':'GAAP','EV/EBITDA periodo':'NTM','Perímetro deuda':'Financiera sin leases'})
+    from tests.multiple_fixtures import with_evidence
+    peers=with_evidence(peers,'2026-10-27')
+    kw.setdefault('as_of','2026-10-27')
+    kw['target_info']={**kw.get('target_info',{}),'valuation_accounting_basis':'GAAP'}
     return score_and_filter(peers,*a,**kw)
 
 

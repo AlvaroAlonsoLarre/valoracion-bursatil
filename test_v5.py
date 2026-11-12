@@ -29,7 +29,7 @@ r3=comprobar_actualidad(sec_cik=None,quarterly_dates=['2026-06-30'],
     earnings_dates=['2026-10-28'],as_of='2026-11-11')
 assert r3['status']=='REVISAR' and not r3['newer_filing_confirmed']
 
-info={'longBusinessSummary':'SK Hynix manufactures DRAM HBM memory NAND flash memory chips for data centers',
+info={'valuation_accounting_basis':'GAAP','longBusinessSummary':'SK Hynix manufactures DRAM HBM memory NAND flash memory chips for data centers',
       'industryKey':'semiconductors','sectorKey':'technology','currency':'KRW'}
 rows=[
  {'Ticker':'MU','Descripción actividad':'DRAM high bandwidth HBM memory semiconductor manufacturing and NAND flash memory products',
@@ -44,13 +44,15 @@ rows=[
   'Industria clave':'semiconductors','Sector clave':'technology','PER forward':20,'EV/EBITDA':7,'Margen operativo (%)':17},
 ]
 for row in rows:row.update({'PER periodo':'NTM','PER base':'GAAP','EV/EBITDA periodo':'NTM','Perímetro deuda':'Financiera sin leases'})
-selected,pe,ev,refs,universe=score_and_filter(pd.DataFrame(rows),'000660.KS',target_info=info,return_universe=True)
+from tests.multiple_fixtures import with_evidence
+rows=with_evidence(pd.DataFrame(rows),'2026-11-11').to_dict('records')
+selected,pe,ev,refs,universe=score_and_filter(pd.DataFrame(rows),'000660.KS',target_info=info,return_universe=True,as_of='2026-11-11')
 assert set(selected['Ticker'])=={'MU','2408.TW','285A.T'}, selected['Ticker'].tolist()
 assert set(universe.loc[~universe['Elegible'],'Ticker'])=={'TSM','UMC'}
 assert pe==10 and ev==9
 assert set(selected['Confianza en comparabilidad'])<=set(['Media','Alta'])
 assert len(universe)==5
-empty,per,ev,refs,all_rows=score_and_filter(pd.DataFrame(rows[:2]),'000660.KS',target_info=info,return_universe=True)
+empty,per,ev,refs,all_rows=score_and_filter(pd.DataFrame(rows[:2]),'000660.KS',target_info=info,return_universe=True,as_of='2026-11-11')
 assert math.isnan(per) and math.isnan(ev) and refs['Estado'].str.contains('BLOQUEADO').all()
 records=safe_records(pd.DataFrame({'A':[float('nan'),3.5], 'B':['x','y']}))
 assert records[0]['A'] is None and records[1]['A']==3.5

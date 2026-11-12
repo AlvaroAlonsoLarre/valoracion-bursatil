@@ -11,7 +11,9 @@ def peers():
 
 
 def score(p):
-    return score_and_filter(p,'TARGET',target_info={'industryKey':'software','sectorKey':'technology',
+    from tests.multiple_fixtures import with_evidence
+    p=with_evidence(p,'2026-01-15')
+    return score_and_filter(p,'TARGET',as_of='2026-01-15',target_info={'valuation_accounting_basis':'GAAP','industryKey':'software','sectorKey':'technology',
       'longBusinessSummary':'enterprise software cloud applications business services'})
 
 

@@ -29,3 +29,19 @@ def definition_coverage(peers):
                 'Perímetro declarado':perimeter,'Fuente de definición':source,'Fecha de definición':date,
                 'Requisitos pendientes':'; '.join(missing),'Definición completa':not missing})
     return pd.DataFrame(rows,columns=columns)
+
+
+def verified_coverage(peers,as_of,expected_basis=None):
+    from multiple_evidence import validate_multiple
+    rows=[]
+    if peers is not None:
+        for _,row in peers.iterrows():
+            for method in ['PER','EV/EBITDA']:
+                ok,value,issues,metadata=validate_multiple(row,method,as_of,expected_basis)
+                rows.append({'Ticker':row['Ticker'],'Método':method,'Definición completa':ok,
+                    'Múltiplo reconstruido':value,'Requisitos pendientes':'; '.join(issues),
+                    'Base declarada':metadata.get('basis'),'Inicio NTM':metadata.get('start'),
+                    'Fin NTM':metadata.get('end'),'Fuente de definición':metadata.get('source'),
+                    'Fecha de definición':metadata.get('date')})
+    return pd.DataFrame(rows,columns=['Ticker','Método','Definición completa','Múltiplo reconstruido',
+        'Requisitos pendientes','Base declarada','Inicio NTM','Fin NTM','Fuente de definición','Fecha de definición'])

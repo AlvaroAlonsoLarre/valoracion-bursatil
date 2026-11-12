@@ -398,6 +398,8 @@ NOMBRES = {
     "flujo_operativo": ["OperatingCashFlow", "CashFlowFromContinuingOperatingActivities"],
     "capex": ["CapitalExpenditure", "CapitalExpenditures", "PurchaseOfPPE", "PurchaseOfPropertyPlantAndEquipment"],
     "da": ["DepreciationAndAmortization", "DepreciationAmortizationDepletion"],
+    "capex_ppe": ["PurchaseOfPPE", "PurchaseOfPropertyPlantAndEquipment"],
+    "capex_intangibles": ["PurchaseOfIntangibles"],
     "dividendos": ["CommonStockDividendPaid", "CashDividendsPaid", "CommonStockDividendsPaid"],
     "recompras": ["RepurchaseOfCapitalStock", "CommonStockPayments"],
 }
@@ -502,6 +504,9 @@ def construir_fila_financiera(fecha, estado_resultados, estado_balance, estado_f
         "Patrimonio neto": patrimonio,
         "Flujo de caja operativo": flujo_operativo,
         "CAPEX": capex,
+        "CAPEX PP&E": abs(get_f("capex_ppe")),
+        "CAPEX intangibles": abs(get_f("capex_intangibles")),
+        "D&A cash flow": da,
         "D&A": da,
         "Definición D&A": "D&A consolidada Yahoo; desglose no verificado",
         "Arrendamientos": get_b("leases"),
@@ -1484,6 +1489,7 @@ def extraer_metricas_peer(simbolo, datos_info, origen, prioridad_origen):
         "Precio actual": primer_valor_disponible(datos_info.get("currentPrice"), datos_info.get("regularMarketPrice")),
         "Capitalización (miles de millones)": cap / 1e9 if pd.notna(cap) else np.nan,
         "Ingresos TTM (miles de millones)": ingresos / 1e9 if pd.notna(ingresos) else np.nan,
+        "Fecha cotización": pd.to_datetime(datos_info.get("regularMarketTime"),unit="s",utc=True).date().isoformat() if datos_info.get("regularMarketTime") else None,
         "PER trailing": numero(datos_info.get("trailingPE")),
         "PER forward": numero(datos_info.get("forwardPE")),
         "PER periodo": "No verificado FY1/NTM", "PER base": "No verificado GAAP/ajustado",
@@ -1781,6 +1787,8 @@ def _precio_fx(ticker_fx):
     except Exception:
         return np.nan
 
+from multiple_evidence import attach_observed_evidence
+universo_df,evidencia_comparables=attach_observed_evidence(universo_df,yf,hoy)
 # Enriquecimiento oficial con periodos/unidades explícitos, antes de comprobar actualidad.
 from fuentes_fundamentales import enrich_financials,ttm_reconciliation
 anuales_proveedor=tabla_financiera_usd.copy()
@@ -1788,6 +1796,13 @@ trimestres_proveedor=tabla_trimestral_usd.copy()
 enriquecimiento=enrich_financials(TICKER,tabla_financiera_usd,tabla_trimestral_usd,divisa_financiera,hoy)
 tabla_financiera_usd=enriquecimiento.annual
 tabla_trimestral_usd=enriquecimiento.quarterly
+from filing_review import review_filings,components_reconciliation
+import json
+source_config=json.loads(Path(__file__).with_name("fuentes_fundamentales.json").read_text())
+if source_config.get(TICKER,{}).get('accounting_basis'):
+    info={**info,'valuation_accounting_basis':source_config[TICKER]['accounting_basis']}
+revision_filings=review_filings(source_config.get(TICKER,{}).get("regulatory_search"),hoy)
+conciliacion_componentes=components_reconciliation(tabla_trimestral_usd)
 tabla_conciliacion_ttm=ttm_reconciliation(tabla_trimestral_usd,tabla_financiera_usd,hoy,fecha_ultimo_ejercicio)
 fx_fin_a_cot, fx_origen = fx_rate(divisa_financiera, divisa_cotizacion, _precio_fx)
 # Vigencia: se contrasta el último trimestre Yahoo con publicaciones posteriores
@@ -1829,8 +1844,10 @@ if snapshot_dir:
     write_snapshot(Path(snapshot_dir)/(TICKER+'_inputs.json'),tabla_financiera_usd,universo_df,fundamental_kwargs,
         {'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
          'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
-         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence})
+         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings})
 resultados_fundamentales = build_fundamental_model(tabla_financiera_usd,universo_df,**fundamental_kwargs)
+from dcf_audit import audit_dcf
+dcf_sensibilidad,dcf_validacion=audit_dcf(tabla_financiera_usd,universo_df,fundamental_kwargs,resultados_fundamentales)
 tabla_supuestos_fundamentales = resultados_fundamentales.assumptions
 tabla_proyeccion_fundamental = resultados_fundamentales.projected
 tabla_valoracion_fundamental = resultados_fundamentales.valuation
@@ -1952,6 +1969,9 @@ def escribir_informe_excel(ruta):
         tabla_general.to_excel(writer, sheet_name="General", index=False)
         tabla_registro.to_excel(writer,sheet_name="Registro valoraciones",index=False)
         tabla_conciliacion_ttm.to_excel(writer,sheet_name="Conciliacion TTM",index=False)
+        pd.DataFrame(evidencia_comparables).to_excel(writer,sheet_name="Fuentes comparables",index=False)
+        pd.DataFrame(revision_filings).to_excel(writer,sheet_name="Revision filings",index=False)
+        conciliacion_componentes.to_excel(writer,sheet_name="Componentes CAPEX DA",index=False)
         pd.DataFrame(enriquecimiento.evidence['changes']).drop(columns=['Componentes'],errors='ignore').to_excel(writer,sheet_name="Fuentes fundamentales",index=False)
         pd.DataFrame({'Incidencia':enriquecimiento.evidence['issues']}).to_excel(writer,sheet_name="Pendientes fundamentales",index=False)
         anuales_proveedor.to_excel(writer,sheet_name="Anuales proveedor")
@@ -1964,6 +1984,8 @@ def escribir_informe_excel(ruta):
         tabla_proyeccion_fundamental.to_excel(writer, sheet_name="Proyeccion negocio", index=False)
         tabla_valoracion_fundamental.to_excel(writer, sheet_name="Valoracion fundamental", index=False)
         tabla_dcf_detalle.to_excel(writer, sheet_name="DCF detalle", index=False)
+        dcf_sensibilidad.to_excel(writer,sheet_name="DCF sensibilidad",index=False)
+        dcf_validacion.to_excel(writer,sheet_name="DCF validacion",index=False)
         resultados_fundamentales.risk_parameters.to_excel(writer,sheet_name="Parametros riesgo",index=False)
         resultados_fundamentales.peer_definitions.to_excel(writer,sheet_name="Comparables requisitos",index=False)
         tabla_control_modelo.to_excel(writer, sheet_name="Control modelo", index=False)

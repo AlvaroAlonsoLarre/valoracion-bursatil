@@ -296,7 +296,7 @@ def activity_conflict(target, peer):
 
 def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.nan,
                      target_cap=np.nan, curated=None, target_info=None,
-                     max_peers=10, min_peers=3, return_universe=False):
+                     max_peers=10, min_peers=3, return_universe=False, as_of=None):
     """Una sola clasificación para TODO el universo y para las referencias.
 
     - Confianza Baja NUNCA es elegible.
@@ -305,6 +305,9 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
     - Las medianas PER/EV/EBITDA se calculan por separado con datos válidos.
     - `return_universe` expone trazabilidad completa sin volver a clasificar.
     """
+    from multiple_evidence import validate_multiple
+    import json
+    evidence_date=pd.Timestamp(as_of or pd.Timestamp.now()).normalize()
     curated=curated if curated is not None else selected_candidates(ticker)
     info=target_info if isinstance(target_info,dict) else {}
     empty=pd.DataFrame()
@@ -357,13 +360,11 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
         cap=_num(r.get('Capitalización (miles de millones)'))
         if peer_ccy and peer_ccy==target_ccy and np.isfinite(cap) and cap>0 and np.isfinite(_num(target_cap)) and target_cap>0:
             score+=4*math.exp(-abs(math.log(cap/target_cap))/3)
-        pe=_num(r.get('PER forward'))
-        ev=_num(r.get('EV/EBITDA'))
-        p_definition=(r.get('PER periodo')=='NTM' and r.get('PER base')=='GAAP')
-        ev_definition=(r.get('EV/EBITDA periodo')=='NTM' and r.get('Perímetro deuda')=='Financiera sin leases')
+        p_definition,pe,p_errors,p_meta=validate_multiple(r,'PER',evidence_date,info.get('valuation_accounting_basis'))
+        ev_definition,ev,ev_errors,ev_meta=validate_multiple(r,'EV/EBITDA',evidence_date,info.get('valuation_accounting_basis'))
         p_ok=bool(p_definition and eligible and np.isfinite(pe) and 2<=pe<=65 and peer_margin>0)
         ev_ok=bool(ev_definition and eligible and np.isfinite(ev) and 3<=ev<=38 and peer_margin>0)
-        notes=[]
+        notes=p_errors+ev_errors
         if not p_definition:notes.append('PER sin definición GAAP/NTM comprobada')
         if not ev_definition:notes.append('EV/EBITDA sin NTM y perímetro de deuda comprobados')
         if not has_evidence:notes.append('Descripción del negocio insuficiente')
@@ -385,6 +386,8 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
             'Misma industria':same_ind, 'Mismo sector':same_sec,
             'Elegible':eligible,'PER admisible':p_ok,'EV/EBITDA admisible':ev_ok,
             'PER forward (x)':pe,'EV/EBITDA (x)':ev,
+            'PER cohorte':json.dumps([p_meta.get(k) for k in ('basis','start','end','debt_perimeter')]),
+            'EV cohorte':json.dumps([ev_meta.get(k) for k in ('basis','start','end','debt_perimeter')]),
             'Observación':'; '.join(notes) or 'Actividad similar; validar segmentos económicos',
         })
         result.append(row)
@@ -401,6 +404,12 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
         ids=selected.loc[selected[allowed]].copy()
         ids['issuer_key']=ids.apply(lambda r:str(r.get('Emisor id') or r.get('Empresa') or r['Ticker']).strip().upper(),axis=1)
         ids=ids.drop_duplicates('issuer_key')
+        cohort='PER cohorte' if allowed=='PER admisible' else 'EV cohorte'
+        if len(ids) and ids[cohort].nunique()>1:
+            refs.append({'Método':label,'Mediana':np.nan,'Observaciones':len(ids),
+                         'Estado':'BLOQUEADO: cohortes contables/horizontes/perímetros heterogéneos',
+                         'Dispersión max/min':np.nan})
+            return np.nan
         values=pd.to_numeric(ids[label],errors='coerce').dropna()
         n=len(values)
         if n<min_peers:

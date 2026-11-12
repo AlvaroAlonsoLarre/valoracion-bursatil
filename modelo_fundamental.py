@@ -291,7 +291,11 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
                             financial_currency,quote_currency,fx=1.,fx_source='mismas divisas',
                             source='No declarado',stock_comp=None,is_demo=False,
                             quarterly=None,fiscal_end_date=None,as_of=None,ticker='',info=None,
-                            recent_results_check=None,share_schedule=None):
+                            recent_results_check=None,share_schedule=None,sensitivity_shocks=None):
+    shocks=dict(sensitivity_shocks or {})
+    allowed_shocks={'capex_sales','da_sales','wacc','terminal_growth'}
+    if set(shocks)-allowed_shocks or any(not np.isfinite(f(v)) or abs(float(v))>.20 for v in shocks.values()):
+        raise ValueError('Shocks de sensibilidad no válidos')
     info=info or {}
     share_schedule=share_schedule or {}
     now=pd.Timestamp(as_of or pd.Timestamp.now()).normalize()
@@ -413,6 +417,10 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
     # No usar únicamente mediana histórica en presencia de una aceleración de CAPEX.
     da_ratio=bound(.75*da_latest+.25*da_hist,0,.7) if np.isfinite(da_latest) and np.isfinite(da_hist) else bound(da_latest if np.isfinite(da_latest) else da_hist,0,.7)
     cap_ratio=bound(.8*cap_latest+.2*cap_hist,0,.9) if np.isfinite(cap_latest) and np.isfinite(cap_hist) else bound(cap_latest if np.isfinite(cap_latest) else cap_hist,0,.9)
+    cap_ratio=cap_ratio+shocks.get('capex_sales',0.)
+    da_ratio=da_ratio+shocks.get('da_sales',0.)
+    if np.isfinite(cap_ratio) and not 0<=cap_ratio<=.9:raise ValueError('CAPEX/ventas fuera de límites')
+    if np.isfinite(da_ratio) and not 0<=da_ratio<=.7:raise ValueError('D&A/ventas fuera de límites')
     if 'CAPEX' in q.attrs.get('invalid_flows',[]):cap_ratio=np.nan
     if 'D&A' in q.attrs.get('invalid_flows',[]):da_ratio=np.nan
     check('Capex de periodos recientes',np.isfinite(cap_ratio),f'CAPEX TTM / ventas {cap_latest:.1%} si disponible; referencia anual {cap_hist:.1%}' if np.isfinite(cap_hist) else 'Sin CAPEX',True)
@@ -453,7 +461,8 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
           f'Ingresos no operativos normalizados {normal_other:.1%} de ventas; eventos excepcionales no extrapolados')
     # Capital reciente para comparar con métricas prospectivas.
     wacc,rf,beta,ke,kd,wacc_note=wacc_model(financial_currency,mcap,fx,debt,df,info,tax)
-    tg=env_float('CRECIMIENTO_TERMINAL',.025 if str(financial_currency).upper()=='USD' else .02)
+    wacc=wacc+shocks.get('wacc',0.)
+    tg=env_float('CRECIMIENTO_TERMINAL',.025 if str(financial_currency).upper()=='USD' else .02)+shocks.get('terminal_growth',0.)
     check('WACC específico',np.isfinite(wacc) and .04<wacc<.30,
           f'{wacc*100:.2f}%; rf {rf*100:.2f}%; beta {beta:.2f}; Ke {ke*100:.2f}%; Kd {kd*100:.2f}%; {wacc_note}')
     check('Terminal descontable',np.isfinite(wacc) and -.01<tg<wacc-.015,
@@ -465,7 +474,7 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
           target_margin=margin*100 if np.isfinite(margin) else np.nan,
           target_growth=g*100 if np.isfinite(g) else np.nan,
           target_cap=mcap/1e9 if np.isfinite(mcap) else np.nan,
-          target_info=info,return_universe=True)
+          target_info=info,return_universe=True,as_of=now)
     # Valores de la misma empresa solo como referencia secundaria, nunca confundidos con peers.
     self_pe=f(info.get('forwardPE'))
     self_ev=f(info.get('enterpriseToEbitda'))
@@ -505,6 +514,7 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
     check('Integridad para precio objetivo',core_ok,'Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir',True)
     ass_data=[
       ('Fecha valoración',str(now.date()),'Fecha de consulta del motor'),
+      ('Shocks de auditoría',str(shocks) if shocks else 'Ninguno','Solo experimentos separados; no recalibra la base ni rellena datos ausentes'),
       ('Último ejercicio disponible',last_annual,'Fecha SEC/Yahoo anual'),
       ('Fecha base TTM',str(latest_q.date()) if pd.notna(latest_q) else 'N/D','Cuatro trimestres, no ×4 de un trimestre'),
       ('Base operativa',base_origin,'TTM; puente FY si es necesario; bloquear si parcial sin base completa'),
@@ -725,7 +735,7 @@ def build_fundamental_model(annual,peers,*,price,market_cap,shares_outstanding,
             row['Precio objetivo (divisa cotización)']=np.nan
             row['Potencial (%)']=np.nan; row['Rentabilidad anualizada (%)']=np.nan
             row['Retorno total (%)']=np.nan; row['Estado validación']='BLOQUEO'
-    from comparables_definiciones import definition_coverage
+    from comparables_definiciones import verified_coverage
     return FundamentalResult(assumptions,pd.DataFrame(projected),pd.DataFrame(valued),pd.DataFrame(dcf),
                              pd.DataFrame(checks),peer_table,pd.DataFrame(roic),pd.DataFrame(reverse),
-                             bridge,ttm_table,peer_refs,peer_universe,pd.DataFrame(risk_rows),roic_ttm,definition_coverage(peers))
+                             bridge,ttm_table,peer_refs,peer_universe,pd.DataFrame(risk_rows),roic_ttm,verified_coverage(peers,now,info.get('valuation_accounting_basis')))

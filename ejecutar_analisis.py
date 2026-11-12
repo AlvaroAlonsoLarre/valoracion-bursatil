@@ -86,7 +86,7 @@ def save_summary(ticker,out,excel,sheets,start):
         'excel':excel.name,'fuente':'Yahoo Finance + SEC/IR con cobertura explícita',
         'provenance':provenance(),'estado_tecnico':'COMPLETADO'}
     keep=['General','Control modelo','Actualidad resultados','Referencia comparables',
-          'Comparables depurados','Universo comparables','Comparables requisitos','Valoracion fundamental','Base TTM y balance',
+          'Comparables depurados','Universo comparables','Comparables requisitos','Fuentes comparables','Revision filings','Componentes CAPEX DA','DCF sensibilidad','DCF validacion','Valoracion fundamental','Base TTM y balance',
           'Supuestos fundamentales','Resumen Yahoo SEC','Registro valoraciones','Escenarios EPS PER',
           'Escenarios FCF','Estadisticas crecimiento','Parametros riesgo','ROIC TTM capital medio','Fuentes fundamentales','Conciliacion TTM','Pendientes fundamentales','Contraste IR','Extraordinarios IR']
     for sheet in keep:
@@ -131,6 +131,8 @@ def replay(snapshot,outdir):
             if value is None:os.environ.pop(key,None)
             else:os.environ[key]=value
         result=build_fundamental_model(annual,peers,**kwargs)
+        from dcf_audit import audit_dcf
+        sensitivity,validation=audit_dcf(annual,peers,kwargs,result)
     finally:
         for key,value in previous.items():
             if value is None:os.environ.pop(key,None)
@@ -146,6 +148,11 @@ def replay(snapshot,outdir):
       'Supuestos fundamentales':result.assumptions,'Comparables depurados':result.peers,
       'Universo comparables':result.peer_universe,'Referencia comparables':result.peer_reference,
       'Parametros riesgo':result.risk_parameters,'ROIC TTM capital medio':result.roic_ttm,'Comparables requisitos':result.peer_definitions,'Escenarios EPS PER':eps,'Escenarios FCF':fcf}
+    sheets['Fuentes comparables']=pd.DataFrame(payload.get('evidence',{}).get('peer_sources',[]))
+    from filing_review import components_reconciliation
+    sheets['DCF sensibilidad'],sheets['DCF validacion']=sensitivity,validation
+    sheets['Revision filings']=pd.DataFrame(payload.get('evidence',{}).get('filing_review',[]))
+    sheets['Componentes CAPEX DA']=components_reconciliation(kwargs.get('quarterly'))
     evidence=payload.get('evidence',{}).get('ir',{})
     fundamentals=payload.get('evidence',{}).get('official_fundamentals',{})
     sheets['Fuentes fundamentales']=pd.DataFrame(fundamentals.get('changes',[])).drop(columns=['Componentes'],errors='ignore')
