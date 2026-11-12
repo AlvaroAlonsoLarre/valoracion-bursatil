@@ -1,0 +1,627 @@
+{
+  "schema_version": "stock-dashboard-v1",
+  "ticker": "JNJ",
+  "generado_utc": "2026-11-12T14:39:20.018118+00:00",
+  "provenance": {
+    "sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+    "run_id": "43239225158",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "input_sha256": "db77d388ce91edfa713900b9eced0fd629ff63b7c3ff8c489a2b12ae21e28c9b",
+  "auditoria": {
+    "errores_bloqueantes": 0,
+    "objetivos_fundamentales_disponibles": 7,
+    "objetivos_principales_disponibles": 6,
+    "estado_financiero": "PARCIAL",
+    "publicable": false,
+    "exit_code": 0,
+    "metodos": [
+      {
+        "Método": "EPS × PER",
+        "Rol": "Principal",
+        "Estado": "CONDICIONAL",
+        "Detalle": "Datos contables suficientes; hipótesis pendientes de validación económica"
+      },
+      {
+        "Método": "Precio/FCF",
+        "Rol": "Contraste",
+        "Estado": "CONDICIONAL",
+        "Detalle": "FCF=OCF−CAPEX completo; conversión FCF/neto 1.2174588381484934; mínimo 3 FY positivos; Histórico propio 5 FY, 5 observaciones; no confundir P/FCF con EV/FCF"
+      },
+      {
+        "Método": "EV/EBITDA",
+        "Rol": "Opcional",
+        "Estado": "NO_EJECUTADO",
+        "Detalle": "Controles propios; nunca invalidan EPS × PER"
+      },
+      {
+        "Método": "DCF",
+        "Rol": "Opcional",
+        "Estado": "NO_EJECUTADO",
+        "Detalle": "Controles propios; nunca invalidan EPS × PER"
+      }
+    ],
+    "comparables_elegibles": 0,
+    "total_candidatos": 110,
+    "definiciones_per_completas": 0,
+    "definiciones_ev_ebitda_completas": 0,
+    "comparables_per_ttm": 0,
+    "comparables_per_ntm": 0
+  },
+  "Resumen": [
+    {
+      "Concepto": "ticker",
+      "Valor": "JNJ"
+    },
+    {
+      "Concepto": "as_of",
+      "Valor": "2026-11-12"
+    },
+    {
+      "Concepto": "price",
+      "Valor": 282.41
+    },
+    {
+      "Concepto": "quote_date",
+      "Valor": "2026-11-12"
+    },
+    {
+      "Concepto": "quote_verified",
+      "Valor": true
+    },
+    {
+      "Concepto": "currency",
+      "Valor": "USD"
+    },
+    {
+      "Concepto": "financial_currency",
+      "Valor": "USD"
+    },
+    {
+      "Concepto": "confidence",
+      "Valor": "Baja"
+    },
+    {
+      "Concepto": "sector_type",
+      "Valor": "OPERATIVA"
+    },
+    {
+      "Concepto": "profit_model",
+      "Valor": "PBT directo"
+    },
+    {
+      "Concepto": "revenue_ttm",
+      "Valor": 99335000000
+    },
+    {
+      "Concepto": "diluted_base",
+      "Valor": 2448600000
+    },
+    {
+      "Concepto": "diluted_source",
+      "Valor": "Media diluida del trimestre 2026-09-30"
+    },
+    {
+      "Concepto": "fair_value",
+      "Valor": 212.936641686436
+    },
+    {
+      "Concepto": "target_1y",
+      "Valor": 234.2303058550797
+    },
+    {
+      "Concepto": "target_3y",
+      "Valor": 282.7386884409116
+    },
+    {
+      "Concepto": "upside_1y",
+      "Valor": -0.1706019409543583
+    },
+    {
+      "Concepto": "annual_return_3y",
+      "Valor": 0.0003878061523561183
+    },
+    {
+      "Concepto": "pessimistic_1y",
+      "Valor": 184.22607955822
+    },
+    {
+      "Concepto": "scenario_spread",
+      "Valor": 0.5702473752576608
+    },
+    {
+      "Concepto": "publicable",
+      "Valor": false
+    },
+    {
+      "Concepto": "source",
+      "Valor": "SEC EDGAR (CompanyFacts + Inline XBRL), hasta 10 ejercicios"
+    },
+    {
+      "Concepto": "per_source",
+      "Valor": "Histórico propio 5 FY, 5 observaciones"
+    },
+    {
+      "Concepto": "scenario_order_valid",
+      "Valor": true
+    },
+    {
+      "Concepto": "Atractivo",
+      "Valor": "Zona de vigilancia"
+    },
+    {
+      "Concepto": "Decisión",
+      "Valor": "Sin señal"
+    },
+    {
+      "Concepto": "Margen de seguridad exigido (%)",
+      "Valor": 45.70247375257661
+    },
+    {
+      "Concepto": "Motivo",
+      "Valor": "Reglas de valoración y escenarios; no incluye asesoramiento fiscal ni garantiza resultados"
+    },
+    {
+      "Concepto": "Margen observado (%)",
+      "Valor": -32.62630506583659
+    },
+    {
+      "Concepto": "Caída tolerada escenario pesimista (%)",
+      "Valor": 10
+    },
+    {
+      "Concepto": "available_targets",
+      "Valor": 7
+    },
+    {
+      "Concepto": "primary_available",
+      "Valor": true
+    }
+  ],
+  "Estado metodos": [
+    {
+      "Método": "EPS × PER",
+      "Rol": "Principal",
+      "Estado": "CONDICIONAL",
+      "Detalle": "Datos contables suficientes; hipótesis pendientes de validación económica"
+    },
+    {
+      "Método": "Precio/FCF",
+      "Rol": "Contraste",
+      "Estado": "CONDICIONAL",
+      "Detalle": "FCF=OCF−CAPEX completo; conversión FCF/neto 1.2174588381484934; mínimo 3 FY positivos; Histórico propio 5 FY, 5 observaciones; no confundir P/FCF con EV/FCF"
+    },
+    {
+      "Método": "EV/EBITDA",
+      "Rol": "Opcional",
+      "Estado": "NO_EJECUTADO",
+      "Detalle": "Controles propios; nunca invalidan EPS × PER"
+    },
+    {
+      "Método": "DCF",
+      "Rol": "Opcional",
+      "Estado": "NO_EJECUTADO",
+      "Detalle": "Controles propios; nunca invalidan EPS × PER"
+    }
+  ],
+  "Control por metodo": [
+    {
+      "Método": "Todos",
+      "Comprobación": "Ejercicios fiscales únicos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Conservar cierre real y FY de 52/53 semanas; no duplicar años calendario"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Ingresos TTM",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Cuatro trimestres consecutivos, nunca anualizar un trimestre"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Vigencia TTM",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30 00:00:00; máximo 125 días"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Cotización y FX",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Divisas USD→USD; FX observado o misma moneda"
+    },
+    {
+      "Método": "Cotización",
+      "Comprobación": "Fecha precio observado",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-11-12 00:00:00; sin fecha válida no emitir potencial/retorno ni señal, aunque se puedan proyectar EPS"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Precio × acciones = capitalización",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Se exige coherencia <10%; no confundir acciones al cierre con diluidas"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Resultados posteriores no incorporados",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); SEC sin 10-Q/10-K con periodo más reciente (no descarta comunicado de resultados externo)"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Acciones diluidas",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Media diluida del trimestre 2026-09-30"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Flujos de resultados",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "TTM de neto y EBIT (PBT/margen neto para financieras); sin sustitución por FY"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Referencia PER",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Histórico propio 5 FY, 5 observaciones"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Confianza de múltiplo",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "Histórico propio 5 FY, 5 observaciones; referencia retrospectiva/manual, no consenso"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Puente beneficio / acciones diluidas",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Mediana EPS × acciones / neto = 0.9997120579018057; requiere ≥2 FY y dispersión intercuartílica <0.10"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Margen PBT directo",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "El emisor no publica una serie EBIT suficiente. Se proyecta PBT normalizado con financiero incluido, sin inventar EBIT ni intereses"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "EPS TTM positivo",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "EPS TTM 6.5972409999999995; si falta EPS se comprueba el signo del neto TTM con puente común FY; EPS negativo requiere turnaround explícito"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Pesimista supuestos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fuera de rango/ausentes: "
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Base supuestos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fuera de rango/ausentes: "
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Optimista supuestos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fuera de rango/ausentes: "
+    }
+  ],
+  "Diagnosticos": [
+    {
+      "Diagnóstico": "Crecimiento",
+      "Estado": "Expansión",
+      "Valor": 0.05599284954178807,
+      "Detalle": "CAGR de últimos hasta 4 FY y TTM interanual si completo; no consenso"
+    },
+    {
+      "Diagnóstico": "Rentabilidad",
+      "Estado": "Positiva",
+      "Valor": 0.2420177522190274,
+      "Detalle": "Mediana de margen PBT directo de hasta 5 FY"
+    },
+    {
+      "Diagnóstico": "Solidez financiera",
+      "Estado": "Deuda moderada",
+      "Valor": 1.07435847208619,
+      "Detalle": "Deuda neta/EBIT orientativo; no sustituye vencimientos/liquidez; bancos requieren capital regulatorio"
+    },
+    {
+      "Diagnóstico": "Valoración",
+      "Estado": "Zona de vigilancia",
+      "Valor": -0.1706019409543583,
+      "Detalle": "EPS proyectado × PER; incertidumbre reflejada en margen exigido"
+    }
+  ],
+  "Valoracion EPS PER": [
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 184.22607955822,
+      "Moneda": "USD",
+      "EPS aplicado": 7.35380198690156,
+      "Moneda EPS": "USD",
+      "PER aplicado": 25.05181399857648,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": -34.7664461038136,
+      "Rentabilidad anualizada (%)": -34.7664461038136,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2027-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 197.6836639484887,
+      "Moneda": "USD",
+      "EPS aplicado": 7.890992004001055,
+      "Moneda EPS": "USD",
+      "PER aplicado": 25.05181399857648,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": -30.00118127952669,
+      "Rentabilidad anualizada (%)": -11.21009928703468,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2029-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 234.2303058550797,
+      "Moneda": "USD",
+      "EPS aplicado": 9.118920735405743,
+      "Moneda EPS": "USD",
+      "PER aplicado": 25.68618728591873,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": -17.06019409543583,
+      "Rentabilidad anualizada (%)": -17.06019409543583,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2027-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 282.7386884409116,
+      "Moneda": "USD",
+      "EPS aplicado": 11.00742143213719,
+      "Moneda EPS": "USD",
+      "PER aplicado": 25.68618728591873,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 0.1163869696227282,
+      "Rentabilidad anualizada (%)": 0.03878061523561183,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2029-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 317.7952966778783,
+      "Moneda": "USD",
+      "EPS aplicado": 11.04592804427493,
+      "Moneda EPS": "USD",
+      "PER aplicado": 28.77035731213101,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 12.52976051764394,
+      "Rentabilidad anualizada (%)": 12.52976051764394,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2027-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 425.2091461526598,
+      "Moneda": "USD",
+      "EPS aplicado": 14.77941832767473,
+      "Moneda EPS": "USD",
+      "PER aplicado": 28.77035731213101,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 50.5644793571969,
+      "Rentabilidad anualizada (%)": 14.61483729944393,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2029-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "Precio/FCF",
+      "Escenario": "Base",
+      "Horizonte (años)": 0,
+      "Precio objetivo": 185.2762356943113,
+      "Moneda": "USD",
+      "EPS aplicado": null,
+      "Moneda EPS": null,
+      "PER aplicado": null,
+      "Periodo PER": null,
+      "Periodo EPS": null,
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": null,
+      "Limitación": "Contraste sobre FCF TTM representativo; no flujo futuro ni equity cash flow distribuible verificado"
+    }
+  ],
+  "Supuestos EPS PER": [
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "growth",
+      "Valor": 0.005992849541788067,
+      "Origen": "Calculado del histórico; ajuste escenario -0.05",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "margin",
+      "Valor": 0.2120177522190274,
+      "Origen": "Calculado del histórico; ajuste escenario -0.03",
+      "Definición": "Margen PBT; incluye financiero"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "tax",
+      "Valor": 0.1743984709954026,
+      "Origen": "Calculado del histórico; ajuste escenario 0.02",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "financial_sales",
+      "Valor": 0.0,
+      "Origen": "Incluido en PBT; no sumar financiero dos veces",
+      "Definición": "PBT−EBIT / ventas; no sólo intereses"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "dilution",
+      "Valor": -0.02885280979015726,
+      "Origen": "Calculado del histórico; ajuste escenario 0.01",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "pe",
+      "Valor": 25.05181399857648,
+      "Origen": "Histórico propio 5 FY, 5 observaciones",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "growth",
+      "Valor": 0.05599284954178807,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "margin",
+      "Valor": 0.2420177522190274,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Margen PBT; incluye financiero"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "tax",
+      "Valor": 0.1543984709954027,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "financial_sales",
+      "Valor": 0.0,
+      "Origen": "Incluido en PBT; no sumar financiero dos veces",
+      "Definición": "PBT−EBIT / ventas; no sólo intereses"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "dilution",
+      "Valor": -0.03885280979015726,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "pe",
+      "Valor": 25.68618728591873,
+      "Origen": "Histórico propio 5 FY, 5 observaciones",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "growth",
+      "Valor": 0.1059928495417881,
+      "Origen": "Calculado del histórico; ajuste escenario 0.05",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "margin",
+      "Valor": 0.2720177522190274,
+      "Origen": "Calculado del histórico; ajuste escenario 0.03",
+      "Definición": "Margen PBT; incluye financiero"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "tax",
+      "Valor": 0.1343984709954027,
+      "Origen": "Calculado del histórico; ajuste escenario -0.02",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "financial_sales",
+      "Valor": 0.0,
+      "Origen": "Incluido en PBT; no sumar financiero dos veces",
+      "Definición": "PBT−EBIT / ventas; no sólo intereses"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "dilution",
+      "Valor": -0.04385280979015726,
+      "Origen": "Calculado del histórico; ajuste escenario -0.005",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "pe",
+      "Valor": 28.77035731213101,
+      "Origen": "Histórico propio 5 FY, 5 observaciones",
+      "Definición": "Tasa decimal salvo PER en veces"
+    }
+  ],
+  "Comparables seleccionados": [],
+  "Fuentes comparables TTM": [],
+  "Pendientes fundamentales": []
+}

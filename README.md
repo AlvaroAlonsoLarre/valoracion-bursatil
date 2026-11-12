@@ -56,6 +56,8 @@ Sólo se aceptan claves reconocidas y números finitos. Un PER manual exige `per
 
 Cada ejecución conserva entradas, Excel, resumen y log. Código **0**: algún método condicional disponible; **2**: insuficiencia financiera; **1**: fallo técnico. Un contraste FCF no equivale a un objetivo futuro. Los estados por método y el número de objetivos principales evitan confundir ambos casos. `publicable=false` conserva el carácter condicional del análisis.
 
+Si el índice ticker–CIK de SEC devuelve 403, se obtiene una pista de CIK de los enlaces de filings y se exige ticker exacto en submissions oficial antes de descargar CompanyFacts. La pista no sustituye la validación de identidad ni las cuentas SEC.
+
 El workflow `.github/workflows/main.yml` ejecuta **MSFT, 000660.KS, JNJ y JPM**, además de pruebas y manifiesto de cobertura; permite un ticker manual. No escribe resultados en `main` ni fusiona PRs. Usa un contacto SEC real mediante `SEC_CONTACT_EMAIL` si dispones de él; el identificador por defecto es el nombre del software, sin correo ficticio.
 
 Los informes de [11/11](docs/auditoria_2026-11-11/INFORME.md) y [12/11](docs/auditoria_2026-11-12/INFORME.md) documentan las etapas anteriores. No se modifican sus cifras históricas para presentarlas como resultados del nuevo modelo. La nueva comparación y sus límites se documentan en `docs/v6_simplificada_2026-11-12/INFORME.md`.

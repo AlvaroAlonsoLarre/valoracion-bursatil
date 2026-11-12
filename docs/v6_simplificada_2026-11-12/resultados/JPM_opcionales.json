@@ -1,0 +1,114 @@
+{
+  "Estado metodos": [
+    {
+      "Método": "EPS × PER",
+      "Rol": "Principal",
+      "Estado": "CONDICIONAL",
+      "Detalle": "Datos contables suficientes; hipótesis pendientes de validación económica"
+    },
+    {
+      "Método": "Precio/FCF",
+      "Rol": "Contraste",
+      "Estado": "NO_REPRESENTATIVO",
+      "Detalle": "FCF=OCF−CAPEX completo; conversión FCF/neto nan; mínimo 3 FY positivos; Histórico propio insuficiente (mínimo 3/5 o 5/10); no confundir P/FCF con EV/FCF"
+    },
+    {
+      "Método": "EV/EBITDA",
+      "Rol": "Opcional",
+      "Estado": "NO_EJECUTADO",
+      "Detalle": "No aplicar FCFF/EV genérico a financieras o REIT"
+    },
+    {
+      "Método": "DCF",
+      "Rol": "Opcional",
+      "Estado": "NO_EJECUTADO",
+      "Detalle": "No aplicar FCFF/EV genérico a financieras o REIT"
+    }
+  ],
+  "Registro valoraciones": [
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Pesimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "USD",
+      "price": 234.42589929818348,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 5 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 1: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Pesimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "USD",
+      "price": 276.5677903891324,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 5 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 3: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Base",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "USD",
+      "price": 290.933370395285,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 5 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 1: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Base",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "USD",
+      "price": 383.6809889009414,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 5 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 3: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Optimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "USD",
+      "price": 368.36984959166733,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 5 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 1: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Optimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "USD",
+      "price": 535.4710223038081,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 5 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 3: 12 meses hasta horizonte"
+    }
+  ]
+}

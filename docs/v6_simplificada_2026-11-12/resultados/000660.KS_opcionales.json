@@ -1,0 +1,247 @@
+{
+  "Estado metodos": [
+    {
+      "Método": "EPS × PER",
+      "Rol": "Principal",
+      "Estado": "CONDICIONAL",
+      "Detalle": "Datos contables suficientes; hipótesis pendientes de validación económica"
+    },
+    {
+      "Método": "Precio/FCF",
+      "Rol": "Contraste",
+      "Estado": "NO_REPRESENTATIVO",
+      "Detalle": "FCF=OCF−CAPEX completo; conversión FCF/neto nan; mínimo 3 FY positivos; Histórico propio insuficiente (mínimo 3/5 o 5/10); no confundir P/FCF con EV/FCF"
+    },
+    {
+      "Método": "EV/EBITDA",
+      "Rol": "Opcional",
+      "Estado": "BLOQUEO",
+      "Detalle": "Controles propios; nunca invalidan EPS × PER"
+    },
+    {
+      "Método": "DCF",
+      "Rol": "Opcional",
+      "Estado": "BLOQUEO",
+      "Detalle": "Controles propios; nunca invalidan EPS × PER"
+    }
+  ],
+  "Valoracion opcional": [],
+  "Control opcionales": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "KRW→KRW; fuente: mismas monedas; factor de unidad 1.0"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "REVISAR",
+      "Detalle": "4 ejercicios fuente Yahoo Finance (fallback: SEC no disponible para este ticker); sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); emisor sin CIK SEC: revisar fuentes oficiales del país"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 43 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "3 trimestres publicados, ingresos YTD 236,510.03 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=70.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "CAPEX TTM / ventas nan% si disponible; referencia anual 26.8%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 1.7%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Margen operativo elevado",
+      "Estado": "REVISAR",
+      "Detalle": "Margen EBIT base 62.8%: evaluar sostenibilidad/ciclo"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados 0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "16.43%; rf 3.10%; beta 2.47; Ke 16.66%; Kd 4.11%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 16.43%, g terminal 2.00%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada Yahoo; desglose no verificado; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 2.34072/3.808 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "BLOQUEO",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "REVISAR",
+      "Detalle": "Actividad cíclica: crecimiento converge desde año 1; margen EBIT vuelve hacia 25.4% con el tiempo"
+    }
+  ],
+  "Registro valoraciones": [
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Pesimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": 600795.1300112309,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 3 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 1: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Pesimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": 893064.7765886465,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 3 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 3: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Base",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": 976869.5012672036,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 3 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 1: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Base",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": 1602159.4070786003,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 3 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 3: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Optimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": 1897462.2918056683,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 3 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 1: 12 meses hasta horizonte"
+    },
+    {
+      "method_id": "eps_pe_projected",
+      "scenario": "Optimista",
+      "scenario_type": "principal_eps_pe",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": 3390179.6766001675,
+      "validation_state": "CONDICIONAL",
+      "source": "Histórico propio 5 FY, 3 observaciones",
+      "limitation": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales",
+      "flow_period": "Año 3: 12 meses hasta horizonte"
+    }
+  ]
+}

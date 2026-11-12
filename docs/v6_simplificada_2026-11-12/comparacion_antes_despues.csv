@@ -1,0 +1,9 @@
+Ticker,Horizonte,Anterior DCF Base,Anterior precios DCF,Anterior precios PER forward,Anterior bloqueos globales,V6 EPS PER Base,V6 precios principales,V6 bloqueos compartidos,V6 bloqueos opcionales,Comparables económicos seleccionados,Fuente PER,Nota
+MSFT,1,163.21282594254083,9,0,0,696.8406273758014,6,0,0,1,"Histórico propio 5 FY, 5 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+MSFT,3,174.4880956126189,9,0,0,940.6814417866705,6,0,0,1,"Histórico propio 5 FY, 5 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+000660.KS,1,,0,0,3,976869.5012672036,6,0,3,6,"Histórico propio 5 FY, 3 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+000660.KS,3,,0,0,3,1602159.4070786003,6,0,3,6,"Histórico propio 5 FY, 3 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+JNJ,1,,0,0,0,234.23030585507968,6,0,0,0,"Histórico propio 5 FY, 5 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+JNJ,3,,0,0,0,282.7386884409116,6,0,0,0,"Histórico propio 5 FY, 5 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+JPM,1,,0,0,4,290.933370395285,6,0,0,6,"Histórico propio 5 FY, 5 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
+JPM,3,,0,0,4,383.6809889009414,6,0,0,6,"Histórico propio 5 FY, 5 observaciones",DCF y EPS/PER son métodos diferentes: no interpretar su diferencia como corrección aritmética
