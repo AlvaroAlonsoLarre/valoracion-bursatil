@@ -64,11 +64,30 @@ def run(ticker,outdir,quarters,contact,settings=None):
         (out/f'{name}_ejecucion.log').write_text(p.stdout+'\n--- STDERR ---\n'+p.stderr,encoding='utf-8')
         files=list(Path(temp).glob(f'valoracion_completa_{name}*.xlsx'))
         if p.returncode!=0 or not files:
+            if 'No se obtuvo histórico anual de SEC EDGAR ni cuenta de resultados anual de Yahoo' in p.stderr:
+                return save_unavailable(ticker,out,start)
             return save_failure(ticker,out,f'Error motor ({p.returncode}); consultar {name}_ejecucion.log',start)
         src=max(files,key=lambda f:f.stat().st_mtime)
         excel=out/f'valoracion_{name}_{start:%Y%m%dT%H%M%SZ}.xlsx'
         excel.write_bytes(src.read_bytes())
     sheets=pd.read_excel(excel,sheet_name=None)
+    return save_summary(ticker,out,excel,sheets,start)
+
+
+def save_unavailable(ticker,out,start):
+    """Ausencia de estados no es un error de software ni una cifra cero."""
+    import numpy as np
+    import pandas as pd
+    from flujo_acciones import stock_tables,excel_bytes
+    from auditoria_io import write_snapshot
+    kwargs=dict(price=np.nan,market_cap=np.nan,shares_outstanding=np.nan,financial_currency='',quote_currency='',
+                fx=np.nan,fiscal_end_date=None,as_of=start.date(),ticker=ticker,info={},quarterly=pd.DataFrame(),source='Sin estados SEC/Yahoo disponibles')
+    a=pd.DataFrame();peers=pd.DataFrame();history=pd.DataFrame()
+    _,sheets=stock_tables(a,peers,kwargs,history)
+    path=out/f'{ticker}_inputs.json'
+    write_snapshot(path,a,peers,kwargs,{'Referencia histórica auditada':history},
+                   evidence={'stock_model':{'version':'stock-dashboard-v1','settings':{}}})
+    excel=out/f'valoracion_{ticker}_{start:%Y%m%dT%H%M%SZ}.xlsx';excel.write_bytes(excel_bytes(sheets))
     return save_summary(ticker,out,excel,sheets,start)
 
 

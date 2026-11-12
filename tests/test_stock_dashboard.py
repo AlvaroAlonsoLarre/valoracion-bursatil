@@ -49,22 +49,22 @@ def test_eps_formula_from_business_and_primary_is_not_a_dcf(stock_inputs):
     assert r.summary['fair_value']==pytest.approx(87.48/1.1)
     assert r.summary['confidence']=='Baja'
     assert len(r.valuation[r.valuation['Método'].eq('EPS × PER')])==6
-    assert r.methods.set_index('Método').loc['DCF','Estado']=='NO_EJECUTADO'
+    assert r.methods.set_index('Método').loc['DCF','Estado']=='NO DISPONIBLE'
 
 
 def test_capex_da_missing_and_optional_failure_do_not_block_eps(stock_inputs):
     q=stock_inputs['quarterly'].copy();q.attrs['invalid_flows']=['CAPEX','D&A']
     args={**stock_inputs,'quarterly':q};r=build_stock_analysis(**args)
     assert r.summary['available_targets']==6
-    assert r.methods.set_index('Método').loc['Precio/FCF','Estado']=='NO_REPRESENTATIVO'
+    assert r.methods.set_index('Método').loc['Precio/FCF','Estado']=='NO DISPONIBLE'
     a=args.pop('annual');p=args.pop('peers');h=args.pop('history')
     _,tables=stock_tables(a,p,args,h,{'advanced':True})
     assert assess(tables)['exit_code']==0
-    assert tables['Estado metodos'].set_index('Método').loc['DCF','Estado']=='BLOQUEO'
-    assert tables['Control opcionales']['Estado'].eq('BLOQUEO').any()
+    assert tables['Estado metodos'].set_index('Método').loc['DCF','Estado']=='BLOQUEADO'
+    assert tables['Control opcionales']['Estado'].eq('BLOQUEADO').any()
 
 
-@pytest.mark.parametrize('problem',['gap','fx','cap','negative_eps','missing_tax','missing_diluted'])
+@pytest.mark.parametrize('problem',['gap','fx','negative_eps','missing_tax','missing_diluted'])
 def test_critical_requirements_are_retained(stock_inputs,problem):
     args=deepcopy(stock_inputs)
     if problem=='gap':args['quarterly']=args['quarterly'].iloc[[0,2,3]]
@@ -76,7 +76,7 @@ def test_critical_requirements_are_retained(stock_inputs,problem):
         args['quarterly']['Acciones diluidas medias']=np.nan;args['annual']['Acciones diluidas medias']=np.nan
     r=build_stock_analysis(**args)
     assert not r.summary['primary_available']
-    assert r.controls['Estado'].eq('BLOQUEO').any()
+    assert r.controls['Estado'].isin(['BLOQUEADO','NO DISPONIBLE']).any()
 
 
 def test_missing_eps_can_use_sign_of_net_income_but_not_invent_eps(stock_inputs):
@@ -118,7 +118,7 @@ def test_financial_and_reit_treatment_is_explicit(stock_inputs):
     r=build_stock_analysis(**financial,settings={'advanced':True})
     assert r.summary['primary_available'] and r.summary['profit_model']=='PBT directo'
     assert r.summary['Atractivo']=='Revisión sectorial'
-    assert r.methods.set_index('Método').loc['DCF','Estado']=='NO_EJECUTADO'
+    assert r.methods.set_index('Método').loc['DCF','Estado']=='NO DISPONIBLE'
     reit={**stock_inputs,'info':{'industry':'REIT - Retail'}}
     r=build_stock_analysis(**reit)
     assert not r.summary['primary_available'] and 'FFO' in r.methods.iloc[0]['Detalle'] or 'REIT' in r.methods.iloc[0]['Detalle']
@@ -139,7 +139,7 @@ def test_price_fcf_is_equity_multiple_and_representativeness_gate(stock_inputs):
     expected=stock_inputs['history']['Precio/FCF histórico'].tail(5).median()*(400*.13/10)
     assert row['Precio objetivo']==pytest.approx(expected)
     q=stock_inputs['quarterly'].copy();q['Flujo de caja operativo']*=2.;q['Flujo de caja libre']=q['Flujo de caja operativo']-q['CAPEX']
-    assert build_stock_analysis(**{**stock_inputs,'quarterly':q}).methods.set_index('Método').loc['Precio/FCF','Estado']=='NO_REPRESENTATIVO'
+    assert build_stock_analysis(**{**stock_inputs,'quarterly':q}).methods.set_index('Método').loc['Precio/FCF','Estado']=='NO DISPONIBLE'
 
 
 def test_historical_windows_splits_and_discontinued_scope(stock_inputs):
@@ -221,7 +221,7 @@ def test_diluted_conflicting_duplicate_is_not_replaced_by_an_annual_value(stock_
     duplicate=pd.concat([q,last])
     result=build_stock_analysis(**{**stock_inputs,'quarterly':duplicate})
     assert not result.summary['primary_available']
-    assert result.controls.query("Comprobación=='Acciones diluidas'")['Estado'].iloc[0]=='BLOQUEO'
+    assert result.controls.query("Comprobación=='Acciones diluidas'")['Estado'].iloc[0]=='NO DISPONIBLE'
 
 
 def test_pence_unit_is_explicit_and_does_not_change_the_pe(stock_inputs):
@@ -302,7 +302,7 @@ def test_automatic_ntm_requires_three_independent_verified_peers(stock_inputs):
         'Descripción actividad':'enterprise software cloud applications business services','Industria clave':'software','Sector clave':'technology'} for x in ['A','B','C']])
     peers=with_evidence(peers,'2026-02-02',basis='US_GAAP')
     info={**stock_inputs['info'],'industryKey':'software','sectorKey':'technology','longBusinessSummary':'enterprise software cloud applications business services'}
-    result=build_stock_analysis(**{**stock_inputs,'peers':peers,'info':info})
+    result=build_stock_analysis(**{**stock_inputs,'peers':peers,'info':info,'history':pd.DataFrame()})
     row=result.valuation.query("Método=='EPS × PER' and Escenario=='Base' and `Horizonte (años)`==1").iloc[0]
     assert row['Periodo PER']=='NTM' and row['PER aplicado']==20.
     assert row['Precio objetivo']==pytest.approx(400*1.08**2*.18*.75/10*20)

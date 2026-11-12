@@ -12,7 +12,7 @@ En Windows siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`.
 
 ## Modelo principal
 
-Se proyectan ingresos TTM, crecimiento previsto, margen normalizado, resultado no operativo, impuestos y acciones diluidas. Los tres escenarios son hipótesis editables, no probabilidades. **EPS proyectado × PER razonable** produce los precios; el precio actual no recalibra sus parámetros. Los impuestos no generan un crédito automático si el PBT es negativo.
+Se proyectan ingresos TTM, crecimiento previsto, margen normalizado, resultado no operativo, impuestos y acciones diluidas. `growth_terminal` y `margin_terminal` permiten una transición lineal desde el año 1 hasta el año 3. En ciclos y crecimientos excepcionales se muestran medianas de tasas anuales a 5 y 10 observaciones; los márgenes convergen desde el TTM al histórico normalizado. Las acciones históricas se llevan a la base de splits vigente antes de medir dilución. Los tres escenarios son hipótesis editables, no probabilidades. **EPS proyectado × PER razonable** produce los precios; el precio actual no recalibra sus parámetros. Los impuestos no generan un crédito automático si el PBT es negativo.
 
 El margen se normaliza con la mediana de hasta cinco FY; el resultado no operativo se obtiene de PBT−EBIT y no se presenta como interés puro. Si el emisor no publica una serie EBIT suficiente, se identifica un modelo PBT directo, con financiero ya incluido. No se inventa EBIT. Para bancos y aseguradoras se usa PBT directo y se advierte sobre capital regulatorio/provisiones; FCF/FCFF/EV genéricos no se aplican. Los REIT requieren FFO/AFFO/NAV documentados. EPS negativo exige un caso de recuperación justificado; no se valoran pérdidas con PER positivo.
 
@@ -28,7 +28,7 @@ En Valoración se editan crecimiento, margen EBIT/PBT, fiscalidad, resultado no 
 
 La referencia razonable hoy es el precio Base a un año descontado al retorno exigido editable; no se promedian métodos. Los potenciales son retornos de precio, sin dividendos, costes ni impuestos personales. La clasificación de atractivo exige más descuento cuanto menor sea la confianza y mayor sea la dispersión. Los umbrales de retorno, margen, prima de reducción, caída tolerada y peso máximo son transparentes y editables. La posición es opcional y debe estar en la moneda de cotización. Los datos de coste no cambian el valor del negocio. Las señales son orientativas y no envían órdenes.
 
-Excel, resultados JSON y captura reproducible JSON exportan el mismo análisis visible y sus supuestos. `CRITICO` bloquea su ámbito; `ADVERTENCIA` identifica incertidumbre. Nunca se rellenan huecos con cero para obtener un precio.
+Excel, resultados JSON y captura reproducible JSON exportan el mismo análisis visible y sus supuestos. Los cinco estados son `DISPONIBLE`, `ESTIMADO`, `ADVERTENCIA`, `NO DISPONIBLE` y `BLOQUEADO`. La tabla de disponibilidad explica cada indicador; una falta de PER no impide proyectar EPS, ni una discrepancia de capitalización invalida resultados por acción. La capitalización y las clases mantienen controles propios para EV. Nunca se rellenan huecos con cero para obtener un precio.
 
 ## Terminal y verificación
 
@@ -58,6 +58,8 @@ Cada ejecución conserva entradas, Excel, resumen y log. Código **0**: algún m
 
 Si el índice ticker–CIK de SEC devuelve 403, se obtiene una pista de CIK de los enlaces de filings y se exige ticker exacto en submissions oficial antes de descargar CompanyFacts. La pista no sustituye la validación de identidad ni las cuentas SEC.
 
-El workflow `.github/workflows/main.yml` ejecuta **MSFT, 000660.KS, JNJ y JPM**, además de pruebas y manifiesto de cobertura; permite un ticker manual. No escribe resultados en `main` ni fusiona PRs. Usa un contacto SEC real mediante `SEC_CONTACT_EMAIL` si dispones de él; el identificador por defecto es el nombre del software, sin correo ficticio.
+El workflow `.github/workflows/main.yml` ejecuta pruebas rápidas sin descargas financieras en cada PR. La matriz completa de **13 tickers** se ejecuta manualmente (`workflow_dispatch`, vacío = muestra completa) o semanalmente; admite también un ticker nuevo. Una insuficiencia financiera documentada (salida 2) conserva artefactos y no equivale a error técnico. La matriz incluye MSFT, NVDA, AMZN, NFLX, META, GOOGL, GOOG, MU, SNDK, SPCX, JNJ, JPM y 000660.KS. No escribe resultados en `main` ni fusiona PRs. Usa un contacto SEC real mediante `SEC_CONTACT_EMAIL` si dispones de él; el identificador por defecto es el nombre del software, sin correo ficticio.
 
 Los informes de [11/11](docs/auditoria_2026-11-11/INFORME.md) y [12/11](docs/auditoria_2026-11-12/INFORME.md) documentan las etapas anteriores. No se modifican sus cifras históricas para presentarlas como resultados del nuevo modelo. La nueva comparación y sus límites se documentan en `docs/v6_simplificada_2026-11-12/INFORME.md`.
+
+La conciliación `Conciliacion SEC Yahoo` conserva ambos importes, unidades, conceptos, componentes YTD, URL y hash. Una fecha fiscal semanal sólo sustituye a la de calendario si al menos dos flujos concilian a menos del 1%. Los prospectos SEC sin CompanyFacts anual tienen un extractor limitado a tablas consolidadas con periodo anual y escala expresa; no se inventan conceptos XBRL ni cotizaciones anteriores a una IPO. Los registros de separación excluyen el periodo anterior a cotizar de los supuestos automáticos mientras no se acredite continuidad económica.

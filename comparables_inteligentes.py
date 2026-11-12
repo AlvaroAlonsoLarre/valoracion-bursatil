@@ -398,6 +398,22 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
         ['Elegible','Puntuación económica (0-100)'],ascending=[False,False]
     ).reset_index(drop=True)
     selected=full.loc[full['Elegible']].head(max_peers).copy().reset_index(drop=True)
+    def issuer_key(row):
+        ev=row.get('Evidencia TTM')
+        cik=ev.get('payload',{}).get('cik') if isinstance(ev,dict) else None
+        return 'CIK:'+str(cik).lstrip('0') if cik else str(row.get('Empresa') or row.get('Emisor id') or row['Ticker']).strip().upper()
+    # Una clase adicional no crea otro comparable económico.
+    full['Emisor económico']=full.apply(issuer_key,axis=1)
+    target_name=str(info.get('longName') or '').strip().upper()
+    target_cik='CIK:'+str(info.get('valuation_cik')).lstrip('0') if info.get('valuation_cik') else ''
+    seen=set()
+    for index,row in full.iterrows():
+        key=row['Emisor económico']
+        if key in seen or key in (target_name,target_cik):
+            full.loc[index,['Elegible','PER admisible','EV/EBITDA admisible']]=False
+            full.loc[index,'Observación']+='; clase duplicada o mismo emisor objetivo'
+        elif row['Elegible']:seen.add(key)
+    selected=full.loc[full['Elegible']].head(max_peers).copy().reset_index(drop=True)
     refs=[]
     def metric_reference(label,allowed):
         values=pd.to_numeric(selected.loc[selected[allowed],label],errors='coerce').replace([np.inf,-np.inf],np.nan).dropna()

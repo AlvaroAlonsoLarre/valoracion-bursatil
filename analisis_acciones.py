@@ -11,6 +11,7 @@ from historico_acciones import number,historical_statistics
 from modelo_fundamental import quarterly_snapshot,ttm_yoy
 from comparables_inteligentes import score_and_filter
 from multiple_evidence import validate_multiple
+from estados_datos import public_states,metric_coverage
 
 SCENARIOS=('Pesimista','Base','Optimista')
 DEFAULT_POLICY={'required_return':.10,'margin_of_safety':.20,'sell_premium':.20,
@@ -31,6 +32,7 @@ class StockAnalysis:
     history_statistics:pd.DataFrame
     base_ttm:pd.DataFrame
     settings:dict
+    metrics:pd.DataFrame
 
 
 def series(frame,column):
@@ -67,7 +69,7 @@ def validate_settings(settings):
     if set(settings)-allowed:raise ValueError('Ajuste desconocido: '+str(set(settings)-allowed))
     scenarios=settings.get('scenarios',{})
     if not isinstance(scenarios,dict) or set(scenarios)-set(SCENARIOS):raise ValueError('Escenarios no válidos')
-    bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0.,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.)}
+    bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0.,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.),'growth_terminal':(-.8,1.),'margin_terminal':(-.8,.9)}
     for name,values in scenarios.items():
         if not isinstance(values,dict) or set(values)-set(bounds):raise ValueError('Campos de escenario no válidos')
         for key,value in values.items():_range(name+' '+key,value,*bounds[key])
@@ -107,11 +109,11 @@ def _peer_references(selected,as_of,info,ttm_end):
         ok,value,note=validate_ttm_evidence(row,as_of,ttm_end,basis)
         table.loc[index,'PER TTM verificado']=value if ok else np.nan
         table.loc[index,'Estado PER TTM']=note
-        if ok:ttm_values.append((str(row.get('Emisor id') or row['Ticker']).upper(),value))
+        if ok:ttm_values.append((str(row.get('Emisor económico') or row.get('Emisor id') or row['Ticker']).upper(),value))
         valid,pe,errors,_=validate_multiple(row,'PER',as_of,basis)
         table.loc[index,'PER NTM verificado']=pe if valid else np.nan
         table.loc[index,'Estado PER NTM']='Evidencia compatible' if valid else '; '.join(errors)
-        if valid:forward.append((str(row.get('Emisor id') or row['Ticker']).upper(),pe))
+        if valid:forward.append((str(row.get('Emisor económico') or row.get('Emisor id') or row['Ticker']).upper(),pe))
     def reference(values):
         data=pd.DataFrame(values,columns=['issuer','value']).drop_duplicates('issuer')
         v=data['value']
@@ -172,27 +174,44 @@ def evaluate_position(summary,policy=None,position=None):
 def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,financial_currency,quote_currency,
     quarterly=None,as_of=None,fiscal_end_date=None,ticker='',info=None,fx=1.,source='No declarado',history=None,
     settings=None,recent_results_check=None,**unused):
+    price=number(price);market_cap=number(market_cap);shares_outstanding=number(shares_outstanding);fx=number(fx)
     settings=validate_settings(settings);info=info or {};today=pd.Timestamp(as_of or pd.Timestamp.now()).tz_localize(None).normalize()
     a=annual.copy().sort_index();controls=[];methods=[]
     def check(scope,name,ok,detail,critical=False):
         controls.append({'Método':scope,'Comprobación':name,'Severidad':'CRITICO' if critical and not ok else 'ADVERTENCIA' if not ok else 'INFO',
-            'Estado':'OK' if ok else 'BLOQUEO' if critical else 'REVISAR','Detalle':detail})
+            'Estado':'OK' if ok else 'BLOQUEO' if critical else 'REVISAR','Detalle':detail,
+            'Estado público':'DISPONIBLE' if ok else 'ADVERTENCIA' if not critical else 'BLOQUEADO' if name in ('Ejercicios fiscales únicos','Precio × acciones = capitalización','Resultados posteriores no incorporados') or (name=='Puente beneficio / acciones diluidas' and 'requiere' in detail and 'nan' not in detail) else 'NO DISPONIBLE'})
     check('Todos','Ejercicios fiscales únicos',not a.index.has_duplicates,'Conservar cierre real y FY de 52/53 semanas; no duplicar años calendario',True)
     if a.index.has_duplicates:a=a[~a.index.duplicated(keep=False)]
     if 'Fecha cierre fiscal' in a:a=a[pd.to_datetime(a['Fecha cierre fiscal'],errors='coerce')<=today]
-    ttm,base,q,notes=quarterly_snapshot(quarterly,a,today,fiscal_end_date)
+    raw_annual=a.copy()
+    listed=pd.to_datetime(info.get('firstTradeDateMilliseconds'),unit='ms',errors='coerce')
+    short_listing=pd.notna(listed) and (today-listed).days<365*5
+    perimeter=bool(info.get('valuation_separation_registration')) or any(x in str(info.get('longBusinessSummary','')).lower() for x in ['spin-off','spun off','spun-off'])
+    if short_listing:
+        check('Histórico','Historia financiera y bursátil',False,f'Primera cotización proveedor {listed.date()}; estados anteriores no crean precios/PER anteriores a cotizar')
+    if perimeter and pd.notna(listed):
+        check('Normalización','Perímetro anterior a separación',False,'Registro de separación/escisión o descripción del emisor: histórico anterior se conserva pero se excluye de supuestos automáticos hasta acreditar continuidad económica')
+        if 'Fecha cierre fiscal' in a:a=a[pd.to_datetime(a['Fecha cierre fiscal'])>=listed]
+    ttm,base,q,notes=quarterly_snapshot(quarterly,raw_annual,today,fiscal_end_date)
     for note in notes:check('Por flujo','Integridad trimestral',False,note)
     rev=number(ttm.get('Ingresos'));end=ttm.get('Fecha último trimestre',pd.NaT)
     check('Todos','Ingresos TTM',rev>0,'Cuatro trimestres consecutivos, nunca anualizar un trimestre',True)
     check('Todos','Vigencia TTM',pd.notna(end) and 0<=(today-end).days<=125,'Último trimestre '+str(end)+'; máximo 125 días',True)
-    check('Todos','Cotización y FX',number(price)>0 and number(fx)>0 and bool(financial_currency) and bool(quote_currency),'Divisas '+str(financial_currency)+'→'+str(quote_currency)+'; FX observado o misma moneda',True)
+    check('Precio EPS','Cotización y FX',number(fx)>0 and bool(financial_currency) and bool(quote_currency),'Divisas '+str(financial_currency)+'→'+str(quote_currency)+'; FX observado o misma moneda',True)
     quote_time=info.get('regularMarketTime')
     quote_date=pd.to_datetime(quote_time,unit='s',utc=True,errors='coerce') if quote_time else pd.to_datetime(info.get('valuation_quote_date'),errors='coerce')
     quote_date=pd.Timestamp(quote_date).tz_localize(None).normalize() if pd.notna(quote_date) else pd.NaT
     quote_ok=pd.notna(quote_date) and 0<=(today-quote_date).days<=7
     check('Cotización','Fecha precio observado',quote_ok,'Fecha '+str(quote_date)+'; sin fecha válida no emitir potencial/retorno ni señal, aunque se puedan proyectar EPS',True)
     market_ok=number(market_cap)>0 and number(shares_outstanding)>0 and number(price)>0 and abs(price*shares_outstanding/market_cap-1)<.10
-    check('Todos','Precio × acciones = capitalización',market_ok,'Se exige coherencia <10%; no confundir acciones al cierre con diluidas',True)
+    implied=number(info.get('impliedSharesOutstanding'))
+    implied_ok=implied>0 and number(price)>0 and number(market_cap)>0 and abs(price*implied/market_cap-1)<.10
+    # impliedSharesOutstanding acredita sólo el perímetro de mercado del proveedor.
+    # Nunca sustituye a la media diluida contable ni se infiere cap/precio como dato.
+    check('Capitalización/EV','Precio × acciones = capitalización',market_ok or implied_ok,
+          f'Acciones clase={shares_outstanding}; total implícito proveedor={implied}; exige <10% en su perímetro; no usar clase como total emisor',True)
+    if not market_ok and implied_ok:check('Capitalización/EV','Perímetro de clases',False,'Yahoo distingue acciones de clase y total implícito del emisor. Para EV se requiere puente consolidado; EPS usa medias diluidas consolidadas')
     freshness=recent_results_check or {}
     check('Todos','Resultados posteriores no incorporados',not freshness.get('newer_filing_confirmed',False) and freshness.get('status')!='BLOQUEO',str(freshness.get('detail','No se ha verificado ausencia de nuevas publicaciones')),True)
     if freshness.get('status')!='VERIFICADO':check('Todos','Actualidad externa',False,'Ausencia de publicaciones posteriores no verificada; no es prueba de desactualización')
@@ -202,7 +221,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         adr_date=pd.to_datetime(adr.get('date'),errors='coerce')
         import re
         adr_ok=adr_factor>0 and bool(re.match(r'^https://[^/]+/.+',str(adr.get('source','')))) and pd.notna(adr_date) and adr_date<=today
-        check('Todos','Puente ADR/acción',adr_ok,'Requiere acciones ordinarias por ADR, fuente y fecha; no inferir por moneda',True)
+        check('Precio EPS','Puente ADR/acción',adr_ok,'Requiere acciones ordinarias por ADR, fuente y fecha; no inferir por moneda',True)
     if financial_currency!=quote_currency:check('Histórico','FX histórico',False,'Sin serie FX por cierre no usar múltiplos históricos de distinta moneda')
     diluted=np.nan;diluted_source='N/D'
     if 'Acciones diluidas medias' not in q.attrs.get('invalid_flows',[]) and not q.empty and 'Acciones diluidas medias' in q and number(q.iloc[-1].get('Acciones diluidas medias'))>0:
@@ -215,17 +234,17 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     check('EPS × PER','Acciones diluidas',diluted>0,diluted_source,True)
     check('EPS × PER','Flujos de resultados',np.isfinite(number(ttm.get('Beneficio neto'))) and (kind=='FINANCIERA' or np.isfinite(number(ttm.get('Beneficio operativo'))) or series(a,'Beneficio antes de impuestos').tail(5).notna().sum()>=3),
           'TTM de neto y EBIT (PBT/margen neto para financieras); sin sustitución por FY',True)
-    stats=historical_statistics(a,history if history is not None else pd.DataFrame())
+    stats=historical_statistics(raw_annual,history if history is not None else pd.DataFrame())
     eligible,_,_,_,universe=score_and_filter(peers,ticker,target_info=info,return_universe=True,max_peers=6,as_of=today)
     selected,peer_ttm,peer_forward=_peer_references(eligible,today,info,end)
     own_pes,own_note,own_count=_historical_reference(stats,'PER histórico')
     per_basis='TTM';confidence='Baja';per_note=own_note;pes=own_pes
-    if peer_ttm:pes,per_count=peer_ttm;confidence='Media';per_note=f'{per_count} comparables económicos TTM homogéneos'
-    if peer_forward:pes,per_count=peer_forward;confidence='Media';per_note=f'{per_count} comparables económicos NTM verificados';per_basis='NTM'
+    if not own_count and peer_ttm:pes,per_count=peer_ttm;confidence='Media';per_note=f'{per_count} comparables económicos TTM homogéneos'
+    if not own_count and not peer_ttm and peer_forward:pes,per_count=peer_forward;confidence='Media';per_note=f'{per_count} comparables económicos NTM verificados';per_basis='NTM'
     if any('pe' in row for row in settings.get('scenarios',{}).values()):
         # Cada PER manual se identifica; no se convierte una etiqueta FY1 en un forecast NTM.
         per_basis=settings.get('per_basis','TTM');confidence='Baja';per_note='PER manual: '+settings['per_reason']
-    check('EPS × PER','Referencia PER',all(number(x)>0 for x in pes) or any('pe' in row for row in settings.get('scenarios',{}).values()),per_note,True)
+    check('Precio EPS','Referencia PER',all(number(x)>0 for x in pes) or any('pe' in row for row in settings.get('scenarios',{}).values()),per_note,True)
     if confidence=='Baja':check('EPS × PER','Confianza de múltiplo',False,per_note+'; referencia retrospectiva/manual, no consenso')
     # Mediana del resultado no operativo PBT−EBIT; no afirmar que es interés puro.
     revenues=series(a,'Ingresos');operating=series(a,'Beneficio operativo');pretax=series(a,'Beneficio antes de impuestos')
@@ -250,11 +269,23 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         if span>0:growth=(valid_rev.iloc[-1]/valid_rev.iloc[0])**(1/span)-1
     yoy=ttm_yoy(q,'Ingresos')
     if np.isfinite(yoy) and np.isfinite(growth):growth=(growth+yoy)/2
+    # Cada observación tiene su propia base: los splits no son dilución económica.
+    if history is not None and not history.empty and 'Factor split acciones' in history:
+        factors=history.drop_duplicates('Ejercicio',keep=False).set_index('Ejercicio')['Factor split acciones'].reindex(a.index)
+        shares=shares*pd.to_numeric(factors,errors='coerce')
     intervals=pd.Series(a.index,index=a.index).diff()
     diluted_growth=((shares/shares.shift(1))**(1/intervals.where(intervals>0))-1).tail(3).dropna()
     dilution=number(diluted_growth.median())
     # Se permite proyectar la tendencia de acciones medias, sin afirmar cancelaciones realizadas.
-    auto={'growth':growth,'margin':number(profit_margin),'tax':tax,'financial_sales':number(financial),'dilution':dilution}
+    industry=' '.join(str(info.get(k) or '') for k in ['industryKey','industry','businessSummary','longBusinessSummary']).lower()
+    cyclical=any(word in industry for word in ['semiconductor','oil','gas','automaker','steel','coal','flash memory','nand','dram'])
+    exceptional=np.isfinite(growth) and growth>.25
+    yearly=(revenues/revenues.shift(1)-1).replace([np.inf,-np.inf],np.nan).dropna().tail(10)
+    normal_growth=number(yearly.median()) if len(yearly)>=3 else np.nan
+    if (cyclical or exceptional) and np.isfinite(normal_growth):
+        # Mediana de tasas anuales observadas, sin cap impuesto para acercarse al precio.
+        growth=number(yearly.tail(5).median())
+    auto={'growth':growth,'margin':number(profit_margin),'tax':tax,'financial_sales':number(financial),'dilution':dilution,'growth_terminal':normal_growth if (cyclical or exceptional) and np.isfinite(normal_growth) else growth,'margin_terminal':number(profit_margin)}
     if any('pe' in row for row in settings.get('scenarios',{}).values()) and per_basis=='NTM' and not all('pe' in settings.get('scenarios',{}).get(n,{}) for n in SCENARIOS):
         raise ValueError('Para cambiar la base del PER a NTM se necesitan los tres PER explícitos; no renombrar el histórico TTM')
     variations={'Pesimista':{'growth':-.05,'margin':-.03,'tax':.02,'financial_sales':-.005,'dilution':.01},
@@ -262,11 +293,11 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     assumptions=[];projected=[];valued=[]
     ttm_eps=number(ttm.get('EPS diluido'))
     turnaround=bool(settings.get('allow_turnaround'))
-    check('EPS × PER','EPS TTM positivo',ttm_eps>0 or (not np.isfinite(ttm_eps) and number(ttm.get('Beneficio neto'))>0 and attribution_ok) or turnaround,'EPS TTM '+str(ttm_eps)+'; si falta EPS se comprueba el signo del neto TTM con puente común FY; EPS negativo requiere turnaround explícito',True)
-    if kind=='REIT':check('EPS × PER','Modelo sectorial REIT',False,'EPS/PER no representa FFO/AFFO. Se requiere NAV/FFO documentado; no sumar D&A arbitrariamente',True)
+    check('Precio EPS','EPS TTM positivo',ttm_eps>0 or (not np.isfinite(ttm_eps) and number(ttm.get('Beneficio neto'))>0 and attribution_ok) or turnaround,'EPS TTM '+str(ttm_eps)+'; si falta EPS se comprueba el signo del neto TTM con puente común FY; EPS negativo requiere turnaround explícito',True)
+    if kind=='REIT':check('Precio EPS','Modelo sectorial REIT',False,'EPS/PER no representa FFO/AFFO. Se requiere NAV/FFO documentado; no sumar D&A arbitrariamente',True)
     if kind=='FINANCIERA':check('EPS × PER','Modelo sectorial financiera',False,'Proyección por margen PBT (resultado financiero incluido); revisar CET1, provisiones y capital regulatorio. FCFF/EV/FCF no aplicables')
-    if any(word in str(info.get('industryKey','')).lower() for word in ['semiconductor','oil','gas','automaker','steel','coal']):
-        check('EPS × PER','Ciclo económico',False,'Margen normalizado mediana de hasta 5 FY; crecimiento mecánico puede extrapolar el ciclo. Revisar escenarios')
+    if cyclical or exceptional:
+        check('EPS × PER','Ciclo económico',False,'Ciclo/crecimiento excepcional: crecimiento mediana de tasas anuales (≥3), margen mediana hasta 5 FY; transición lineal hasta año 3, editable; no consenso')
     for i,name in enumerate(SCENARIOS):
         values={key:(v+variations[name].get(key,0)) for key,v in auto.items()}
         # La banda impositiva no supone reembolsos o tipos negativos.
@@ -275,25 +306,37 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         values['pe']=pes[i]
         custom=settings.get('scenarios',{}).get(name,{})
         if pbt_direct and custom.get('financial_sales',0)!=0:raise ValueError('El margen PBT ya incluye el resultado financiero; no sumarlo de nuevo')
+        # Año 1 parte del margen observado sólo en ciclos; converge a la mediana.
+        latest_margin=number(ttm.get('Beneficio operativo'))/rev if not pbt_direct and rev>0 else np.nan
+        if cyclical and np.isfinite(latest_margin):values['margin']=latest_margin+variations[name].get('margin',0)
+        values['growth_terminal']=auto['growth_terminal']+variations[name].get('growth',0)
+        values['margin_terminal']=auto['margin_terminal']+variations[name].get('margin',0)
         values.update(custom)
+        # Un override de nivel sin extremo mantiene la trayectoria constante elegida.
+        for start,terminal in [('growth','growth_terminal'),('margin','margin_terminal')]:
+            if start in custom and terminal not in custom:values[terminal]=values[start]
         if any(number(v)>0 for v in [values['pe']]) and name=='Base' and (values['growth']>.25 or values['margin']>.5):
             check('EPS × PER','Supuestos exigentes',False,'Crecimiento >25% o margen >50%; no es previsión verificada')
         for key,value in values.items():assumptions.append({'Escenario':name,'Parámetro':key,'Valor':value,
              'Origen':'Usuario' if key in custom else per_note if key=='pe' else 'Incluido en PBT; no sumar financiero dos veces' if key=='financial_sales' and pbt_direct else 'Calculado del histórico; ajuste escenario '+str(variations[name].get(key,0)),
              'Definición':'Margen PBT; incluye financiero' if key=='margin' and pbt_direct else 'PBT−EBIT / ventas; no sólo intereses' if key=='financial_sales' else 'Tasa decimal salvo PER en veces'})
-        bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.)}
+        bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.),'growth_terminal':(-.8,1.),'margin_terminal':(-.8,.9)}
         valid={key:np.isfinite(number(v)) and bounds[key][0]<=v<=bounds[key][1] for key,v in values.items()}
-        check('EPS × PER',name+' supuestos',all(valid.values()),'Fuera de rango/ausentes: '+', '.join(k for k,v in valid.items() if not v),True)
+        check('EPS × PER',name+' supuestos',all(v for k,v in valid.items() if k!='pe'),'Fuera de rango/ausentes: '+', '.join(k for k,v in valid.items() if not v),True)
         blocked=any(c['Estado']=='BLOQUEO' and c['Método'] in ('Todos','EPS × PER') and not any(n+' supuestos'==c['Comprobación'] for n in SCENARIOS) for c in controls)
         paths={}
-        if all(valid.values()) and not blocked:
+        if all(v for k,v in valid.items() if k!='pe') and not blocked:
+            sales=rev
             for h in [1,2,3,4]:
-                sales=rev*(1+values['growth'])**h;op=sales*values['margin']
+                weight=min(1.,(h-1)/2)
+                g=values['growth']+(values['growth_terminal']-values['growth'])*weight
+                margin=values['margin']+(values['margin_terminal']-values['margin'])*weight
+                sales*=1+g;op=sales*margin
                 pbt=op if pbt_direct else op+sales*values['financial_sales']
                 profit=(pbt-max(0.,pbt)*values['tax'])*common_ratio
                 diluted_future=diluted*(1+values['dilution'])**h
                 eps_future=profit/diluted_future
-                paths[h]={'Escenario':name,'Año futuro':h,'Ingresos':sales,'EBIT o PBT directo':op,
+                paths[h]={'Escenario':name,'Año futuro':h,'Crecimiento aplicado':g,'Margen aplicado':margin,'Ingresos':sales,'EBIT o PBT directo':op,
                     'Resultado no operativo':0. if pbt_direct else sales*values['financial_sales'],
                     'PBT':pbt,'Impuestos':max(0.,pbt)*values['tax'],'Beneficio común normalizado':profit,
                     'Acciones diluidas':diluted_future,'EPS financiero':eps_future,'Moneda':financial_currency}
@@ -301,23 +344,24 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         for h in [1,3]:
             eps_year=h+1 if per_basis=='NTM' else h
             future=paths.get(eps_year,{})
-            ef=number(future.get('EPS financiero'));target=ef*values['pe']*fx*adr_factor if ef>0 and number(values['pe'])>0 else np.nan
+            price_blocked=any(c['Estado']=='BLOQUEO' and c['Método'] in ('Todos','Precio EPS') for c in controls)
+            ef=number(future.get('EPS financiero'));target=ef*values['pe']*fx*adr_factor if ef>0 and valid['pe'] and not price_blocked else np.nan
             valued.append({'Método':'EPS × PER','Escenario':name,'Horizonte (años)':h,'Precio objetivo':target,
                 'Moneda':quote_currency,'EPS aplicado':ef,'Moneda EPS':financial_currency,'PER aplicado':values['pe'],
                 'Periodo PER':per_basis,'Periodo EPS':f'Año {eps_year}: '+('NTM posterior al horizonte' if per_basis=='NTM' else '12 meses hasta horizonte'),
-                'Origen PER':per_note,'Potencial (%)':100*(target/price-1) if number(price)>0 else np.nan,
-                'Rentabilidad anualizada (%)':100*((target/price)**(1/h)-1) if target>0 and price>0 else np.nan,
-                'Confianza':confidence,'Estado':'CONDICIONAL' if target>0 else 'BLOQUEO','Fecha objetivo':str((today+pd.DateOffset(years=h)).date()),
+                'Origen PER':per_note,'Potencial (%)':100*(target/price-1) if number(price)>0 and quote_ok else np.nan,
+                'Rentabilidad anualizada (%)':100*((target/price)**(1/h)-1) if target>0 and price>0 and quote_ok else np.nan,
+                'Confianza':confidence,'Estado':'ESTIMADO' if target>0 else 'NO DISPONIBLE','Fecha objetivo':str((today+pd.DateOffset(years=h)).date()),
                 'Limitación':'Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales'})
     valuation=pd.DataFrame(valued)
     eps_ok=int(valuation['Precio objetivo'].notna().sum())>0
-    eps_notes='Datos contables suficientes; hipótesis pendientes de validación económica' if eps_ok else '; '.join(c['Comprobación'] for c in controls if c['Estado']=='BLOQUEO' and c['Método'] in ('Todos','EPS × PER'))
-    methods.append({'Método':'EPS × PER','Rol':'Principal','Estado':'CONDICIONAL' if eps_ok else 'BLOQUEO','Detalle':eps_notes})
+    eps_notes='Datos contables suficientes; hipótesis pendientes de validación económica' if eps_ok else '; '.join(c['Comprobación'] for c in controls if c['Estado']=='BLOQUEO' and c['Método'] in ('Todos','EPS × PER','Precio EPS'))
+    methods.append({'Método':'EPS × PER','Rol':'Principal','Estado':'ESTIMADO' if eps_ok else 'NO DISPONIBLE','Detalle':eps_notes})
     fcf_pes,fcf_note,_=_historical_reference(stats,'Precio/FCF histórico')
     fcf=number(ttm.get('Flujo de caja libre'));fcf_hist=series(a,'Flujo de caja libre').tail(5)
     fcf_conversion=fcf/number(ttm.get('Beneficio neto')) if number(ttm.get('Beneficio neto'))>0 else np.nan
     fcf_ok=(kind=='OPERATIVA' and fcf>0 and (fcf_hist>0).sum()>=3 and .5<=fcf_conversion<=2 and diluted>0 and all(number(x)>0 for x in fcf_pes)
-            and not any(c['Estado']=='BLOQUEO' and c['Método']=='Todos' for c in controls) and 'CAPEX' not in q.attrs.get('invalid_flows',[]))
+            and number(fx)>0 and adr_factor>0 and not any(c['Estado']=='BLOQUEO' and c['Método']=='Todos' for c in controls) and 'CAPEX' not in q.attrs.get('invalid_flows',[]))
     methods.append({'Método':'Precio/FCF','Rol':'Contraste','Estado':'CONDICIONAL' if fcf_ok else 'NO_REPRESENTATIVO',
         'Detalle':f'FCF=OCF−CAPEX completo; conversión FCF/neto {fcf_conversion}; mínimo 3 FY positivos; '+fcf_note+'; no confundir P/FCF con EV/FCF'})
     if fcf_ok:
@@ -329,7 +373,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         methods.append({'Método':method,'Rol':'Opcional','Estado':'SOLICITADO' if settings.get('advanced') and kind=='OPERATIVA' else 'NO_EJECUTADO',
             'Detalle':'Controles propios; nunca invalidan EPS × PER' if kind=='OPERATIVA' else 'No aplicar FCFF/EV genérico a financieras o REIT'})
     summary={'ticker':ticker,'as_of':str(today.date()),'price':number(price),'quote_date':str(quote_date.date()) if pd.notna(quote_date) else None,'quote_verified':bool(quote_ok),'currency':quote_currency,'financial_currency':financial_currency,
-        'confidence':confidence,'sector_type':kind,'profit_model':'PBT directo' if pbt_direct else 'EBIT + no operativo','revenue_ttm':rev,'diluted_base':diluted,'diluted_source':diluted_source,
+        'per_share_fx':fx*adr_factor,'confidence':confidence,'sector_type':kind,'profit_model':'PBT directo' if pbt_direct else 'EBIT + no operativo','revenue_ttm':rev,'diluted_base':diluted,'diluted_source':diluted_source,
         'fair_value':np.nan,'target_1y':np.nan,'target_3y':np.nan,'upside_1y':np.nan,'annual_return_3y':np.nan,
         'pessimistic_1y':np.nan,'scenario_spread':np.nan,'publicable':False,'source':source,'per_source':per_note}
     base_values=valuation[valuation['Método'].eq('EPS × PER')&valuation['Escenario'].eq('Base')]
@@ -347,16 +391,21 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         summary['pessimistic_1y']=number(one[one['Escenario'].eq('Pesimista')].iloc[0]['Precio objetivo'])
         summary['scenario_spread']=(one['Precio objetivo'].max()-one['Precio objetivo'].min())/summary['target_1y'] if summary['target_1y']>0 else np.nan
     scenario_prices=one.set_index('Escenario')['Precio objetivo'].reindex(SCENARIOS) if len(one) else pd.Series(dtype=float)
-    summary['scenario_order_valid']=bool(len(scenario_prices)==3 and scenario_prices.notna().all() and scenario_prices.is_monotonic_increasing)
+    summary['scenario_order_valid']=bool(all(len(v:=valuation[valuation['Método'].eq('EPS × PER')&valuation['Horizonte (años)'].eq(h)].set_index('Escenario')['Precio objetivo'].reindex(SCENARIOS))==3 and v.notna().all() and v.is_monotonic_increasing for h in [1,3]))
     if not summary['scenario_order_valid']:check('Señales','Coherencia de escenarios',False,'Tres escenarios válidos y ordenados requeridos para clasificar atractivo')
     summary.update(evaluate_position(summary,policy))
     debt=number(ttm.get('Deuda neta reciente'));ebit=number(ttm.get('Beneficio operativo'))
     diagnostics=pd.DataFrame([
-        {'Diagnóstico':'Crecimiento','Estado':'Expansión' if growth>0 else 'Contracción' if np.isfinite(growth) else 'N/D','Valor':growth,'Detalle':'CAGR de últimos hasta 4 FY y TTM interanual si completo; no consenso'},
-        {'Diagnóstico':'Rentabilidad','Estado':'Positiva' if profit_margin>0 else 'Débil' if np.isfinite(profit_margin) else 'N/D','Valor':profit_margin,'Detalle':'Mediana de margen '+('PBT directo' if pbt_direct else 'EBIT')+' de hasta 5 FY'},
-        {'Diagnóstico':'Solidez financiera','Estado':'Revisión sectorial' if kind!='OPERATIVA' else 'Caja neta' if debt<0 else 'Revisar deuda' if debt>3*ebit else 'Deuda moderada' if np.isfinite(debt) and ebit>0 else 'N/D',
+        {'Diagnóstico':'Crecimiento','Lectura':'Expansión' if growth>0 else 'Contracción' if np.isfinite(growth) else 'N/D','Valor':growth,'Detalle':'CAGR de últimos hasta 4 FY y TTM interanual si completo; no consenso'},
+        {'Diagnóstico':'Rentabilidad','Lectura':'Positiva' if profit_margin>0 else 'Débil' if np.isfinite(profit_margin) else 'N/D','Valor':profit_margin,'Detalle':'Mediana de margen '+('PBT directo' if pbt_direct else 'EBIT')+' de hasta 5 FY'},
+        {'Diagnóstico':'Solidez financiera','Lectura':'Revisión sectorial' if kind!='OPERATIVA' else 'Caja neta' if debt<0 else 'Revisar deuda' if debt>3*ebit else 'Deuda moderada' if np.isfinite(debt) and ebit>0 else 'N/D',
          'Valor':debt/ebit if ebit>0 and np.isfinite(debt) else np.nan,'Detalle':'Deuda neta/EBIT orientativo; no sustituye vencimientos/liquidez; bancos requieren capital regulatorio'},
-        {'Diagnóstico':'Valoración','Estado':summary['Atractivo'],'Valor':summary['upside_1y'],'Detalle':'EPS proyectado × PER; incertidumbre reflejada en margen exigido'}])
+        {'Diagnóstico':'Valoración','Lectura':summary['Atractivo'],'Valor':summary['upside_1y'],'Detalle':'EPS proyectado × PER; incertidumbre reflejada en margen exigido'}])
+    diagnostics['Estado']=['DISPONIBLE' if pd.notna(v) else 'NO DISPONIBLE' for v in diagnostics['Valor']]
+    diagnostics.loc[diagnostics['Diagnóstico'].eq('Valoración')&diagnostics['Valor'].notna(),'Estado']='ESTIMADO'
     summary['available_targets']=int(valuation['Precio objetivo'].notna().sum());summary['primary_available']=eps_ok
-    return StockAnalysis(valuation,pd.DataFrame(projected),pd.DataFrame(assumptions),pd.DataFrame(methods),pd.DataFrame(controls),
-                         summary,diagnostics,selected,universe,stats,base,settings)
+    conflicts={field for field,dates in q.attrs.get('field_conflicts',{}).items() if any(pd.Timestamp(d) in q.tail(4).index for d in dates)}
+    metrics=metric_coverage(ttm,raw_annual,summary,set(q.attrs.get('invalid_flows',[]))|conflicts)
+    summary['metrics_available_pct']=100*metrics['Valor'].notna().mean()
+    return StockAnalysis(public_states(valuation),pd.DataFrame(projected),pd.DataFrame(assumptions),public_states(pd.DataFrame(methods)),pd.DataFrame(controls).assign(Estado=lambda x:x['Estado público']).drop(columns='Estado público'),
+                         summary,diagnostics,selected,universe,stats,base,settings,metrics)

@@ -168,7 +168,7 @@ with resumen:
     st.subheader('El negocio en cuatro diagnósticos')
     for column,(_,diagnostic) in zip(st.columns(4),result.diagnostics.iterrows()):
         with column:
-            st.markdown('<div class="diagnostic"><div class="label">'+html.escape(diagnostic['Diagnóstico'])+'</div><div class="value">'+html.escape(diagnostic['Estado'])+'</div><div class="note">'+html.escape(diagnostic['Detalle'])+'</div></div>',unsafe_allow_html=True)
+            st.markdown('<div class="diagnostic"><div class="label">'+html.escape(diagnostic['Diagnóstico'])+'</div><div class="value">'+html.escape(diagnostic['Lectura'])+'</div><div class="note">'+html.escape(diagnostic['Detalle'])+'</div></div>',unsafe_allow_html=True)
     with st.expander('Criterios de atractivo y posición (opcional)'):
         st.caption('Umbrales en %. Una mayor incertidumbre exige más margen de seguridad. Las reglas no envían órdenes ni garantizan resultados.')
         policy={**DEFAULT_POLICY,**result.settings.get('policy',{})}
@@ -196,6 +196,7 @@ with resumen:
 with historico:
     st.subheader('Histórico SEC y referencias de valoración')
     st.caption('Importes de cuentas en unidades de '+s['financial_currency']+'. EPS por acción; PER y Precio/FCF en veces. Cobertura explícita por ventana de 5 y 10 ejercicios.')
+    st.caption('Los estados anteriores a cotizar son historia financiera: no crean precios ni PER. Los registros de separación requieren revisar su perímetro económico antes de normalizar.')
     table(tables,'Estadisticas 5 y 10')
     st.subheader('Cuentas anuales seleccionadas')
     table(tables,'Financieros anuales')
@@ -205,6 +206,9 @@ with historico:
 
 with trimestrales:
     st.subheader('La base actual del negocio')
+    with st.expander('Conciliación SEC–Yahoo y fechas reales'):
+        table(tables,'Conciliacion SEC Yahoo')
+    table(tables,'Disponibilidad metricas')
     table(tables,'Base TTM y balance')
     st.caption('TTM exige cuatro trimestres consecutivos; no se multiplica un trimestre por cuatro. El balance utiliza el cierre más reciente.')
     q=tables.get('Resultados trimestrales',pd.DataFrame())
@@ -236,7 +240,7 @@ with valoracion:
     table(tables,'Valoracion EPS PER')
     st.subheader('Supuestos editables')
     initial=defaults.assumptions.pivot(index='Escenario',columns='Parámetro',values='Valor').reindex(SCENARIOS)
-    labels={'growth':'Crecimiento ventas (%)','margin':'Margen EBIT / PBT (%)','tax':'Fiscalidad (%)','financial_sales':'No operativo / ventas (%)','dilution':'Variación acciones (%)','pe':'PER (x)'}
+    labels={'growth':'Crecimiento ventas (%)','margin':'Margen EBIT / PBT (%)','tax':'Fiscalidad (%)','financial_sales':'No operativo / ventas (%)','dilution':'Variación acciones (%)','pe':'PER (x)','growth_terminal':'Crecimiento año 3 (%)','margin_terminal':'Margen año 3 (%)'}
     editor=initial.copy()
     for key in editor:
         if key!='pe':editor[key]*=100
@@ -277,11 +281,13 @@ with valoracion:
             validate_settings(custom);calculate(raw,json.dumps(custom,allow_nan=False))
             st.session_state['settings']=json.dumps(custom,allow_nan=False);st.rerun()
         except (ValueError,TypeError) as exc:st.error(str(exc))
+    st.caption('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan tasas anuales medianas observadas, sin calibración al precio.')
     st.caption('Los valores automáticos son hipótesis mecánicas y se identifican como tales. Cambiar la cotización no recalibra crecimiento, márgenes ni PER. Para NTM manual introduce los tres PER explícitos.')
     with st.expander('Trayectoria de beneficios y origen de cada supuesto'):
         table(tables,'Proyeccion EPS');table(tables,'Supuestos EPS PER')
     st.subheader('Suficiencia por método')
     table(tables,'Estado metodos')
+    table(tables,'Disponibilidad metricas')
     if result.settings.get('advanced'):
         with st.expander('EV/EBITDA y DCF · resultados y controles propios',expanded=True):
             table(tables,'Valoracion opcional');table(tables,'Control opcionales');table(tables,'Parametros riesgo')

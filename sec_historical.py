@@ -21,6 +21,7 @@ SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 SEC_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
 SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
 DEFAULT_USER_AGENT = "StockValuationProject/1.0"
+ANNUAL_FORMS = {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A", "S-1", "S-1/A", "424B4", "10-12B", "10-12B/A"}
 
 
 def fiscal_year_label(date):
@@ -176,7 +177,7 @@ def sec_fact(companyfacts: dict, tags: list[str], end_date: str, *, currency: st
              mode: str = "money", annual: bool = True) -> dict:
     """Busca un hecho XBRL por lista de tags, fin fiscal, unidad y duración."""
     facts = companyfacts.get("facts", {})
-    form_rank = {"10-K": 0, "10-K/A": 1, "20-F": 2, "20-F/A": 3, "40-F": 4, "40-F/A": 5}
+    form_rank = {form:i for i,form in enumerate(["10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A", "S-1/A", "S-1", "424B4", "10-12B/A", "10-12B"])}
     for wanted in tags:
         options = []
         for taxonomy, concepts in facts.items():
@@ -286,7 +287,7 @@ def _filings_for_sec(submissions: dict, cik: str) -> list[dict]:
     cik_numeric = str(int(cik))
     for i in range(total):
         form = (recent.get("form", [""] * total)[i] or "")
-        if form not in {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"}:
+        if form not in ANNUAL_FORMS:
             continue
         filed = (recent.get("filingDate", [""] * total)[i] or "")
         report_date = (recent.get("reportDate", [""] * total)[i] or "")
@@ -312,7 +313,7 @@ def _annual_periods(companyfacts: dict, submissions: dict, max_years: int) -> li
     fiscal_filing_dates: set[str] = set()
     recent = submissions.get("filings", {}).get("recent", {})
     for form, date in zip(recent.get("form", []), recent.get("reportDate", [])):
-        if form in {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"} and date:
+        if form in ANNUAL_FORMS and date:
             fiscal_filing_dates.add(str(date))
 
     facts = companyfacts.get("facts", {})
@@ -327,7 +328,7 @@ def _annual_periods(companyfacts: dict, submissions: dict, max_years: int) -> li
                 continue
             for records in concept.get("units", {}).values():
                 for rec in records:
-                    if rec.get("form") not in {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"}:
+                    if rec.get("form") not in ANNUAL_FORMS:
                         continue
                     if not rec.get("start") or not rec.get("end"):
                         continue
@@ -440,7 +441,8 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
     filings = [f for f in _filings_for_sec(submissions, cik) if pd.Timestamp(f["filing_date"])<=cutoff]
     dates = _annual_periods(facts, submissions, years)
     if not dates:
-        return pd.DataFrame(), pd.DataFrame(), {"CIK": cik, "Empresa SEC": facts.get("entityName", sec_name), "Estado": "No se identificaron ejercicios anuales SEC"}
+        from registration_history import download_registration_history
+        return download_registration_history(submissions,cik,user_agent,currency,cutoff)
 
     inline_cache: dict[str, list[dict]] = {}
     source_rows: list[dict] = []
@@ -647,7 +649,8 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
         }
         return pd.DataFrame(), audit, meta
 
-    meta = {"CIK": cik, "Empresa SEC": facts.get("entityName", sec_name), "Estado": "OK",
+    meta = {"CIK": cik,
+        "Registro separación": any(f in {"10-12B", "10-12B/A"} for f in recent.get("form", [])), "Empresa SEC": facts.get("entityName", sec_name), "Estado": "OK",
             "Años recuperados": len(df), "Años con ingresos": annual_revenue_count,
             "Primera fecha fiscal": df["Fecha cierre fiscal"].min(),
             "Última fecha fiscal": df["Fecha cierre fiscal"].max(), "Divisa reportada esperada": currency}

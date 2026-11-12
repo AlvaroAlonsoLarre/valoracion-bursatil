@@ -4,13 +4,14 @@ import numpy as np
 import pandas as pd
 from analisis_acciones import build_stock_analysis,sector_type
 from auditoria_io import clean
+from estados_datos import public_states
 
 
 def stock_tables(annual,peers,kwargs,history,settings=None,optional_environment=None):
     result=build_stock_analysis(annual,peers,history=history,settings=settings,**kwargs)
     tables={
         'Resumen':pd.DataFrame([{'Concepto':k,'Valor':v} for k,v in result.summary.items()]),
-        'Diagnosticos':result.diagnostics,'Valoracion EPS PER':result.valuation,'Proyeccion EPS':result.projected,
+        'Disponibilidad metricas':result.metrics,'Diagnosticos':result.diagnostics,'Valoracion EPS PER':result.valuation,'Proyeccion EPS':result.projected,
         'Supuestos EPS PER':result.assumptions,'Estado metodos':result.methods,'Control por metodo':result.controls,
         'Comparables seleccionados':result.peers.drop(columns=['Evidencia múltiplos','Evidencia TTM'],errors='ignore'),
         'Universo comparables':result.universe.drop(columns=['Evidencia múltiplos','Evidencia TTM'],errors='ignore'),
@@ -48,6 +49,8 @@ def stock_tables(annual,peers,kwargs,history,settings=None,optional_environment=
         result.summary['available_targets']=int(tables['Registro valoraciones']['price'].notna().sum())
         result.summary['optional_available']=int(tables['Registro valoraciones'].loc[tables['Registro valoraciones']['scenario_type'].str.startswith('opcional'),'price'].notna().sum())
         tables['Resumen']=pd.DataFrame([{'Concepto':k,'Valor':v} for k,v in result.summary.items()])
+    for key in ['Estado metodos','Control opcionales','Valoracion opcional','Registro valoraciones']:
+        if key in tables:tables[key]=public_states(tables[key])
     return result,tables
 
 
@@ -109,7 +112,7 @@ def analysis_from_snapshot(payload,settings=None):
         full=tables['Universo comparables']
         missing=discovered[~discovered['Ticker'].isin(full['Ticker'])] if 'Ticker' in full else discovered
         tables['Universo comparables']=pd.concat([full,missing.assign(Elegible=False,Observación='Sin descarga/cobertura')],ignore_index=True)
-    for key in ['Fuentes SEC']:
+    for key in ['Fuentes SEC','Conciliacion SEC Yahoo']:
         if key in historical:tables[key]=historical[key]
     tables.update({'Fuentes fundamentales':pd.DataFrame(official.get('changes',[])).drop(columns=['Componentes'],errors='ignore'),
         'Pendientes fundamentales':pd.DataFrame({'Incidencia':official.get('issues',[])}),

@@ -1,10 +1,10 @@
-name: Valoración auditada multiempresa
+name: V6 · pruebas rápidas y matriz financiera manual
 
 on:
   workflow_dispatch:
     inputs:
       ticker:
-        description: 'Vacío ejecuta MSFT, 000660.KS, JNJ y JPM; otro ticker ejecuta sólo ese emisor'
+        description: 'Vacío ejecuta la muestra de 13 tickers; otro ticker ejecuta sólo ese emisor'
         required: false
         default: ''
         type: string
@@ -12,6 +12,8 @@ on:
         description: 'Trimestres solicitados (4-24)'
         default: '12'
         type: string
+  schedule:
+    - cron: '20 6 * * 6'
   push:
     branches: [main]
     paths-ignore: ['Resultados_publicados/**']
@@ -52,14 +54,14 @@ jobs:
           ticker=os.environ.get('MANUAL_TICKER','').strip().upper()
           if ticker and not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):
               raise ValueError('Ticker no válido')
-          tickers=[ticker] if ticker else ['MSFT','000660.KS','JNJ','JPM']
+          tickers=[ticker] if ticker else ['MSFT','NVDA','AMZN','NFLX','META','GOOGL','GOOG','MU','SNDK','SPCX','JNJ','JPM','000660.KS']
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('tickers='+json.dumps(tickers)+'\n')
           PY
 
   valorar:
     needs: pruebas
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
     strategy:
       fail-fast: false
       matrix:
@@ -80,7 +82,14 @@ jobs:
           SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
           ANALYSIS_TICKER: ${{ matrix.ticker }}
           ANALYSIS_QUARTERS: ${{ inputs.trimestres || '12' }}
-        run: python ejecutar_analisis.py --ticker "$ANALYSIS_TICKER" --num-quarters "$ANALYSIS_QUARTERS" --outdir Resultados
+        run: |
+          set +e
+          python ejecutar_analisis.py --ticker "$ANALYSIS_TICKER" --num-quarters "$ANALYSIS_QUARTERS" --outdir Resultados 2>&1 | tee consola.log
+          status=${PIPESTATUS[0]}
+          mkdir -p Resultados
+          mv consola.log Resultados/
+          # 2 = insuficiencia financiera documentada; 1 = error técnico.
+          if [ "$status" -ne 0 ] && [ "$status" -ne 2 ]; then exit "$status"; fi
       - name: Conservar diagnóstico incluso si se bloquea la valoración
         if: always()
         uses: actions/upload-artifact@v4
@@ -102,7 +111,7 @@ jobs:
         with:
           pattern: valoracion-*
           path: Resultados
-      - name: Comprobar cobertura y procedencia de ambos tickers
+      - name: Comprobar cobertura y procedencia de la muestra
         env:
           TICKERS_JSON: ${{ needs.pruebas.outputs.tickers }}
           EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
