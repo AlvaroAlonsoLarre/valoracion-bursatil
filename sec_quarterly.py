@@ -18,6 +18,8 @@ TAGS={
  'Flujo de caja operativo':['NetCashProvidedByUsedInOperatingActivities'],
  'CAPEX':['PaymentsToAcquirePropertyPlantAndEquipment'],
  'Recompras de acciones':['PaymentsForRepurchaseOfCommonStock'], 'Dividendos':['PaymentsOfDividends','PaymentsOfDividendsCommonStock']}
+from revision_economica import INVESTMENT_TAGS
+TAGS.update(INVESTMENT_TAGS)
 FORMS={'10-Q','10-Q/A','10-K','10-K/A','S-1','S-1/A','424B4','10-12B','10-12B/A'}
 NON_ADDITIVE={'EPS diluido','Acciones diluidas medias'}
 

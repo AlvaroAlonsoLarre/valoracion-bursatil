@@ -80,7 +80,8 @@ def historical_statistics(annual,history):
         eps_aligned=h.set_index('Ejercicio')['EPS base cotización'].reindex(a.index) if not h.empty and 'EPS base cotización' in h else pd.Series(index=a.index,dtype=float)
         data['EPS diluido']=eps_aligned
         for c in ['PER histórico','Precio/FCF histórico']:
-            data[c]=pd.to_numeric(h[c],errors='coerce') if c in h else pd.Series(dtype=float)
+            selected=h[h['PER admisible económicamente'].eq(True)] if c=='PER histórico' and 'PER admisible económicamente' in h else h
+            data[c]=pd.to_numeric(selected[c],errors='coerce') if c in selected else pd.Series(dtype=float)
         for metric,series in data.items():
             valid=series.replace([np.inf,-np.inf],np.nan).dropna()
             if metric in ('PER histórico','Precio/FCF histórico'):valid=valid[valid>0]

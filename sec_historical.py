@@ -250,7 +250,8 @@ def parse_inline_xbrl(html: str, filing: dict) -> list[dict]:
         start = _child_text(ctx, "startdate")
         end = _child_text(ctx, "enddate") or instant
         dimensions = any(_local_name(t) in {"explicitmember", "typedmember"} for t in ctx.find_all(True))
-        contexts[ctx_id] = {"instant": instant, "start": start, "end": end, "dimensions": dimensions}
+        members=[t.get_text(strip=True) for t in ctx.find_all(True) if _local_name(t) in {"explicitmember", "typedmember"}]
+        contexts[ctx_id] = {"instant": instant, "start": start, "end": end, "dimensions": dimensions,"members":members}
 
     result = []
     for fact in soup.find_all(lambda t: getattr(t, "name", None) and _local_name(t) == "nonfraction"):
@@ -272,7 +273,7 @@ def parse_inline_xbrl(html: str, filing: dict) -> list[dict]:
             "name": str(name), "local": _norm(str(name).split(":")[-1]),
             "value": value, "unitref": str(fact.get("unitref") or fact.get("unitRef") or ""),
             "start": ctx.get("start"), "end": ctx.get("end"), "instant": ctx.get("instant"),
-            "days": days, "dimensions": ctx.get("dimensions", False),
+            "days": days, "dimensions": ctx.get("dimensions", False),"members":ctx.get("members",[]),"scale":fact.get("scale","0"),
             "form": filing.get("form", ""), "filed": filing.get("filing_date", ""),
             "report_date": filing.get("report_date", ""), "accession": filing.get("accession", ""),
             "url": filing.get("url", ""),
@@ -475,6 +476,8 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
         "Dividendos": ("money", True, ["PaymentsOfDividendsCommonStock", "PaymentsOfDividends", "PaymentsOfDividendsCommonStockIncludingExtraordinaryDividends"]),
     }
 
+    from revision_economica import INVESTMENT_TAGS
+    tags.update({field:('money',True,candidates) for field,candidates in INVESTMENT_TAGS.items()})
     for date in dates:
         row: dict[str, Any] = {"Fecha cierre fiscal": pd.Timestamp(date), "Ejercicio": fiscal_year_label(date)}
         for field, (mode, annual, candidates) in tags.items():
@@ -483,6 +486,7 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
             if field=='EPS diluido':row['EPS fuente presentado']=fact['filed']
             if field=='EPS continuado diluido':row['EPS continuado fuente presentado']=fact['filed']
             if field=='Acciones diluidas medias':row['Acciones fuente presentado']=fact['filed']
+            if field=='Gastos por intereses':row['Concepto gasto intereses']=fact['tag']
             source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date, "Campo": field,
                                 "Valor original": fact["value"], "Unidad": fact["unit"], "Concepto SEC": fact["tag"],
                                 "Formulario": fact["form"], "Presentado": fact["filed"], "Accession": fact["accn"], "Fuente": "CompanyFacts"})
@@ -513,6 +517,7 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
                 currency, user_agent, inline_cache, annual=True)
             if inline_interest:
                 row["Gastos por intereses"] = abs(inline_interest["value"])
+                row['Concepto gasto intereses']=inline_interest['name']
                 source_rows = [x for x in source_rows if not (x.get("Campo") == "Gastos por intereses" and x.get("Ejercicio") == fiscal_year_label(date))]
                 source_rows.append({"Ejercicio": fiscal_year_label(date), "Fecha cierre fiscal": date,
                                     "Campo": "Gastos por intereses", "Valor original": row["Gastos por intereses"],
@@ -658,4 +663,11 @@ def download_sec_annual_history(ticker: str, company_name: str | None = None,
         if x.get('Campo') in ('Ingresos','Beneficio neto','EPS diluido') and pd.notna(x.get('Valor original')) and ':' in str(x['Concepto SEC']))
     meta['Base contable']='US_GAAP' if accounting=={'us-gaap'} else 'IFRS' if accounting=={'ifrs-full'} else 'UNKNOWN'
     meta['Fecha corte']=str(cutoff.date())
+    for i,form in enumerate(recent.get('form',[])):
+        if form not in ('10-Q','10-K') or not recent.get('primaryDocument',[])[i]:continue
+        accn=recent['accessionNumber'][i]
+        meta['Último filing financiero']={'form':form,'filing_date':recent['filingDate'][i],
+            'report_date':recent['reportDate'][i],'accession':accn,
+            'url':f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accn.replace('-','')}/{recent['primaryDocument'][i]}"}
+        break
     return df, audit, meta

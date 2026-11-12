@@ -12,6 +12,7 @@ from modelo_fundamental import quarterly_snapshot,ttm_yoy
 from comparables_inteligentes import score_and_filter
 from multiple_evidence import validate_multiple
 from estados_datos import public_states,metric_coverage
+from revision_economica import qualified_history,recurrent_financial,is_cyclical,cagr,changed_regime
 
 SCENARIOS=('Pesimista','Base','Optimista')
 DEFAULT_POLICY={'required_return':.10,'margin_of_safety':.20,'sell_premium':.20,
@@ -33,6 +34,7 @@ class StockAnalysis:
     base_ttm:pd.DataFrame
     settings:dict
     metrics:pd.DataFrame
+    qualified_history:pd.DataFrame
 
 
 def series(frame,column):
@@ -234,7 +236,9 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     check('EPS × PER','Acciones diluidas',diluted>0,diluted_source,True)
     check('EPS × PER','Flujos de resultados',np.isfinite(number(ttm.get('Beneficio neto'))) and (kind=='FINANCIERA' or np.isfinite(number(ttm.get('Beneficio operativo'))) or series(a,'Beneficio antes de impuestos').tail(5).notna().sum()>=3),
           'TTM de neto y EBIT (PBT/margen neto para financieras); sin sustitución por FY',True)
-    stats=historical_statistics(raw_annual,history if history is not None else pd.DataFrame())
+    history_qualified=qualified_history(raw_annual,history if history is not None else pd.DataFrame(),info,kind=='FINANCIERA')
+    stats=historical_statistics(raw_annual,history_qualified)
+    if changed_regime(raw_annual):check('Histórico','Cambio de régimen económico',False,'Margen de últimos 3 FY cambia ≥2× y ≥5 pp frente a los 3 anteriores; no completar el PER con régimen anterior')
     eligible,_,_,_,universe=score_and_filter(peers,ticker,target_info=info,return_universe=True,max_peers=6,as_of=today)
     selected,peer_ttm,peer_forward=_peer_references(eligible,today,info,end)
     own_pes,own_note,own_count=_historical_reference(stats,'PER histórico')
@@ -258,7 +262,9 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     pbt_direct=kind=='FINANCIERA' or operating.tail(5).notna().sum()<3
     if pbt_direct and kind=='OPERATIVA':check('EPS × PER','Margen PBT directo',False,'El emisor no publica una serie EBIT suficiente. Se proyecta PBT normalizado con financiero incluido, sin inventar EBIT ni intereses')
     profit_margin=(pretax/revenues).tail(5).median() if pbt_direct else (operating/revenues).tail(5).median()
-    financial=0. if pbt_direct else ((pretax-operating)/revenues).tail(5).median()
+    financial,financial_note=recurrent_financial(a,kind=='FINANCIERA')
+    if pbt_direct:financial=0.;financial_note='Incluido en PBT directo; no extraer intereses operativos de financieras'
+    check('EPS × PER','Recurrencia resultado no operativo',False,financial_note)
     tax_values=(series(a,'Impuestos')/pretax.where(pretax>0)).tail(5)
     # Tasa publicada sólo si es económicamente interpretable; ausencia no equivale a 25% supuesto.
     tax=number(tax_values[(tax_values>=0)&(tax_values<=.6)].median())
@@ -277,15 +283,13 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     diluted_growth=((shares/shares.shift(1))**(1/intervals.where(intervals>0))-1).tail(3).dropna()
     dilution=number(diluted_growth.median())
     # Se permite proyectar la tendencia de acciones medias, sin afirmar cancelaciones realizadas.
-    industry=' '.join(str(info.get(k) or '') for k in ['industryKey','industry','businessSummary','longBusinessSummary']).lower()
-    cyclical=any(word in industry for word in ['semiconductor','oil','gas','automaker','steel','coal','flash memory','nand','dram'])
+    cyclical=is_cyclical(info)
     exceptional=np.isfinite(growth) and growth>.25
-    yearly=(revenues/revenues.shift(1)-1).replace([np.inf,-np.inf],np.nan).dropna().tail(10)
-    normal_growth=number(yearly.median()) if len(yearly)>=3 else np.nan
-    if (cyclical or exceptional) and np.isfinite(normal_growth):
-        # Mediana de tasas anuales observadas, sin cap impuesto para acercarse al precio.
-        growth=number(yearly.tail(5).median())
-    auto={'growth':growth,'margin':number(profit_margin),'tax':tax,'financial_sales':number(financial),'dilution':dilution,'growth_terminal':normal_growth if (cyclical or exceptional) and np.isfinite(normal_growth) else growth,'margin_terminal':number(profit_margin)}
+    short_growth=cagr(a,5);normal_growth=cagr(a,10)
+    if (cyclical or exceptional) and np.isfinite(short_growth):growth=short_growth
+    terminal_growth=min(growth,normal_growth) if (cyclical or exceptional) and np.isfinite(normal_growth) and np.isfinite(growth) else growth
+    auto={'growth':growth,'margin':number(profit_margin),'tax':tax,'financial_sales':number(financial),'dilution':dilution,
+          'growth_terminal':terminal_growth,'margin_terminal':number(profit_margin)}
     if any('pe' in row for row in settings.get('scenarios',{}).values()) and per_basis=='NTM' and not all('pe' in settings.get('scenarios',{}).get(n,{}) for n in SCENARIOS):
         raise ValueError('Para cambiar la base del PER a NTM se necesitan los tres PER explícitos; no renombrar el histórico TTM')
     variations={'Pesimista':{'growth':-.05,'margin':-.03,'tax':.02,'financial_sales':-.005,'dilution':.01},
@@ -297,7 +301,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     if kind=='REIT':check('Precio EPS','Modelo sectorial REIT',False,'EPS/PER no representa FFO/AFFO. Se requiere NAV/FFO documentado; no sumar D&A arbitrariamente',True)
     if kind=='FINANCIERA':check('EPS × PER','Modelo sectorial financiera',False,'Proyección por margen PBT (resultado financiero incluido); revisar CET1, provisiones y capital regulatorio. FCFF/EV/FCF no aplicables')
     if cyclical or exceptional:
-        check('EPS × PER','Ciclo económico',False,'Ciclo/crecimiento excepcional: crecimiento mediana de tasas anuales (≥3), margen mediana hasta 5 FY; transición lineal hasta año 3, editable; no consenso')
+        check('EPS × PER','Ciclo económico',False,'Ciclo/crecimiento excepcional: CAGR hasta 5 FY → menor de CAGR 5/10 FY al año 3; margen normalizado mediana hasta 5 FY desde año 1. Hipótesis, no consenso')
     for i,name in enumerate(SCENARIOS):
         values={key:(v+variations[name].get(key,0)) for key,v in auto.items()}
         # La banda impositiva no supone reembolsos o tipos negativos.
@@ -306,9 +310,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         values['pe']=pes[i]
         custom=settings.get('scenarios',{}).get(name,{})
         if pbt_direct and custom.get('financial_sales',0)!=0:raise ValueError('El margen PBT ya incluye el resultado financiero; no sumarlo de nuevo')
-        # Año 1 parte del margen observado sólo en ciclos; converge a la mediana.
-        latest_margin=number(ttm.get('Beneficio operativo'))/rev if not pbt_direct and rev>0 else np.nan
-        if cyclical and np.isfinite(latest_margin):values['margin']=latest_margin+variations[name].get('margin',0)
+        # No volver a extrapolar el margen TTM de pico sobre ingresos TTM ya elevados.
         values['growth_terminal']=auto['growth_terminal']+variations[name].get('growth',0)
         values['margin_terminal']=auto['margin_terminal']+variations[name].get('margin',0)
         values.update(custom)
@@ -318,7 +320,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         if any(number(v)>0 for v in [values['pe']]) and name=='Base' and (values['growth']>.25 or values['margin']>.5):
             check('EPS × PER','Supuestos exigentes',False,'Crecimiento >25% o margen >50%; no es previsión verificada')
         for key,value in values.items():assumptions.append({'Escenario':name,'Parámetro':key,'Valor':value,
-             'Origen':'Usuario' if key in custom else per_note if key=='pe' else 'Incluido en PBT; no sumar financiero dos veces' if key=='financial_sales' and pbt_direct else 'Calculado del histórico; ajuste escenario '+str(variations[name].get(key,0)),
+             'Origen':'Usuario' if key in custom else per_note if key=='pe' else 'Incluido en PBT; no sumar financiero dos veces' if key=='financial_sales' and pbt_direct else financial_note if key=='financial_sales' else 'CAGR compuesto de hasta 5/10 FY; menor extremo al año 3' if key in ('growth','growth_terminal') and (cyclical or exceptional) else 'Margen normalizado mediana hasta 5 FY' if key in ('margin','margin_terminal') else 'Calculado del histórico; ajuste escenario '+str(variations[name].get(key,0)),
              'Definición':'Margen PBT; incluye financiero' if key=='margin' and pbt_direct else 'PBT−EBIT / ventas; no sólo intereses' if key=='financial_sales' else 'Tasa decimal salvo PER en veces'})
         bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.),'growth_terminal':(-.8,1.),'margin_terminal':(-.8,.9)}
         valid={key:np.isfinite(number(v)) and bounds[key][0]<=v<=bounds[key][1] for key,v in values.items()}
@@ -408,4 +410,4 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     metrics=metric_coverage(ttm,raw_annual,summary,set(q.attrs.get('invalid_flows',[]))|conflicts)
     summary['metrics_available_pct']=100*metrics['Valor'].notna().mean()
     return StockAnalysis(public_states(valuation),pd.DataFrame(projected),pd.DataFrame(assumptions),public_states(pd.DataFrame(methods)),pd.DataFrame(controls).assign(Estado=lambda x:x['Estado público']).drop(columns='Estado público'),
-                         summary,diagnostics,selected,universe,stats,base,settings,metrics)
+                         summary,diagnostics,selected,universe,stats,base,settings,metrics,history_qualified)

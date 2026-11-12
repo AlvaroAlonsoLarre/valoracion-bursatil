@@ -160,6 +160,11 @@ with resumen:
         st.subheader('Lectura de valoración')
         st.markdown('**'+s['Atractivo']+'**')
         st.write(s['per_source'])
+        base_h=result.assumptions.query("Escenario=='Base'").set_index('Parámetro')['Valor']
+        st.caption('Base · crecimiento '+fmt(base_h.get('growth'),True)+' → '+fmt(base_h.get('growth_terminal'),True)+
+                   ' · margen '+fmt(base_h.get('margin'),True)+' → '+fmt(base_h.get('margin_terminal'),True)+
+                   ' · PER '+fmt(base_h.get('pe'))+'×. Extremos de años 1 y 3; editables en Valoración.')
+
         st.caption('La referencia propia reduce la confianza; las bandas son supuestos, no probabilidades.')
         st.write('Margen de seguridad exigido: **'+fmt(s['Margen de seguridad exigido (%)']/100,True)+'**')
         if len(rows):
@@ -238,6 +243,20 @@ with valoracion:
     st.caption('Ingresos TTM → crecimiento previsto → EBIT normalizado + resultado no operativo → impuestos → beneficio común / acciones diluidas. Para financieras se usa margen PBT, con resultado financiero ya incluido. Un REIT requiere FFO/AFFO/NAV.')
     if s['profit_model']=='PBT directo':st.info('Esta captura utiliza margen PBT normalizado: el resultado financiero ya está incluido. No se inventa una serie EBIT ni se suma el financiero dos veces.')
     table(tables,'Valoracion EPS PER')
+    with st.expander('Sensibilidad y expectativas que descuenta la cotización'):
+        st.caption('Cada variable cambia por separado. Sensibilidad: ±5 puntos de crecimiento, ±3 de margen y ±20% PER. Los supuestos no se ajustan automáticamente al precio.')
+        data=tables.get('Sensibilidad EPS PER',pd.DataFrame()).copy()
+        if not data.empty:
+            data['Parámetro']=data['Parámetro'].map({'growth':'Crecimiento','margin':'Margen','pe':'PER'})
+            st.dataframe(data[['Horizonte (años)','Parámetro','Cambio','Precio sensibilidad','Moneda']],hide_index=True,width='stretch')
+        implied=tables.get('Expectativas implicitas',pd.DataFrame()).copy()
+        for col in ['Crecimiento uniforme implícito','Margen implícito']:
+            if col in implied:implied[col+' (%)']=implied.pop(col)*100
+        st.dataframe(implied,hide_index=True,width='stretch')
+        st.caption('Los implícitos resuelven una incógnita manteniendo el resto Base: no son un pronóstico. El crecimiento implícito es uniforme hasta el año del EPS, distinto de una senda desacelerada. Sin dividendos ni descuento.')
+    with st.expander('Resultados recurrentes y calidad del PER histórico'):
+        table(tables,'Puente recurrencia');table(tables,'Recurrencia trimestral');table(tables,'Referencias historicas');table(tables,'Notas inversiones oficiales')
+        st.caption('Importes pretax en moneda financiera. Los beneficios reportados se conservan: no se inventa un impuesto ni un EPS ajustado. Un PER puede excluirse de la referencia sin ocultar el dato histórico.')
     st.subheader('Supuestos editables')
     initial=defaults.assumptions.pivot(index='Escenario',columns='Parámetro',values='Valor').reindex(SCENARIOS)
     labels={'growth':'Crecimiento ventas (%)','margin':'Margen EBIT / PBT (%)','tax':'Fiscalidad (%)','financial_sales':'No operativo / ventas (%)','dilution':'Variación acciones (%)','pe':'PER (x)','growth_terminal':'Crecimiento año 3 (%)','margin_terminal':'Margen año 3 (%)'}
@@ -281,7 +300,7 @@ with valoracion:
             validate_settings(custom);calculate(raw,json.dumps(custom,allow_nan=False))
             st.session_state['settings']=json.dumps(custom,allow_nan=False);st.rerun()
         except (ValueError,TypeError) as exc:st.error(str(exc))
-    st.caption('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan tasas anuales medianas observadas, sin calibración al precio.')
+    st.caption('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan CAGR compuestos a 5/10 FY y márgenes normalizados desde el primer año, sin calibración al precio.')
     st.caption('Los valores automáticos son hipótesis mecánicas y se identifican como tales. Cambiar la cotización no recalibra crecimiento, márgenes ni PER. Para NTM manual introduce los tres PER explícitos.')
     with st.expander('Trayectoria de beneficios y origen de cada supuesto'):
         table(tables,'Proyeccion EPS');table(tables,'Supuestos EPS PER')

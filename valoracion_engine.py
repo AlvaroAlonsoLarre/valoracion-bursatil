@@ -631,6 +631,8 @@ columnas_porcentajes_financieras = [
 # Mantener ausencias como NaN permite conservar los indicadores independientes.
 for columna in columnas_monetarias_financieras+columnas_porcentajes_financieras+["EPS diluido","Acciones diluidas medias"]:
     if columna not in tabla_financiera_usd:tabla_financiera_usd[columna]=np.nan
+from revision_economica import INVESTMENT_TAGS
+columnas_monetarias_financieras+=list(INVESTMENT_TAGS)
 tabla_financiera = a_miles_millones(tabla_financiera_usd, columnas_monetarias_financieras)
 if "Acciones diluidas medias" in tabla_financiera.columns:
     tabla_financiera["Acciones diluidas medias"] /= 1e9
@@ -1661,6 +1663,14 @@ if sec_metadata.get('CIK'):
             sec_metadata['CIK'],divisa_financiera,hoy,SEC_USER_AGENT,precios)
     except Exception as exc:
         conciliacion_sec_yahoo=pd.DataFrame([{'Estado':'ADVERTENCIA','Detalle':str(exc)[:250]}])
+from revision_economica import investment_amounts,official_investment_notes
+notas_inversiones=pd.DataFrame()
+identified=investment_amounts(tabla_trimestral_usd)
+if identified.abs().gt(0).any() and sec_metadata.get('Último filing financiero'):
+    try:
+        notas_inversiones=official_investment_notes(sec_metadata['Último filing financiero'],divisa_financiera,SEC_USER_AGENT)
+    except Exception as exc:
+        notas_inversiones=pd.DataFrame([{'Estado':'ADVERTENCIA','Detalle':str(exc)[:250]}])
 info={**info,'valuation_sec_registration_sources':sec_metadata.get('Fuentes registro',[]),'valuation_cik':sec_metadata.get('CIK'),'valuation_separation_registration':sec_metadata.get('Registro separación',False)}
 from filing_review import review_filings,components_reconciliation
 import json
@@ -1727,13 +1737,14 @@ snapshot_dir=os.environ.get('VALUACION_SNAPSHOT_DIR','')
 if snapshot_dir:
     write_snapshot(Path(snapshot_dir)/(TICKER+'_inputs.json'),tabla_financiera_usd,universo_df,fundamental_kwargs,
         {'Referencia histórica auditada':historico_auditado,
-         'Fuentes SEC':tabla_fuentes_sec,'Precios y splits':precios,'Conciliacion SEC Yahoo':conciliacion_sec_yahoo,'General datos':pd.DataFrame([{'Ticker':TICKER,'Empresa':nombre_empresa,'Sector':sector_objetivo,'Industria':industria_objetivo}]),
+         'Fuentes SEC':tabla_fuentes_sec,'Precios y splits':precios,'Conciliacion SEC Yahoo':conciliacion_sec_yahoo,'Notas inversiones oficiales':notas_inversiones,'General datos':pd.DataFrame([{'Ticker':TICKER,'Empresa':nombre_empresa,'Sector':sector_objetivo,'Industria':industria_objetivo}]),
          'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
          'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
          evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo,'stock_model':{'version':'stock-dashboard-v1','product_version':'V6 simplificada','settings':stock_settings},'peer_ttm_sources':fuentes_ttm,'peer_discovery':list(registro_candidatos.values())})
 from flujo_acciones import stock_tables
 resultado_acciones,tablas_acciones=stock_tables(tabla_financiera_usd,universo_df,fundamental_kwargs,historico_auditado,stock_settings)
 tablas_acciones['Conciliacion SEC Yahoo']=conciliacion_sec_yahoo
+tablas_acciones['Notas inversiones oficiales']=notas_inversiones
 # Registros de descubrimiento incluyen candidatos sin descarga; no se confunden con pares válidos.
 if registro_candidatos:
     discovered=pd.DataFrame(registro_candidatos.values())
@@ -1802,7 +1813,7 @@ archivo_salida = Path(f"valoracion_completa_{ticker_archivo}.xlsx")
 def escribir_informe_excel(ruta):
     """Escribe todas las tablas disponibles en el archivo indicado."""
     tables=dict(tablas_acciones)
-    tables.update({'General':tabla_general,'Fuentes SEC':tabla_fuentes_sec,'Precios y splits':precios,'Conciliacion SEC Yahoo':conciliacion_sec_yahoo,
+    tables.update({'General':tabla_general,'Fuentes SEC':tabla_fuentes_sec,'Precios y splits':precios,'Conciliacion SEC Yahoo':conciliacion_sec_yahoo,'Notas inversiones oficiales':notas_inversiones,
 
         'Fuentes fundamentales':pd.DataFrame(enriquecimiento.evidence['changes']).drop(columns=['Componentes'],errors='ignore'),
         'Conciliacion TTM':tabla_conciliacion_ttm,'Pendientes fundamentales':pd.DataFrame({'Incidencia':enriquecimiento.evidence['issues']}),

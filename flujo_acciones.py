@@ -17,6 +17,9 @@ def stock_tables(annual,peers,kwargs,history,settings=None,optional_environment=
         'Universo comparables':result.universe.drop(columns=['Evidencia múltiplos','Evidencia TTM'],errors='ignore'),
         'Referencias historicas':history,'Estadisticas 5 y 10':result.history_statistics,'Base TTM y balance':result.base_ttm,
         'Financieros anuales':annual.reset_index(),'Resultados trimestrales':kwargs['quarterly'].reset_index() if kwargs.get('quarterly') is not None else pd.DataFrame()}
+    from revision_economica import bridge,sensitivity,implied_requirements
+    tables.update({'Puente recurrencia':bridge(annual),'Recurrencia trimestral':bridge(kwargs['quarterly']) if kwargs.get('quarterly') is not None else pd.DataFrame(),'Sensibilidad EPS PER':sensitivity(result,kwargs['financial_currency'],kwargs['quote_currency']),
+                   'Expectativas implicitas':implied_requirements(result),'Referencias historicas':result.qualified_history})
     registry=[]
     for _,r in result.valuation.iterrows():
         main=r['Método']=='EPS × PER'
@@ -112,7 +115,7 @@ def analysis_from_snapshot(payload,settings=None):
         full=tables['Universo comparables']
         missing=discovered[~discovered['Ticker'].isin(full['Ticker'])] if 'Ticker' in full else discovered
         tables['Universo comparables']=pd.concat([full,missing.assign(Elegible=False,Observación='Sin descarga/cobertura')],ignore_index=True)
-    for key in ['Fuentes SEC','Conciliacion SEC Yahoo']:
+    for key in ['Fuentes SEC','Conciliacion SEC Yahoo','Notas inversiones oficiales']:
         if key in historical:tables[key]=historical[key]
     tables.update({'Fuentes fundamentales':pd.DataFrame(official.get('changes',[])).drop(columns=['Componentes'],errors='ignore'),
         'Pendientes fundamentales':pd.DataFrame({'Incidencia':official.get('issues',[])}),
