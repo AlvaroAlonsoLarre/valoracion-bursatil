@@ -1,0 +1,269 @@
+{
+  "nota": "Mismos snapshots exactos de 43196409785, sin red. Etapa 1 añade diagnóstico, no rellena CAPEX/D&A. Etapa 2 no declara base contable faltante. Etapa 3 shocks base vacíos; referencias no cambian parámetros. Los universos de replay contienen filas descargadas, no todos los candidatos del descubrimiento online.",
+  "resultados": [
+    {
+      "Etapa": 0,
+      "Cambio": "43196409785 código anterior",
+      "Ticker": "MSFT",
+      "Horizonte": 0,
+      "Precio DCF Base": 156.57725754119457,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 0,
+      "Cambio": "43196409785 código anterior",
+      "Ticker": "MSFT",
+      "Horizonte": 1,
+      "Precio DCF Base": 163.06671912197967,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 0,
+      "Cambio": "43196409785 código anterior",
+      "Ticker": "MSFT",
+      "Horizonte": 3,
+      "Precio DCF Base": 174.27972136979875,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 0,
+      "Cambio": "43196409785 código anterior",
+      "Ticker": "000660.KS",
+      "Horizonte": 0,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 0,
+      "Cambio": "43196409785 código anterior",
+      "Ticker": "000660.KS",
+      "Horizonte": 1,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 0,
+      "Cambio": "43196409785 código anterior",
+      "Ticker": "000660.KS",
+      "Horizonte": 3,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 1,
+      "Cambio": "Componentes y búsqueda oficial",
+      "Ticker": "MSFT",
+      "Horizonte": 0,
+      "Precio DCF Base": 156.57725754119457,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 1,
+      "Cambio": "Componentes y búsqueda oficial",
+      "Ticker": "MSFT",
+      "Horizonte": 1,
+      "Precio DCF Base": 163.06671912197967,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 1,
+      "Cambio": "Componentes y búsqueda oficial",
+      "Ticker": "MSFT",
+      "Horizonte": 3,
+      "Precio DCF Base": 174.27972136979875,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 1,
+      "Cambio": "Componentes y búsqueda oficial",
+      "Ticker": "000660.KS",
+      "Horizonte": 0,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 1,
+      "Cambio": "Componentes y búsqueda oficial",
+      "Ticker": "000660.KS",
+      "Horizonte": 1,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 1,
+      "Cambio": "Componentes y búsqueda oficial",
+      "Ticker": "000660.KS",
+      "Horizonte": 3,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 2,
+      "Cambio": "Evidencia y controles de comparables",
+      "Ticker": "MSFT",
+      "Horizonte": 0,
+      "Precio DCF Base": 156.57725754119457,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 2,
+      "Cambio": "Evidencia y controles de comparables",
+      "Ticker": "MSFT",
+      "Horizonte": 1,
+      "Precio DCF Base": 163.06671912197967,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 2,
+      "Cambio": "Evidencia y controles de comparables",
+      "Ticker": "MSFT",
+      "Horizonte": 3,
+      "Precio DCF Base": 174.27972136979875,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 2,
+      "Cambio": "Evidencia y controles de comparables",
+      "Ticker": "000660.KS",
+      "Horizonte": 0,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 2,
+      "Cambio": "Evidencia y controles de comparables",
+      "Ticker": "000660.KS",
+      "Horizonte": 1,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 2,
+      "Cambio": "Evidencia y controles de comparables",
+      "Ticker": "000660.KS",
+      "Horizonte": 3,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 3,
+      "Cambio": "Sensibilidad y contraste de supuestos",
+      "Ticker": "MSFT",
+      "Horizonte": 0,
+      "Precio DCF Base": 156.57725754119457,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 3,
+      "Cambio": "Sensibilidad y contraste de supuestos",
+      "Ticker": "MSFT",
+      "Horizonte": 1,
+      "Precio DCF Base": 163.06671912197967,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 3,
+      "Cambio": "Sensibilidad y contraste de supuestos",
+      "Ticker": "MSFT",
+      "Horizonte": 3,
+      "Precio DCF Base": 174.27972136979875,
+      "Objetivos disponibles": 9,
+      "Bloqueos": 0,
+      "Comparables económicos": 1,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 3,
+      "Cambio": "Sensibilidad y contraste de supuestos",
+      "Ticker": "000660.KS",
+      "Horizonte": 0,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 3,
+      "Cambio": "Sensibilidad y contraste de supuestos",
+      "Ticker": "000660.KS",
+      "Horizonte": 1,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    },
+    {
+      "Etapa": 3,
+      "Cambio": "Sensibilidad y contraste de supuestos",
+      "Ticker": "000660.KS",
+      "Horizonte": 3,
+      "Precio DCF Base": null,
+      "Objetivos disponibles": 0,
+      "Bloqueos": 3,
+      "Comparables económicos": 7,
+      "Identidad precios vs anterior": true
+    }
+  ]
+}

@@ -1,4 +1,18 @@
-# Continuación de la auditoría: 12 de noviembre de 2026
+# Auditoría actualizada: comparables, fuentes SK y supuestos DCF
+
+Actualización sobre [Actions 43196409785](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/actions/runs/43196409785), verificada en [Actions 43203723794](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/actions/runs/43203723794), código `01e056fb3f1f636b8d01e1c99c91219b18d6b2e3`. **55 pruebas y las tres suites originales pasan; ambos tickers se ejecutaron con red.** Cobertura completa. MSFT conserva 9 DCF condicionales y SK devuelve 2/BLOQUEO por CAPEX y D&A. La PR #1 sigue abierta, sin fusionar a `main`.
+
+Se añade captura automática de forecasts con URL/fecha/hash y verificación aritmética/documental de PER y EV/EBITDA. Las estimaciones observadas son `normalized` y FY0/FY1, sin evidencia NTM/GAAP suficiente: ambos métodos siguen N/D. Se preservan mínimo de emisores, controles económicos, fechas, divisas, leases y perímetros.
+
+La búsqueda oficial SEC/DART y la tabla de componentes de SK conservan PP&E Q3 12.670, CAPEX intangibles/total N/D y D&A CFO/operativa 4.335/4.341 KRW billion. **No se ha completado esa conciliación** con una fuente oficial utilizable; no se sustituyen los huecos por cero, ratios FY o un EBITDA de otra definición.
+
+La sensibilidad DCF de Microsoft recalcula 27 casos sin cambiar el Base. Treasury nominal USD 10 años: 4,98 % al 10/11 frente a Rf supuesto 4,10 %. ROIC terminal implícito 3,9274 % frente a WACC 9,8124 %, terminal 61,97 % del EV presente. Son límites relevantes del escenario; no se recalibran parámetros para elevar el objetivo. Precios Base presente/1/3 años antes y después: 156,577258 / 163,066719 / 174,279721 USD, todos condicionales y no publicables automáticamente.
+
+[Informe detallado, comparación por cambio, fuentes oficiales, pruebas, snapshots y hashes](revision_43196409785/INFORME.md). Se distinguen los avances de trazabilidad de los bloqueos de datos aún pendientes. El contenido siguiente documenta la etapa anterior y sus ejecuciones; sus recuentos de pruebas y referencias «actuales» pertenecen a esa etapa.
+
+---
+
+# Registro anterior: continuación de la auditoría del 12 de noviembre de 2026
 
 La PR #1 incorpora ahora D&A consolidada pura de Microsoft y el trimestre oficial Q3 de SK hynix. **MSFT recupera el DCF condicional; sus múltiplos y las valoraciones de SK siguen bloqueados por carencias concretas de datos.** No se eliminaron controles ni se ajustaron parámetros para acercar precios a la cotización. La PR permanece abierta y no se fusionó a `main`.
 

@@ -1,0 +1,1279 @@
+{
+  "ticker": "000660.KS",
+  "generado_utc": "2026-11-12T10:50:25.106560+00:00",
+  "provenance": {
+    "sha": "01e056fb3f1f636b8d01e1c99c91219b18d6b2e3",
+    "run_id": "43203723794",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "input_sha256": "0f2df64d90c08f596c9b5b41a7d47c8a8db4980d39158519a568a31e97126c4f",
+  "auditoria": {
+    "errores_bloqueantes": 3,
+    "objetivos_fundamentales_disponibles": 0,
+    "estado_financiero": "BLOQUEO",
+    "publicable": false,
+    "exit_code": 2,
+    "comparables_elegibles": 7,
+    "total_candidatos": 149,
+    "definiciones_per_completas": 0,
+    "definiciones_ev_ebitda_completas": 0
+  },
+  "Control modelo": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "KRW→KRW; fuente: mismas divisas"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "REVISAR",
+      "Detalle": "4 ejercicios fuente Yahoo Finance (fallback: SEC no disponible para este ticker); sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); emisor sin CIK SEC: revisar fuentes oficiales del país"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 43 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "3 trimestres publicados, ingresos YTD 236,510.03 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=70.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "CAPEX TTM / ventas nan% si disponible; referencia anual 26.8%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 1.7%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Margen operativo elevado",
+      "Estado": "REVISAR",
+      "Detalle": "Margen EBIT base 62.8%: evaluar sostenibilidad/ciclo"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados 0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "16.43%; rf 3.10%; beta 2.47; Ke 16.66%; Kd 4.11%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 16.43%, g terminal 2.00%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada Yahoo; desglose no verificado; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 2.3328414/3.808 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "BLOQUEO",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "REVISAR",
+      "Detalle": "Actividad cíclica: crecimiento converge desde año 1; margen EBIT vuelve hacia 25.4% con el tiempo"
+    }
+  ],
+  "Valoracion fundamental": [],
+  "Base TTM y balance": [
+    {
+      "Campo": "Ingresos",
+      "Base TTM (unidades)": 269336686000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Base TTM (unidades)": 200656465000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Base TTM (unidades)": 189146195000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "EPS diluido",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Base TTM (unidades)": 167385237000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "CAPEX",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "D&A",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Recompras de acciones",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Dividendos",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Deuda neta",
+      "Base TTM (unidades)": -98660000000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Deuda total",
+      "Base TTM (unidades)": 15800000000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Efectivo",
+      "Base TTM (unidades)": 26835986000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    }
+  ],
+  "Supuestos fundamentales": [
+    {
+      "Supuesto": "Fecha valoración",
+      "Valor": "2026-11-12",
+      "Origen y limitación": "Fecha de consulta del motor"
+    },
+    {
+      "Supuesto": "Shocks de auditoría",
+      "Valor": "Ninguno",
+      "Origen y limitación": "Solo experimentos separados; no recalibra la base ni rellena datos ausentes"
+    },
+    {
+      "Supuesto": "Último ejercicio disponible",
+      "Valor": 2025,
+      "Origen y limitación": "Fecha SEC/Yahoo anual"
+    },
+    {
+      "Supuesto": "Fecha base TTM",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "Cuatro trimestres, no ×4 de un trimestre"
+    },
+    {
+      "Supuesto": "Base operativa",
+      "Valor": "TTM",
+      "Origen y limitación": "TTM; puente FY si es necesario; bloquear si parcial sin base completa"
+    },
+    {
+      "Supuesto": "Ingresos base (miles MM)",
+      "Valor": 269336.686,
+      "Origen y limitación": "TTM o FY si no hay cuatro trimestres"
+    },
+    {
+      "Supuesto": "Crecimiento ventas (%)",
+      "Valor": 40,
+      "Origen y limitación": "Mediana crecimiento FY (sin TTM interanual)"
+    },
+    {
+      "Supuesto": "Crecimiento TTM interanual (%)",
+      "Valor": null,
+      "Origen y limitación": "N/D sin ocho trimestres consecutivos; no se sustituye por cero"
+    },
+    {
+      "Supuesto": "Banda de escenarios (%)",
+      "Valor": 15,
+      "Origen y limitación": "Sensibilidad, NO intervalo de confianza"
+    },
+    {
+      "Supuesto": "Margen EBIT normalizado (%)",
+      "Valor": 62.78603252902477,
+      "Origen y limitación": "70% margen TTM + 30% histórico si datos"
+    },
+    {
+      "Supuesto": "D&A / ingresos (%)",
+      "Valor": null,
+      "Origen y limitación": "80/20 reciente/histórico aprox.; definición D&A revisar"
+    },
+    {
+      "Supuesto": "CAPEX / ingresos (%)",
+      "Valor": null,
+      "Origen y limitación": "80% tasa TTM + 20% histórica si existe"
+    },
+    {
+      "Supuesto": "No operativos normalizados (%)",
+      "Valor": 0.51101470992197,
+      "Origen y limitación": "Recorte extraordinarios/ausencia dato"
+    },
+    {
+      "Supuesto": "Impuestos normalizados (%)",
+      "Valor": 17.11696918822626,
+      "Origen y limitación": "Mediana tasas FY; acotada"
+    },
+    {
+      "Supuesto": "Capital trabajo / aumento ingresos (%)",
+      "Valor": 1,
+      "Origen y limitación": "Ajustable; requiere flujos capital trabajo"
+    },
+    {
+      "Supuesto": "Pagos accionistas / ingresos (%)",
+      "Valor": 1.730544045897608,
+      "Origen y limitación": "Dividendo + recompras cash; estimación"
+    },
+    {
+      "Supuesto": "Crecimiento acciones (%)",
+      "Valor": 0,
+      "Origen y limitación": "No relaciona automáticamente recompras con dilución"
+    },
+    {
+      "Supuesto": "Deuda neta reciente (miles MM)",
+      "Valor": -98660,
+      "Origen y limitación": "Balance trimestral o anual más reciente"
+    },
+    {
+      "Supuesto": "Fecha balance",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "La deuda evoluciona en escenarios"
+    },
+    {
+      "Supuesto": "EPS TTM",
+      "Valor": "Suma EPS trimestrales (aproximación)",
+      "Origen y limitación": "No equivale a beneficio TTM / acciones diluidas ponderadas TTM si varían las acciones"
+    },
+    {
+      "Supuesto": "Acciones al cierre (miles MM)",
+      "Valor": 0.705173324,
+      "Origen y limitación": "Yahoo acciones en circulación"
+    },
+    {
+      "Supuesto": "FX contabilidad a cotización",
+      "Valor": 1,
+      "Origen y limitación": "mismas divisas"
+    },
+    {
+      "Supuesto": "WACC (%)",
+      "Valor": 16.43032040054232,
+      "Origen y limitación": "WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Supuesto": "Coste equity Ke (%)",
+      "Valor": 16.663,
+      "Origen y limitación": "rf+beta*ERP+riesgo país"
+    },
+    {
+      "Supuesto": "Coste deuda Kd (%)",
+      "Valor": 4.111592815734872,
+      "Origen y limitación": "Gastos financieros / deuda o aproximación"
+    },
+    {
+      "Supuesto": "Beta",
+      "Valor": 2.466,
+      "Origen y limitación": "Yahoo o supuesto 1"
+    },
+    {
+      "Supuesto": "Tasa sin riesgo (%)",
+      "Valor": 3.1,
+      "Origen y limitación": "Supuesto moneda editable"
+    },
+    {
+      "Supuesto": "Prima mercado ERP (%)",
+      "Valor": 5.5,
+      "Origen y limitación": "Editable"
+    },
+    {
+      "Supuesto": "Crecimiento terminal (%)",
+      "Valor": 2,
+      "Origen y limitación": "Editable, compatible con WACC"
+    },
+    {
+      "Supuesto": "Año terminal común",
+      "Valor": 8,
+      "Origen y limitación": "Misma trayectoria y estado estable en horizontes 0, 1 y 3"
+    },
+    {
+      "Supuesto": "Convención deuda y leases",
+      "Valor": "Deuda financiera sin leases",
+      "Origen y limitación": "FCFF con cash CAPEX; no se añade deuda de leases sin conciliación integral; resultado condicional"
+    },
+    {
+      "Supuesto": "Caja e inversiones",
+      "Valor": "Saldo fuente; disponibilidad no verificada",
+      "Origen y limitación": "Sin evidencia no se presume que inversiones estratégicas sean caja distribuible"
+    },
+    {
+      "Supuesto": "Acciones y recompras",
+      "Valor": "Acciones constantes salvo crecimiento explícito",
+      "Origen y limitación": "Sin cancelaciones/SBC documentadas no se inventa variación; caja sí paga recompras"
+    },
+    {
+      "Supuesto": "PER forward propio Yahoo (solo referencia)",
+      "Valor": 2.3328414,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "EV/EBITDA Yahoo propio (solo referencia)",
+      "Valor": 3.808,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "PER de referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo PER"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo EV/EBITDA"
+    },
+    {
+      "Supuesto": "PER referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza el PER propio como sustituto"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza EV/EBITDA propio como sustituto"
+    },
+    {
+      "Supuesto": "Empresa cíclica",
+      "Valor": "Sí",
+      "Origen y limitación": "Catálogo económico o VALUACION_EMPRESA_CICLICA"
+    },
+    {
+      "Supuesto": "Margen EBIT de ciclo normalizado (%)",
+      "Valor": 25.35663198527435,
+      "Origen y limitación": "Mediana de hasta cinco FY o VALUACION_MARGEN_NORMALIZADO"
+    }
+  ],
+  "DCF sensibilidad": [
+    {
+      "Experimento": "Base",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "Base",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "Base",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC -1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'wacc': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC -1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'wacc': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC -1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'wacc': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC +1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'wacc': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC +1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'wacc': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC +1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'wacc': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas -1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'capex_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas -1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'capex_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas -1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'capex_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas +1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'capex_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas +1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'capex_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas +1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'capex_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas -1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'da_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas -1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'da_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas -1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'da_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas +1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'da_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas +1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'da_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas +1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'da_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal -0.5 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'terminal_growth': -0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal -0.5 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'terminal_growth': -0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal -0.5 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'terminal_growth': -0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal +0.5 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'terminal_growth': 0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal +0.5 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'terminal_growth': 0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal +0.5 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": null,
+      "Moneda": "KRW",
+      "Estado": "BLOQUEO/N-D",
+      "WACC (%)": null,
+      "g (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal (%)": null,
+      "Shocks": "{'terminal_growth': 0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    }
+  ],
+  "DCF validacion": [
+    {
+      "Comprobación": "TIPO_LIBRE_RIESGO",
+      "Valor": 0.031,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "SUPUESTO nominal por moneda, plazo no verificado; fecha N/D; KRW"
+    },
+    {
+      "Comprobación": "PRIMA_RIESGO_MERCADO",
+      "Valor": 0.055,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "SUPUESTO ERP; fecha N/D; KRW"
+    },
+    {
+      "Comprobación": "BETA",
+      "Valor": 2.466,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Yahoo; ventana no verificada; fecha N/D; KRW"
+    },
+    {
+      "Comprobación": "COSTE_DEUDA",
+      "Valor": 0.04111592815734873,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo; fecha N/D; KRW"
+    },
+    {
+      "Comprobación": "Contraste oficial Referencia por moneda",
+      "Valor": null,
+      "Estado": "SIN_FUENTE_CONFIGURADA",
+      "Evidencia/limitación": "{'Moneda': 'KRW', 'Estado': 'SIN_FUENTE_CONFIGURADA', 'Detalle': 'No usar Treasury USD para descontar otra moneda'}; diferencia supuesto menos referencia en pp; no sustituye el supuesto ni valida el resto del WACC"
+    },
+    {
+      "Comprobación": "Reinversión y D&A",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Ratios sobre ventas; sin calendario de activos/mantenimiento/expansión verificado"
+    },
+    {
+      "Comprobación": "Capital circulante",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Supuesto sobre incremento de ingresos; no calendario de cobros/pagos verificado"
+    },
+    {
+      "Comprobación": "Leases y caja",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Convención declarada; calendario integral de pagos, activos y caja distribuible pendiente"
+    },
+    {
+      "Comprobación": "Acciones y payouts",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Acciones constantes salvo calendario documentado; recompra estimada no prueba cancelación"
+    }
+  ],
+  "Fuentes comparables": [
+    {
+      "Ticker": "005930.KS",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:46.979166+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/005930.KS?modules=earningsTrend",
+      "SHA256 payload": "287ebaa03011500703553c3adee6e669c0c5e41663ba507eaddabb018368b52c",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 47638.7,
+      "EPS FY1 proveedor": 77323.65,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "2344.TW",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.091960+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/2344.TW?modules=earningsTrend",
+      "SHA256 payload": "a513046423cace01eafd303393f4172dac8cc341f55f481327a1857fb7ed8435",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 25.2275,
+      "EPS FY1 proveedor": 50.22206,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "2408.TW",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.197722+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/2408.TW?modules=earningsTrend",
+      "SHA256 payload": "67dbb959f1378f1c65f39af1afe00b09adbe59f80ea5b5e8cb8a9efb53e07486",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 75.79382,
+      "EPS FY1 proveedor": 125.71864,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "285A.T",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.303644+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/285A.T?modules=earningsTrend",
+      "SHA256 payload": "8998eb674bb643db3bd1cf8a2b7dd30a43753f81d462fba448804d7065130d0e",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 3341.791,
+      "EPS FY1 proveedor": 5042.4077,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "MU",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.408532+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/MU?modules=earningsTrend",
+      "SHA256 payload": "342a674703f9b608e4b03cb6a6917974a9ae6d9ebfcb2f7fd9626804f039a541",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 176.50168,
+      "EPS FY1 proveedor": 207.76048,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "000990.KS",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.512433+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/000990.KS?modules=earningsTrend",
+      "SHA256 payload": "01eaa510d5e5175749c99de39a65ae11fd4fc10e35c778f6c2741c57a1d425d2",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 9364.5,
+      "EPS FY1 proveedor": 10576.333,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "032580.KQ",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.621686+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/032580.KQ?modules=earningsTrend",
+      "SHA256 payload": "0eeaa80aa8320047c9749706370e13b981d7a28f97e1c4f4ab9d77e60f2f7652",
+      "Periodos devueltos": null,
+      "EPS FY0 proveedor": null,
+      "EPS FY1 proveedor": null,
+      "Metodología publicada": "No declarada",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "036540.KQ",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.728522+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/036540.KQ?modules=earningsTrend",
+      "SHA256 payload": "a9b70beee22582cba14add956a63bdaa6f6fb2d89f3e810f4d968c24d371ea07",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": -7.0,
+      "EPS FY1 proveedor": 420.0,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "036710.KQ",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.833772+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/036710.KQ?modules=earningsTrend",
+      "SHA256 payload": "aa1ec9517c5ba2d89ad586dd8b9c890bc683ca1ccef7e68da28614005d9e4458",
+      "Periodos devueltos": null,
+      "EPS FY0 proveedor": null,
+      "EPS FY1 proveedor": null,
+      "Metodología publicada": "No declarada",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "036810.KQ",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:47.946102+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/036810.KQ?modules=earningsTrend",
+      "SHA256 payload": "c917ed98b5ba0252d7423daac75dcf85693dc4c8ad9f69f23688677a2201cb8b",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 415.0,
+      "EPS FY1 proveedor": 803.0,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    }
+  ],
+  "Revision filings": [
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-29",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-436872",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526436872/d183583d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526436872/d183583d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-28",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-435019",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526435019/d165312d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526435019/d165312d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-28",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-435015",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526435015/d236994d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526435015/d236994d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-28",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-435008",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526435008/d236990d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526435008/d236990d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-28",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-434994",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526434994/d162547d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526434994/d162547d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-26",
+      "Formulario": "6-K/A",
+      "Accession": "0001193125-26-430987",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526430987/d377510d6ka.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526430987/d377510d6ka.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-26",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-430986",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526430986/d370650d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526430986/d370650d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": "SK hynix Inc.",
+      "CIK": 2120882.0,
+      "Presentado": "2026-10-26",
+      "Formulario": "6-K",
+      "Accession": "0001193125-26-430985",
+      "Fuente": "https://www.sec.gov/Archives/edgar/data/2120882/000119312526430985/d132707d6k.htm",
+      "SHA256 índice": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+      "Periodo buscado": "2026-09-30",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "HTTPError: 403 Client Error: Forbidden for url: https://www.sec.gov/Archives/edgar/data/2120882/000119312526430985/d132707d6k.htm",
+      "SHA256 documento": null,
+      "IDs observados": null
+    },
+    {
+      "Emisor": null,
+      "CIK": null,
+      "Presentado": null,
+      "Formulario": null,
+      "Accession": null,
+      "Fuente": "https://dart.fss.or.kr/navi/searchNavi.do?naviCode=C001&naviCrpCik=00164779&naviCrpNm=SK%ED%95%98%EC%9D%B4%EB%8B%89%EC%8A%A4",
+      "SHA256 índice": null,
+      "Periodo buscado": "2026-09-30",
+      "Estado": "INDICE_DART_REVISADO",
+      "Detalle": "Índice público: no acredita por sí solo CAPEX/D&A ni ausencia global de otros documentos",
+      "SHA256 documento": "3d63581df4ab560776b2b51203768847270e0d0798d24c9c7a76cb06e24ff768",
+      "IDs observados": 20260814003509.0
+    }
+  ],
+  "Componentes CAPEX DA": [
+    {
+      "Cierre": "2025-03-31",
+      "CAPEX PP&E": null,
+      "CAPEX intangibles": null,
+      "CAPEX total": null,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": null,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": null
+    },
+    {
+      "Cierre": "2025-06-30",
+      "CAPEX PP&E": 4331517000000.0,
+      "CAPEX intangibles": 289972000000.0,
+      "CAPEX total": 4621489000000.0,
+      "Residual CAPEX": 0.0,
+      "CAPEX completo": true,
+      "D&A cash flow": 3454422000000.0,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": null
+    },
+    {
+      "Cierre": "2025-09-30",
+      "CAPEX PP&E": 5032611000000.0,
+      "CAPEX intangibles": 224800000000.0,
+      "CAPEX total": 5257411000000.0,
+      "Residual CAPEX": 0.0,
+      "CAPEX completo": true,
+      "D&A cash flow": 3559615000000.0,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": null
+    },
+    {
+      "Cierre": "2025-12-31",
+      "CAPEX PP&E": 11870574000000.0,
+      "CAPEX intangibles": 375182000000.0,
+      "CAPEX total": 12245756000000.0,
+      "Residual CAPEX": 0.0,
+      "CAPEX completo": true,
+      "D&A cash flow": 3570590000000.0,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": null
+    },
+    {
+      "Cierre": "2026-03-31",
+      "CAPEX PP&E": 7657403000000.0,
+      "CAPEX intangibles": 207963000000.0,
+      "CAPEX total": 7865366000000.0,
+      "Residual CAPEX": 0.0,
+      "CAPEX completo": true,
+      "D&A cash flow": 3729067000000.0,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": null
+    },
+    {
+      "Cierre": "2026-06-30",
+      "CAPEX PP&E": 10671433000000.0,
+      "CAPEX intangibles": 457217000000.0,
+      "CAPEX total": 11128650000000.0,
+      "Residual CAPEX": 0.0,
+      "CAPEX completo": true,
+      "D&A cash flow": 4030222000000.0,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": null
+    },
+    {
+      "Cierre": "2026-09-30",
+      "CAPEX PP&E": 12670000000000.0,
+      "CAPEX intangibles": null,
+      "CAPEX total": null,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": 4335000000000.0,
+      "D&A operativa publicada": 4341000000000.0,
+      "Diferencia D&A CFO-operativa": -6000000000.0,
+      "Estado D&A": "PENDIENTE_PUENTE",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf"
+    }
+  ],
+  "Conciliacion TTM": [
+    {
+      "Campo": "Ingresos",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 269336686000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 200656465000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 167385237000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "CAPEX",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 3,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "D&A",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 3,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    }
+  ],
+  "Pendientes fundamentales": [
+    {
+      "Incidencia": "CAPEX total Q3 N/D: PDF solo revela PP&E; faltan adquisiciones de intangibles; no reemplazar por cero o FY"
+    },
+    {
+      "Incidencia": "D&A TTM para FCFF/EBITDA N/D: conciliar D&A operativa IR con la serie de cash-flow; no mezclar ambas definiciones"
+    }
+  ]
+}

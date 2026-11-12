@@ -1,0 +1,25 @@
+Ticker,Indicador,Antes,Después
+MSFT,errores_bloqueantes,0,0
+MSFT,objetivos_fundamentales_disponibles,9,9
+MSFT,estado_financiero,PARCIAL,PARCIAL
+MSFT,publicable,False,False
+MSFT,exit_code,0,0
+MSFT,comparables_elegibles,1,1
+MSFT,total_candidatos,156,156
+MSFT,definiciones_per_completas,0,0
+MSFT,definiciones_ev_ebitda_completas,0,0
+MSFT,DCF Base h=0,156.5772575411946,156.5772575411946
+MSFT,DCF Base h=1,163.0667191219797,163.0667191219797
+MSFT,DCF Base h=3,174.2797213697988,174.2797213697988
+000660.KS,errores_bloqueantes,3,3
+000660.KS,objetivos_fundamentales_disponibles,0,0
+000660.KS,estado_financiero,BLOQUEO,BLOQUEO
+000660.KS,publicable,False,False
+000660.KS,exit_code,2,2
+000660.KS,comparables_elegibles,7,7
+000660.KS,total_candidatos,149,149
+000660.KS,definiciones_per_completas,0,0
+000660.KS,definiciones_ev_ebitda_completas,0,0
+000660.KS,DCF Base h=0,,
+000660.KS,DCF Base h=1,,
+000660.KS,DCF Base h=3,,

@@ -1,0 +1,25 @@
+Etapa,Cambio,Ticker,Horizonte,Precio DCF Base,Objetivos disponibles,Bloqueos,Comparables económicos,Identidad precios vs anterior
+0,43196409785 código anterior,MSFT,0,156.57725754119457,9,0,1,True
+0,43196409785 código anterior,MSFT,1,163.06671912197967,9,0,1,True
+0,43196409785 código anterior,MSFT,3,174.27972136979875,9,0,1,True
+0,43196409785 código anterior,000660.KS,0,,0,3,7,True
+0,43196409785 código anterior,000660.KS,1,,0,3,7,True
+0,43196409785 código anterior,000660.KS,3,,0,3,7,True
+1,Componentes y búsqueda oficial,MSFT,0,156.57725754119457,9,0,1,True
+1,Componentes y búsqueda oficial,MSFT,1,163.06671912197967,9,0,1,True
+1,Componentes y búsqueda oficial,MSFT,3,174.27972136979875,9,0,1,True
+1,Componentes y búsqueda oficial,000660.KS,0,,0,3,7,True
+1,Componentes y búsqueda oficial,000660.KS,1,,0,3,7,True
+1,Componentes y búsqueda oficial,000660.KS,3,,0,3,7,True
+2,Evidencia y controles de comparables,MSFT,0,156.57725754119457,9,0,1,True
+2,Evidencia y controles de comparables,MSFT,1,163.06671912197967,9,0,1,True
+2,Evidencia y controles de comparables,MSFT,3,174.27972136979875,9,0,1,True
+2,Evidencia y controles de comparables,000660.KS,0,,0,3,7,True
+2,Evidencia y controles de comparables,000660.KS,1,,0,3,7,True
+2,Evidencia y controles de comparables,000660.KS,3,,0,3,7,True
+3,Sensibilidad y contraste de supuestos,MSFT,0,156.57725754119457,9,0,1,True
+3,Sensibilidad y contraste de supuestos,MSFT,1,163.06671912197967,9,0,1,True
+3,Sensibilidad y contraste de supuestos,MSFT,3,174.27972136979875,9,0,1,True
+3,Sensibilidad y contraste de supuestos,000660.KS,0,,0,3,7,True
+3,Sensibilidad y contraste de supuestos,000660.KS,1,,0,3,7,True
+3,Sensibilidad y contraste de supuestos,000660.KS,3,,0,3,7,True

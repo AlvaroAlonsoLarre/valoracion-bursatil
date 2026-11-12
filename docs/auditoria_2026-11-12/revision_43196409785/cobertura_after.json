@@ -1,0 +1,21 @@
+{
+  "schema": "coverage-v1",
+  "expected_sha": "01e056fb3f1f636b8d01e1c99c91219b18d6b2e3",
+  "complete": true,
+  "tickers": [
+    {
+      "ticker": "MSFT",
+      "covered": true,
+      "sha": "01e056fb3f1f636b8d01e1c99c91219b18d6b2e3",
+      "financial_status": "PARCIAL",
+      "input_sha256": "e131a57f635a236300b79243b0334b4e24761d46a09c9c8a0421f1f90792352b"
+    },
+    {
+      "ticker": "000660.KS",
+      "covered": true,
+      "sha": "01e056fb3f1f636b8d01e1c99c91219b18d6b2e3",
+      "financial_status": "BLOQUEO",
+      "input_sha256": "0f2df64d90c08f596c9b5b41a7d47c8a8db4980d39158519a568a31e97126c4f"
+    }
+  ]
+}

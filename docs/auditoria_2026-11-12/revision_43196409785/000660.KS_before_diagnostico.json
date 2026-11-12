@@ -1,0 +1,522 @@
+{
+  "ticker": "000660.KS",
+  "generado_utc": "2026-11-12T10:01:06.533063+00:00",
+  "provenance": {
+    "sha": "25d358ce47e2ecedaed2065c7c0952e57bd88d72",
+    "run_id": "43196409785",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "input_sha256": "ba89abc02b13b30fb12573c6e161738cb8f75a6c887e57b3e3774a7a54fd6b3b",
+  "auditoria": {
+    "errores_bloqueantes": 3,
+    "objetivos_fundamentales_disponibles": 0,
+    "estado_financiero": "BLOQUEO",
+    "publicable": false,
+    "exit_code": 2,
+    "comparables_elegibles": 7,
+    "total_candidatos": 149,
+    "definiciones_per_completas": 0,
+    "definiciones_ev_ebitda_completas": 0
+  },
+  "Control modelo": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "KRW→KRW; fuente: mismas divisas"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "REVISAR",
+      "Detalle": "4 ejercicios fuente Yahoo Finance (fallback: SEC no disponible para este ticker); sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); emisor sin CIK SEC: revisar fuentes oficiales del país"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 43 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "3 trimestres publicados, ingresos YTD 236,510.03 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=70.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "CAPEX TTM / ventas nan% si disponible; referencia anual 26.8%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 1.7%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Margen operativo elevado",
+      "Estado": "REVISAR",
+      "Detalle": "Margen EBIT base 62.8%: evaluar sostenibilidad/ciclo"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados 0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "16.43%; rf 3.10%; beta 2.47; Ke 16.66%; Kd 4.11%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 16.43%, g terminal 2.00%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada Yahoo; desglose no verificado; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 2.3328414/3.808 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "BLOQUEO",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "REVISAR",
+      "Detalle": "Actividad cíclica: crecimiento converge desde año 1; margen EBIT vuelve hacia 25.4% con el tiempo"
+    }
+  ],
+  "Valoracion fundamental": [],
+  "Base TTM y balance": [
+    {
+      "Campo": "Ingresos",
+      "Base TTM (unidades)": 269336686000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Base TTM (unidades)": 200656465000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Base TTM (unidades)": 189146195000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "EPS diluido",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Base TTM (unidades)": 167385237000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "CAPEX",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "D&A",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Recompras de acciones",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Dividendos",
+      "Base TTM (unidades)": null,
+      "Fuente": "N/D"
+    },
+    {
+      "Campo": "Deuda neta",
+      "Base TTM (unidades)": -98660000000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Deuda total",
+      "Base TTM (unidades)": 15800000000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Efectivo",
+      "Base TTM (unidades)": 26835986000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    }
+  ],
+  "Supuestos fundamentales": [
+    {
+      "Supuesto": "Fecha valoración",
+      "Valor": "2026-11-12",
+      "Origen y limitación": "Fecha de consulta del motor"
+    },
+    {
+      "Supuesto": "Último ejercicio disponible",
+      "Valor": 2025,
+      "Origen y limitación": "Fecha SEC/Yahoo anual"
+    },
+    {
+      "Supuesto": "Fecha base TTM",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "Cuatro trimestres, no ×4 de un trimestre"
+    },
+    {
+      "Supuesto": "Base operativa",
+      "Valor": "TTM",
+      "Origen y limitación": "TTM; puente FY si es necesario; bloquear si parcial sin base completa"
+    },
+    {
+      "Supuesto": "Ingresos base (miles MM)",
+      "Valor": 269336.686,
+      "Origen y limitación": "TTM o FY si no hay cuatro trimestres"
+    },
+    {
+      "Supuesto": "Crecimiento ventas (%)",
+      "Valor": 40,
+      "Origen y limitación": "Mediana crecimiento FY (sin TTM interanual)"
+    },
+    {
+      "Supuesto": "Crecimiento TTM interanual (%)",
+      "Valor": null,
+      "Origen y limitación": "N/D sin ocho trimestres consecutivos; no se sustituye por cero"
+    },
+    {
+      "Supuesto": "Banda de escenarios (%)",
+      "Valor": 15,
+      "Origen y limitación": "Sensibilidad, NO intervalo de confianza"
+    },
+    {
+      "Supuesto": "Margen EBIT normalizado (%)",
+      "Valor": 62.78603252902477,
+      "Origen y limitación": "70% margen TTM + 30% histórico si datos"
+    },
+    {
+      "Supuesto": "D&A / ingresos (%)",
+      "Valor": null,
+      "Origen y limitación": "80/20 reciente/histórico aprox.; definición D&A revisar"
+    },
+    {
+      "Supuesto": "CAPEX / ingresos (%)",
+      "Valor": null,
+      "Origen y limitación": "80% tasa TTM + 20% histórica si existe"
+    },
+    {
+      "Supuesto": "No operativos normalizados (%)",
+      "Valor": 0.51101470992197,
+      "Origen y limitación": "Recorte extraordinarios/ausencia dato"
+    },
+    {
+      "Supuesto": "Impuestos normalizados (%)",
+      "Valor": 17.11696918822626,
+      "Origen y limitación": "Mediana tasas FY; acotada"
+    },
+    {
+      "Supuesto": "Capital trabajo / aumento ingresos (%)",
+      "Valor": 1,
+      "Origen y limitación": "Ajustable; requiere flujos capital trabajo"
+    },
+    {
+      "Supuesto": "Pagos accionistas / ingresos (%)",
+      "Valor": 1.730544045897608,
+      "Origen y limitación": "Dividendo + recompras cash; estimación"
+    },
+    {
+      "Supuesto": "Crecimiento acciones (%)",
+      "Valor": 0,
+      "Origen y limitación": "No relaciona automáticamente recompras con dilución"
+    },
+    {
+      "Supuesto": "Deuda neta reciente (miles MM)",
+      "Valor": -98660,
+      "Origen y limitación": "Balance trimestral o anual más reciente"
+    },
+    {
+      "Supuesto": "Fecha balance",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "La deuda evoluciona en escenarios"
+    },
+    {
+      "Supuesto": "EPS TTM",
+      "Valor": "Suma EPS trimestrales (aproximación)",
+      "Origen y limitación": "No equivale a beneficio TTM / acciones diluidas ponderadas TTM si varían las acciones"
+    },
+    {
+      "Supuesto": "Acciones al cierre (miles MM)",
+      "Valor": 0.705173324,
+      "Origen y limitación": "Yahoo acciones en circulación"
+    },
+    {
+      "Supuesto": "FX contabilidad a cotización",
+      "Valor": 1,
+      "Origen y limitación": "mismas divisas"
+    },
+    {
+      "Supuesto": "WACC (%)",
+      "Valor": 16.43032040054232,
+      "Origen y limitación": "WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Supuesto": "Coste equity Ke (%)",
+      "Valor": 16.663,
+      "Origen y limitación": "rf+beta*ERP+riesgo país"
+    },
+    {
+      "Supuesto": "Coste deuda Kd (%)",
+      "Valor": 4.111592815734872,
+      "Origen y limitación": "Gastos financieros / deuda o aproximación"
+    },
+    {
+      "Supuesto": "Beta",
+      "Valor": 2.466,
+      "Origen y limitación": "Yahoo o supuesto 1"
+    },
+    {
+      "Supuesto": "Tasa sin riesgo (%)",
+      "Valor": 3.1,
+      "Origen y limitación": "Supuesto moneda editable"
+    },
+    {
+      "Supuesto": "Prima mercado ERP (%)",
+      "Valor": 5.5,
+      "Origen y limitación": "Editable"
+    },
+    {
+      "Supuesto": "Crecimiento terminal (%)",
+      "Valor": 2,
+      "Origen y limitación": "Editable, compatible con WACC"
+    },
+    {
+      "Supuesto": "Año terminal común",
+      "Valor": 8,
+      "Origen y limitación": "Misma trayectoria y estado estable en horizontes 0, 1 y 3"
+    },
+    {
+      "Supuesto": "Convención deuda y leases",
+      "Valor": "Deuda financiera sin leases",
+      "Origen y limitación": "FCFF con cash CAPEX; no se añade deuda de leases sin conciliación integral; resultado condicional"
+    },
+    {
+      "Supuesto": "Caja e inversiones",
+      "Valor": "Saldo fuente; disponibilidad no verificada",
+      "Origen y limitación": "Sin evidencia no se presume que inversiones estratégicas sean caja distribuible"
+    },
+    {
+      "Supuesto": "Acciones y recompras",
+      "Valor": "Acciones constantes salvo crecimiento explícito",
+      "Origen y limitación": "Sin cancelaciones/SBC documentadas no se inventa variación; caja sí paga recompras"
+    },
+    {
+      "Supuesto": "PER forward propio Yahoo (solo referencia)",
+      "Valor": 2.3328414,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "EV/EBITDA Yahoo propio (solo referencia)",
+      "Valor": 3.808,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "PER de referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo PER"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo EV/EBITDA"
+    },
+    {
+      "Supuesto": "PER referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza el PER propio como sustituto"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza EV/EBITDA propio como sustituto"
+    },
+    {
+      "Supuesto": "Empresa cíclica",
+      "Valor": "Sí",
+      "Origen y limitación": "Catálogo económico o VALUACION_EMPRESA_CICLICA"
+    },
+    {
+      "Supuesto": "Margen EBIT de ciclo normalizado (%)",
+      "Valor": 25.35663198527435,
+      "Origen y limitación": "Mediana de hasta cinco FY o VALUACION_MARGEN_NORMALIZADO"
+    }
+  ],
+  "Conciliacion TTM": [
+    {
+      "Campo": "Ingresos",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 269336686000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 200656465000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 167385237000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "CAPEX",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 3,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "D&A",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 3,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    }
+  ],
+  "Pendientes fundamentales": [
+    {
+      "Incidencia": "CAPEX total Q3 N/D: PDF solo revela PP&E; faltan adquisiciones de intangibles; no reemplazar por cero o FY"
+    },
+    {
+      "Incidencia": "D&A TTM para FCFF/EBITDA N/D: conciliar D&A operativa IR con la serie de cash-flow; no mezclar ambas definiciones"
+    }
+  ]
+}

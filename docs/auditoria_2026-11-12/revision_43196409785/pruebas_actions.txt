@@ -1,0 +1,4 @@
+2026-11-12T10:49:51.3549991Z 55 passed in 3.70s
+2026-11-12T10:49:52.0631737Z PASS: TTM, cierre fiscal parcial, deuda reciente, ciclo, peers, FX y bloqueos de calidad
+2026-11-12T10:49:52.5214871Z PASS autodiscovery and relevance tests
+2026-11-12T10:49:53.0190887Z PASS V5: publicación SEC posterior, fecha Yahoo solo alerta, selección única, bloqueo N<3 y JSON válido

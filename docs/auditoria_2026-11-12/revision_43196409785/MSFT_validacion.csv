@@ -1,0 +1,16 @@
+Comprobación,Valor,Estado,Evidencia/limitación
+TIPO_LIBRE_RIESGO,0.041,NO_VERIFICADO,"SUPUESTO nominal por moneda, plazo no verificado; fecha N/D; USD"
+PRIMA_RIESGO_MERCADO,0.055,NO_VERIFICADO,SUPUESTO ERP; fecha N/D; USD
+BETA,1.045,NO_VERIFICADO,Yahoo; ventana no verificada; fecha N/D; USD
+COSTE_DEUDA,0.07312601114506562,NO_VERIFICADO,"WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo; fecha N/D; USD"
+Contraste oficial TIPO_LIBRE_RIESGO,-0.8800000000000002,DIFIERE_REFERENCIA,"{'Parámetro': 'TIPO_LIBRE_RIESGO', 'Moneda': 'USD', 'Fuente': 'https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202611&type=daily_treasury_yield_curve', 'Estado': 'REFERENCIA_OFICIAL', 'Fecha consulta': '2026-11-12T10:50:49.789455+00:00', 'Plazo': '10 años', 'Base': 'Nominal par yield CMT, % anual / 100', 'Fecha fuente': '2026-11-10', 'Valor observado': 0.049800000000000004, 'SHA256 documento': 'f6df557e7b89c3c8d1e359c241163d9f5bbac14f6a380c0279c1cad1b9c38182', 'Detalle': 'Referencia de contraste; no reemplaza automáticamente el supuesto ni acredita ERP, beta o coste de deuda'}; diferencia supuesto menos referencia en pp; no sustituye el supuesto ni valida el resto del WACC"
+ROIC terminal vs WACC h=0,-5.884964238716378,REVISAR,Diferencial en pp. Crecimiento con ROIC marginal inferior al WACC no acredita creación de valor; no se cambia CAPEX para corregirlo
+Concentración terminal h=0,61.97331983806495,DESCRIPTIVO,Porcentaje del EV sustentado por Gordon; no es validación económica del terminal
+ROIC terminal vs WACC h=1,-5.884964238716378,REVISAR,Diferencial en pp. Crecimiento con ROIC marginal inferior al WACC no acredita creación de valor; no se cambia CAPEX para corregirlo
+Concentración terminal h=1,64.83479068999851,DESCRIPTIVO,Porcentaje del EV sustentado por Gordon; no es validación económica del terminal
+ROIC terminal vs WACC h=3,-5.884964238716378,REVISAR,Diferencial en pp. Crecimiento con ROIC marginal inferior al WACC no acredita creación de valor; no se cambia CAPEX para corregirlo
+Concentración terminal h=3,71.98938966290895,DESCRIPTIVO,Porcentaje del EV sustentado por Gordon; no es validación económica del terminal
+Reinversión y D&A,,NO_VERIFICADO,Ratios sobre ventas; sin calendario de activos/mantenimiento/expansión verificado
+Capital circulante,,NO_VERIFICADO,Supuesto sobre incremento de ingresos; no calendario de cobros/pagos verificado
+Leases y caja,,NO_VERIFICADO,"Convención declarada; calendario integral de pagos, activos y caja distribuible pendiente"
+Acciones y payouts,,NO_VERIFICADO,Acciones constantes salvo calendario documentado; recompra estimada no prueba cancelación

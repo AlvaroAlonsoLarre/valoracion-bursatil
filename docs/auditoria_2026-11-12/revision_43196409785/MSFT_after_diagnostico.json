@@ -1,0 +1,1655 @@
+{
+  "ticker": "MSFT",
+  "generado_utc": "2026-11-12T10:50:21.463402+00:00",
+  "provenance": {
+    "sha": "01e056fb3f1f636b8d01e1c99c91219b18d6b2e3",
+    "run_id": "43203723794",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "input_sha256": "e131a57f635a236300b79243b0334b4e24761d46a09c9c8a0421f1f90792352b",
+  "auditoria": {
+    "errores_bloqueantes": 0,
+    "objetivos_fundamentales_disponibles": 9,
+    "estado_financiero": "PARCIAL",
+    "publicable": false,
+    "exit_code": 0,
+    "comparables_elegibles": 1,
+    "total_candidatos": 156,
+    "definiciones_per_completas": 0,
+    "definiciones_ev_ebitda_completas": 0
+  },
+  "Control modelo": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "USD→USD; fuente: mismas divisas"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "OK",
+      "Detalle": "10 ejercicios fuente SEC EDGAR (CompanyFacts + Inline XBRL), hasta 10 ejercicios; sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); CIK conocido; falta User-Agent con contacto SEC para verificar presentaciones"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 43 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "1 trimestres publicados, ingresos YTD 92.28 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=41.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "OK",
+      "Detalle": "CAPEX TTM / ventas 39.2% si disponible; referencia anual 22.9%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "OK",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 15.3%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados -0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "9.81%; rf 4.10%; beta 1.04; Ke 9.85%; Kd 7.31%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 9.81%, g terminal 2.50%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada pura: depreciación PP&E + amortización intangibles; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 21.537926/19.152 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "OK",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "OK",
+      "Detalle": "Sin normalización de ciclo explícita"
+    }
+  ],
+  "Valoracion fundamental": [
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 0,
+      "Método": "DCF FCFF (valor presente)",
+      "Fecha objetivo aprox.": "2026-11-12",
+      "Precio objetivo (divisa cotización)": 72.43352871089554,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -86.10054618164634,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 0.0,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 73.07047209978599,
+      "ROIC terminal implícito (%)": 2.737083725514697,
+      "Peso terminal EV (%)": 59.07563059927101,
+      "EPS previsto (divisa financiera)": null,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 11.31235853695107,
+      "G terminal (%)": 2.0,
+      "Deuda neta utilizada (miles MM)": -28.813,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 4.438497485801607,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 17.82713082579986,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 5.458540809241688,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 4.438497485801607,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 17.82713082579986,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 5.458540809241688,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": 71.97956255441925,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -86.18765890056719,
+      "Rentabilidad anualizada (%)": -86.18765890056719,
+      "Retorno total (%)": -85.33594434344526,
+      "Dividendos acumulados (divisa cotización)": 4.438497485801607,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 73.07047209978599,
+      "ROIC terminal implícito (%)": 2.737083725514697,
+      "Peso terminal EV (%)": 61.9955446659143,
+      "EPS previsto (divisa financiera)": 17.82713082579986,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 11.31235853695107,
+      "G terminal (%)": 2.0,
+      "Deuda neta utilizada (miles MM)": 5.458540809241688,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 14.87696993145885,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 22.08411732166794,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 85.31208859280127,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 14.87696993145885,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 22.08411732166794,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": 85.31208859280127,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": 69.70360270196005,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -86.62439861799758,
+      "Rentabilidad anualizada (%)": -48.85877744450205,
+      "Retorno total (%)": -83.76961906770566,
+      "Dividendos acumulados (divisa cotización)": 14.87696993145885,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 73.07047209978599,
+      "ROIC terminal implícito (%)": 2.737083725514697,
+      "Peso terminal EV (%)": 68.79514452007646,
+      "EPS previsto (divisa financiera)": 22.08411732166794,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 11.31235853695107,
+      "G terminal (%)": 2.0,
+      "Deuda neta utilizada (miles MM)": 85.31208859280127,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 0,
+      "Método": "DCF FCFF (valor presente)",
+      "Fecha objetivo aprox.": "2026-11-12",
+      "Precio objetivo (divisa cotización)": 156.5772575411946,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -69.95399231639345,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 0.0,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 63.65543691713648,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal EV (%)": 61.97331983806495,
+      "EPS previsto (divisa financiera)": null,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 9.812358536951072,
+      "G terminal (%)": 2.5,
+      "Deuda neta utilizada (miles MM)": -28.813,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 4.598010702325699,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 20.22714594289771,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -20.69467944018876,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 4.598010702325699,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 20.22714594289771,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -20.69467944018876,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": 163.0667191219797,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -68.7087130492723,
+      "Rentabilidad anualizada (%)": -68.7087130492723,
+      "Retorno total (%)": -67.8263890958397,
+      "Dividendos acumulados (divisa cotización)": 4.598010702325699,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 63.65543691713648,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal EV (%)": 64.83479068999851,
+      "EPS previsto (divisa financiera)": 20.22714594289771,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 9.812358536951072,
+      "G terminal (%)": 2.5,
+      "Deuda neta utilizada (miles MM)": -20.69467944018876,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 16.01231484988631,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 26.89064387814737,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -1.564935594079903,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 16.01231484988631,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 26.89064387814737,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -1.564935594079903,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": 174.2797213697988,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -66.55702156492228,
+      "Rentabilidad anualizada (%)": -30.58793210169882,
+      "Retorno total (%)": -63.48437779425569,
+      "Dividendos acumulados (divisa cotización)": 16.01231484988631,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 63.65543691713648,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal EV (%)": 71.98938966290895,
+      "EPS previsto (divisa financiera)": 26.89064387814737,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 9.812358536951072,
+      "G terminal (%)": 2.5,
+      "Deuda neta utilizada (miles MM)": -1.564935594079903,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 0,
+      "Método": "DCF FCFF (valor presente)",
+      "Fecha objetivo aprox.": "2026-11-12",
+      "Precio objetivo (divisa cotización)": 267.2457056474926,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -48.71754269177402,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 0.0,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 58.95406502403981,
+      "ROIC terminal implícito (%)": 5.088707621394191,
+      "Peso terminal EV (%)": 66.62665886040928,
+      "EPS previsto (divisa financiera)": null,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 8.812358536951072,
+      "G terminal (%)": 3.0,
+      "Deuda neta utilizada (miles MM)": -28.813,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 4.757523918849794,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 22.74922992467054,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -41.31808531446602,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 4.757523918849794,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 22.74922992467054,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -41.31808531446602,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2027-11-12",
+      "Precio objetivo (divisa cotización)": 281.675941823456,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -45.94848801660716,
+      "Rentabilidad anualizada (%)": -45.94848801660716,
+      "Retorno total (%)": -45.03555466686385,
+      "Dividendos acumulados (divisa cotización)": 4.757523918849794,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 58.95406502403981,
+      "ROIC terminal implícito (%)": 5.088707621394191,
+      "Peso terminal EV (%)": 69.15127069933328,
+      "EPS previsto (divisa financiera)": 22.74922992467054,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 8.812358536951072,
+      "G terminal (%)": 3.0,
+      "Deuda neta utilizada (miles MM)": -41.31808531446602,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Método": "PER forward",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 17.20456172837804,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 32.37839363185853,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -75.34243413344852,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Método": "EV/EBITDA forward",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": null,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": null,
+      "Rentabilidad anualizada (%)": null,
+      "Retorno total (%)": null,
+      "Dividendos acumulados (divisa cotización)": 17.20456172837804,
+      "Estado validación": "N/D",
+      "Reinversión terminal (%)": null,
+      "ROIC terminal implícito (%)": null,
+      "Peso terminal EV (%)": null,
+      "EPS previsto (divisa financiera)": 32.37839363185853,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": null,
+      "G terminal (%)": null,
+      "Deuda neta utilizada (miles MM)": -75.34243413344852,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    },
+    {
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Método": "DCF FCFF (valor futuro)",
+      "Fecha objetivo aprox.": "2029-11-12",
+      "Precio objetivo (divisa cotización)": 308.5932065721353,
+      "Precio actual (divisa cotización)": 521.125,
+      "Potencial (%)": -40.78326570935278,
+      "Rentabilidad anualizada (%)": -16.02535993693648,
+      "Retorno total (%)": -37.48183865665371,
+      "Dividendos acumulados (divisa cotización)": 17.20456172837804,
+      "Estado validación": "CONDICIONAL",
+      "Reinversión terminal (%)": 58.95406502403981,
+      "ROIC terminal implícito (%)": 5.088707621394191,
+      "Peso terminal EV (%)": 75.74846206358824,
+      "EPS previsto (divisa financiera)": 32.37839363185853,
+      "PER aplicado (x)": null,
+      "EV/EBITDA aplicado (x)": null,
+      "WACC (%)": 8.812358536951072,
+      "G terminal (%)": 3.0,
+      "Deuda neta utilizada (miles MM)": -75.34243413344852,
+      "Moneda": "USD",
+      "Limitación": "Sin consenso; datos TTM retrasados respecto a cotización; deuda neta aproximada; hipótesis de ciclo y múltiples"
+    }
+  ],
+  "Base TTM y balance": [
+    {
+      "Campo": "Ingresos",
+      "Base TTM (unidades)": 346445000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Base TTM (unidades)": 163191000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Base TTM (unidades)": 142631000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "EPS diluido",
+      "Base TTM (unidades)": 19.16,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Base TTM (unidades)": 195878000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "CAPEX",
+      "Base TTM (unidades)": 135921000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "D&A",
+      "Base TTM (unidades)": 42600000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Base TTM (unidades)": 59957000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Base TTM (unidades)": 205791000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Recompras de acciones",
+      "Base TTM (unidades)": 21000000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Dividendos",
+      "Base TTM (unidades)": 27033000000.0,
+      "Fuente": "4 trimestres"
+    },
+    {
+      "Campo": "Deuda neta",
+      "Base TTM (unidades)": -28813000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Deuda total",
+      "Base TTM (unidades)": 35481000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    },
+    {
+      "Campo": "Efectivo",
+      "Base TTM (unidades)": 20281000000.0,
+      "Fuente": "Balance al último trimestre disponible"
+    }
+  ],
+  "Supuestos fundamentales": [
+    {
+      "Supuesto": "Fecha valoración",
+      "Valor": "2026-11-12",
+      "Origen y limitación": "Fecha de consulta del motor"
+    },
+    {
+      "Supuesto": "Shocks de auditoría",
+      "Valor": "Ninguno",
+      "Origen y limitación": "Solo experimentos separados; no recalibra la base ni rellena datos ausentes"
+    },
+    {
+      "Supuesto": "Último ejercicio disponible",
+      "Valor": 2026,
+      "Origen y limitación": "Fecha SEC/Yahoo anual"
+    },
+    {
+      "Supuesto": "Fecha base TTM",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "Cuatro trimestres, no ×4 de un trimestre"
+    },
+    {
+      "Supuesto": "Base operativa",
+      "Valor": "TTM",
+      "Origen y limitación": "TTM; puente FY si es necesario; bloquear si parcial sin base completa"
+    },
+    {
+      "Supuesto": "Ingresos base (miles MM)",
+      "Valor": 346.445,
+      "Origen y limitación": "TTM o FY si no hay cuatro trimestres"
+    },
+    {
+      "Supuesto": "Crecimiento ventas (%)",
+      "Valor": 15.30105912273899,
+      "Origen y limitación": "Mediana crecimiento FY (sin TTM interanual)"
+    },
+    {
+      "Supuesto": "Crecimiento TTM interanual (%)",
+      "Valor": null,
+      "Origen y limitación": "N/D sin ocho trimestres consecutivos; no se sustituye por cero"
+    },
+    {
+      "Supuesto": "Banda de escenarios (%)",
+      "Valor": 4,
+      "Origen y limitación": "Sensibilidad, NO intervalo de confianza"
+    },
+    {
+      "Supuesto": "Margen EBIT normalizado (%)",
+      "Valor": 46.659699487536,
+      "Origen y limitación": "70% margen TTM + 30% histórico si datos"
+    },
+    {
+      "Supuesto": "D&A / ingresos (%)",
+      "Valor": 11.70694440778446,
+      "Origen y limitación": "80/20 reciente/histórico aprox.; definición D&A revisar"
+    },
+    {
+      "Supuesto": "CAPEX / ingresos (%)",
+      "Valor": 35.96902401333655,
+      "Origen y limitación": "80% tasa TTM + 20% histórica si existe"
+    },
+    {
+      "Supuesto": "No operativos normalizados (%)",
+      "Valor": -0.5490785666728213,
+      "Origen y limitación": "Recorte extraordinarios/ausencia dato"
+    },
+    {
+      "Supuesto": "Impuestos normalizados (%)",
+      "Valor": 18.2313265978272,
+      "Origen y limitación": "Mediana tasas FY; acotada"
+    },
+    {
+      "Supuesto": "Capital trabajo / aumento ingresos (%)",
+      "Valor": 1,
+      "Origen y limitación": "Ajustable; requiere flujos capital trabajo"
+    },
+    {
+      "Supuesto": "Pagos accionistas / ingresos (%)",
+      "Valor": 15.25946966906815,
+      "Origen y limitación": "Dividendo + recompras cash; estimación"
+    },
+    {
+      "Supuesto": "Crecimiento acciones (%)",
+      "Valor": 0,
+      "Origen y limitación": "No relaciona automáticamente recompras con dilución"
+    },
+    {
+      "Supuesto": "Deuda neta reciente (miles MM)",
+      "Valor": -28.813,
+      "Origen y limitación": "Balance trimestral o anual más reciente"
+    },
+    {
+      "Supuesto": "Fecha balance",
+      "Valor": "2026-09-30",
+      "Origen y limitación": "La deuda evoluciona en escenarios"
+    },
+    {
+      "Supuesto": "EPS TTM",
+      "Valor": "Suma EPS trimestrales (aproximación)",
+      "Origen y limitación": "No equivale a beneficio TTM / acciones diluidas ponderadas TTM si varían las acciones"
+    },
+    {
+      "Supuesto": "Acciones al cierre (miles MM)",
+      "Valor": 7.426194552,
+      "Origen y limitación": "Yahoo acciones en circulación"
+    },
+    {
+      "Supuesto": "FX contabilidad a cotización",
+      "Valor": 1,
+      "Origen y limitación": "mismas divisas"
+    },
+    {
+      "Supuesto": "WACC (%)",
+      "Valor": 9.812358536951072,
+      "Origen y limitación": "WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Supuesto": "Coste equity Ke (%)",
+      "Valor": 9.8475,
+      "Origen y limitación": "rf+beta*ERP+riesgo país"
+    },
+    {
+      "Supuesto": "Coste deuda Kd (%)",
+      "Valor": 7.312601114506561,
+      "Origen y limitación": "Gastos financieros / deuda o aproximación"
+    },
+    {
+      "Supuesto": "Beta",
+      "Valor": 1.045,
+      "Origen y limitación": "Yahoo o supuesto 1"
+    },
+    {
+      "Supuesto": "Tasa sin riesgo (%)",
+      "Valor": 4.100000000000001,
+      "Origen y limitación": "Supuesto moneda editable"
+    },
+    {
+      "Supuesto": "Prima mercado ERP (%)",
+      "Valor": 5.5,
+      "Origen y limitación": "Editable"
+    },
+    {
+      "Supuesto": "Crecimiento terminal (%)",
+      "Valor": 2.5,
+      "Origen y limitación": "Editable, compatible con WACC"
+    },
+    {
+      "Supuesto": "Año terminal común",
+      "Valor": 8,
+      "Origen y limitación": "Misma trayectoria y estado estable en horizontes 0, 1 y 3"
+    },
+    {
+      "Supuesto": "Convención deuda y leases",
+      "Valor": "Deuda financiera sin leases",
+      "Origen y limitación": "FCFF con cash CAPEX; no se añade deuda de leases sin conciliación integral; resultado condicional"
+    },
+    {
+      "Supuesto": "Caja e inversiones",
+      "Valor": "Saldo fuente; disponibilidad no verificada",
+      "Origen y limitación": "Sin evidencia no se presume que inversiones estratégicas sean caja distribuible"
+    },
+    {
+      "Supuesto": "Acciones y recompras",
+      "Valor": "Acciones constantes salvo crecimiento explícito",
+      "Origen y limitación": "Sin cancelaciones/SBC documentadas no se inventa variación; caja sí paga recompras"
+    },
+    {
+      "Supuesto": "PER forward propio Yahoo (solo referencia)",
+      "Valor": 21.537926,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "EV/EBITDA Yahoo propio (solo referencia)",
+      "Valor": 19.152,
+      "Origen y limitación": "No es comparable independiente ni múltiplo para valorar"
+    },
+    {
+      "Supuesto": "PER de referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo PER"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia (x)",
+      "Valor": null,
+      "Origen y limitación": "Sólo comparables económicos válidos; si faltan no habrá objetivo EV/EBITDA"
+    },
+    {
+      "Supuesto": "PER referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza el PER propio como sustituto"
+    },
+    {
+      "Supuesto": "EV/EBITDA referencia origen",
+      "Valor": "N/D: comparables insuficientes",
+      "Origen y limitación": "No se utiliza EV/EBITDA propio como sustituto"
+    },
+    {
+      "Supuesto": "Empresa cíclica",
+      "Valor": "No",
+      "Origen y limitación": "Catálogo económico o VALUACION_EMPRESA_CICLICA"
+    },
+    {
+      "Supuesto": "Margen EBIT de ciclo normalizado (%)",
+      "Valor": 44.64429957327371,
+      "Origen y limitación": "Mediana de hasta cinco FY o VALUACION_MARGEN_NORMALIZADO"
+    }
+  ],
+  "DCF sensibilidad": [
+    {
+      "Experimento": "Base",
+      "Horizonte (años)": 0,
+      "Precio condicional": 156.5772575411946,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 61.97331983806495,
+      "Shocks": "{}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "Base",
+      "Horizonte (años)": 1,
+      "Precio condicional": 163.0667191219797,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 64.83479068999851,
+      "Shocks": "{}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "Base",
+      "Horizonte (años)": 3,
+      "Precio condicional": 174.2797213697988,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 71.98938966290895,
+      "Shocks": "{}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC -1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 182.350906174742,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 8.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 66.08735766000652,
+      "Shocks": "{'wacc': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC -1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 189.5846606508622,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 8.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 68.70560217659944,
+      "Shocks": "{'wacc': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC -1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 202.258519232507,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 8.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 75.20844294081482,
+      "Shocks": "{'wacc': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC +1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 137.0547488209918,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 10.81235853695107,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 58.13684417474576,
+      "Shocks": "{'wacc': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC +1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 142.9603401938481,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 10.81235853695107,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 61.20621285700314,
+      "Shocks": "{'wacc': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "WACC +1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 153.0411810173586,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 10.81235853695107,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.927394298234693,
+      "Peso terminal (%)": 68.93318172727714,
+      "Shocks": "{'wacc': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas -1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 167.6102327143734,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 4.096049930609417,
+      "Peso terminal (%)": 61.96535114921509,
+      "Shocks": "{'capex_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas -1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 175.1822893764435,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 4.096049930609417,
+      "Peso terminal (%)": 64.82765409587257,
+      "Shocks": "{'capex_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas -1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 188.7179926487993,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 4.096049930609417,
+      "Peso terminal (%)": 71.98479731896124,
+      "Shocks": "{'capex_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas +1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 145.5442823680158,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.772078260780006,
+      "Peso terminal (%)": 61.98252974723819,
+      "Shocks": "{'capex_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas +1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 150.9511488675158,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.772078260780006,
+      "Peso terminal (%)": 64.8430385664205,
+      "Shocks": "{'capex_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "CAPEX/ventas +1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 159.8414500907982,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.772078260780006,
+      "Peso terminal (%)": 71.9946965790186,
+      "Shocks": "{'capex_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas -1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 145.5442823680157,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.772078260780006,
+      "Peso terminal (%)": 61.98252974723818,
+      "Shocks": "{'da_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas -1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 150.9511488675157,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.772078260780006,
+      "Peso terminal (%)": 64.8430385664205,
+      "Shocks": "{'da_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas -1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 159.8414500907982,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 3.772078260780006,
+      "Peso terminal (%)": 71.99469657901857,
+      "Shocks": "{'da_sales': -0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas +1 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 167.6102327143733,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 4.096049930609417,
+      "Peso terminal (%)": 61.96535114921507,
+      "Shocks": "{'da_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas +1 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 175.1822893764435,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 4.096049930609417,
+      "Peso terminal (%)": 64.82765409587256,
+      "Shocks": "{'da_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "D&A/ventas +1 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 188.7179926487992,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.5,
+      "ROIC terminal implícito (%)": 4.096049930609417,
+      "Peso terminal (%)": 71.98479731896121,
+      "Shocks": "{'da_sales': 0.01}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal -0.5 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 148.6518472123556,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.0,
+      "ROIC terminal implícito (%)": 3.142534254674131,
+      "Peso terminal (%)": 60.04628380989993,
+      "Shocks": "{'terminal_growth': -0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal -0.5 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 154.3636391161504,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.0,
+      "ROIC terminal implícito (%)": 3.142534254674131,
+      "Peso terminal (%)": 62.97796644394245,
+      "Shocks": "{'terminal_growth': -0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal -0.5 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 163.7848912104309,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 2.0,
+      "ROIC terminal implícito (%)": 3.142534254674131,
+      "Peso terminal (%)": 70.37355134426004,
+      "Shocks": "{'terminal_growth': -0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal +0.5 pp",
+      "Horizonte (años)": 0,
+      "Precio condicional": 165.6630966409644,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 3.0,
+      "ROIC terminal implícito (%)": 4.711954305824895,
+      "Peso terminal (%)": 63.96953387680318,
+      "Shocks": "{'terminal_growth': 0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal +0.5 pp",
+      "Horizonte (años)": 1,
+      "Precio condicional": 173.0440933303094,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 3.0,
+      "ROIC terminal implícito (%)": 4.711954305824895,
+      "Peso terminal (%)": 66.75008672928007,
+      "Shocks": "{'terminal_growth': 0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    },
+    {
+      "Experimento": "g terminal +0.5 pp",
+      "Horizonte (años)": 3,
+      "Precio condicional": 186.3111915714681,
+      "Moneda": "USD",
+      "Estado": "CONDICIONAL",
+      "WACC (%)": 9.812358536951072,
+      "g (%)": 3.0,
+      "ROIC terminal implícito (%)": 4.711954305824895,
+      "Peso terminal (%)": 73.63982904840029,
+      "Shocks": "{'terminal_growth': 0.005}",
+      "Alcance": "Recalcula trayectoria, reinversión, caja y DCF; Kd, payout y datos fuente fijos; no es probabilidad"
+    }
+  ],
+  "DCF validacion": [
+    {
+      "Comprobación": "TIPO_LIBRE_RIESGO",
+      "Valor": 0.041,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "SUPUESTO nominal por moneda, plazo no verificado; fecha N/D; USD"
+    },
+    {
+      "Comprobación": "PRIMA_RIESGO_MERCADO",
+      "Valor": 0.055,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "SUPUESTO ERP; fecha N/D; USD"
+    },
+    {
+      "Comprobación": "BETA",
+      "Valor": 1.045,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Yahoo; ventana no verificada; fecha N/D; USD"
+    },
+    {
+      "Comprobación": "COSTE_DEUDA",
+      "Valor": 0.07312601114506562,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo; fecha N/D; USD"
+    },
+    {
+      "Comprobación": "Contraste oficial TIPO_LIBRE_RIESGO",
+      "Valor": -0.8800000000000002,
+      "Estado": "DIFIERE_REFERENCIA",
+      "Evidencia/limitación": "{'Parámetro': 'TIPO_LIBRE_RIESGO', 'Moneda': 'USD', 'Fuente': 'https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202611&type=daily_treasury_yield_curve', 'Estado': 'REFERENCIA_OFICIAL', 'Fecha consulta': '2026-11-12T10:50:49.789455+00:00', 'Plazo': '10 años', 'Base': 'Nominal par yield CMT, % anual / 100', 'Fecha fuente': '2026-11-10', 'Valor observado': 0.049800000000000004, 'SHA256 documento': 'f6df557e7b89c3c8d1e359c241163d9f5bbac14f6a380c0279c1cad1b9c38182', 'Detalle': 'Referencia de contraste; no reemplaza automáticamente el supuesto ni acredita ERP, beta o coste de deuda'}; diferencia supuesto menos referencia en pp; no sustituye el supuesto ni valida el resto del WACC"
+    },
+    {
+      "Comprobación": "ROIC terminal vs WACC h=0",
+      "Valor": -5.884964238716378,
+      "Estado": "REVISAR",
+      "Evidencia/limitación": "Diferencial en pp. Crecimiento con ROIC marginal inferior al WACC no acredita creación de valor; no se cambia CAPEX para corregirlo"
+    },
+    {
+      "Comprobación": "Concentración terminal h=0",
+      "Valor": 61.97331983806495,
+      "Estado": "DESCRIPTIVO",
+      "Evidencia/limitación": "Porcentaje del EV sustentado por Gordon; no es validación económica del terminal"
+    },
+    {
+      "Comprobación": "ROIC terminal vs WACC h=1",
+      "Valor": -5.884964238716378,
+      "Estado": "REVISAR",
+      "Evidencia/limitación": "Diferencial en pp. Crecimiento con ROIC marginal inferior al WACC no acredita creación de valor; no se cambia CAPEX para corregirlo"
+    },
+    {
+      "Comprobación": "Concentración terminal h=1",
+      "Valor": 64.83479068999851,
+      "Estado": "DESCRIPTIVO",
+      "Evidencia/limitación": "Porcentaje del EV sustentado por Gordon; no es validación económica del terminal"
+    },
+    {
+      "Comprobación": "ROIC terminal vs WACC h=3",
+      "Valor": -5.884964238716378,
+      "Estado": "REVISAR",
+      "Evidencia/limitación": "Diferencial en pp. Crecimiento con ROIC marginal inferior al WACC no acredita creación de valor; no se cambia CAPEX para corregirlo"
+    },
+    {
+      "Comprobación": "Concentración terminal h=3",
+      "Valor": 71.98938966290895,
+      "Estado": "DESCRIPTIVO",
+      "Evidencia/limitación": "Porcentaje del EV sustentado por Gordon; no es validación económica del terminal"
+    },
+    {
+      "Comprobación": "Reinversión y D&A",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Ratios sobre ventas; sin calendario de activos/mantenimiento/expansión verificado"
+    },
+    {
+      "Comprobación": "Capital circulante",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Supuesto sobre incremento de ingresos; no calendario de cobros/pagos verificado"
+    },
+    {
+      "Comprobación": "Leases y caja",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Convención declarada; calendario integral de pagos, activos y caja distribuible pendiente"
+    },
+    {
+      "Comprobación": "Acciones y payouts",
+      "Valor": null,
+      "Estado": "NO_VERIFICADO",
+      "Evidencia/limitación": "Acciones constantes salvo calendario documentado; recompra estimada no prueba cancelación"
+    }
+  ],
+  "Fuentes comparables": [
+    {
+      "Ticker": "ADBE",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.657542+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/ADBE?modules=earningsTrend",
+      "SHA256 payload": "d6c8ca5268f3837dede569e390e0f6169941918aa5218d8a8b8bd0c079eb7378",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 24.47864,
+      "EPS FY1 proveedor": 27.40718,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "CRM",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.718377+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/CRM?modules=earningsTrend",
+      "SHA256 payload": "64938610a908e9b9c0edc0f7eab7688d3245b5d8b7be51e5d2ac222048e8fb1a",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 16.75484,
+      "EPS FY1 proveedor": 16.01523,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "IBM",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.775431+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/IBM?modules=earningsTrend",
+      "SHA256 payload": "941d508da16c1aad92a88174e2cd3b267eea2b77eb4931c396e11239183d6646",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 12.42378,
+      "EPS FY1 proveedor": 13.23863,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "NOW",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.829490+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/NOW?modules=earningsTrend",
+      "SHA256 payload": "a3dea85865afcac06576af21779bc2bad988d93d19711c0e1d59270ccb9dc80c",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 3.95455,
+      "EPS FY1 proveedor": 4.8023,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "ORCL",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.886797+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/ORCL?modules=earningsTrend",
+      "SHA256 payload": "c0a54727ed01999dc3103340791716a1e161b7d4cf1a5b93072f247ef3587a2e",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 8.15047,
+      "EPS FY1 proveedor": 11.05881,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "SAP",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.943514+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/SAP?modules=earningsTrend",
+      "SHA256 payload": "aaeafe9781d29562cc8d16beb2cde9aa4cf82f3a7e4b50d8e6a76eef0ace4bdb",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 8.05697,
+      "EPS FY1 proveedor": 9.52997,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "ACIW",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:48.997200+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/ACIW?modules=earningsTrend",
+      "SHA256 payload": "b391f87360d2fc95e99ac06f74a0e09556870ceebe0049d22582f4f13a1ed520",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 3.47333,
+      "EPS FY1 proveedor": 3.8275,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "AKAM",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:49.050306+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/AKAM?modules=earningsTrend",
+      "SHA256 payload": "e5b3312b371b0b65c0f4169b18f9525f540af47ab1c05ec5ff3df81270460d07",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 6.54481,
+      "EPS FY1 proveedor": 6.92717,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "APPN",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:49.103674+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/APPN?modules=earningsTrend",
+      "SHA256 payload": "51597def65da97f221dead19bc60d4aa4e67dc7ceaa819c98c782f392fc752e1",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 1.23079,
+      "EPS FY1 proveedor": 1.53533,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    },
+    {
+      "Ticker": "AVPT",
+      "Estado": "NO_VERIFICADO",
+      "Fecha consulta": "2026-11-12T10:50:49.161837+00:00",
+      "Fuente": "https://query2.finance.yahoo.com/v10/finance/quoteSummary/AVPT?modules=earningsTrend",
+      "SHA256 payload": "7a580205d722f40263e1502aef09b782b6a7a3448c7a26b61b8e00b9799c84b3",
+      "Periodos devueltos": "+1q,+1y,0q,0y",
+      "EPS FY0 proveedor": 0.49144,
+      "EPS FY1 proveedor": 0.51532,
+      "Metodología publicada": "normalized",
+      "Motivo": "No acredita GAAP/NTM; no inferir EBITDA forward ni perímetro de deuda"
+    }
+  ],
+  "Revision filings": [],
+  "Componentes CAPEX DA": [
+    {
+      "Cierre": "2025-09-30",
+      "CAPEX PP&E": 19394000000,
+      "CAPEX intangibles": null,
+      "CAPEX total": 19394000000,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": 8147000000,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": "Yahoo cash-flow; no revisión oficial adicional acreditada"
+    },
+    {
+      "Cierre": "2025-12-31",
+      "CAPEX PP&E": 29876000000,
+      "CAPEX intangibles": null,
+      "CAPEX total": 29876000000,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": 9198000000,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": "Yahoo cash-flow; no revisión oficial adicional acreditada"
+    },
+    {
+      "Cierre": "2026-03-31",
+      "CAPEX PP&E": 30876000000,
+      "CAPEX intangibles": null,
+      "CAPEX total": 30876000000,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": 10167000000,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": "Yahoo cash-flow; no revisión oficial adicional acreditada"
+    },
+    {
+      "Cierre": "2026-06-30",
+      "CAPEX PP&E": 35802000000,
+      "CAPEX intangibles": null,
+      "CAPEX total": 35802000000,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": 11022000000,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": "Yahoo cash-flow; no revisión oficial adicional acreditada"
+    },
+    {
+      "Cierre": "2026-09-30",
+      "CAPEX PP&E": 39367000000,
+      "CAPEX intangibles": null,
+      "CAPEX total": 39367000000,
+      "Residual CAPEX": null,
+      "CAPEX completo": false,
+      "D&A cash flow": 11744000000,
+      "D&A operativa publicada": null,
+      "Diferencia D&A CFO-operativa": null,
+      "Estado D&A": "SIN_DOS_DEFINICIONES_COMPARABLES",
+      "Fuente": "Yahoo cash-flow; no revisión oficial adicional acreditada"
+    }
+  ],
+  "Conciliacion TTM": [
+    {
+      "Campo": "Ingresos",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 346445000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 163191000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 195878000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    },
+    {
+      "Campo": "CAPEX",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 135921000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    },
+    {
+      "Campo": "D&A",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 42600000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 59957000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 205791000000,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "CONCILIA",
+      "Motivo": null
+    }
+  ],
+  "Pendientes fundamentales": []
+}

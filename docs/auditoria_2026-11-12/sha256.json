@@ -1,6 +1,6 @@
 {
   "000660.KS_conciliacion_ttm.csv": "c454087a1f2c2b5265f787f3147c547eff6919e74d50125e8c1130b528d1df8f",
-  "INFORME.md": "869c53b44406dc00cfab1b31d66b3056c91dcb7d7065210d8023815716a03adf",
+  "INFORME.md": "7a3502f2fc263021cd0b5d4f79fb81ddddc543ab4e26eb1abbd9f57243129f25",
   "MSFT_conciliacion_ttm.csv": "2b05195f7ad8233e81eb25212e11c9912fed84a6dd977ec494c5e361871bd92b",
   "artefactos_43086248781.json": "b6352a4ecf5b78a2e77863b50ce4ce783bfbf335e401e7e188145ae76ceb09df",
   "artefactos_43189252381.json": "50e6d24bb8ca6f9fb8d3d1f8b393cc82e8a879a07c119cf9e1cbe8cd131c3e0f",
@@ -18,5 +18,6 @@
   "resultados/000660.KS_local.json": "44a846a7ea277c709fafcba38d4b2b84abcbf8b9cf9cd73e2e2be086c6eb7b4a",
   "resultados/MSFT_after.json": "52e62fa6475085e1f7a42367eb5fd0d74d5302d621df872e9bac847ecf0056ab",
   "resultados/MSFT_before.json": "08af8ea612eb2700a6b33b802545c9d57a9fb9544948e69eb13848ccb088b1fc",
-  "resultados/MSFT_local.json": "a86fb942ef2998ab9a322a52bda05cf0b8e5208fdd2d00093f0195b14a9d038c"
+  "resultados/MSFT_local.json": "a86fb942ef2998ab9a322a52bda05cf0b8e5208fdd2d00093f0195b14a9d038c",
+  "revision_43196409785/sha256.json": "c8377d7d8ac60b598a20920569807e2cdfe2c026901f447cd1877d85095bbf2f"
 }
