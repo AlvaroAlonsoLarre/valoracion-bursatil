@@ -72,3 +72,5 @@ La revisión económica conserva PER y beneficios reportados, pero califica qué
 Cuando hay resultados financieros materiales, se proyecta el puente de intereses identificados (ingreso menos gasto puro) si hay evidencia suficiente; otros resultados no se suponen recurrentes. El desglose oficial conserva ganancias de inversiones, periodos, unidades, URL y hash; no se inventa un impuesto ni un EPS ajustado. Las financieras mantienen tratamiento propio.
 
 Valoración incorpora dos tablas compactas: sensibilidad aislada a crecimiento, margen y PER, y expectativas implícitas en la cotización manteniendo el resto de supuestos Base. Esta inversión de las ecuaciones es un contraste, no recalibra el modelo. Resumen muestra los extremos de crecimiento/margen y el PER junto a los precios.
+
+La [revisión económica final](docs/economia_final_2026-11-12/INFORME.md) compara precios antes/después, normalización de ciclos, extraordinarios de inversiones y calidad del PER. Incluye sensibilidad, validación de los trece tickers y paridad de exportaciones.

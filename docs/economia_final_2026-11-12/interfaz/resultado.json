@@ -1,0 +1,18 @@
+{
+  "tabs": [
+    "Resumen",
+    "Histórico",
+    "Trimestrales",
+    "Comparables",
+    "Valoración",
+    "Datos y auditoría"
+  ],
+  "errors": [],
+  "overflow": {
+    "body": 390,
+    "viewport": 390
+  },
+  "exports": 3,
+  "summary_assumptions_visible": true,
+  "sensitivity_expander": true
+}
