@@ -35,6 +35,8 @@ Notas metodológicas:
 # 1. CONFIGURACIÓN: CAMBIAR SOLO ESTOS PARÁMETROS
 # ============================================================
 import os
+from entorno_ejecucion import configure_runtime,network_diagnostic
+configure_runtime()
 TICKER = os.environ.get("VALUACION_TICKER", "MSFT").strip().upper() or "MSFT"
 NUM_TRIMESTRES = int(os.environ.get("VALUACION_NUM_TRIMESTRES", "12"))
 HORIZONTES = (1, 3)
@@ -176,7 +178,7 @@ def llamar_o_vacio(funcion, *args, **kwargs):
         resultado = funcion(*args, **kwargs)
         return resultado if isinstance(resultado, pd.DataFrame) else pd.DataFrame()
     except Exception as error:
-        warnings.warn(f"No se pudo descargar {funcion.__name__}: {error}")
+        warnings.warn(f"No se pudo descargar {funcion.__name__}: {network_diagnostic(error,'Yahoo')}: {error}")
         return pd.DataFrame()
 
 
@@ -248,7 +250,7 @@ empresa = yf.Ticker(TICKER)
 try:
     info = empresa.get_info() or {}
 except Exception as error:
-    warnings.warn(f"No se pudo obtener info de Yahoo: {error}")
+    warnings.warn(f"No se pudo obtener info de Yahoo: {network_diagnostic(error,'Yahoo')}: {error}")
     info = {}
 
 try:
@@ -301,7 +303,7 @@ fecha_ultimo_ejercicio = max(fechas_anuales) if fechas_anuales else pd.NaT
 try:
     precios = empresa.history(period="max", interval="1d", auto_adjust=False)
 except Exception as error:
-    warnings.warn(f"No se pudo descargar el histórico de precios: {error}")
+    warnings.warn(f"No se pudo descargar el histórico de precios: {network_diagnostic(error,'Yahoo')}: {error}")
     precios = pd.DataFrame()
 if not precios.empty:
     precios.index = pd.to_datetime(precios.index)
@@ -1674,7 +1676,7 @@ if identified.abs().gt(0).any() and sec_metadata.get('Último filing financiero'
 info={**info,'valuation_sec_registration_sources':sec_metadata.get('Fuentes registro',[]),'valuation_cik':sec_metadata.get('CIK'),'valuation_separation_registration':sec_metadata.get('Registro separación',False)}
 from filing_review import review_filings,components_reconciliation
 import json
-source_config=json.loads(Path(__file__).with_name("fuentes_fundamentales.json").read_text())
+source_config=json.loads(Path(__file__).with_name("fuentes_fundamentales.json").read_text(encoding='utf-8'))
 if sec_metadata.get('Base contable') in ('US_GAAP','IFRS'):
     info={**info,'valuation_accounting_basis':sec_metadata['Base contable']}
 if source_config.get(TICKER,{}).get('accounting_basis'):
@@ -1740,7 +1742,7 @@ if snapshot_dir:
          'Fuentes SEC':tabla_fuentes_sec,'Precios y splits':precios,'Conciliacion SEC Yahoo':conciliacion_sec_yahoo,'Notas inversiones oficiales':notas_inversiones,'General datos':pd.DataFrame([{'Ticker':TICKER,'Empresa':nombre_empresa,'Sector':sector_objetivo,'Industria':industria_objetivo}]),
          'Escenarios EPS PER':tabla_escenarios_eps,'Escenarios FCF':tabla_escenarios_fcf,
          'Anuales proveedor':anuales_proveedor,'Trimestres proveedor':trimestres_proveedor},
-         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo,'stock_model':{'version':'stock-dashboard-v1','product_version':'V6 simplificada','settings':stock_settings},'peer_ttm_sources':fuentes_ttm,'peer_discovery':list(registro_candidatos.values())})
+         evidence={'ir':comprobacion_ir,'official_fundamentals':enriquecimiento.evidence,'peer_sources':evidencia_comparables,'filing_review':revision_filings,'risk_references':referencias_riesgo,'stock_model':{'version':'stock-dashboard-v1','product_version':'V7 integrada','settings':stock_settings},'peer_ttm_sources':fuentes_ttm,'peer_discovery':list(registro_candidatos.values())})
 from flujo_acciones import stock_tables
 resultado_acciones,tablas_acciones=stock_tables(tabla_financiera_usd,universo_df,fundamental_kwargs,historico_auditado,stock_settings)
 tablas_acciones['Conciliacion SEC Yahoo']=conciliacion_sec_yahoo

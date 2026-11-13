@@ -1,0 +1,72 @@
+{
+  "combinations": [
+    [
+      "1 semana",
+      "Ninguna"
+    ],
+    [
+      "1 semana",
+      "1 mes"
+    ],
+    [
+      "1 semana",
+      "4 meses"
+    ],
+    [
+      "1 semana",
+      "1 año"
+    ],
+    [
+      "1 semana",
+      "3 años"
+    ],
+    [
+      "4 meses",
+      "Ninguna"
+    ],
+    [
+      "4 meses",
+      "1 mes"
+    ],
+    [
+      "4 meses",
+      "4 meses"
+    ],
+    [
+      "4 meses",
+      "1 año"
+    ],
+    [
+      "4 meses",
+      "3 años"
+    ],
+    [
+      "1 año",
+      "Ninguna"
+    ],
+    [
+      "1 año",
+      "1 mes"
+    ],
+    [
+      "1 año",
+      "4 meses"
+    ],
+    [
+      "1 año",
+      "1 año"
+    ],
+    [
+      "1 año",
+      "3 años"
+    ]
+  ],
+  "errors": [],
+  "width": {
+    "body": 390,
+    "viewport": 390
+  },
+  "tabs": 6,
+  "exports": 6,
+  "manual_survives_other_form": true
+}

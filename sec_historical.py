@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from entorno_ejecucion import network_diagnostic
 
 SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 SEC_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
@@ -64,9 +65,15 @@ def _headers(user_agent: str) -> dict[str, str]:
 
 
 def _get_json(url: str, user_agent: str) -> dict:
-    response = requests.get(url, headers=_headers(user_agent), timeout=60)
-    response.raise_for_status()
-    return response.json()
+    try:
+        response = requests.get(url, headers=_headers(user_agent), timeout=60)
+        response.raise_for_status()
+        payload=response.json()
+        if not isinstance(payload,dict):raise ValueError('SEC devuelve un JSON incompleto o no estructurado')
+        return payload
+    except (requests.RequestException, ValueError) as exc:
+        warnings.warn(network_diagnostic(exc,'SEC'))
+        raise
 
 
 def cik_from_filing_links(ticker,user_agent,filings=None):

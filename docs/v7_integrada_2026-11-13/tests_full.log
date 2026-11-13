@@ -1,0 +1,14 @@
+........................................................................ [ 45%]
+........................................................................ [ 90%]
+................                                                         [100%]
+=============================== warnings summary ===============================
+tests/test_stock_dashboard.py::test_sec_identity_fallback_uses_exact_ticker_and_official_submission
+  /workspace/work/valoracion-bursatil/sec_historical.py:100: UserWarning: Identidad SEC validada por ticker exacto en submissions; CIK descubierto desde enlace SEC de Yahoo: 0000789019
+    warnings.warn('Identidad SEC validada por ticker exacto en submissions; CIK descubierto desde enlace SEC de Yahoo: '+verified[0][0])
+
+tests/test_stock_dashboard.py::test_sec_index_403_does_not_force_yahoo_financial_history
+  /workspace/work/valoracion-bursatil/sec_historical.py:113: UserWarning: Índice ticker SEC no accesible; se contrasta identidad mediante filings/submissions: 403 índice
+    warnings.warn('Índice ticker SEC no accesible; se contrasta identidad mediante filings/submissions: '+str(exc)[:130])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+160 passed, 2 warnings in 24.51s

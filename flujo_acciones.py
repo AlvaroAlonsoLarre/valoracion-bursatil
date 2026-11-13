@@ -2,6 +2,7 @@
 from types import SimpleNamespace
 import numpy as np
 import pandas as pd
+from entorno_ejecucion import child_environment
 from analisis_acciones import build_stock_analysis,sector_type
 from auditoria_io import clean
 from estados_datos import public_states
@@ -65,7 +66,7 @@ def optional_models(annual,peers,kwargs,settings,environment=None):
     scalars={k:v for k,v in kwargs.items() if k!='quarterly'}
     payload={'annual':frame_payload(annual),'peers':frame_payload(peers),'kwargs':clean(scalars),
         'quarterly':frame_payload(kwargs['quarterly']) if kwargs.get('quarterly') is not None else None}
-    env=os.environ.copy()
+    env=child_environment()
     names={'WACC','TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','BETA','COSTE_DEUDA','RIESGO_PAIS',
         'PARAMETROS_MONEDA','ERP_INCLUYE_PAIS','CRECIMIENTO_TERMINAL','CRECIMIENTO_VENTAS','TASA_IMPOSITIVA',
         'VAR_CAPITAL_TRABAJO_PCT','CRECIMIENTO_ACCIONES','PAGOS_ACCIONISTAS_SOBRE_VENTAS','EMPRESA_CICLICA','MARGEN_NORMALIZADO'}
@@ -80,7 +81,7 @@ def optional_models(annual,peers,kwargs,settings,environment=None):
         if key in settings.get('optional_assumptions',{}):env[name]=str(settings['optional_assumptions'][key])
     try:
         process=subprocess.run([sys.executable,str(Path(__file__).with_name('opcionales_worker.py'))],
-            input=json.dumps(payload,ensure_ascii=False,allow_nan=False),env=env,capture_output=True,text=True,timeout=90)
+            input=json.dumps(payload,ensure_ascii=False,allow_nan=False),env=env,capture_output=True,text=True,encoding='utf-8',timeout=90)
         if process.returncode:raise ValueError(process.stderr[-500:])
         result=SimpleNamespace(**{k:restore_frame(v) for k,v in json.loads(process.stdout).items()})
         if not result.valuation.empty:result.valuation=result.valuation[~result.valuation['Método'].str.contains('PER forward',regex=False)].copy()

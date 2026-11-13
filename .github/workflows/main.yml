@@ -1,4 +1,4 @@
-name: V6 · pruebas rápidas y matriz financiera manual
+name: V7 · pruebas Linux/Windows y matriz financiera manual
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ on:
     branches: [main]
     paths-ignore: ['Resultados_publicados/**']
   pull_request:
-    branches: [main]
+    branches: [main, fix/auditoria-msft-sk-hynix]
     types: [opened, synchronize, reopened]
     paths-ignore: ['Resultados_publicados/**']
 
@@ -58,6 +58,63 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('tickers='+json.dumps(tickers)+'\n')
           PY
+
+  pruebas_windows:
+    runs-on: windows-latest
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: ZIP sin repositorio Git en ruta Windows Unicode
+        run: |
+          git archive --format=zip --output="$env:RUNNER_TEMP/v7-source.zip" HEAD
+          $root = Join-Path $env:RUNNER_TEMP 'Álvaro 日本 V7'
+          Expand-Archive "$env:RUNNER_TEMP/v7-source.zip" -DestinationPath $root
+          "V7_WINDOWS_ROOT=$root" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Entorno Windows 3.12 y dependencias fijadas
+        run: |
+          Set-Location -LiteralPath $env:V7_WINDOWS_ROOT
+          python -X utf8 -m venv .venv
+          .\.venv\Scripts\python.exe -X utf8 -m pip install -r requirements.lock
+      - name: Pruebas completas, Unicode, CA con ACL y HTTPS local real
+        run: |
+          Set-Location -LiteralPath $env:V7_WINDOWS_ROOT
+          .\.venv\Scripts\python.exe -m pytest -q tests
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .\.venv\Scripts\python.exe autoprueba_modelo.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .\.venv\Scripts\python.exe prueba_comparables_automaticos.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .\.venv\Scripts\python.exe test_v5.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Arranque BAT real sin Git ni navegador interactivo
+        env:
+          VALUACION_NO_BROWSER: '1'
+        run: |
+          Set-Location -LiteralPath $env:V7_WINDOWS_ROOT
+          cmd /c iniciar_dashboard.bat
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $state = Get-Content .dashboard_servidor.json -Raw -Encoding UTF8 | ConvertFrom-Json
+          try {
+            $health = Invoke-WebRequest "http://127.0.0.1:$($state.Port)/_stcore/health" -UseBasicParsing
+            if ($health.StatusCode -ne 200) { throw 'Streamlit no responde' }
+          } finally {
+            Stop-Process -Id $state.PID -ErrorAction SilentlyContinue
+          }
+      - name: Logs de arranque Windows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arranque-windows-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.V7_WINDOWS_ROOT }}/logs/
+          if-no-files-found: ignore
+          retention-days: 14
 
   valorar:
     needs: pruebas

@@ -62,7 +62,7 @@ def write_snapshot(path,annual,peers,kwargs,historical=None,evidence=None):
 
 
 def read_snapshot(path):
-    payload=json.loads(Path(path).read_text())
+    payload=json.loads(Path(path).read_text(encoding='utf-8'))
     if payload['schema']!='audit-inputs-v1':raise ValueError('Schema snapshot no compatible')
     frames={k:restore_frame(v) for k,v in payload['frames'].items()}
     kwargs=dict(payload['kwargs'])

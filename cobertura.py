@@ -7,7 +7,7 @@ from pathlib import Path
 def build_manifest(directory,tickers,sha=None):
     found={}
     for path in Path(directory).rglob('*_resumen.json'):
-        data=json.loads(path.read_text())
+        data=json.loads(path.read_text(encoding='utf-8'))
         ticker=data.get('ticker')
         if ticker not in tickers:continue
         if ticker in found:raise ValueError('Resumen duplicado para '+ticker)
@@ -27,7 +27,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--directory',required=True)
     ap.add_argument('--tickers',nargs='+',default=['MSFT','000660.KS']);ap.add_argument('--sha');ap.add_argument('--output',required=True)
     args=ap.parse_args();manifest=build_manifest(args.directory,args.tickers,args.sha)
-    Path(args.output).write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+    Path(args.output).write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(manifest,ensure_ascii=False));return 0 if manifest['complete'] else 2
 
 if __name__=='__main__':raise SystemExit(main())

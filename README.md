@@ -1,4 +1,4 @@
-# V6 simplificada · dashboard fundamental de acciones
+# V7 integrada · dashboard fundamental de acciones
 
 Análisis del negocio y escenarios de precio a **1 y 3 años**, con foco en acciones de Estados Unidos y soporte multiempresa/multibolsa. SEC es la fuente anual principal; Yahoo aporta cotizaciones, trimestres, acciones corporativas y datos complementarios. Las fuentes oficiales específicas conservan su auditoría.
 
@@ -8,7 +8,9 @@ python -m venv .venv
 .venv/bin/streamlit run dashboard_app.py
 ```
 
-En Windows siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real.
+En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real. [Informe V7, pruebas y captura de pantalla](docs/v7_integrada_2026-11-13/INFORME.md).
+
+La distribución estable es `main`: [descarga el ZIP sin Git](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/main.zip), extrae todo y abre `iniciar_dashboard.bat` con Python 3.12 x64 instalado. El lanzador prepara `.venv`, comprueba las dependencias fijadas y configura UTF-8/HTTPS, sin descargar ni parchear el código. [Consolidación Windows y validación financiera](docs/consolidacion_v7_2026-11-13/INFORME.md).
 
 ## Modelo principal
 
@@ -24,7 +26,9 @@ Los comparables se descubren por actividad; se prefieren **3–6**, sin forzar e
 
 ## Escenarios, criterios y exportación
 
-En Valoración se editan crecimiento, margen EBIT/PBT, fiscalidad, resultado no operativo, variación de acciones y PER por escenario. Un PER manual requiere justificación. Para ADR se exige ratio ordinarias/ADR, fuente y fecha. WACC y g terminal opcionales no cambian el motor principal.
+En Valoración se editan crecimiento, margen EBIT/PBT, fiscalidad, resultado no operativo y variación de acciones. En Resumen se elige PER automático o manual: Base, distancia pesimista/optimista y justificación. Con dos referencias históricas económicamente válidas puede activarse explícitamente una valoración exploratoria de confianza Baja; con cero/una, un PER manual justificado requiere igualmente EPS válido y todos sus controles contables. Aplicar PER conserva los demás ajustes. Para ADR se exige ratio ordinarias/ADR, fuente y fecha. WACC y g terminal opcionales no cambian el motor principal.
+
+Resumen muestra cotización archivada de 1 semana, 4 meses o 1 año y tres líneas discontinuas opcionales a 1 mes, 4 meses, 1 año o 3 años. Los extremos a 1/3 años proceden del motor EPS × PER; los intermedios son interpolaciones ilustrativas. Se mantienen horizontes disponibles si falta otro, sin extrapolar objetivos ausentes.
 
 La referencia razonable hoy es el precio Base a un año descontado al retorno exigido editable; no se promedian métodos. Los potenciales son retornos de precio, sin dividendos, costes ni impuestos personales. La clasificación de atractivo exige más descuento cuanto menor sea la confianza y mayor sea la dispersión. Los umbrales de retorno, margen, prima de reducción, caída tolerada y peso máximo son transparentes y editables. La posición es opcional y debe estar en la moneda de cotización. Los datos de coste no cambian el valor del negocio. Las señales son orientativas y no envían órdenes.
 
@@ -74,3 +78,8 @@ Cuando hay resultados financieros materiales, se proyecta el puente de intereses
 Valoración incorpora dos tablas compactas: sensibilidad aislada a crecimiento, margen y PER, y expectativas implícitas en la cotización manteniendo el resto de supuestos Base. Esta inversión de las ecuaciones es un contraste, no recalibra el modelo. Resumen muestra los extremos de crecimiento/margen y el PER junto a los precios.
 
 La [revisión económica final](docs/economia_final_2026-11-12/INFORME.md) compara precios antes/después, normalización de ciclos, extraordinarios de inversiones y calidad del PER. Incluye sensibilidad, validación de los trece tickers y paridad de exportaciones.
+
+
+La V7 integrada parte de la V6 verificada `b50a51d` y utiliza los mismos módulos financieros. [Ejecución Windows](WINDOWS.md). El gráfico utiliza cierres archivados a una semana/cuatro meses/un año y permite ocultar o mostrar escenarios a uno/cuatro meses/un año/tres años; los puntos intermedios son interpolaciones ilustrativas, nunca un motor mensual alternativo. Los objetivos de uno/tres años son exclusivamente los del motor EPS × PER.
+
+El PER manual se configura en Resumen, con distancias pesimista/optimista y justificación. Sus cambios conservan todos los demás supuestos. La referencia de dos PER limpios es una opción exploratoria explícita de confianza Baja; con cero o uno se necesita un PER manual justificado. Nunca evita requisitos de EPS, divisas, acciones o contabilidad.

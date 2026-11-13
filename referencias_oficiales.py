@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 
 def comprobar_ir(ticker, quarterly, currency, as_of, requests_get=None, references=None):
-    refs=references if references is not None else json.loads(Path(__file__).with_name('referencias_oficiales.json').read_text())
+    refs=references if references is not None else json.loads(Path(__file__).with_name('referencias_oficiales.json').read_text(encoding='utf-8'))
     ref=refs.get(ticker,{})
     result={'status':'NO_VERIFICADO','source_url':ref.get('source',''),'newer_filing_confirmed':False,
             'detail':'Sin referencia IR configurada para este ticker','comparisons':[],
