@@ -21,9 +21,13 @@ from auditoria_io import clean,provenance
 from flujo_acciones import analysis_from_snapshot,excel_bytes,tables_summary
 from estado_dashboard import prepare_capture,default_capture,per_settings,edited_settings,model_fingerprint
 from grafico_cotizacion import render as render_price_chart
+from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
 
 ROOT=Path(__file__).resolve().parent
 st.set_page_config(page_title='Fundamental · Acciones',page_icon='◈',layout='wide')
+try:configure_runtime()
+except RuntimeConfigurationError as exc:
+    st.error(str(exc));st.stop()
 st.markdown('''<style>
 .stApp {background:#f5f7fa;color:#1b293d} .block-container {max-width:1480px;padding-top:4.7rem;padding-bottom:3rem}
 [data-testid="stSidebar"] {background:#10283f} [data-testid="stSidebar"] * {color:#eef4f8}
@@ -70,13 +74,13 @@ def load_capture(ticker,quarters,contact):
     if not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):raise ValueError('Ticker no válido')
     if contact and not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',contact):raise ValueError('Contacto SEC no válido')
     with tempfile.TemporaryDirectory(prefix='fundamental_ui_') as folder:
-        env=os.environ.copy()
+        env=child_environment()
         if contact:env['SEC_CONTACT_EMAIL']=contact
         args=[sys.executable,str(ROOT/'ejecutar_analisis.py'),'--ticker',ticker,'--num-quarters',str(quarters),'--outdir',folder]
-        proc=subprocess.run(args,env=env,capture_output=True,text=True,timeout=1500)
+        proc=subprocess.run(args,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=1500)
         snapshot=Path(folder)/(ticker+'_inputs.json')
         if proc.returncode not in (0,2) or not snapshot.exists():raise RuntimeError((proc.stderr or proc.stdout)[-1800:])
-        return snapshot.read_text()
+        return snapshot.read_text(encoding='utf-8')
 
 
 with st.sidebar:

@@ -15,6 +15,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
 
 
 def safe_records(df,max_rows=100):
@@ -38,12 +39,13 @@ def safe_records(df,max_rows=100):
 
 
 def run(ticker,outdir,quarters,contact,settings=None):
+    configure_runtime()
     import pandas as pd
     ticker=ticker.strip().upper()
     if not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):
         raise ValueError('Ticker Yahoo no válido')
     out=Path(outdir).resolve();out.mkdir(parents=True,exist_ok=True)
-    env=os.environ.copy()
+    env=child_environment()
     env['VALUACION_TICKER']=ticker
     env['VALUACION_NUM_TRIMESTRES']=str(quarters)
     env['VALUACION_SNAPSHOT_DIR']=str(out)
@@ -57,7 +59,7 @@ def run(ticker,outdir,quarters,contact,settings=None):
     with tempfile.TemporaryDirectory(prefix='valoracionV5_') as temp:
         cmd=[sys.executable,'-u',str(Path(__file__).resolve().with_name('valoracion_engine.py'))]
         try:
-            p=subprocess.run(cmd,cwd=temp,env=env,capture_output=True,text=True,errors='replace',timeout=1500)
+            p=subprocess.run(cmd,cwd=temp,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=1500)
         except subprocess.TimeoutExpired as exc:
             (out/f'{name}_ejecucion.log').write_text('Timeout motor; '+str(exc),encoding='utf-8')
             return save_failure(ticker,out,'Tiempo máximo del motor excedido',start)
@@ -98,7 +100,7 @@ def save_failure(ticker,out,message,start):
     payload={'schema_version':'v7.0','ticker':ticker,'generado_utc':start.isoformat(),
         'provenance':provenance(),'estado_tecnico':'ERROR','detail':message,
         'auditoria':{'estado_financiero':'BLOQUEO','publicable':False,'exit_code':1}}
-    (out/f'{ticker}_resumen.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2))
+    (out/f'{ticker}_resumen.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8')
     print(message,file=sys.stderr)
     return 1
 
@@ -229,8 +231,8 @@ def replay_stock(snapshot,outdir,payload,settings=None):
     if settings is None:(out/f'{ticker}_inputs.json').write_bytes(Path(snapshot).read_bytes())
     else:
         payload['evidence']['stock_model']['settings']=validate_settings(settings)
-        (out/f'{ticker}_inputs.json').write_text(json.dumps(clean(payload),ensure_ascii=False,allow_nan=False,indent=2))
-    (out/f'{ticker}_ejecucion.log').write_text('Replay offline stock-dashboard-v1; snapshot '+str(Path(snapshot).resolve()))
+        (out/f'{ticker}_inputs.json').write_text(json.dumps(clean(payload),ensure_ascii=False,allow_nan=False,indent=2),encoding='utf-8')
+    (out/f'{ticker}_ejecucion.log').write_text('Replay offline stock-dashboard-v1; snapshot '+str(Path(snapshot).resolve()),encoding='utf-8')
     return save_summary(ticker,out,excel,tables,datetime.now(timezone.utc))
 
 
@@ -248,11 +250,16 @@ def main():
         ap.error('Selecciona de 4 a 24 trimestres')
     if not args.ticker and not args.snapshot:ap.error('Indica --ticker o --snapshot')
     if args.ticker and args.snapshot:ap.error('Selecciona --ticker o --snapshot, no ambos')
-    settings=json.loads(Path(args.assumptions).read_text()) if args.assumptions else {}
+    settings=json.loads(Path(args.assumptions).read_text(encoding='utf-8')) if args.assumptions else {}
     if args.advanced:settings['advanced']=True
     try:return replay(args.snapshot,args.outdir,settings if args.assumptions or args.advanced else None) if args.snapshot else run(args.ticker,args.outdir,args.num_quarters,args.sec_email,settings)
     except Exception as e:
         print(f'FALLO: {type(e).__name__}: {e}',file=sys.stderr)
         return 1
 
-if __name__=='__main__':sys.exit(main())
+if __name__=='__main__':
+    try:
+        configure_runtime()
+        sys.exit(main())
+    except RuntimeConfigurationError as exc:
+        print(str(exc),file=sys.stderr);sys.exit(1)

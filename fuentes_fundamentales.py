@@ -184,7 +184,7 @@ def earnings_pdf(content, document, entity_name):
 
 
 def enrich_financials(ticker,annual,quarterly,currency,as_of,*,requests_get=None,config=None):
-    config=config if config is not None else json.loads(Path(__file__).with_name('fuentes_fundamentales.json').read_text())
+    config=config if config is not None else json.loads(Path(__file__).with_name('fuentes_fundamentales.json').read_text(encoding='utf-8'))
     entry=config.get(ticker)
     a=annual.copy();q=quarterly.copy() if quarterly is not None else pd.DataFrame()
     evidence={'status':'SIN_COBERTURA','documents':[],'changes':[],'issues':[]}

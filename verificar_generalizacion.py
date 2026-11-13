@@ -16,9 +16,9 @@ from estados_datos import metric_coverage
 def inspect(directory):
     results={}
     for path in Path(directory).rglob('*_resumen.json'):
-        s=json.loads(path.read_text());ticker=s['ticker'];capture=path.with_name(ticker+'_inputs.json')
+        s=json.loads(path.read_text(encoding='utf-8'));ticker=s['ticker'];capture=path.with_name(ticker+'_inputs.json')
         if not capture.exists():raise ValueError('Falta captura: '+ticker)
-        payload=json.loads(capture.read_text());kwargs=payload['kwargs'];annual=restore_frame(payload['frames']['annual'])
+        payload=json.loads(capture.read_text(encoding='utf-8'));kwargs=payload['kwargs'];annual=restore_frame(payload['frames']['annual'])
         quarterly=restore_frame(payload['frames'].get('quarterly',{'columns':[],'index':[],'data':[],'datetime_index':False,'index_name':None}))
         ttm,base,q,notes=quarterly_snapshot(quarterly,annual,pd.Timestamp(kwargs['as_of']),kwargs.get('fiscal_end_date'))
         fields=restore_frame(payload['historical']['Fuentes SEC']) if 'Fuentes SEC' in payload['historical'] else pd.DataFrame()
@@ -74,7 +74,7 @@ def compare(before,after):
 def verify_formulas(directory):
     rows=[]
     for path in Path(directory).rglob('*_resumen.json'):
-        s=json.loads(path.read_text());ticker=s['ticker'];projections=s.get('Proyeccion EPS',[])
+        s=json.loads(path.read_text(encoding='utf-8'));ticker=s['ticker'];projections=s.get('Proyeccion EPS',[])
         assumptions={(r['Escenario'],r['Parámetro']):r['Valor'] for r in s['Supuestos EPS PER']}
         summary={r['Concepto']:r['Valor'] for r in s['Resumen']};sales={}
         for r in projections:
@@ -90,7 +90,7 @@ def verify_formulas(directory):
         for r in s.get('Valoracion EPS PER',[]):
             if r['Método']=='EPS × PER' and r['Precio objetivo'] is not None:
                 assert np.isclose(r['Precio objetivo'],r['EPS aplicado']*r['PER aplicado']*summary['per_share_fx'])
-        capture=path.with_name(ticker+'_inputs.json');p=json.loads(capture.read_text());q=restore_frame(p['frames']['quarterly'])
+        capture=path.with_name(ticker+'_inputs.json');p=json.loads(capture.read_text(encoding='utf-8'));q=restore_frame(p['frames']['quarterly'])
         if set(['Flujo de caja operativo','CAPEX','Flujo de caja libre'])<=set(q):
             expected=pd.to_numeric(q['Flujo de caja operativo'],errors='coerce')-pd.to_numeric(q['CAPEX'],errors='coerce');actual=pd.to_numeric(q['Flujo de caja libre'],errors='coerce')
             assert np.allclose(expected,actual,equal_nan=True),ticker+' FCF no concilia'
@@ -102,7 +102,7 @@ def main():
     args=parser.parse_args();out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
     before=inspect(args.before);after=inspect(args.after);table=compare(before,after)
     table.to_csv(out/'comparacion.csv',index=False)
-    (out/'aceptacion.json').write_text(json.dumps(clean({'before':before,'after':after,'formula_checks':verify_formulas(args.after)}),ensure_ascii=False,indent=2,allow_nan=False))
+    (out/'aceptacion.json').write_text(json.dumps(clean({'before':before,'after':after,'formula_checks':verify_formulas(args.after)}),ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
     print(table.drop(columns=['Críticas / ausencias','Advertencias']).to_string(index=False))
 
 if __name__=='__main__':main()
