@@ -70,7 +70,9 @@ def run(ticker,outdir,quarters,contact,settings=None):
         src=max(files,key=lambda f:f.stat().st_mtime)
         excel=out/f'valoracion_{name}_{start:%Y%m%dT%H%M%SZ}.xlsx'
         excel.write_bytes(src.read_bytes())
-    sheets=pd.read_excel(excel,sheet_name=None)
+    # Respeta los tipos de las celdas: un CIK o ticker con ceros iniciales es
+    # texto, aunque toda su columna contenga dígitos. No cambia cifras numéricas.
+    sheets=pd.read_excel(excel,sheet_name=None,dtype=object)
     return save_summary(ticker,out,excel,sheets,start)
 
 

@@ -23,7 +23,6 @@ function Find-Python {
     $candidates = New-Object System.Collections.ArrayList
     $locations = @(
         [pscustomobject]@{ Dir = $AppDir; Relative = '.venv\Scripts\python.exe' },
-        [pscustomobject]@{ Dir = $AppDir; Relative = '.venv\Scripts\python.exe' },
         [pscustomobject]@{ Dir = $env:VIRTUAL_ENV; Relative = 'Scripts\python.exe' },
         [pscustomobject]@{ Dir = $env:CONDA_PREFIX; Relative = 'python.exe' },
         [pscustomobject]@{ Dir = $env:ProgramData; Relative = 'anaconda3\python.exe' },
@@ -102,7 +101,6 @@ function Get-RunningDashboard {
 function Open-Browser([int]$port) {
     $url = "http://127.0.0.1:$port"
     $locations = @(
-        [pscustomobject]@{ Dir = $AppDir; Relative = '.venv\Scripts\python.exe' },
         (Get-ExistingExe $env:ProgramFiles 'Google\Chrome\Application\chrome.exe'),
         (Get-ExistingExe ([Environment]::GetEnvironmentVariable('ProgramFiles(x86)')) 'Google\Chrome\Application\chrome.exe'),
         (Get-ExistingExe $env:LOCALAPPDATA 'Google\Chrome\Application\chrome.exe')

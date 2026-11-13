@@ -11,13 +11,17 @@ from historico_acciones import historical_multiples
 
 def prepare_capture(raw):
     p=json.loads(raw)
-    if p.get('schema')!='audit-inputs-v1':
+    if not isinstance(p,dict) or p.get('schema')!='audit-inputs-v1':
         raise ValueError('Se necesita la captura reproducible *_inputs.json, no el JSON de resultados ni un esquema desconocido')
-    if not {'annual','peers'}<=set(p.get('frames',{})) or not isinstance(p.get('kwargs'),dict):
+    if not isinstance(p.get('frames'),dict) or not {'annual','peers'}<=set(p['frames']) or not isinstance(p.get('kwargs'),dict):
         raise ValueError('Captura incompleta: faltan estados financieros o parámetros de moneda/fecha')
-    for frame in p['frames'].values():restore_frame(frame)
+    try:
+        for frame in p['frames'].values():restore_frame(frame)
+    except (KeyError,TypeError,ValueError,AttributeError) as exc:raise ValueError('Estructura de tabla financiera incompatible; no se ha reemplazado la captura anterior') from exc
     historical=p.setdefault('historical',{});evidence=p.setdefault('evidence',{});notes=[]
+    if not isinstance(historical,dict) or not isinstance(evidence,dict):raise ValueError('Metadatos de la captura incompatibles')
     model=evidence.setdefault('stock_model',{'version':'stock-dashboard-v1','settings':{}})
+    if not isinstance(model,dict):raise ValueError('Versión de la captura incompatible')
     if model.get('version','stock-dashboard-v1')!='stock-dashboard-v1':raise ValueError('Versión del motor de la captura no compatible')
     validate_settings(model.get('settings',{}))
     if 'Referencia histórica auditada' not in historical:

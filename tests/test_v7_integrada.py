@@ -173,3 +173,23 @@ def test_model_fingerprint_changes_with_financial_source(tmp_path):
     for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py']:(tmp_path/name).write_text('base')
     before=model_fingerprint(tmp_path);(tmp_path/'analisis_acciones.py').write_text('revision')
     assert model_fingerprint(tmp_path)!=before
+
+
+@pytest.mark.parametrize('payload',[[],{'schema':'audit-inputs-v1','frames':{'annual':{} ,'peers':{}},'kwargs':{}},{'schema':'audit-inputs-v1','frames':[], 'kwargs':{}}])
+def test_incompatible_capture_is_explicit_error(payload):
+    with pytest.raises(ValueError):prepare_capture(json.dumps(payload))
+
+
+def test_cli_export_preserves_text_identifiers_and_native_numeric_cells(tmp_path,monkeypatch):
+    import subprocess
+    from ejecutar_analisis import run
+    r,tables=analysis_from_snapshot(archived('MSFT'))
+    tables['Financieros anuales']=pd.DataFrame([{'CIK SEC':'0000789019','Ticker':'000660','Ingresos':1234.5,'Verificado':True}])
+    def engine(cmd,cwd,**kwargs):
+        (Path(cwd)/'valoracion_completa_MSFT.xlsx').write_bytes(excel_bytes(tables))
+        return subprocess.CompletedProcess(cmd,0,'fixture sin red','')
+    monkeypatch.setattr('ejecutar_analisis.subprocess.run',engine)
+    monkeypatch.setattr('auditoria_io.provenance',lambda:{'sha':'test'})
+    assert run('MSFT',tmp_path,12,'')==0
+    data=json.loads((tmp_path/'MSFT_resumen.json').read_text())
+    assert data['Financieros anuales']==[{'CIK SEC':'0000789019','Ticker':'000660','Ingresos':1234.5,'Verificado':True}]
