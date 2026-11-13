@@ -67,8 +67,9 @@ def _range(name,value,lo,hi):
 
 def validate_settings(settings):
     settings=dict(settings or {})
-    allowed={'scenarios','per_basis','per_reason','policy','adr','advanced','allow_turnaround','turnaround_reason','optional_assumptions'}
+    allowed={'scenarios','per_basis','per_reason','policy','adr','advanced','allow_turnaround','turnaround_reason','optional_assumptions','exploratory_pe'}
     if set(settings)-allowed:raise ValueError('Ajuste desconocido: '+str(set(settings)-allowed))
+    if 'exploratory_pe' in settings and not isinstance(settings['exploratory_pe'],bool):raise ValueError('exploratory_pe debe ser booleano')
     scenarios=settings.get('scenarios',{})
     if not isinstance(scenarios,dict) or set(scenarios)-set(SCENARIOS):raise ValueError('Escenarios no válidos')
     bounds={'growth':(-.8,1.),'margin':(-.8,.9),'tax':(0.,.6),'financial_sales':(-.5,.5),'dilution':(-.15,.5),'pe':(.1,200.),'growth_terminal':(-.8,1.),'margin_terminal':(-.8,.9)}
@@ -245,8 +246,20 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     per_basis='TTM';confidence='Baja';per_note=own_note;pes=own_pes
     if not own_count and peer_ttm:pes,per_count=peer_ttm;confidence='Media';per_note=f'{per_count} comparables económicos TTM homogéneos'
     if not own_count and not peer_ttm and peer_forward:pes,per_count=peer_forward;confidence='Media';per_note=f'{per_count} comparables económicos NTM verificados';per_basis='NTM'
+    exploratory_used=False
+    if not all(number(v)>0 for v in pes) and settings.get('exploratory_pe') and len(raw_annual) and not history_qualified.empty:
+        good=history_qualified[history_qualified['PER admisible económicamente'].eq(True)]
+        for window in [5,10]:
+            recent=good[good['Ejercicio']>int(raw_annual.index.max())-window]
+            if len(recent)==2:
+                v=pd.to_numeric(recent['PER histórico'],errors='coerce');med=number(v.median())
+                pes=[min(v.min(),med*.8),med,max(v.max(),med*1.2)]
+                per_note=f'Exploratoria: 2 PER limpios en {window} FY; banda de sensibilidad al menos ±20%, no cuartiles precisos'
+                per_basis='TTM';confidence='Baja';exploratory_used=True
+                break
     if any('pe' in row for row in settings.get('scenarios',{}).values()):
         # Cada PER manual se identifica; no se convierte una etiqueta FY1 en un forecast NTM.
+        exploratory_used=False
         per_basis=settings.get('per_basis','TTM');confidence='Baja';per_note='PER manual: '+settings['per_reason']
     check('Precio EPS','Referencia PER',all(number(x)>0 for x in pes) or any('pe' in row for row in settings.get('scenarios',{}).values()),per_note,True)
     if confidence=='Baja':check('EPS × PER','Confianza de múltiplo',False,per_note+'; referencia retrospectiva/manual, no consenso')
@@ -354,7 +367,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
                 'Origen PER':per_note,'Potencial (%)':100*(target/price-1) if number(price)>0 and quote_ok else np.nan,
                 'Rentabilidad anualizada (%)':100*((target/price)**(1/h)-1) if target>0 and price>0 and quote_ok else np.nan,
                 'Confianza':confidence,'Estado':'ESTIMADO' if target>0 else 'NO DISPONIBLE','Fecha objetivo':str((today+pd.DateOffset(years=h)).date()),
-                'Limitación':'Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales'})
+                'Limitación':('Exploratoria con 2 PER; ' if exploratory_used else '')+'Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales'})
     valuation=pd.DataFrame(valued)
     eps_ok=int(valuation['Precio objetivo'].notna().sum())>0
     eps_notes='Datos contables suficientes; hipótesis pendientes de validación económica' if eps_ok else '; '.join(c['Comprobación'] for c in controls if c['Estado']=='BLOQUEO' and c['Método'] in ('Todos','EPS × PER','Precio EPS'))
@@ -375,7 +388,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
         methods.append({'Método':method,'Rol':'Opcional','Estado':'SOLICITADO' if settings.get('advanced') and kind=='OPERATIVA' else 'NO_EJECUTADO',
             'Detalle':'Controles propios; nunca invalidan EPS × PER' if kind=='OPERATIVA' else 'No aplicar FCFF/EV genérico a financieras o REIT'})
     summary={'ticker':ticker,'as_of':str(today.date()),'price':number(price),'quote_date':str(quote_date.date()) if pd.notna(quote_date) else None,'quote_verified':bool(quote_ok),'currency':quote_currency,'financial_currency':financial_currency,
-        'per_share_fx':fx*adr_factor,'confidence':confidence,'sector_type':kind,'profit_model':'PBT directo' if pbt_direct else 'EBIT + no operativo','revenue_ttm':rev,'diluted_base':diluted,'diluted_source':diluted_source,
+        'exploratory_pe':exploratory_used,'per_mode':'Manual' if any('pe' in v for v in settings.get('scenarios',{}).values()) else 'Exploratoria' if exploratory_used else 'Automático','per_share_fx':fx*adr_factor,'confidence':confidence,'sector_type':kind,'profit_model':'PBT directo' if pbt_direct else 'EBIT + no operativo','revenue_ttm':rev,'diluted_base':diluted,'diluted_source':diluted_source,
         'fair_value':np.nan,'target_1y':np.nan,'target_3y':np.nan,'upside_1y':np.nan,'annual_return_3y':np.nan,
         'pessimistic_1y':np.nan,'scenario_spread':np.nan,'publicable':False,'source':source,'per_source':per_note}
     base_values=valuation[valuation['Método'].eq('EPS × PER')&valuation['Escenario'].eq('Base')]

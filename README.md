@@ -1,4 +1,4 @@
-# V6 simplificada · dashboard fundamental de acciones
+# V7 integrada · dashboard fundamental de acciones
 
 Análisis del negocio y escenarios de precio a **1 y 3 años**, con foco en acciones de Estados Unidos y soporte multiempresa/multibolsa. SEC es la fuente anual principal; Yahoo aporta cotizaciones, trimestres, acciones corporativas y datos complementarios. Las fuentes oficiales específicas conservan su auditoría.
 
@@ -74,3 +74,8 @@ Cuando hay resultados financieros materiales, se proyecta el puente de intereses
 Valoración incorpora dos tablas compactas: sensibilidad aislada a crecimiento, margen y PER, y expectativas implícitas en la cotización manteniendo el resto de supuestos Base. Esta inversión de las ecuaciones es un contraste, no recalibra el modelo. Resumen muestra los extremos de crecimiento/margen y el PER junto a los precios.
 
 La [revisión económica final](docs/economia_final_2026-11-12/INFORME.md) compara precios antes/después, normalización de ciclos, extraordinarios de inversiones y calidad del PER. Incluye sensibilidad, validación de los trece tickers y paridad de exportaciones.
+
+
+La V7 integrada parte de la V6 verificada `b50a51d` y utiliza los mismos módulos financieros. [Ejecución Windows](WINDOWS.md). El gráfico utiliza cierres archivados a una semana/cuatro meses/un año y permite ocultar o mostrar escenarios a uno/cuatro meses/un año/tres años; los puntos intermedios son interpolaciones ilustrativas, nunca un motor mensual alternativo. Los objetivos de uno/tres años son exclusivamente los del motor EPS × PER.
+
+El PER manual se configura en Resumen, con distancias pesimista/optimista y justificación. Sus cambios conservan todos los demás supuestos. La referencia de dos PER limpios es una opción exploratoria explícita de confianza Baja; con cero o uno se necesita un PER manual justificado. Nunca evita requisitos de EPS, divisas, acciones o contabilidad.

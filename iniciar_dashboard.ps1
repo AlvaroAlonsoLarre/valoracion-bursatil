@@ -8,7 +8,7 @@ $SecFile = Join-Path $AppDir 'sec_historical.py'
 $ModelFile = Join-Path $AppDir 'modelo_fundamental.py'
 $PeerFile = Join-Path $AppDir 'comparables_inteligentes.py'
 $PeerConfig = Join-Path $AppDir 'comparables_config.json'
-$Requirements = Join-Path $AppDir 'requirements.txt'
+$Requirements = Join-Path $AppDir 'requirements.lock'
 $StateFile = Join-Path $AppDir '.dashboard_servidor.json'
 $LogDir = Join-Path $AppDir 'logs'
 
@@ -22,6 +22,7 @@ function Get-ExistingExe([string]$directory, [string]$relative) {
 function Find-Python {
     $candidates = New-Object System.Collections.ArrayList
     $locations = @(
+        [pscustomobject]@{ Dir = $AppDir; Relative = '.venv\Scripts\python.exe' },
         [pscustomobject]@{ Dir = $AppDir; Relative = '.venv\Scripts\python.exe' },
         [pscustomobject]@{ Dir = $env:VIRTUAL_ENV; Relative = 'Scripts\python.exe' },
         [pscustomobject]@{ Dir = $env:CONDA_PREFIX; Relative = 'python.exe' },
@@ -55,10 +56,10 @@ function Find-Python {
     foreach ($candidate in $candidates) {
         try {
             $candidateArgs = @($candidate.Prefix)
-            & $candidate.Exe @candidateArgs -c 'import sys; assert sys.version_info >= (3, 10)' 2>$null | Out-Null
+            & $candidate.Exe @candidateArgs -c 'import sys; assert sys.version_info >= (3, 12)' 2>$null | Out-Null
             if ($LASTEXITCODE -ne 0) { continue }
             if ($null -eq $firstWorking) { $firstWorking = $candidate }
-            & $candidate.Exe @candidateArgs -c 'import streamlit, pandas, numpy, yfinance, openpyxl, requests, bs4' 2>$null | Out-Null
+            & $candidate.Exe @candidateArgs -c 'import streamlit, pandas, numpy, yfinance, openpyxl, requests, bs4; from streamlit.proto import RootContainer_pb2' 2>$null | Out-Null
             if ($LASTEXITCODE -eq 0) { return $candidate }
         } catch { continue }
     }
@@ -101,6 +102,7 @@ function Get-RunningDashboard {
 function Open-Browser([int]$port) {
     $url = "http://127.0.0.1:$port"
     $locations = @(
+        [pscustomobject]@{ Dir = $AppDir; Relative = '.venv\Scripts\python.exe' },
         (Get-ExistingExe $env:ProgramFiles 'Google\Chrome\Application\chrome.exe'),
         (Get-ExistingExe ([Environment]::GetEnvironmentVariable('ProgramFiles(x86)')) 'Google\Chrome\Application\chrome.exe'),
         (Get-ExistingExe $env:LOCALAPPDATA 'Google\Chrome\Application\chrome.exe')
@@ -131,18 +133,18 @@ try {
     Write-Host "Carpeta: $AppDir"
     $python = Find-Python
     if ($null -eq $python) {
-        throw 'No se encontro Python 3.10+ instalado. Instala Python o Anaconda y vuelve a abrir iniciar_dashboard.bat.'
+        throw 'No se encontro Python 3.12+ instalado. Instala Python o Anaconda y vuelve a abrir iniciar_dashboard.bat.'
     }
     Write-Host "Python: $($python.Exe)"
 
     # Verifica TODAS las bibliotecas necesarias, no solamente Streamlit.
     $pythonArgs = @($python.Prefix)
-    & $python.Exe @pythonArgs -c 'import streamlit, pandas, numpy, yfinance, openpyxl, requests, bs4' 2>$null | Out-Null
+    & $python.Exe @pythonArgs -c 'import streamlit, pandas, numpy, yfinance, openpyxl, requests, bs4; from streamlit.proto import RootContainer_pb2' 2>$null | Out-Null
     if ($LASTEXITCODE -ne 0) {
         Write-Host 'Instalando bibliotecas ausentes (requiere Internet)...' -ForegroundColor Yellow
         & $python.Exe @pythonArgs -m pip install -r $Requirements
         if ($LASTEXITCODE -ne 0) {
-            throw 'Error instalando paquetes. Abre Anaconda Prompt y ejecuta: python -m pip install -r "requirements.txt" dentro de la carpeta del dashboard.'
+            throw 'Error instalando paquetes. Abre Anaconda Prompt y ejecuta: python -m pip install -r "requirements.lock" dentro de la carpeta del dashboard.'
         }
     }
     if (-not (Test-Path -LiteralPath $LogDir)) {

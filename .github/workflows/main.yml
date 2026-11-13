@@ -18,7 +18,7 @@ on:
     branches: [main]
     paths-ignore: ['Resultados_publicados/**']
   pull_request:
-    branches: [main]
+    branches: [main, fix/auditoria-msft-sk-hynix]
     types: [opened, synchronize, reopened]
     paths-ignore: ['Resultados_publicados/**']
 
