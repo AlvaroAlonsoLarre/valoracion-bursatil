@@ -8,7 +8,7 @@ python -m venv .venv
 .venv/bin/streamlit run dashboard_app.py
 ```
 
-En Windows siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real.
+En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real. [Informe V7, pruebas y captura de pantalla](docs/v7_integrada_2026-11-13/INFORME.md).
 
 ## Modelo principal
 
@@ -24,7 +24,9 @@ Los comparables se descubren por actividad; se prefieren **3–6**, sin forzar e
 
 ## Escenarios, criterios y exportación
 
-En Valoración se editan crecimiento, margen EBIT/PBT, fiscalidad, resultado no operativo, variación de acciones y PER por escenario. Un PER manual requiere justificación. Para ADR se exige ratio ordinarias/ADR, fuente y fecha. WACC y g terminal opcionales no cambian el motor principal.
+En Valoración se editan crecimiento, margen EBIT/PBT, fiscalidad, resultado no operativo y variación de acciones. En Resumen se elige PER automático o manual: Base, distancia pesimista/optimista y justificación. Con dos referencias históricas económicamente válidas puede activarse explícitamente una valoración exploratoria de confianza Baja; con cero/una, un PER manual justificado requiere igualmente EPS válido y todos sus controles contables. Aplicar PER conserva los demás ajustes. Para ADR se exige ratio ordinarias/ADR, fuente y fecha. WACC y g terminal opcionales no cambian el motor principal.
+
+Resumen muestra cotización archivada de 1 semana, 4 meses o 1 año y tres líneas discontinuas opcionales a 1 mes, 4 meses, 1 año o 3 años. Los extremos a 1/3 años proceden del motor EPS × PER; los intermedios son interpolaciones ilustrativas. Se mantienen horizontes disponibles si falta otro, sin extrapolar objetivos ausentes.
 
 La referencia razonable hoy es el precio Base a un año descontado al retorno exigido editable; no se promedian métodos. Los potenciales son retornos de precio, sin dividendos, costes ni impuestos personales. La clasificación de atractivo exige más descuento cuanto menor sea la confianza y mayor sea la dispersión. Los umbrales de retorno, margen, prima de reducción, caída tolerada y peso máximo son transparentes y editables. La posición es opcional y debe estar en la moneda de cotización. Los datos de coste no cambian el valor del negocio. Las señales son orientativas y no envían órdenes.
 
