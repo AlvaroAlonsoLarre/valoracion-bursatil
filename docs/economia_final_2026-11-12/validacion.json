@@ -1,0 +1,2597 @@
+{
+  "tickers": [
+    {
+      "ticker": "000660.KS",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "cc8acc3b49ed3ca4535f85f1044b44cfcc156c7d1aba357ba6b05b51fb9e3f6b",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 37,
+      "trayectorias": 12,
+      "sensibilidades": 0,
+      "referencias": [
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": 23.133867982726713,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 3242.0,
+          "Precio cierre fiscal": 75000.0,
+          "Estado base acción": "Sin splits posteriores al cierre en la serie de acciones corporativas",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Beneficio de pico/valle: margen neto fuera de 0,5–2× mediana positiva"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": -13244.0,
+          "Precio cierre fiscal": 141500.0,
+          "Estado base acción": "Sin splits posteriores al cierre en la serie de acciones corporativas",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Beneficio de pico/valle: margen neto fuera de 0,5–2× mediana positiva; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 6.1191456420000705,
+          "Precio/FCF histórico": 9.220099149943522,
+          "EPS base cotización": 28419.0,
+          "Precio cierre fiscal": 173900.0,
+          "Estado base acción": "Sin splits posteriores al cierre en la serie de acciones corporativas",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 10.782072940475008,
+          "Precio/FCF histórico": 18.66431124439542,
+          "EPS base cotización": 60378.0,
+          "Precio cierre fiscal": 651000.0,
+          "Estado base acción": "Sin splits posteriores al cierre en la serie de acciones corporativas",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "e947ed73125e9778bb3421b94d77adbbddafd487da8d280cd4bbcf0844314cd4",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 37,
+      "trayectorias": 12,
+      "sensibilidades": 0,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2016-12-31T00:00:00",
+          "PER histórico": 153.03469288105865,
+          "Precio/FCF histórico": 34.67772574400141,
+          "EPS base cotización": 0.24500000000000002,
+          "Precio cierre fiscal": 37.493499755859375,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": 20.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": 190.1577212946202,
+          "Precio/FCF histórico": 89.94519548817841,
+          "EPS base cotización": 0.3075,
+          "Precio cierre fiscal": 58.4734992980957,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": 20.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-31T00:00:00",
+          "PER histórico": 74.57646783792747,
+          "Precio/FCF histórico": 43.41957858047697,
+          "EPS base cotización": 1.0070000000000001,
+          "Precio cierre fiscal": 75.09850311279297,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": 20.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-31T00:00:00",
+          "PER histórico": 80.30595244764504,
+          "Precio/FCF histórico": 43.01073028095125,
+          "EPS base cotización": 1.1505,
+          "Precio cierre fiscal": 92.39199829101562,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": 20.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-12-31T00:00:00",
+          "PER histórico": 77.91698401054127,
+          "Precio/FCF histórico": 64.06066086034387,
+          "EPS base cotización": 2.09,
+          "Precio cierre fiscal": 162.84649658203125,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-12-31T00:00:00",
+          "PER histórico": 51.45586272816599,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 3.24,
+          "Precio cierre fiscal": 166.7169952392578,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": -0.27,
+          "Precio cierre fiscal": 84.0,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 52.39310429014009,
+          "Precio/FCF histórico": 49.48177997998679,
+          "EPS base cotización": 2.9,
+          "Precio cierre fiscal": 151.94000244140625,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 39.67269428384239,
+          "Precio/FCF histórico": 71.53963694435248,
+          "EPS base cotización": 5.53,
+          "Precio cierre fiscal": 219.38999938964844,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 32.19246964075575,
+          "Precio/FCF histórico": 324.7677997789885,
+          "EPS base cotización": 7.17,
+          "Precio cierre fiscal": 230.82000732421875,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Otros no operativos >10% del PBT sin recurrencia acreditada"
+        }
+      ]
+    },
+    {
+      "ticker": "GOOG",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "2e773b9ebd9b9c829df10fcc4037b34b02e3768615ca2760d2e20dda5883c43f",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2016-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 1.3925,
+          "Precio cierre fiscal": 38.590999603271484,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.9,
+          "Precio cierre fiscal": 52.31999969482422,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 2.185,
+          "Precio cierre fiscal": 51.78049850463867,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 2.4579999999999997,
+          "Precio cierre fiscal": 66.85099792480469,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 2.93,
+          "Precio cierre fiscal": 87.59400177001953,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 5.61,
+          "Precio cierre fiscal": 144.67950439453125,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": 19.458334069502982,
+          "Precio/FCF histórico": 19.456725781934498,
+          "EPS base cotización": 4.56,
+          "Precio cierre fiscal": 88.7300033569336,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 24.29827459927263,
+          "Precio/FCF histórico": 25.799141906918326,
+          "EPS base cotización": 5.8,
+          "Precio cierre fiscal": 140.92999267578125,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 23.6865674678366,
+          "Precio/FCF histórico": 32.57664106410015,
+          "EPS base cotización": 8.04,
+          "Precio cierre fiscal": 190.44000244140625,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 29.028676021551224,
+          "Precio/FCF histórico": 52.381375408893724,
+          "EPS base cotización": 10.81,
+          "Precio cierre fiscal": 313.79998779296875,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada"
+        }
+      ]
+    },
+    {
+      "ticker": "GOOGL",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "feff51df3ee72190b48bdeed142c728bf07f0698a270a337729093e05d656451",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2016-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 1.3925,
+          "Precio cierre fiscal": 39.622501373291016,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.9,
+          "Precio cierre fiscal": 52.66999816894531,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 2.185,
+          "Precio cierre fiscal": 52.24800109863281,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 2.4579999999999997,
+          "Precio cierre fiscal": 66.96949768066406,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 20.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 2.93,
+          "Precio cierre fiscal": 87.63200378417969,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 5.61,
+          "Precio cierre fiscal": 144.8520050048828,
+          "Estado base acción": "Base ajustada por splits posteriores al filing; EPS × acciones no concilia con beneficio común (<5%)",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": 19.348684946695965,
+          "Precio/FCF histórico": 19.347085721944495,
+          "EPS base cotización": 4.56,
+          "Precio cierre fiscal": 88.2300033569336,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 24.0844831795528,
+          "Precio/FCF histórico": 25.572144917757686,
+          "EPS base cotización": 5.8,
+          "Precio cierre fiscal": 139.69000244140625,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 23.544776498974855,
+          "Precio/FCF histórico": 32.38163292267096,
+          "EPS base cotización": 8.04,
+          "Precio cierre fiscal": 189.3000030517578,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 28.954671600370027,
+          "Precio/FCF histórico": 52.24783665001502,
+          "EPS base cotización": 10.81,
+          "Precio cierre fiscal": 313.0,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Ganancias/pérdidas financieras identificadas >10% del PBT; cobertura parcial; Otros no operativos >10% del PBT sin recurrencia acreditada"
+        }
+      ]
+    },
+    {
+      "ticker": "JNJ",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "b0a926732b2eb8baa7e4d1c987563fae9763c1090a203ce7fe1052b6e8090b0c",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2017-01-01T00:00:00",
+          "PER histórico": 19.428330368376503,
+          "Precio/FCF histórico": 20.674935103705412,
+          "EPS base cotización": 5.93,
+          "Precio cierre fiscal": 115.20999908447266,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": 297.27659834192156,
+          "Precio/FCF histórico": 21.57694320477,
+          "EPS base cotización": 0.47,
+          "Precio cierre fiscal": 139.72000122070312,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-30T00:00:00",
+          "PER histórico": 22.686273911420034,
+          "Precio/FCF histórico": 18.740577402187434,
+          "EPS base cotización": 5.61,
+          "Precio cierre fiscal": 127.2699966430664,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-29T00:00:00",
+          "PER histórico": 25.88809946714032,
+          "Precio/FCF histórico": 19.642369966864145,
+          "EPS base cotización": 5.63,
+          "Precio cierre fiscal": 145.75,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2021-01-03T00:00:00",
+          "PER histórico": 28.56261431629991,
+          "Precio/FCF histórico": 20.818999407624318,
+          "EPS base cotización": 5.51,
+          "Precio cierre fiscal": 157.3800048828125,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2022-01-02T00:00:00",
+          "PER histórico": 25.68618728591873,
+          "Precio/FCF histórico": 23.152201618835964,
+          "EPS base cotización": 6.66,
+          "Precio cierre fiscal": 171.07000732421875,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Continuado diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2023-01-01T00:00:00",
+          "PER histórico": 28.770357312131008,
+          "Precio/FCF histórico": 27.383061899379967,
+          "EPS base cotización": 6.14,
+          "Precio cierre fiscal": 176.64999389648438,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Continuado diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 30.142308748685394,
+          "Precio/FCF histórico": 21.992388758477492,
+          "EPS base cotización": 5.2,
+          "Precio cierre fiscal": 156.74000549316406,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Continuado diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-29T00:00:00",
+          "PER histórico": 25.051813998576478,
+          "Precio/FCF histórico": 17.759524111175306,
+          "EPS base cotización": 5.79,
+          "Precio cierre fiscal": 145.0500030517578,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Continuado diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-28T00:00:00",
+          "PER histórico": 18.824116489828878,
+          "Precio/FCF histórico": 25.60748978892805,
+          "EPS base cotización": 11.03,
+          "Precio cierre fiscal": 207.6300048828125,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Continuado diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "JPM",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "bacd0540b94a3965f914d96767239b802307bbad6b33d2dadb24ae1a4fbb8520",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2016-12-31T00:00:00",
+          "PER histórico": 13.940226319148197,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 6.19,
+          "Precio cierre fiscal": 86.29000091552734,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": 16.947702447132528,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 6.31,
+          "Precio cierre fiscal": 106.94000244140625,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-31T00:00:00",
+          "PER histórico": 10.846666971842447,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 9.0,
+          "Precio cierre fiscal": 97.62000274658203,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-31T00:00:00",
+          "PER histórico": 13.003730773925781,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 10.72,
+          "Precio cierre fiscal": 139.39999389648438,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-12-31T00:00:00",
+          "PER histórico": 14.309684650318042,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 8.88,
+          "Precio cierre fiscal": 127.06999969482422,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-12-31T00:00:00",
+          "PER histórico": 10.309245189030966,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 15.36,
+          "Precio cierre fiscal": 158.35000610351562,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": 11.091811919232061,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 12.09,
+          "Precio cierre fiscal": 134.10000610351562,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 10.480591873291166,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 16.23,
+          "Precio cierre fiscal": 170.10000610351562,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 12.13721552981606,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 19.75,
+          "Precio cierre fiscal": 239.7100067138672,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 16.094905155879278,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 20.02,
+          "Precio cierre fiscal": 322.2200012207031,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "META",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "ef3e6211081d77856b4a4801e6b075a274fa6d0cadc60c39dd1fb83c31c8d990",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2016-12-31T00:00:00",
+          "PER histórico": 32.96561692027444,
+          "Precio/FCF histórico": 28.968000251905966,
+          "EPS base cotización": 3.49,
+          "Precio cierre fiscal": 115.05000305175781,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": 32.738405698305606,
+          "Precio/FCF histórico": 29.835599144665757,
+          "EPS base cotización": 5.39,
+          "Precio cierre fiscal": 176.4600067138672,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-31T00:00:00",
+          "PER histórico": 17.317040467356755,
+          "Precio/FCF histórico": 24.93091212337903,
+          "EPS base cotización": 7.57,
+          "Precio cierre fiscal": 131.08999633789062,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-31T00:00:00",
+          "PER histórico": 31.920684292379473,
+          "Precio/FCF histórico": 27.828540448802563,
+          "EPS base cotización": 6.43,
+          "Precio cierre fiscal": 205.25,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-12-31T00:00:00",
+          "PER histórico": 27.072349223202117,
+          "Precio/FCF histórico": 33.450054722531036,
+          "EPS base cotización": 10.09,
+          "Precio cierre fiscal": 273.1600036621094,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-12-31T00:00:00",
+          "PER histórico": 24.426289477379495,
+          "Precio/FCF histórico": 24.661469172670767,
+          "EPS base cotización": 13.77,
+          "Precio cierre fiscal": 336.3500061035156,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": 14.009312728508805,
+          "Precio/FCF histórico": 16.857207221990798,
+          "EPS base cotización": 8.59,
+          "Precio cierre fiscal": 120.33999633789062,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 23.803630898122268,
+          "Precio/FCF histórico": 21.116474937265146,
+          "EPS base cotización": 14.87,
+          "Precio cierre fiscal": 353.9599914550781,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 24.539396888752098,
+          "Precio/FCF histórico": 28.305281208894506,
+          "EPS base cotización": 23.86,
+          "Precio cierre fiscal": 585.510009765625,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 28.100895140718126,
+          "Precio/FCF histórico": 36.84902576776717,
+          "EPS base cotización": 23.49,
+          "Precio cierre fiscal": 660.0900268554688,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        }
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "0e84299f63e190a70a4e6226f1ec8348eff3998ec700a1bd8a1aef181455113e",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-06-30T00:00:00",
+          "PER histórico": 21.20923086313101,
+          "Precio/FCF histórico": 17.205040550389977,
+          "EPS base cotización": 3.25,
+          "Precio cierre fiscal": 68.93000030517578,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-06-30T00:00:00",
+          "PER histórico": 46.295774934437354,
+          "Precio/FCF histórico": 23.830036734375543,
+          "EPS base cotización": 2.13,
+          "Precio cierre fiscal": 98.61000061035156,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-06-30T00:00:00",
+          "PER histórico": 26.47430962724648,
+          "Precio/FCF histórico": 27.145633352133096,
+          "EPS base cotización": 5.06,
+          "Precio cierre fiscal": 133.9600067138672,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-06-30T00:00:00",
+          "PER histórico": 35.331596268547905,
+          "Precio/FCF histórico": 34.56619551213734,
+          "EPS base cotización": 5.76,
+          "Precio cierre fiscal": 203.50999450683594,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-06-30T00:00:00",
+          "PER histórico": 33.65217315484278,
+          "Precio/FCF histórico": 36.72631158566686,
+          "EPS base cotización": 8.05,
+          "Precio cierre fiscal": 270.8999938964844,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-06-30T00:00:00",
+          "PER histórico": 26.61450638054566,
+          "Precio/FCF histórico": 29.724141564028347,
+          "EPS base cotización": 9.65,
+          "Precio cierre fiscal": 256.8299865722656,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-06-30T00:00:00",
+          "PER histórico": 35.179752948855565,
+          "Precio/FCF histórico": 42.78293306175126,
+          "EPS base cotización": 9.68,
+          "Precio cierre fiscal": 340.5400085449219,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-06-30T00:00:00",
+          "PER histórico": 37.87711967856197,
+          "Precio/FCF histórico": 45.06851049903898,
+          "EPS base cotización": 11.8,
+          "Precio cierre fiscal": 446.95001220703125,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-06-30T00:00:00",
+          "PER histórico": 36.46700906613705,
+          "Precio/FCF histórico": 51.85188975628949,
+          "EPS base cotización": 13.64,
+          "Precio cierre fiscal": 497.4100036621094,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2026,
+          "Fecha cierre fiscal": "2026-06-30T00:00:00",
+          "PER histórico": 20.78105788377002,
+          "Precio/FCF histórico": 41.50235087582511,
+          "EPS base cotización": 17.95,
+          "Precio cierre fiscal": 373.0199890136719,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "MU",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "1133e6675dd003e1dc1f0e7f2348984e673b15e6c7c3d2568bf9288f70c3f6c5",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-08-31T00:00:00",
+          "PER histórico": 7.249432950874034,
+          "Precio/FCF histórico": 10.790692953381422,
+          "EPS base cotización": 4.41,
+          "Precio cierre fiscal": 31.969999313354492,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-08-30T00:00:00",
+          "PER histórico": 4.583839993182728,
+          "Precio/FCF histórico": 7.6096746786954945,
+          "EPS base cotización": 11.51,
+          "Precio cierre fiscal": 52.7599983215332,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-08-29T00:00:00",
+          "PER histórico": 8.10707770761258,
+          "Precio/FCF histórico": 14.977356382254177,
+          "EPS base cotización": 5.51,
+          "Precio cierre fiscal": 44.66999816894531,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-09-03T00:00:00",
+          "PER histórico": 19.54852397934797,
+          "Precio/FCF histórico": 631.3160490472633,
+          "EPS base cotización": 2.37,
+          "Precio cierre fiscal": 46.33000183105469,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-09-02T00:00:00",
+          "PER histórico": 14.394941218632205,
+          "Precio/FCF histórico": 34.62780457857303,
+          "EPS base cotización": 5.14,
+          "Precio cierre fiscal": 73.98999786376953,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-09-01T00:00:00",
+          "PER histórico": 7.3948388868762605,
+          "Precio/FCF histórico": 20.649268317544163,
+          "EPS base cotización": 7.75,
+          "Precio cierre fiscal": 57.310001373291016,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-08-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": -5.34,
+          "Precio cierre fiscal": 69.94000244140625,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Beneficio de pico/valle: margen neto fuera de 0,5–2× mediana positiva; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-08-29T00:00:00",
+          "PER histórico": 136.52857099260603,
+          "Precio/FCF histórico": 883.0352037918469,
+          "EPS base cotización": 0.7,
+          "Precio cierre fiscal": 95.56999969482422,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Beneficio de pico/valle: margen neto fuera de 0,5–2× mediana positiva"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-08-28T00:00:00",
+          "PER histórico": 16.073781291172597,
+          "Precio/FCF histórico": 82.2841726618705,
+          "EPS base cotización": 7.59,
+          "Precio cierre fiscal": 122.0,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2026,
+          "Fecha cierre fiscal": "2026-09-03T00:00:00",
+          "PER histórico": 12.890622536587264,
+          "Precio/FCF histórico": 18.573967561084057,
+          "EPS base cotización": 74.33,
+          "Precio cierre fiscal": 958.1599731445312,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Beneficio de pico/valle: margen neto fuera de 0,5–2× mediana positiva"
+        }
+      ]
+    },
+    {
+      "ticker": "NFLX",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "28e35a3c102f41a41691d3b395927014b4b6a638bcf36a5160346f7d1ab602b4",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2016,
+          "Fecha cierre fiscal": "2016-12-31T00:00:00",
+          "PER histórico": 287.9069794056028,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.043,
+          "Precio cierre fiscal": 12.380000114440918,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-12-31T00:00:00",
+          "PER histórico": 153.5679931640625,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.125,
+          "Precio cierre fiscal": 19.195999145507812,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-12-31T00:00:00",
+          "PER histórico": 99.87313711821143,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.268,
+          "Precio cierre fiscal": 26.766000747680664,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-12-31T00:00:00",
+          "PER histórico": 78.34624320485113,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.413,
+          "Precio cierre fiscal": 32.356998443603516,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-12-31T00:00:00",
+          "PER histórico": 88.93585832495438,
+          "Precio/FCF histórico": 127.31171295573611,
+          "EPS base cotización": 0.608,
+          "Precio cierre fiscal": 54.073001861572266,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-12-31T00:00:00",
+          "PER histórico": 53.59786430711848,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 1.124,
+          "Precio cierre fiscal": 60.24399948120117,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-12-31T00:00:00",
+          "PER histórico": 29.6361817786442,
+          "Precio/FCF histórico": 82.220634505612,
+          "EPS base cotización": 0.9949999999999999,
+          "Precio cierre fiscal": 29.488000869750977,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": 40.5733331044515,
+          "Precio/FCF histórico": 31.599600761364687,
+          "EPS base cotización": 1.2,
+          "Precio cierre fiscal": 48.6879997253418,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": 45.01616352736348,
+          "Precio/FCF histórico": 56.56339134766144,
+          "EPS base cotización": 1.98,
+          "Precio cierre fiscal": 89.13200378417969,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": 37.05928938190928,
+          "Precio/FCF histórico": 43.04812626665261,
+          "EPS base cotización": 2.53,
+          "Precio cierre fiscal": 93.76000213623047,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "NVDA",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "89b51d027823a86502b65096075d69ef6fdff6d08384376970877afa37564fd5",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 47,
+      "trayectorias": 12,
+      "sensibilidades": 18,
+      "referencias": [
+        {
+          "Ejercicio": 2017,
+          "Fecha cierre fiscal": "2017-01-29T00:00:00",
+          "PER histórico": 43.49027255165902,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.06425,
+          "Precio cierre fiscal": 2.794250011444092,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 40.0,
+          "Factor split acciones": 40.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2018,
+          "Fecha cierre fiscal": "2018-01-28T00:00:00",
+          "PER histórico": 50.48340286951342,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.12050000000000001,
+          "Precio cierre fiscal": 6.083250045776367,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 40.0,
+          "Factor split acciones": 40.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2019,
+          "Fecha cierre fiscal": "2019-01-27T00:00:00",
+          "PER histórico": 24.155353528881502,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.16575,
+          "Precio cierre fiscal": 4.003749847412109,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 40.0,
+          "Factor split acciones": 40.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2020,
+          "Fecha cierre fiscal": "2020-01-26T00:00:00",
+          "PER histórico": 55.41592994622425,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.11299999999999999,
+          "Precio cierre fiscal": 6.26200008392334,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2021,
+          "Fecha cierre fiscal": "2021-01-31T00:00:00",
+          "PER histórico": 75.08525958640038,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": 0.173,
+          "Precio cierre fiscal": 12.989749908447266,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2022,
+          "Fecha cierre fiscal": "2022-01-30T00:00:00",
+          "PER histórico": 59.32467572100751,
+          "Precio/FCF histórico": 71.19945940335748,
+          "EPS base cotización": 0.385,
+          "Precio cierre fiscal": 22.84000015258789,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 10.0,
+          "Factor split acciones": 10.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-01-29T00:00:00",
+          "PER histórico": 119.79411630069508,
+          "Precio/FCF histórico": 134.07314712760828,
+          "EPS base cotización": 0.17,
+          "Precio cierre fiscal": 20.364999771118164,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; Beneficio de pico/valle: margen neto fuera de 0,5–2× mediana positiva; Régimen de margen distinto: cambio ≥2× y ≥5 pp; sólo últimos 3 FY"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-01-28T00:00:00",
+          "PER histórico": 51.28655313443737,
+          "Precio/FCF histórico": 56.33074630308697,
+          "EPS base cotización": 1.19,
+          "Precio cierre fiscal": 61.03099822998047,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-01-26T00:00:00",
+          "PER histórico": 48.51020242081208,
+          "Precio/FCF histórico": 58.13265342524968,
+          "EPS base cotización": 2.94,
+          "Precio cierre fiscal": 142.6199951171875,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        },
+        {
+          "Ejercicio": 2026,
+          "Fecha cierre fiscal": "2026-01-25T00:00:00",
+          "PER histórico": 38.29999962631537,
+          "Precio/FCF histórico": 47.587222631403094,
+          "EPS base cotización": 4.9,
+          "Precio cierre fiscal": 187.6699981689453,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "SNDK",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "d73d13bce057497b9260a0a5cb16fffd91d83503c5cc4cb982d06ecd7338bc46",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 18,
+      "trayectorias": 0,
+      "sensibilidades": 0,
+      "referencias": [
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-06-30T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": null,
+          "Precio cierre fiscal": null,
+          "Estado base acción": "Sin cierre observado dentro de 7 días",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": null,
+          "Factor split EPS": null,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-06-28T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": null,
+          "Precio cierre fiscal": null,
+          "Estado base acción": "Sin cierre observado dentro de 7 días",
+          "Base acción conciliada": false,
+          "Definición EPS histórico": null,
+          "Factor split EPS": null,
+          "Factor split acciones": null,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-06-27T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": -11.32,
+          "Precio cierre fiscal": 47.150001525878906,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2026,
+          "Fecha cierre fiscal": "2026-07-03T00:00:00",
+          "PER histórico": 23.657809110629067,
+          "Precio/FCF histórico": 23.53184270053941,
+          "EPS base cotización": 73.76,
+          "Precio cierre fiscal": 1745.0,
+          "Estado base acción": "Base ajustada por splits posteriores al filing",
+          "Base acción conciliada": true,
+          "Definición EPS histórico": "Total diluido",
+          "Factor split EPS": 1.0,
+          "Factor split acciones": 1.0,
+          "PER admisible económicamente": true,
+          "Motivo PER económico": "Sin distorsión material detectada; no prueba de ausencia de extraordinarios"
+        }
+      ]
+    },
+    {
+      "ticker": "SPCX",
+      "sha": "9fae07248d881e4c95d3f8d24a9dd911707eb720",
+      "input_sha256": "c101b563c86b13c022d0a4b7b4d3ff27f252a675e4fd3fe8e89b8f2be5b41618",
+      "paridad_numerica": true,
+      "columnas_comprobadas": 18,
+      "trayectorias": 0,
+      "sensibilidades": 0,
+      "referencias": [
+        {
+          "Ejercicio": 2023,
+          "Fecha cierre fiscal": "2023-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": null,
+          "Precio cierre fiscal": null,
+          "Estado base acción": "Sin cierre observado dentro de 7 días",
+          "Base acción conciliada": false,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2024,
+          "Fecha cierre fiscal": "2024-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": null,
+          "Precio cierre fiscal": null,
+          "Estado base acción": "Sin cierre observado dentro de 7 días",
+          "Base acción conciliada": false,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "Fiscalidad atípica: diferencia >10 pp o tasa no representativa; EPS no positivo o base de acción/precio sin conciliar"
+        },
+        {
+          "Ejercicio": 2025,
+          "Fecha cierre fiscal": "2025-12-31T00:00:00",
+          "PER histórico": null,
+          "Precio/FCF histórico": null,
+          "EPS base cotización": null,
+          "Precio cierre fiscal": null,
+          "Estado base acción": "Sin cierre observado dentro de 7 días",
+          "Base acción conciliada": false,
+          "PER admisible económicamente": false,
+          "Motivo PER económico": "EPS no positivo o base de acción/precio sin conciliar"
+        }
+      ]
+    }
+  ],
+  "formula_checks": [
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JPM",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "000660.KS",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MSFT",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "AMZN",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NFLX",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOG",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "META",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "GOOGL",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "NVDA",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "MU",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Pesimista",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Base",
+      "año": 4,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 1,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 2,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 3,
+      "identidades_correctas": true
+    },
+    {
+      "ticker": "JNJ",
+      "escenario": "Optimista",
+      "año": 4,
+      "identidades_correctas": true
+    }
+  ]
+}

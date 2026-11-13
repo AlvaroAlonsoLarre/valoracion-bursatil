@@ -1,0 +1,108 @@
+{
+  "comparacion_13": [
+    {
+      "ticker": "AMZN",
+      "sin_cambio_financiero": true,
+      "base_1y": null,
+      "base_3y": null
+    },
+    {
+      "ticker": "GOOG",
+      "sin_cambio_financiero": true,
+      "base_1y": 273.42649376147796,
+      "base_3y": 361.59109157169206
+    },
+    {
+      "ticker": "GOOGL",
+      "sin_cambio_financiero": true,
+      "base_1y": 271.78972610759337,
+      "base_3y": 359.426558813818
+    },
+    {
+      "ticker": "META",
+      "sin_cambio_financiero": true,
+      "base_1y": 912.5522535478975,
+      "base_3y": 1352.8370900429143
+    },
+    {
+      "ticker": "MSFT",
+      "sin_cambio_financiero": true,
+      "base_1y": 696.8406273758014,
+      "base_3y": 940.6814417866705
+    },
+    {
+      "ticker": "NFLX",
+      "sin_cambio_financiero": true,
+      "base_1y": 93.86422540907589,
+      "base_3y": 121.7799718969586
+    },
+    {
+      "ticker": "NVDA",
+      "sin_cambio_financiero": true,
+      "base_1y": 496.89794956311687,
+      "base_3y": 1159.41109704551
+    },
+    {
+      "ticker": "000660.KS",
+      "sin_cambio_financiero": true,
+      "base_1y": null,
+      "base_3y": null
+    },
+    {
+      "ticker": "JNJ",
+      "sin_cambio_financiero": true,
+      "base_1y": 234.23030585507968,
+      "base_3y": 282.7386884409116
+    },
+    {
+      "ticker": "JPM",
+      "sin_cambio_financiero": true,
+      "base_1y": 290.933370395285,
+      "base_3y": 383.6809889009414
+    },
+    {
+      "ticker": "MU",
+      "sin_cambio_financiero": true,
+      "base_1y": 416.8759944447622,
+      "base_3y": 665.5969873366536
+    },
+    {
+      "ticker": "SNDK",
+      "sin_cambio_financiero": true,
+      "base_1y": null,
+      "base_3y": null
+    },
+    {
+      "ticker": "SPCX",
+      "sin_cambio_financiero": true,
+      "base_1y": null,
+      "base_3y": null
+    }
+  ],
+  "exportaciones": [
+    {
+      "caso": "auto",
+      "tablas_excel_json": 33,
+      "celdas": 18330,
+      "base_1y": 696.8406273758014,
+      "base_3y": 940.6814417866705,
+      "objetivos": 6
+    },
+    {
+      "caso": "manual",
+      "tablas_excel_json": 33,
+      "celdas": 18330,
+      "base_1y": 396.1600460292433,
+      "base_3y": 534.7857008286761,
+      "objetivos": 6
+    },
+    {
+      "caso": "msft_actual",
+      "tablas_excel_json": 35,
+      "celdas": 99057,
+      "base_1y": 696.8406273758014,
+      "base_3y": 940.6814417866705,
+      "objetivos": 6
+    }
+  ]
+}

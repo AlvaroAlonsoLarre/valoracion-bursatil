@@ -1,0 +1,82 @@
+[
+  {
+    "id": 13954580644,
+    "name": "valoracion-JPM-b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0-43239225158-1",
+    "size_in_bytes": 192799,
+    "digest": "sha256:cc967ec2b04a745be43cab500491926e07319fa25616bbd117bad5b32e3d98fc",
+    "workflow_run": {
+      "id": 43239225158,
+      "repository_id": 1454289980,
+      "head_repository_id": 1454289980,
+      "head_branch": "fix/auditoria-msft-sk-hynix",
+      "head_sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0"
+    },
+    "url": "https://api.github.com/repos/AlvaroAlonsoLarre/valoracion-bursatil/actions/artifacts/13954580644",
+    "expires_at": "2026-12-12T14:39:43Z",
+    "zip_verified": true
+  },
+  {
+    "id": 13954426165,
+    "name": "valoracion-000660.KS-b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0-43239225158-1",
+    "size_in_bytes": 165957,
+    "digest": "sha256:f32e3483fa512243db21acb293cd25a265e6b77a5451c613fffb9274121d7ad7",
+    "workflow_run": {
+      "id": 43239225158,
+      "repository_id": 1454289980,
+      "head_repository_id": 1454289980,
+      "head_branch": "fix/auditoria-msft-sk-hynix",
+      "head_sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0"
+    },
+    "url": "https://api.github.com/repos/AlvaroAlonsoLarre/valoracion-bursatil/actions/artifacts/13954426165",
+    "expires_at": "2026-12-12T14:39:47Z",
+    "zip_verified": true
+  },
+  {
+    "id": 13954391328,
+    "name": "valoracion-MSFT-b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0-43239225158-1",
+    "size_in_bytes": 234187,
+    "digest": "sha256:2ab68d50ebcb3a8f96d925a1e4c16013d16c7e0b1b6b20569ee3861cc5af53f9",
+    "workflow_run": {
+      "id": 43239225158,
+      "repository_id": 1454289980,
+      "head_repository_id": 1454289980,
+      "head_branch": "fix/auditoria-msft-sk-hynix",
+      "head_sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0"
+    },
+    "url": "https://api.github.com/repos/AlvaroAlonsoLarre/valoracion-bursatil/actions/artifacts/13954391328",
+    "expires_at": "2026-12-12T14:39:42Z",
+    "zip_verified": true
+  },
+  {
+    "id": 13953947837,
+    "name": "valoracion-JNJ-b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0-43239225158-1",
+    "size_in_bytes": 211376,
+    "digest": "sha256:e2fe7cdca5192000d641f3199a1866a421695aa7fdbcf49fcc420c0e2cc66db8",
+    "workflow_run": {
+      "id": 43239225158,
+      "repository_id": 1454289980,
+      "head_repository_id": 1454289980,
+      "head_branch": "fix/auditoria-msft-sk-hynix",
+      "head_sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0"
+    },
+    "url": "https://api.github.com/repos/AlvaroAlonsoLarre/valoracion-bursatil/actions/artifacts/13953947837",
+    "expires_at": "2026-12-12T14:39:45Z",
+    "zip_verified": true
+  },
+  {
+    "id": 13953328734,
+    "name": "cobertura-b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0-43239225158-1",
+    "size_in_bytes": 520,
+    "digest": "sha256:b20cb7b958e6641d78c994ce1b8a3839c4ba99085d7cc47f92cb2aace69ad30e",
+    "workflow_run": {
+      "id": 43239225158,
+      "repository_id": 1454289980,
+      "head_repository_id": 1454289980,
+      "head_branch": "fix/auditoria-msft-sk-hynix",
+      "head_sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0"
+    },
+    "url": "https://api.github.com/repos/AlvaroAlonsoLarre/valoracion-bursatil/actions/artifacts/13953328734",
+    "expires_at": "2027-02-10T14:38:04Z",
+    "zip_verified": true
+  }
+]

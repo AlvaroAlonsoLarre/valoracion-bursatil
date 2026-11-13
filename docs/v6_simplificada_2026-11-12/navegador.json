@@ -1,0 +1,17 @@
+{
+  "errors": [],
+  "overflow": false,
+  "tabs": [
+    "Resumen",
+    "Histórico",
+    "Trimestrales",
+    "Comparables",
+    "Valoración",
+    "Datos y auditoría"
+  ],
+  "return_required_percent": 20,
+  "fair_value_after": "580.70",
+  "excel_json_prices_equal": true,
+  "exported_capture_sha256_verified": true,
+  "code_ref": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0"
+}

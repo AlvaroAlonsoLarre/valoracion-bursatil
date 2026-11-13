@@ -1,0 +1,66 @@
+[
+  {
+    "ticker": "AMZN",
+    "modo": "PER manual 20×, ±20% (sensibilidad de prueba)",
+    "base_1y": 85.16602775201162,
+    "base_3y": 101.82676338014682,
+    "supuestos_base": {
+      "growth": 0.11731283601806397,
+      "margin": 0.0641144079960333,
+      "tax": 0.1623046295385719,
+      "financial_sales": -0.00040536896404742644,
+      "dilution": 0.021826153259626446,
+      "growth_terminal": 0.11731283601806397,
+      "margin_terminal": 0.0641144079960333,
+      "pe": 20.0
+    }
+  },
+  {
+    "ticker": "000660.KS",
+    "modo": "PER manual 20×, ±20% (sensibilidad de prueba)",
+    "base_1y": 1812025.3993091006,
+    "base_3y": 2971894.9517846922,
+    "supuestos_base": {
+      "growth": 0.29606775079449665,
+      "margin": 0.25356631985274347,
+      "tax": 0.17116969188226255,
+      "financial_sales": -0.02829166221936264,
+      "dilution": 0.012029373539054422,
+      "growth_terminal": 0.29606775079449665,
+      "margin_terminal": 0.25356631985274347,
+      "pe": 20.0
+    }
+  },
+  {
+    "ticker": "NVDA",
+    "modo": "Automático V6 conservado",
+    "base_1y": 496.89794956311687,
+    "base_3y": 1159.41109704551,
+    "supuestos_base": {
+      "growth": 0.6830139148028267,
+      "margin": 0.5412166376678376,
+      "tax": 0.12632234341452092,
+      "financial_sales": 0.013886609106726634,
+      "dilution": -0.0054530874097834525,
+      "growth_terminal": 0.46586696824412144,
+      "margin_terminal": 0.5412166376678376,
+      "pe": 48.51020242081208
+    }
+  },
+  {
+    "ticker": "MU",
+    "modo": "Automático V6 conservado",
+    "base_1y": 416.8759944447622,
+    "base_3y": 665.5969873366536,
+    "supuestos_base": {
+      "growth": 0.44253630217364326,
+      "margin": 0.2613837016426775,
+      "tax": 0.13226283168537684,
+      "financial_sales": -0.002548683843733822,
+      "dilution": 0.016000000000000014,
+      "growth_terminal": 0.23231595746227085,
+      "margin_terminal": 0.2613837016426775,
+      "pe": 11.251009463122394
+    }
+  }
+]

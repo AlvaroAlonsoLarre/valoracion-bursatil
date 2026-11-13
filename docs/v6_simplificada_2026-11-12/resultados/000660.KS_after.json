@@ -1,0 +1,1059 @@
+{
+  "schema_version": "stock-dashboard-v1",
+  "ticker": "000660.KS",
+  "generado_utc": "2026-11-12T14:39:19.873216+00:00",
+  "provenance": {
+    "sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+    "run_id": "43239225158",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "input_sha256": "b4cac393f2318054345f37815ce23434abcb1cde5bf6b3f82d5d735f81270804",
+  "auditoria": {
+    "errores_bloqueantes": 0,
+    "objetivos_fundamentales_disponibles": 6,
+    "objetivos_principales_disponibles": 6,
+    "estado_financiero": "PARCIAL",
+    "publicable": false,
+    "exit_code": 0,
+    "metodos": [
+      {
+        "Método": "EPS × PER",
+        "Rol": "Principal",
+        "Estado": "CONDICIONAL",
+        "Detalle": "Datos contables suficientes; hipótesis pendientes de validación económica"
+      },
+      {
+        "Método": "Precio/FCF",
+        "Rol": "Contraste",
+        "Estado": "NO_REPRESENTATIVO",
+        "Detalle": "FCF=OCF−CAPEX completo; conversión FCF/neto nan; mínimo 3 FY positivos; Histórico propio insuficiente (mínimo 3/5 o 5/10); no confundir P/FCF con EV/FCF"
+      },
+      {
+        "Método": "EV/EBITDA",
+        "Rol": "Opcional",
+        "Estado": "NO_EJECUTADO",
+        "Detalle": "Controles propios; nunca invalidan EPS × PER"
+      },
+      {
+        "Método": "DCF",
+        "Rol": "Opcional",
+        "Estado": "NO_EJECUTADO",
+        "Detalle": "Controles propios; nunca invalidan EPS × PER"
+      }
+    ],
+    "comparables_elegibles": 6,
+    "total_candidatos": 150,
+    "definiciones_per_completas": 0,
+    "definiciones_ev_ebitda_completas": 0,
+    "comparables_per_ttm": 0,
+    "comparables_per_ntm": 0
+  },
+  "Resumen": [
+    {
+      "Concepto": "ticker",
+      "Valor": "000660.KS"
+    },
+    {
+      "Concepto": "as_of",
+      "Valor": "2026-11-12"
+    },
+    {
+      "Concepto": "price",
+      "Valor": 1254000
+    },
+    {
+      "Concepto": "quote_date",
+      "Valor": "2026-11-12"
+    },
+    {
+      "Concepto": "quote_verified",
+      "Valor": true
+    },
+    {
+      "Concepto": "currency",
+      "Valor": "KRW"
+    },
+    {
+      "Concepto": "financial_currency",
+      "Valor": "KRW"
+    },
+    {
+      "Concepto": "confidence",
+      "Valor": "Baja"
+    },
+    {
+      "Concepto": "sector_type",
+      "Valor": "OPERATIVA"
+    },
+    {
+      "Concepto": "profit_model",
+      "Valor": "EBIT + no operativo"
+    },
+    {
+      "Concepto": "revenue_ttm",
+      "Valor": 269336686000000
+    },
+    {
+      "Concepto": "diluted_base",
+      "Valor": 710843138
+    },
+    {
+      "Concepto": "diluted_source",
+      "Valor": "Media diluida FY 2025-12-31"
+    },
+    {
+      "Concepto": "fair_value",
+      "Valor": 888063.1829701851
+    },
+    {
+      "Concepto": "target_1y",
+      "Valor": 976869.5012672036
+    },
+    {
+      "Concepto": "target_3y",
+      "Valor": 1602159.4070786
+    },
+    {
+      "Concepto": "upside_1y",
+      "Valor": -0.2209972079208903
+    },
+    {
+      "Concepto": "annual_return_3y",
+      "Valor": 0.08509908149792111
+    },
+    {
+      "Concepto": "pessimistic_1y",
+      "Valor": 600795.1300112309
+    },
+    {
+      "Concepto": "scenario_spread",
+      "Valor": 1.327369889337715
+    },
+    {
+      "Concepto": "publicable",
+      "Valor": false
+    },
+    {
+      "Concepto": "source",
+      "Valor": "Yahoo Finance (fallback: SEC no disponible para este ticker)"
+    },
+    {
+      "Concepto": "per_source",
+      "Valor": "Histórico propio 5 FY, 3 observaciones"
+    },
+    {
+      "Concepto": "scenario_order_valid",
+      "Valor": true
+    },
+    {
+      "Concepto": "Atractivo",
+      "Valor": "Exigente"
+    },
+    {
+      "Concepto": "Decisión",
+      "Valor": "Sin señal"
+    },
+    {
+      "Concepto": "Margen de seguridad exigido (%)",
+      "Valor": 53.27369889337717
+    },
+    {
+      "Concepto": "Motivo",
+      "Valor": "Reglas de valoración y escenarios; no incluye asesoramiento fiscal ni garantiza resultados"
+    },
+    {
+      "Concepto": "Margen observado (%)",
+      "Valor": -41.20616911579595
+    },
+    {
+      "Concepto": "Caída tolerada escenario pesimista (%)",
+      "Valor": 10
+    },
+    {
+      "Concepto": "available_targets",
+      "Valor": 6
+    },
+    {
+      "Concepto": "primary_available",
+      "Valor": true
+    }
+  ],
+  "Estado metodos": [
+    {
+      "Método": "EPS × PER",
+      "Rol": "Principal",
+      "Estado": "CONDICIONAL",
+      "Detalle": "Datos contables suficientes; hipótesis pendientes de validación económica"
+    },
+    {
+      "Método": "Precio/FCF",
+      "Rol": "Contraste",
+      "Estado": "NO_REPRESENTATIVO",
+      "Detalle": "FCF=OCF−CAPEX completo; conversión FCF/neto nan; mínimo 3 FY positivos; Histórico propio insuficiente (mínimo 3/5 o 5/10); no confundir P/FCF con EV/FCF"
+    },
+    {
+      "Método": "EV/EBITDA",
+      "Rol": "Opcional",
+      "Estado": "NO_EJECUTADO",
+      "Detalle": "Controles propios; nunca invalidan EPS × PER"
+    },
+    {
+      "Método": "DCF",
+      "Rol": "Opcional",
+      "Estado": "NO_EJECUTADO",
+      "Detalle": "Controles propios; nunca invalidan EPS × PER"
+    }
+  ],
+  "Control por metodo": [
+    {
+      "Método": "Todos",
+      "Comprobación": "Ejercicios fiscales únicos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Conservar cierre real y FY de 52/53 semanas; no duplicar años calendario"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Ingresos TTM",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Cuatro trimestres consecutivos, nunca anualizar un trimestre"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Vigencia TTM",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30 00:00:00; máximo 125 días"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Cotización y FX",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Divisas KRW→KRW; FX observado o misma moneda"
+    },
+    {
+      "Método": "Cotización",
+      "Comprobación": "Fecha precio observado",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-11-12 00:00:00; sin fecha válida no emitir potencial/retorno ni señal, aunque se puedan proyectar EPS"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Precio × acciones = capitalización",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Se exige coherencia <10%; no confundir acciones al cierre con diluidas"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Resultados posteriores no incorporados",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); emisor sin CIK SEC: revisar fuentes oficiales del país"
+    },
+    {
+      "Método": "Todos",
+      "Comprobación": "Actualidad externa",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "Ausencia de publicaciones posteriores no verificada; no es prueba de desactualización"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Acciones diluidas recientes",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "Sin media diluida del último trimestre; se usa último FY, no acciones básicas"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Acciones diluidas",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Media diluida FY 2025-12-31"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Flujos de resultados",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "TTM de neto y EBIT (PBT/margen neto para financieras); sin sustitución por FY"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Referencia PER",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Histórico propio 5 FY, 3 observaciones"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Confianza de múltiplo",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "Histórico propio 5 FY, 3 observaciones; referencia retrospectiva/manual, no consenso"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Puente beneficio / acciones diluidas",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Mediana EPS × acciones / neto = 0.9999999996288031; requiere ≥2 FY y dispersión intercuartílica <0.10"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "EPS TTM positivo",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "EPS TTM nan; si falta EPS se comprueba el signo del neto TTM con puente común FY; EPS negativo requiere turnaround explícito"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Ciclo económico",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "Margen normalizado mediana de hasta 5 FY; crecimiento mecánico puede extrapolar el ciclo. Revisar escenarios"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Pesimista supuestos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fuera de rango/ausentes: "
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Supuestos exigentes",
+      "Severidad": "ADVERTENCIA",
+      "Estado": "REVISAR",
+      "Detalle": "Crecimiento >25% o margen >50%; no es previsión verificada"
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Base supuestos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fuera de rango/ausentes: "
+    },
+    {
+      "Método": "EPS × PER",
+      "Comprobación": "Optimista supuestos",
+      "Severidad": "INFO",
+      "Estado": "OK",
+      "Detalle": "Fuera de rango/ausentes: "
+    }
+  ],
+  "Diagnosticos": [
+    {
+      "Diagnóstico": "Crecimiento",
+      "Estado": "Expansión",
+      "Valor": 0.2960677507944967,
+      "Detalle": "CAGR de últimos hasta 4 FY y TTM interanual si completo; no consenso"
+    },
+    {
+      "Diagnóstico": "Rentabilidad",
+      "Estado": "Positiva",
+      "Valor": 0.2535663198527435,
+      "Detalle": "Mediana de margen EBIT de hasta 5 FY"
+    },
+    {
+      "Diagnóstico": "Solidez financiera",
+      "Estado": "Caja neta",
+      "Valor": -0.4916861263353762,
+      "Detalle": "Deuda neta/EBIT orientativo; no sustituye vencimientos/liquidez; bancos requieren capital regulatorio"
+    },
+    {
+      "Diagnóstico": "Valoración",
+      "Estado": "Exigente",
+      "Valor": -0.2209972079208903,
+      "Detalle": "EPS proyectado × PER; incertidumbre reflejada en margen exigido"
+    }
+  ],
+  "Valoracion EPS PER": [
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 600795.1300112309,
+      "Moneda": "KRW",
+      "EPS aplicado": 71094.88905541961,
+      "Moneda EPS": "KRW",
+      "PER aplicado": 8.450609291237539,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 3 observaciones",
+      "Potencial (%)": -52.08970255093852,
+      "Rentabilidad anualizada (%)": -52.08970255093852,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2027-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 893064.7765886465,
+      "Moneda": "KRW",
+      "EPS aplicado": 105680.51909756,
+      "Moneda EPS": "KRW",
+      "PER aplicado": 8.450609291237539,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 3 observaciones",
+      "Potencial (%)": -28.78271319069805,
+      "Rentabilidad anualizada (%)": -10.69787196924942,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2029-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 976869.5012672036,
+      "Moneda": "KRW",
+      "EPS aplicado": 90601.26996545502,
+      "Moneda EPS": "KRW",
+      "PER aplicado": 10.78207294047501,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 3 observaciones",
+      "Potencial (%)": -22.09972079208903,
+      "Rentabilidad anualizada (%)": -22.09972079208903,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2027-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 1602159.4070786,
+      "Moneda": "KRW",
+      "EPS aplicado": 148594.7475892346,
+      "Moneda EPS": "KRW",
+      "PER aplicado": 10.78207294047501,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 3 observaciones",
+      "Potencial (%)": 27.76390806049445,
+      "Rentabilidad anualizada (%)": 8.50990814979211,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2029-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 1897462.291805668,
+      "Moneda": "KRW",
+      "EPS aplicado": 111892.0625615092,
+      "Moneda EPS": "KRW",
+      "PER aplicado": 16.95797046160086,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 3 observaciones",
+      "Potencial (%)": 51.31278244064341,
+      "Rentabilidad anualizada (%)": 51.31278244064341,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2027-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 3390179.676600168,
+      "Moneda": "KRW",
+      "EPS aplicado": 199916.5928656848,
+      "Moneda EPS": "KRW",
+      "PER aplicado": 16.95797046160086,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 3 observaciones",
+      "Potencial (%)": 170.3492565071904,
+      "Rentabilidad anualizada (%)": 39.3076800682431,
+      "Confianza": "Baja",
+      "Estado": "CONDICIONAL",
+      "Fecha objetivo": "2029-11-12",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    }
+  ],
+  "Supuestos EPS PER": [
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "growth",
+      "Valor": 0.2460677507944967,
+      "Origen": "Calculado del histórico; ajuste escenario -0.05",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "margin",
+      "Valor": 0.2235663198527435,
+      "Origen": "Calculado del histórico; ajuste escenario -0.03",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "tax",
+      "Valor": 0.1911696918822625,
+      "Origen": "Calculado del histórico; ajuste escenario 0.02",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "financial_sales",
+      "Valor": -0.03329166221936264,
+      "Origen": "Calculado del histórico; ajuste escenario -0.005",
+      "Definición": "PBT−EBIT / ventas; no sólo intereses"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "dilution",
+      "Valor": 0.02202937353905442,
+      "Origen": "Calculado del histórico; ajuste escenario 0.01",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Pesimista",
+      "Parámetro": "pe",
+      "Valor": 8.450609291237539,
+      "Origen": "Histórico propio 5 FY, 3 observaciones",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "growth",
+      "Valor": 0.2960677507944967,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "margin",
+      "Valor": 0.2535663198527435,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "tax",
+      "Valor": 0.1711696918822626,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "financial_sales",
+      "Valor": -0.02829166221936264,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "PBT−EBIT / ventas; no sólo intereses"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "dilution",
+      "Valor": 0.01202937353905442,
+      "Origen": "Calculado del histórico; ajuste escenario 0",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Base",
+      "Parámetro": "pe",
+      "Valor": 10.78207294047501,
+      "Origen": "Histórico propio 5 FY, 3 observaciones",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "growth",
+      "Valor": 0.3460677507944966,
+      "Origen": "Calculado del histórico; ajuste escenario 0.05",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "margin",
+      "Valor": 0.2835663198527435,
+      "Origen": "Calculado del histórico; ajuste escenario 0.03",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "tax",
+      "Valor": 0.1511696918822626,
+      "Origen": "Calculado del histórico; ajuste escenario -0.02",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "financial_sales",
+      "Valor": -0.02329166221936264,
+      "Origen": "Calculado del histórico; ajuste escenario 0.005",
+      "Definición": "PBT−EBIT / ventas; no sólo intereses"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "dilution",
+      "Valor": 0.007029373539054422,
+      "Origen": "Calculado del histórico; ajuste escenario -0.005",
+      "Definición": "Tasa decimal salvo PER en veces"
+    },
+    {
+      "Escenario": "Optimista",
+      "Parámetro": "pe",
+      "Valor": 16.95797046160086,
+      "Origen": "Histórico propio 5 FY, 3 observaciones",
+      "Definición": "Tasa decimal salvo PER en veces"
+    }
+  ],
+  "Comparables seleccionados": [
+    {
+      "Ticker": "2344.TW",
+      "Empresa": "Winbond Electronics Corporation",
+      "Descripción actividad": "Winbond Electronics Corporation engages in the research, development, production and sales of integrated circuits, various semiconductor components and other system products. The company offers customized memory solutions, including CUBE(3DCaaS), pseudo static random access memory, DDR/SDR, LPDDR/LPSDR, Known Good Die wafer products; electrical simulation, wafer-level speed testing, and other services; redistribution layers; and failure analysis services, as well as low power SDR, DDR, DDR2, DDR3, and DDR4/4X SDRAM products. It also provides specialty DRAM products, such as SDRAM, DDR SDRAM, DDR2 SDRAM, DDR3 SDRAM, and DDR4 SDRAM products; code storage flash memory products comprising serial NOR, 1.2V serial NOR, octal NOR, QspiNAND, OctalNAND, SLC NAND, NAND based MCP, SpiStack, and authentication flash products; TrustME secure flash memory, such as secure flash memory, and secure memory elements; and logic IC products. In addition, the company is involved in the research, development, design, sale, and after-sales service of semiconductors and 6-inch wafer fab production, testing, and foundry services; E-commerce and investment business; semiconductor component design and marketing services; smart factory solutions; semiconductor-related hardware and software system integration design; design, research, testing, sales, and service of integrated circuits and auxiliary equipment; develops automotive and industrial control software and services; customer service and technical support; computer software services; computers and peripherals, and software wholesale; repair, testing, and related technical consulting services; and rental of semiconductor-related equipment. It markets its products through distributors and online. The company's products are used in computer, com",
+      "Industria clave": "semiconductors",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Semiconductors",
+      "Divisa cotización": "TWD",
+      "Divisa financiera": "TWD",
+      "Precio actual": 127.5,
+      "Capitalización (miles de millones)": 573.750050816,
+      "Ingresos TTM (miles de millones)": 207.052210176,
+      "Fecha cotización": "2026-11-12",
+      "PER trailing": 7.96875,
+      "PER forward": 2.538725,
+      "PER periodo": "No verificado FY1/NTM",
+      "PER base": "No verificado GAAP/ajustado",
+      "EV/EBITDA periodo": "LTM Yahoo; no NTM",
+      "Perímetro deuda": "No verificado",
+      "Emisor id": "Winbond Electronics Corporation",
+      "EV/EBITDA": 5.736,
+      "EV/Ingresos": 2.927,
+      "P/Ventas": 2.7710404,
+      "P/Valor contable": 2.7694514,
+      "Margen neto (%)": 35.39,
+      "Margen operativo (%)": 43.18,
+      "Crecimiento ventas (%)": 278.2,
+      "Crecimiento beneficios (%)": 1052.1,
+      "ROE (%)": 44.382998,
+      "Deuda/Patrimonio (%)": 18.396,
+      "Rentabilidad FCF (%)": 6.520808577670747,
+      "Beta": 2.107,
+      "Similitud por tamaño (0-100)": null,
+      "Origen": "Semilla económica: pendiente de evaluación",
+      "Prioridad relación": 1,
+      "Prioridad origen": -5,
+      "Distancia de tamaño": null,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "fundicion, memoria",
+      "Puntuación económica (0-100)": 33.5,
+      "Similitud de actividad (0-100)": 18.0,
+      "Solapamiento actividades (0-100)": 50.0,
+      "Actividades objetivo": "dispositivos, fundicion, memoria",
+      "Actividades candidato": "consultoria_it, fundicion, memoria",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": false,
+      "EV/EBITDA admisible": false,
+      "PER forward (x)": null,
+      "EV/EBITDA (x)": null,
+      "PER cohorte": "[null, null, null, null]",
+      "EV cohorte": "[null, null, null, null]",
+      "Observación": "Falta campo documental: 'start'; Falta campo documental: 'start'; PER sin definición GAAP/NTM comprobada; EV/EBITDA sin NTM y perímetro de deuda comprobados; PER no utilizable (beneficio/múltiplo/calidad); EV/EBITDA no utilizable (beneficio/múltiplo/calidad)",
+      "PER TTM verificado": null,
+      "Estado PER TTM": "Sin evidencia TTM",
+      "PER NTM verificado": null,
+      "Estado PER NTM": "Falta campo documental: 'start'"
+    },
+    {
+      "Ticker": "285A.T",
+      "Empresa": "Kioxia Holdings Corporation",
+      "Descripción actividad": "Kioxia Holdings Corporation engages in research, development, manufacturing, sales, and other services of memory and related products for solid state drives (SSDs) and storage and smart devices in Japan, North America, Europe, and Asia. The company offers flash memory, SSDs, SD memory cards, and other retail products. It is also involved in the product and software development of SSD products; marketing of memory and SSD products; production management of subcontracted production in the post-process of memory; production and distribution of memory and photomask for semiconductor products; energy management business; and entrusted engineering work of CIM developments, as well as provides cleaning and health keeping for development center, and customer support services. The company was formerly known as Toshiba Memory Holdings Corporation and changed its name to Kioxia Holdings Corporation in October 2019. Kioxia Holdings Corporation was incorporated in 2019 and is headquartered in Minato, Japan.",
+      "Industria clave": "semiconductors",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Semiconductors",
+      "Divisa cotización": "JPY",
+      "Divisa financiera": "JPY",
+      "Precio actual": 9300.0,
+      "Capitalización (miles de millones)": 14863.021637632,
+      "Ingresos TTM (miles de millones)": 5793.635106816,
+      "Fecha cotización": "2026-11-12",
+      "PER trailing": 12.462479,
+      "PER forward": null,
+      "PER periodo": "No verificado FY1/NTM",
+      "PER base": "No verificado GAAP/ajustado",
+      "EV/EBITDA periodo": "LTM Yahoo; no NTM",
+      "Perímetro deuda": "No verificado",
+      "Emisor id": "Kioxia Holdings Corporation",
+      "EV/EBITDA": 3.438,
+      "EV/Ingresos": 2.537,
+      "P/Ventas": 2.5654051,
+      "P/Valor contable": 5.073644,
+      "Margen neto (%)": 46.488997,
+      "Margen operativo (%)": 69.092005,
+      "Crecimiento ventas (%)": 453.2,
+      "Crecimiento beneficios (%)": 3248.0,
+      "ROE (%)": 143.709,
+      "Deuda/Patrimonio (%)": 27.405,
+      "Rentabilidad FCF (%)": 14.79923569693764,
+      "Beta": null,
+      "Similitud por tamaño (0-100)": null,
+      "Origen": "Semilla económica: pendiente de evaluación",
+      "Prioridad relación": 1,
+      "Prioridad origen": -5,
+      "Distancia de tamaño": null,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "memoria",
+      "Puntuación económica (0-100)": 32.4,
+      "Similitud de actividad (0-100)": 24.0,
+      "Solapamiento actividades (0-100)": 33.3,
+      "Actividades objetivo": "dispositivos, fundicion, memoria",
+      "Actividades candidato": "memoria",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": false,
+      "EV/EBITDA admisible": false,
+      "PER forward (x)": null,
+      "EV/EBITDA (x)": null,
+      "PER cohorte": "[null, null, null, null]",
+      "EV cohorte": "[null, null, null, null]",
+      "Observación": "Falta campo documental: 'start'; Falta campo documental: 'start'; PER sin definición GAAP/NTM comprobada; EV/EBITDA sin NTM y perímetro de deuda comprobados; PER no utilizable (beneficio/múltiplo/calidad); EV/EBITDA no utilizable (beneficio/múltiplo/calidad)",
+      "PER TTM verificado": null,
+      "Estado PER TTM": "Sin evidencia TTM",
+      "PER NTM verificado": null,
+      "Estado PER NTM": "Falta campo documental: 'start'"
+    },
+    {
+      "Ticker": "MU",
+      "Empresa": "Micron Technology, Inc.",
+      "Descripción actividad": "Micron Technology, Inc. engages in the provision of semiconductor memory and storage products in the United States, Taiwan, Mainland China, other Asia Pacific countries, Japan, Europe, and internationally. It operates through Cloud Memory Business Unit, Core Data Center Business Unit, Mobile and Client Business Unit, and Automotive and Embedded Business Unit segments. The company provides dynamic random access memory (DRAM) products, including High-Bandwidth Memory, doublie data rate, low-power DRAM, and graphics DRAM products; NAND products comprising solid state drives, managed NAND, and multi-chip packages; and NOR products. The company sells its products under the Micron brand name and private labels through its own direct sales force, sales or representative offices, as well as through distributors, retailers, and independent sales representatives. Micron Technology, Inc. was founded in 1978 and is headquartered in Boise, Idaho.",
+      "Industria clave": "semiconductors",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Semiconductors",
+      "Divisa cotización": "USD",
+      "Divisa financiera": "USD",
+      "Precio actual": 795.32,
+      "Capitalización (miles de millones)": 899.843555328,
+      "Ingresos TTM (miles de millones)": 133.188001792,
+      "Fecha cotización": "2026-11-12",
+      "PER trailing": 10.699852,
+      "PER forward": 3.828062,
+      "PER periodo": "No verificado FY1/NTM",
+      "PER base": "No verificado GAAP/ajustado",
+      "EV/EBITDA periodo": "LTM Yahoo; no NTM",
+      "Perímetro deuda": "No verificado",
+      "Emisor id": "Micron Technology, Inc.",
+      "EV/EBITDA": 8.082,
+      "EV/Ingresos": 6.605,
+      "P/Ventas": 6.756191,
+      "P/Valor contable": 6.500368,
+      "Margen neto (%)": 63.796,
+      "Margen operativo (%)": 74.586,
+      "Crecimiento ventas (%)": 379.3,
+      "Crecimiento beneficios (%)": 1059.5,
+      "ROE (%)": 88.26,
+      "Deuda/Patrimonio (%)": 3.743,
+      "Rentabilidad FCF (%)": 3.238368542115985,
+      "Beta": 2.398,
+      "Similitud por tamaño (0-100)": null,
+      "Origen": "Semilla económica: pendiente de evaluación",
+      "Prioridad relación": 1,
+      "Prioridad origen": -5,
+      "Distancia de tamaño": null,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "memoria",
+      "Puntuación económica (0-100)": 31.3,
+      "Similitud de actividad (0-100)": 21.9,
+      "Solapamiento actividades (0-100)": 33.3,
+      "Actividades objetivo": "dispositivos, fundicion, memoria",
+      "Actividades candidato": "memoria",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": false,
+      "EV/EBITDA admisible": false,
+      "PER forward (x)": null,
+      "EV/EBITDA (x)": null,
+      "PER cohorte": "[null, null, null, null]",
+      "EV cohorte": "[null, null, null, null]",
+      "Observación": "Falta campo documental: 'start'; Falta campo documental: 'start'; PER sin definición GAAP/NTM comprobada; EV/EBITDA sin NTM y perímetro de deuda comprobados; PER no utilizable (beneficio/múltiplo/calidad); EV/EBITDA no utilizable (beneficio/múltiplo/calidad)",
+      "PER TTM verificado": null,
+      "Estado PER TTM": "Sin evidencia TTM",
+      "PER NTM verificado": null,
+      "Estado PER NTM": "Falta campo documental: 'start'"
+    },
+    {
+      "Ticker": "2408.TW",
+      "Empresa": "Nanya Technology Corporation",
+      "Descripción actividad": "Nanya Technology Corporation research, develops, manufactures, and sells semiconductor products in Taiwan, Japan, Malaysia, China, the United States, Thailand, Germany, Singapore, Poland and internationally. It offers standard dynamic random-access memory (DRAM), low power DRAM, MCP and eMCP, and KGD products, as well as modules; and other memory products and Elixir brands. The company engages in the import and export of its machinery, equipment, and raw materials. Its products have applications in home and entertainment, office and enterprise, mobile and portable, industrial, and automotive. Nanya Technology Corporation was incorporated in 1995 and is headquartered in New Taipei City, Taiwan.",
+      "Industria clave": "semiconductors",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Semiconductors",
+      "Divisa cotización": "TWD",
+      "Divisa financiera": "TWD",
+      "Precio actual": 379.5,
+      "Capitalización (miles de millones)": 1309.353181184,
+      "Ingresos TTM (miles de millones)": 295.378583552,
+      "Fecha cotización": "2026-11-12",
+      "PER trailing": 7.4675326,
+      "PER forward": 3.0186453,
+      "PER periodo": "No verificado FY1/NTM",
+      "PER base": "No verificado GAAP/ajustado",
+      "EV/EBITDA periodo": "LTM Yahoo; no NTM",
+      "Perímetro deuda": "No verificado",
+      "Emisor id": "Nanya Technology Corporation",
+      "EV/EBITDA": 4.941,
+      "EV/Ingresos": 3.698,
+      "P/Ventas": 4.4327965,
+      "P/Valor contable": 3.1892364,
+      "Margen neto (%)": 59.236,
+      "Margen operativo (%)": 70.963997,
+      "Crecimiento ventas (%)": 611.7,
+      "Crecimiento beneficios (%)": 4776.0,
+      "ROE (%)": 61.605,
+      "Deuda/Patrimonio (%)": 5.497,
+      "Rentabilidad FCF (%)": 10.47396475044176,
+      "Beta": 2.078,
+      "Similitud por tamaño (0-100)": null,
+      "Origen": "Semilla económica: pendiente de evaluación",
+      "Prioridad relación": 1,
+      "Prioridad origen": -5,
+      "Distancia de tamaño": null,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "memoria",
+      "Puntuación económica (0-100)": 30.5,
+      "Similitud de actividad (0-100)": 20.4,
+      "Solapamiento actividades (0-100)": 33.3,
+      "Actividades objetivo": "dispositivos, fundicion, memoria",
+      "Actividades candidato": "memoria",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": false,
+      "EV/EBITDA admisible": false,
+      "PER forward (x)": null,
+      "EV/EBITDA (x)": null,
+      "PER cohorte": "[null, null, null, null]",
+      "EV cohorte": "[null, null, null, null]",
+      "Observación": "Falta campo documental: 'start'; Falta campo documental: 'start'; PER sin definición GAAP/NTM comprobada; EV/EBITDA sin NTM y perímetro de deuda comprobados; PER no utilizable (beneficio/múltiplo/calidad); EV/EBITDA no utilizable (beneficio/múltiplo/calidad)",
+      "PER TTM verificado": null,
+      "Estado PER TTM": "Sin evidencia TTM",
+      "PER NTM verificado": null,
+      "Estado PER NTM": "Falta campo documental: 'start'"
+    },
+    {
+      "Ticker": "2303.TW",
+      "Empresa": "United Microelectronics Corporation",
+      "Descripción actividad": "United Microelectronics Corporation operates as a semiconductor wafer foundry in Taiwan, China, Hong Kong, Japan, Korea, the United States, Europe, and internationally. It manufactures and sells integrated circuits. The company offers circuit design; mask tooling; wafer fabrication; and assembly and testing services for communication devices, consumer electronics, computer, and other applications. It also provides venture capital and marketing support; consulting and planning; energy technical; solar engineering integrated design; research and development services; and insurance services. United Microelectronics Corporation was incorporated in 1980 and is headquartered in Hsinchu City, Taiwan.",
+      "Industria clave": "semiconductors",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Semiconductors",
+      "Divisa cotización": "TWD",
+      "Divisa financiera": "TWD",
+      "Precio actual": 101.0,
+      "Capitalización (miles de millones)": 1266.435883008,
+      "Ingresos TTM (miles de millones)": 265.819226112,
+      "Fecha cotización": "2026-11-12",
+      "PER trailing": 15.074627,
+      "PER forward": 14.11052,
+      "PER periodo": "No verificado FY1/NTM",
+      "PER base": "No verificado GAAP/ajustado",
+      "EV/EBITDA periodo": "LTM Yahoo; no NTM",
+      "Perímetro deuda": "No verificado",
+      "Emisor id": "United Microelectronics Corporation",
+      "EV/EBITDA": 10.346,
+      "EV/Ingresos": 4.635,
+      "P/Ventas": 4.764275,
+      "P/Valor contable": 2.689389,
+      "Margen neto (%)": 31.947002,
+      "Margen operativo (%)": 21.452999,
+      "Crecimiento ventas (%)": 25.6,
+      "Crecimiento beneficios (%)": 9.8,
+      "ROE (%)": 20.366,
+      "Deuda/Patrimonio (%)": 16.913,
+      "Rentabilidad FCF (%)": 3.549776542751041,
+      "Beta": 1.832,
+      "Similitud por tamaño (0-100)": null,
+      "Origen": "Industria Yahoo TW",
+      "Prioridad relación": 1,
+      "Prioridad origen": 0,
+      "Distancia de tamaño": null,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "fundicion",
+      "Puntuación económica (0-100)": 28.7,
+      "Similitud de actividad (0-100)": 16.8,
+      "Solapamiento actividades (0-100)": 33.3,
+      "Actividades objetivo": "dispositivos, fundicion, memoria",
+      "Actividades candidato": "fundicion",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": false,
+      "EV/EBITDA admisible": false,
+      "PER forward (x)": null,
+      "EV/EBITDA (x)": null,
+      "PER cohorte": "[null, null, null, null]",
+      "EV cohorte": "[null, null, null, null]",
+      "Observación": "Falta campo documental: 'start'; Falta campo documental: 'start'; PER sin definición GAAP/NTM comprobada; EV/EBITDA sin NTM y perímetro de deuda comprobados; PER no utilizable (beneficio/múltiplo/calidad); EV/EBITDA no utilizable (beneficio/múltiplo/calidad)",
+      "PER TTM verificado": null,
+      "Estado PER TTM": "Sin evidencia TTM",
+      "PER NTM verificado": null,
+      "Estado PER NTM": "Falta campo documental: 'start'"
+    },
+    {
+      "Ticker": "000990.KS",
+      "Empresa": "DB HiTek CO., LTD.",
+      "Descripción actividad": "DB HiTek CO., LTD. engages in semiconductor foundry business in South Korea. It provides semiconductors, such as power management ICs, contact image sensor, display driver ICs used in mobile phones, industrial, medical equipment, and automobile applications, as well as provides wafer fabrication facilities that produces a range of processing nodes. The company's processing technologies include BCDMOS, analog CMOS, high voltage CMOS, mixed signal, CIS, flash, logic. It also operates in the United States, Taiwan, Japan, and China. The company was formerly known as Dongbu HiTek Co., Ltd. and changed its name to DB HiTek CO., LTD. in November 2017. DB HiTek CO., LTD. was founded in 1997 and is based in Bucheon-si, South Korea. DB HiTek CO., LTD. operates as a subsidiary of DB Life Insurance Co., Ltd.",
+      "Industria clave": "semiconductors",
+      "Sector clave": "technology",
+      "Relación": "Misma industria",
+      "Sector": "Technology",
+      "Industria": "Semiconductors",
+      "Divisa cotización": "KRW",
+      "Divisa financiera": "KRW",
+      "Precio actual": 82300.0,
+      "Capitalización (miles de millones)": 3519.837110272,
+      "Ingresos TTM (miles de millones)": 1536.496238592,
+      "Fecha cotización": "2026-11-12",
+      "PER trailing": null,
+      "PER forward": 7.781525,
+      "PER periodo": "No verificado FY1/NTM",
+      "PER base": "No verificado GAAP/ajustado",
+      "EV/EBITDA periodo": "LTM Yahoo; no NTM",
+      "Perímetro deuda": "No verificado",
+      "Emisor id": "DB HiTek CO., LTD.",
+      "EV/EBITDA": 7.051,
+      "EV/Ingresos": 2.26,
+      "P/Ventas": 2.2908206,
+      "P/Valor contable": null,
+      "Margen neto (%)": 22.5,
+      "Margen operativo (%)": 21.027,
+      "Crecimiento ventas (%)": 22.8,
+      "Crecimiento beneficios (%)": 65.0,
+      "ROE (%)": 17.111999,
+      "Deuda/Patrimonio (%)": 12.224,
+      "Rentabilidad FCF (%)": 7.411379590683417,
+      "Beta": 2.402,
+      "Similitud por tamaño (0-100)": 0.4596760745408991,
+      "Origen": "Top companies: misma industria",
+      "Prioridad relación": 0,
+      "Prioridad origen": 0,
+      "Distancia de tamaño": 5.382403409323007,
+      "Grupo económico": "Automático · actividad corroborada",
+      "Justificación económica": "fundicion",
+      "Puntuación económica (0-100)": 26.2,
+      "Similitud de actividad (0-100)": 16.0,
+      "Solapamiento actividades (0-100)": 25.0,
+      "Actividades objetivo": "dispositivos, fundicion, memoria",
+      "Actividades candidato": "fundicion, seguros",
+      "Confianza en comparabilidad": "Media",
+      "Misma industria": true,
+      "Mismo sector": true,
+      "Elegible": true,
+      "PER admisible": false,
+      "EV/EBITDA admisible": false,
+      "PER forward (x)": null,
+      "EV/EBITDA (x)": null,
+      "PER cohorte": "[null, null, null, null]",
+      "EV cohorte": "[null, null, null, null]",
+      "Observación": "Falta campo documental: 'start'; Falta campo documental: 'start'; PER sin definición GAAP/NTM comprobada; EV/EBITDA sin NTM y perímetro de deuda comprobados; PER no utilizable (beneficio/múltiplo/calidad); EV/EBITDA no utilizable (beneficio/múltiplo/calidad)",
+      "PER TTM verificado": null,
+      "Estado PER TTM": "Sin evidencia TTM",
+      "PER NTM verificado": null,
+      "Estado PER NTM": "Falta campo documental: 'start'"
+    }
+  ],
+  "Fuentes comparables TTM": [
+    {
+      "Estado": "INDICE_NO_DISPONIBLE",
+      "Fuente": "https://www.sec.gov/files/company_tickers.json",
+      "Detalle": "403 Client Error: Forbidden for url: https://www.sec.gov/files/company_tickers.json; intentar identidad validada por submissions",
+      "Ticker": null,
+      "Fecha consulta": null
+    },
+    {
+      "Estado": "NO_VERIFICADO",
+      "Fuente": null,
+      "Detalle": "ValueError: Sin CIK SEC exacto; no inferir identidad por ticker base",
+      "Ticker": "2344.TW",
+      "Fecha consulta": "2026-11-12T14:39:44.449671+00:00"
+    },
+    {
+      "Estado": "NO_VERIFICADO",
+      "Fuente": null,
+      "Detalle": "ValueError: Sin CIK SEC exacto; no inferir identidad por ticker base",
+      "Ticker": "285A.T",
+      "Fecha consulta": "2026-11-12T14:39:44.694773+00:00"
+    },
+    {
+      "Estado": "NO_VERIFICADO",
+      "Fuente": null,
+      "Detalle": "ValueError: Sin EPS trimestral doméstico US-GAAP contemporáneo; ADR/20-F requiere puente",
+      "Ticker": "MU",
+      "Fecha consulta": "2026-11-12T14:39:44.984785+00:00"
+    },
+    {
+      "Estado": "NO_VERIFICADO",
+      "Fuente": null,
+      "Detalle": "ValueError: Sin CIK SEC exacto; no inferir identidad por ticker base",
+      "Ticker": "2408.TW",
+      "Fecha consulta": "2026-11-12T14:39:45.695505+00:00"
+    },
+    {
+      "Estado": "NO_VERIFICADO",
+      "Fuente": null,
+      "Detalle": "ValueError: Sin CIK SEC exacto; no inferir identidad por ticker base",
+      "Ticker": "2303.TW",
+      "Fecha consulta": "2026-11-12T14:39:45.941915+00:00"
+    },
+    {
+      "Estado": "NO_VERIFICADO",
+      "Fuente": null,
+      "Detalle": "ValueError: Sin CIK SEC exacto; no inferir identidad por ticker base",
+      "Ticker": "000990.KS",
+      "Fecha consulta": "2026-11-12T14:39:46.178361+00:00"
+    }
+  ],
+  "Pendientes fundamentales": [
+    {
+      "Incidencia": "CAPEX total Q3 N/D: PDF solo revela PP&E; faltan adquisiciones de intangibles; no reemplazar por cero o FY"
+    },
+    {
+      "Incidencia": "D&A TTM para FCFF/EBITDA N/D: conciliar D&A operativa IR con la serie de cash-flow; no mezclar ambas definiciones"
+    }
+  ]
+}

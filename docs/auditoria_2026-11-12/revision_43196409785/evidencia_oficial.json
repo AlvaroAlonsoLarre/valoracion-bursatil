@@ -1,0 +1,55 @@
+[
+  {
+    "local_source": "sk_submissions.json",
+    "source_url": "https://data.sec.gov/submissions/CIK0002120882.json",
+    "http_status": 200,
+    "retrieved_date": "2026-11-12",
+    "bytes": 8566,
+    "sha256": "90075a08b91c5df417d3fbc576db81b50ebbccd569a02eed0bde12d737c250d1",
+    "finding": "Índice oficial; revisar filings de fecha <=2026-11-12. No acredita ausencia universal de filings."
+  },
+  {
+    "local_source": "sk_companyfacts.json",
+    "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0002120882.json",
+    "http_status": 200,
+    "retrieved_date": "2026-11-12",
+    "bytes": 1673,
+    "sha256": "b96b7a32e77b2743abdfd16eb6658798122088f3f679d23a5b256f4e26085bd1",
+    "finding": "Sólo taxonomía ffd: sin conceptos financieros que completen CAPEX o D&A.",
+    "taxonomies": [
+      "ffd"
+    ]
+  },
+  {
+    "local_source": "dart.html",
+    "source_url": "https://dart.fss.or.kr/navi/searchNavi.do?naviCode=C001&naviCrpCik=00164779&naviCrpNm=SK%ED%95%98%EC%9D%B4%EB%8B%89%EC%8A%A4",
+    "http_status": 200,
+    "retrieved_date": "2026-11-12",
+    "bytes": 13843,
+    "sha256": "3d63581df4ab560776b2b51203768847270e0d0798d24c9c7a76cb06e24ff768",
+    "finding": "Índice público observado: half-year 2026, receipt 20260814003509. Revisión acotada, no prueba ausencia de toda publicación Q3.",
+    "observed_receipts": [
+      "20260814003509"
+    ]
+  },
+  {
+    "local_source": "treasury_nov.html",
+    "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value_month=202611&type=daily_treasury_yield_curve",
+    "http_status": 200,
+    "retrieved_date": "2026-11-12",
+    "bytes": 171269,
+    "sha256": "3339ee3d01e9600dd35887a41504728842bff39064e702ec4ea46e44349859ac",
+    "finding": "Nominal 10 Yr; último dato no futuro observado 2026-11-10: 4.98%. No se aplica al KRW."
+  },
+  {
+    "local_source": "msft_call_q1.html",
+    "source_url": "https://www.microsoft.com/en-us/investor/events/fy-2027/earnings-fy-2027-q1",
+    "http_status": 200,
+    "retrieved_date": "2026-11-12",
+    "bytes": 352477,
+    "sha256": "00b05c3e2a440bea725e9fef699ab82dbb917810eb2ab09c93def0ccb80be343",
+    "finding": "FY27 Q1 cash PP&E 39.4, CapEx 45.2 y finance leases 7.4 mil millones USD. Guía CY2026 CapEx ~170 mil millones incluye otro perímetro y es previsión, no flujo realizado.",
+    "excerpt_capex": "Capital expenditures were $45.2 billion, as some third-party capacity deliveries we expected in Q1 were delayed. Roughly three quarters of our capex was for short-lived assets, primarily CPUs and GPUs, including higher memory and storage costs, as we continue to invest in the infrastructure required for our customers to build and scale AI applications. The remaining spend was for long-lived assets. This quarter, finance leases were $7.4 billion. As a reminder, we recognize the full principal value of finance leases in capex at the time of lease commencement. And cash paid for P, P, and E was $39.4 billion. ",
+    "excerpt_guidance": "In Q2, we expect CapEx spend will be over $50 billion. Therefore, for the calendar year, spend should be approximately $170 billion due to the 3P capacity delays noted earlier. In the second half of the fiscal year, we currently expect CapEx spend to accelerate primaril"
+  }
+]

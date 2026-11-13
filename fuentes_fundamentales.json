@@ -1,0 +1,87 @@
+{
+  "MSFT": {
+    "currency": "USD",
+    "entity_id": "0000789019",
+    "documents": [
+      {
+        "kind": "companyfacts",
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json"
+      },
+      {
+        "kind": "inline_xbrl",
+        "published": "2026-07-29",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm",
+        "fallback": true
+      },
+      {
+        "kind": "inline_xbrl",
+        "published": "2026-04-29",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+        "fallback": true
+      },
+      {
+        "kind": "inline_xbrl",
+        "published": "2026-10-28",
+        "url": "https://microsoft.gcs-web.com/node/35416/html",
+        "fallback": true
+      }
+    ],
+    "accounting_basis": "US_GAAP"
+  },
+  "000660.KS": {
+    "currency": "KRW",
+    "entity_name": "SK hynix",
+    "documents": [
+      {
+        "kind": "earnings_pdf",
+        "published": "2026-10-28",
+        "period_end": "2026-09-30",
+        "period_start": "2026-07-01",
+        "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+        "pages": {
+          "income": 20,
+          "cashflow": 16,
+          "balance": 19,
+          "operating_da": 5
+        },
+        "required_text": [
+          "FY2026",
+          "2026.10.28",
+          "consolidated K-IFRS",
+          "FY2026 Q3"
+        ],
+        "cashflow_fields": {
+          "Flujo de caja operativo": "CF from Operating Activities",
+          "CAPEX PP&E": "Acquisition of PP&E",
+          "D&A cash flow": "D&A*",
+          "Dividendos": "Dividend Payout",
+          "Caja inicial IR": "Beginning Cash Balance**",
+          "Efectivo e inversiones": "Ending Cash Balance**"
+        },
+        "income_fields": {
+          "Ingresos": "Revenue",
+          "Beneficio operativo": "Operating Profit",
+          "Beneficio neto": "Net Profit",
+          "EBITDA publicado": "EBITDA",
+          "Beneficio antes de impuestos": "Income Before Tax",
+          "Impuestos": "Tax Expense/Benefit"
+        },
+        "balance_fields": {
+          "Deuda total": "Interest-bearing Debts",
+          "Patrimonio neto": "Total Shareholders' Equity"
+        },
+        "complete_capex": false,
+        "unit_text": "KRW Billion",
+        "multiplier": 1000000000,
+        "income_header": "Q3'26",
+        "cashflow_header": "’26 Q3"
+      }
+    ],
+    "regulatory_search": {
+      "cik": "2120882",
+      "period_end": "2026-09-30",
+      "dart_index": "https://dart.fss.or.kr/navi/searchNavi.do?naviCode=C001&naviCrpCik=00164779&naviCrpNm=SK%ED%95%98%EC%9D%B4%EB%8B%89%EC%8A%A4"
+    },
+    "accounting_basis": "K_IFRS"
+  }
+}

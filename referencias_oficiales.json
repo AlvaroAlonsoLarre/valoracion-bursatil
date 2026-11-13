@@ -1,0 +1,18 @@
+{
+  "MSFT": {
+    "entity": "Microsoft Corporation", "currency": "USD", "period_end": "2026-09-30",
+    "published": "2026-10-28", "unit": "millions USD", "multiplier": 1000000,
+    "source": "https://www.microsoft.com/en-us/Investor/earnings/FY-2027-Q1/press-release-webcast",
+    "evidence_tokens": ["September 30, 2026", "92,279", "45,915", "36,629"],
+    "values": {"Ingresos": 92279, "Beneficio operativo": 45915, "Beneficio neto": 36629},
+    "extraordinary": [{"event": "OpenAI", "net_income_effect": 207000000, "currency": "USD", "definition": "GAAP gain; excluded from non-GAAP, no automatic adjustment"}]
+  },
+  "000660.KS": {
+    "entity": "SK hynix Inc.", "currency": "KRW", "period_end": "2026-09-30",
+    "published": "2026-10-28", "unit": "trillion KRW", "multiplier": 1000000000000,
+    "source": "https://news.skhynix.com/en/q3-2026-business-results/",
+    "evidence_tokens": ["October 28, 2026", "104.6155", "83.3338", "39.7756"],
+    "values": {"Ingresos": 104.6155, "Beneficio operativo": 83.3338, "Beneficio neto": 39.7756},
+    "extraordinary": [{"event": "Kioxia", "net_income_effect": null, "currency": "KRW", "definition": "N/D: communiqué announces distributions, no reconciled income adjustment"}]
+  }
+}

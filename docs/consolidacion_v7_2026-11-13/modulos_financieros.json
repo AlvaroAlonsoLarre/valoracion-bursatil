@@ -1,0 +1,53 @@
+{
+  "base": "9f9eedac970712e2f01b56d119290daec62425e7",
+  "modulos": [
+    {
+      "archivo": "analisis_acciones.py",
+      "sha256_antes": "32480e89c122f310eda0b09d5f2d0c91bf39355290aea1ef64a669f213d4bdfd",
+      "sha256_despues": "32480e89c122f310eda0b09d5f2d0c91bf39355290aea1ef64a669f213d4bdfd",
+      "identico": true
+    },
+    {
+      "archivo": "modelo_fundamental.py",
+      "sha256_antes": "ec694a35d92ea2b049bbe90d50f938074be4223d30aa15c80d78d3b683975879",
+      "sha256_despues": "ec694a35d92ea2b049bbe90d50f938074be4223d30aa15c80d78d3b683975879",
+      "identico": true
+    },
+    {
+      "archivo": "revision_economica.py",
+      "sha256_antes": "04d6c59ca1e21634239f5a5c256014ccc5da20fa86b3a01b5dd08452e0bc57f5",
+      "sha256_despues": "04d6c59ca1e21634239f5a5c256014ccc5da20fa86b3a01b5dd08452e0bc57f5",
+      "identico": true
+    },
+    {
+      "archivo": "historico_acciones.py",
+      "sha256_antes": "00c2a66b5dba19fae502c005a1ae8847d28d547a57b2b4c25d8048f13256118c",
+      "sha256_despues": "00c2a66b5dba19fae502c005a1ae8847d28d547a57b2b4c25d8048f13256118c",
+      "identico": true
+    },
+    {
+      "archivo": "comparables_inteligentes.py",
+      "sha256_antes": "99e07cf6a980791e7467af1114ed98e0cdd853ffbd5d4c10e4d7879b0cc8ea59",
+      "sha256_despues": "99e07cf6a980791e7467af1114ed98e0cdd853ffbd5d4c10e4d7879b0cc8ea59",
+      "identico": true
+    },
+    {
+      "archivo": "comparables_ttm.py",
+      "sha256_antes": "542e41cf70cae024d1bdd8aad51209d719ec3c3902ddfa44f743501d0ee3631f",
+      "sha256_despues": "542e41cf70cae024d1bdd8aad51209d719ec3c3902ddfa44f743501d0ee3631f",
+      "identico": true
+    },
+    {
+      "archivo": "multiple_evidence.py",
+      "sha256_antes": "fbd18dc69794f252edc03b205f648b18c83027d67292af904c1fc2e9ef55304f",
+      "sha256_despues": "fbd18dc69794f252edc03b205f648b18c83027d67292af904c1fc2e9ef55304f",
+      "identico": true
+    },
+    {
+      "archivo": "dcf_audit.py",
+      "sha256_antes": "a3d59119cf55be1f31df1ba9fafb8a549fbafd7f34648ead099b10826d5e77ef",
+      "sha256_despues": "a3d59119cf55be1f31df1ba9fafb8a549fbafd7f34648ead099b10826d5e77ef",
+      "identico": true
+    }
+  ]
+}

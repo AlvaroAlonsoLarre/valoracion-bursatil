@@ -1,0 +1,2015 @@
+{
+  "ticker": "000660.KS",
+  "generado_utc": "2026-11-12T09:06:34.352202+00:00",
+  "provenance": {
+    "sha": "e17c2ff5f63eec640dd3dd567437e65f05d0f4ce",
+    "run_id": "local",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "Control modelo": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "KRW→KRW; fuente: mismas divisas"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "REVISAR",
+      "Detalle": "4 ejercicios fuente Yahoo Finance (fallback: SEC no disponible para este ticker); sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); emisor sin CIK SEC: revisar fuentes oficiales del país"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 43 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "3 trimestres publicados, ingresos YTD 236,510.03 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=70.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "CAPEX TTM / ventas nan% si disponible; referencia anual 26.8%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 1.7%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Margen operativo elevado",
+      "Estado": "REVISAR",
+      "Detalle": "Margen EBIT base 62.8%: evaluar sostenibilidad/ciclo"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados 0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "16.43%; rf 3.10%; beta 2.47; Ke 16.66%; Kd 4.11%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 16.43%, g terminal 2.00%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada Yahoo; desglose no verificado; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 2.3328414/3.808 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "BLOQUEO",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "REVISAR",
+      "Detalle": "Actividad cíclica: crecimiento converge desde año 1; margen EBIT vuelve hacia 25.4% con el tiempo"
+    }
+  ],
+  "Referencia comparables": [
+    {
+      "Método": "PER forward (x)",
+      "Mediana": null,
+      "Observaciones": 0,
+      "Estado": "BLOQUEADO: 0/3 comparables válidos con confianza media/alta",
+      "Dispersión max/min": null
+    },
+    {
+      "Método": "EV/EBITDA (x)",
+      "Mediana": null,
+      "Observaciones": 0,
+      "Estado": "BLOQUEADO: 0/3 comparables válidos con confianza media/alta",
+      "Dispersión max/min": null
+    }
+  ],
+  "Comparables requisitos": [
+    {
+      "Ticker": "005930.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "005930.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2344.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2344.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2408.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2408.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "285A.T",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "285A.T",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "MU",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "MU",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "000990.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "000990.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "032580.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "032580.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "036540.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "036540.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "036710.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "036710.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "036810.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "036810.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "046890.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "046890.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "052400.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "052400.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "052860.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "052860.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "052900.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "052900.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "054450.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "054450.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "054620.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "054620.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "061970.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "061970.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "067310.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "067310.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "068790.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "068790.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "078350.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "078350.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "080220.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "080220.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "083930.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "083930.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "084850.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "084850.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "092870.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "092870.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2303.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2303.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2330.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2330.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2379.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2379.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2454.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2454.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2737.T",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "2737.T",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3034.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3034.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3156.T",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3156.T",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3443.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3443.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3445.T",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3445.T",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3661.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3661.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3711.TW",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "3711.TW",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "5274.TWO",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "5274.TWO",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "6488.TWO",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "6488.TWO",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "SIVE.ST",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "SIVE.ST",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "SIVEF",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "SIVEF",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "000500.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "000500.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "003550.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "003550.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "007660.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "007660.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "007810.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "007810.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "093520.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "093520.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "093640.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "093640.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "094170.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "094170.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "097800.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "097800.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "102120.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "102120.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "108230.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "108230.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "108320.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "108320.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "108320.KS",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "108320.KS",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "117670.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "117670.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "123860.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "123860.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "142210.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "142210.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "171090.KQ",
+      "Método": "PER",
+      "Periodo declarado": "No verificado FY1/NTM",
+      "Base declarada": "No verificado GAAP/ajustado",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; beneficio GAAP documentado; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    },
+    {
+      "Ticker": "171090.KQ",
+      "Método": "EV/EBITDA",
+      "Periodo declarado": "LTM Yahoo; no NTM",
+      "Base declarada": "EBITDA sin ajuste de perímetro inferido",
+      "Perímetro declarado": "No verificado",
+      "Fuente de definición": null,
+      "Fecha de definición": null,
+      "Requisitos pendientes": "periodo NTM documentado; deuda/EBITDA homogéneos sin leases; fuente de la definición; fecha de la definición",
+      "Definición completa": false
+    }
+  ],
+  "Registro valoraciones": [
+    {
+      "method_id": "dcf_fcff_present",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 0,
+      "valuation_date": "2026-11-12",
+      "target_date": "2026-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_present",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 0,
+      "valuation_date": "2026-11-12",
+      "target_date": "2026-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_present",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 0,
+      "valuation_date": "2026-11-12",
+      "target_date": "2026-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-12",
+      "target_date": "2027-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-09-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-12",
+      "target_date": "2029-11-12",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "NO_VERIFICADO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    }
+  ],
+  "Fuentes fundamentales": [
+    {
+      "Campo": "Flujo de caja operativo",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 54781000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "CAPEX PP&E",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 12670000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "D&A cash flow",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 4335000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Dividendos",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 272000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Caja inicial IR",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 87958000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Efectivo e inversiones",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 114460000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Ingresos",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 104615000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 83334000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 39776000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "EBITDA publicado",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 87675000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Beneficio antes de impuestos",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 50708000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Impuestos",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 10933000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Deuda total",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 15800000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Patrimonio neto",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 309088000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "D&A operativa",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 4341000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "EPS diluido",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 54454.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW/acción"
+    },
+    {
+      "Campo": "Deuda neta",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": -98660000000000.0,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    },
+    {
+      "Campo": "Tasa fiscal",
+      "Fin": "2026-09-30",
+      "Valor anterior": null,
+      "Valor oficial": 0.215607004811864,
+      "Moneda": "KRW",
+      "Fuente": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+      "Unidad": "KRW"
+    }
+  ],
+  "Conciliacion TTM": [
+    {
+      "Campo": "Ingresos",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 269336686000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 200656465000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "Flujo de caja operativo",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 4,
+      "TTM (unidades)": 167385237000000.0,
+      "Estado": "COMPLETO",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": null
+    },
+    {
+      "Campo": "CAPEX",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 3,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "D&A",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "Flujo de caja libre",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 3,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    },
+    {
+      "Campo": "EBITDA aproximado",
+      "Periodo inicial": "2025-10-01",
+      "Periodo final": "2026-09-30",
+      "Observaciones fuente": 4,
+      "Periodos utilizables": 0,
+      "TTM (unidades)": null,
+      "Estado": "N/D",
+      "Conciliación FY": "N/D: sin cuatro trimestres FY completos",
+      "Motivo": "Flujo invalidado por definición o integridad"
+    }
+  ],
+  "Pendientes fundamentales": [
+    {
+      "Incidencia": "CAPEX total Q3 N/D: PDF solo revela PP&E; faltan adquisiciones de intangibles; no reemplazar por cero o FY"
+    },
+    {
+      "Incidencia": "D&A TTM para FCFF/EBITDA N/D: conciliar D&A operativa IR con la serie de cash-flow; no mezclar ambas definiciones"
+    }
+  ],
+  "Contraste IR": [
+    {
+      "Campo": "Ingresos",
+      "Periodo": "2026-09-30",
+      "Moneda": "KRW",
+      "Unidad original": "trillion KRW",
+      "Multiplicador": 1000000000000,
+      "IR (unidades)": 104615500000000,
+      "Yahoo (unidades)": 104615000000000,
+      "Diferencia relativa": 4.779406493301662e-06,
+      "Estado": "COINCIDE",
+      "Fuente": "https://news.skhynix.com/en/q3-2026-business-results/"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Periodo": "2026-09-30",
+      "Moneda": "KRW",
+      "Unidad original": "trillion KRW",
+      "Multiplicador": 1000000000000,
+      "IR (unidades)": 83333800000000,
+      "Yahoo (unidades)": 83334000000000,
+      "Diferencia relativa": 2.399986560075263e-06,
+      "Estado": "COINCIDE",
+      "Fuente": "https://news.skhynix.com/en/q3-2026-business-results/"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Periodo": "2026-09-30",
+      "Moneda": "KRW",
+      "Unidad original": "trillion KRW",
+      "Multiplicador": 1000000000000,
+      "IR (unidades)": 39775600000000,
+      "Yahoo (unidades)": 39776000000000,
+      "Diferencia relativa": 1.005641649654562e-05,
+      "Estado": "COINCIDE",
+      "Fuente": "https://news.skhynix.com/en/q3-2026-business-results/"
+    }
+  ],
+  "auditoria": {
+    "errores_bloqueantes": 3,
+    "objetivos_fundamentales_disponibles": 0,
+    "estado_financiero": "BLOQUEO",
+    "publicable": false,
+    "exit_code": 2,
+    "comparables_elegibles": 7,
+    "total_candidatos": 149,
+    "definiciones_per_completas": 0,
+    "definiciones_ev_ebitda_completas": 0
+  },
+  "input_sha256": "29773a9ff02d2c051d046c16d5c73a3679aa5f686ec8b215ab3bca20a8b29aa3"
+}

@@ -1,0 +1,545 @@
+{
+  "ticker": "000660.KS",
+  "generado_utc": "2026-11-11T19:21:10.883958+00:00",
+  "provenance": {
+    "sha": "35db5f80fa3f7d0c5f6eb81646ed7ad4bfc06e97",
+    "run_id": "43086248781",
+    "attempt": "1",
+    "dependencies": {
+      "pandas": "3.1.1",
+      "numpy": "2.5.4",
+      "yfinance": "1.8.0",
+      "requests": "2.34.2",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "Control modelo": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "KRW→KRW; fuente: mismas divisas"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "REVISAR",
+      "Detalle": "4 ejercicios fuente Yahoo Finance (fallback: SEC no disponible para este ticker); sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "BLOQUEO",
+      "Detalle": "IR confirma periodo 2026-09-30 posterior a Yahoo 2026-06-30 00:00:00; faltan estados completos; no inventar TTM"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "REVISAR",
+      "Detalle": "Último trimestre 2026-06-30, 134 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "2 trimestres publicados, ingresos YTD 131,895.03 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-06-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "REVISAR",
+      "Detalle": "Margen neto TTM=85.6%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-06-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-06-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "OK",
+      "Detalle": "CAPEX TTM / ventas 19.3% si disponible; referencia anual 26.8%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "OK",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 1.7%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados 0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "16.39%; rf 3.10%; beta 2.47; Ke 16.66%; Kd 4.11%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 16.39%, g terminal 2.00%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada Yahoo; desglose no verificado; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 2.375629/3.808 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "BLOQUEO",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "REVISAR",
+      "Detalle": "Actividad cíclica: crecimiento converge desde año 1; margen EBIT vuelve hacia 25.4% con el tiempo"
+    }
+  ],
+  "Referencia comparables": [
+    {
+      "Método": "PER forward (x)",
+      "Mediana": null,
+      "Observaciones": 0,
+      "Estado": "BLOQUEADO: 0/3 comparables válidos con confianza media/alta",
+      "Dispersión max/min": null
+    },
+    {
+      "Método": "EV/EBITDA (x)",
+      "Mediana": null,
+      "Observaciones": 0,
+      "Estado": "BLOQUEADO: 0/3 comparables válidos con confianza media/alta",
+      "Dispersión max/min": null
+    }
+  ],
+  "Registro valoraciones": [
+    {
+      "method_id": "dcf_fcff_present",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 0,
+      "valuation_date": "2026-11-11",
+      "target_date": "2026-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Pesimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_present",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 0,
+      "valuation_date": "2026-11-11",
+      "target_date": "2026-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Base",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_present",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 0,
+      "valuation_date": "2026-11-11",
+      "target_date": "2026-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "dcf_fcff_future",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_pe_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 1,
+      "valuation_date": "2026-11-11",
+      "target_date": "2027-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    },
+    {
+      "method_id": "peer_ev_ebitda_ntm",
+      "scenario": "Optimista",
+      "scenario_type": "sensibilidad_fundamental",
+      "base_date": "2026-06-30",
+      "flow_period": "TTM/proyección explícita",
+      "horizon_years": 3,
+      "valuation_date": "2026-11-11",
+      "target_date": "2029-11-11",
+      "currency": "KRW",
+      "price": null,
+      "validation_state": "BLOQUEO",
+      "source": "Yahoo Finance (fallback: SEC no disponible para este ticker)",
+      "freshness": "BLOQUEO",
+      "limitation": "Requisitos del modelo incumplidos; consultar Control modelo"
+    }
+  ],
+  "Contraste IR": [
+    {
+      "Campo": "Ingresos",
+      "Periodo": "2026-09-30",
+      "Moneda": "KRW",
+      "Unidad original": "trillion KRW",
+      "Multiplicador": 1000000000000,
+      "IR (unidades)": 104615500000000,
+      "Yahoo (unidades)": null,
+      "Diferencia relativa": null,
+      "Estado": "N/D",
+      "Fuente": "https://news.skhynix.com/en/q3-2026-business-results/"
+    },
+    {
+      "Campo": "Beneficio operativo",
+      "Periodo": "2026-09-30",
+      "Moneda": "KRW",
+      "Unidad original": "trillion KRW",
+      "Multiplicador": 1000000000000,
+      "IR (unidades)": 83333800000000,
+      "Yahoo (unidades)": null,
+      "Diferencia relativa": null,
+      "Estado": "N/D",
+      "Fuente": "https://news.skhynix.com/en/q3-2026-business-results/"
+    },
+    {
+      "Campo": "Beneficio neto",
+      "Periodo": "2026-09-30",
+      "Moneda": "KRW",
+      "Unidad original": "trillion KRW",
+      "Multiplicador": 1000000000000,
+      "IR (unidades)": 39775600000000,
+      "Yahoo (unidades)": null,
+      "Diferencia relativa": null,
+      "Estado": "N/D",
+      "Fuente": "https://news.skhynix.com/en/q3-2026-business-results/"
+    }
+  ],
+  "auditoria": {
+    "errores_bloqueantes": 2,
+    "objetivos_fundamentales_disponibles": 0,
+    "estado_financiero": "BLOQUEO",
+    "publicable": false,
+    "exit_code": 2,
+    "comparables_elegibles": 7,
+    "total_candidatos": 150
+  },
+  "input_sha256": "3255209f128b7f0b2be34d54abe69e2ceb95fa5dd1c06b191ecaa8d71df991fa"
+}

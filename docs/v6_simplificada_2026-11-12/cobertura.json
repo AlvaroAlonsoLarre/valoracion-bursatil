@@ -1,0 +1,35 @@
+{
+  "schema": "coverage-v1",
+  "expected_sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+  "complete": true,
+  "tickers": [
+    {
+      "ticker": "MSFT",
+      "covered": true,
+      "sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+      "financial_status": "PARCIAL",
+      "input_sha256": "73d75d87fce6b6b27f4dddfea67cbd12dbcede40ed678822d78208cf75a1eb0b"
+    },
+    {
+      "ticker": "000660.KS",
+      "covered": true,
+      "sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+      "financial_status": "PARCIAL",
+      "input_sha256": "b4cac393f2318054345f37815ce23434abcb1cde5bf6b3f82d5d735f81270804"
+    },
+    {
+      "ticker": "JNJ",
+      "covered": true,
+      "sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+      "financial_status": "PARCIAL",
+      "input_sha256": "db77d388ce91edfa713900b9eced0fd629ff63b7c3ff8c489a2b12ae21e28c9b"
+    },
+    {
+      "ticker": "JPM",
+      "covered": true,
+      "sha": "b035a251ccd5302e5d5c5a9fc7fc69435d2b20e0",
+      "financial_status": "PARCIAL",
+      "input_sha256": "1e062bce90f4799a1b201cfbaa8078002cc01b0c83431593e68f93a9f13b5c96"
+    }
+  ]
+}

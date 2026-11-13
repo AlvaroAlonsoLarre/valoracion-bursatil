@@ -15,6 +15,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
 
 
 def safe_records(df,max_rows=100):
@@ -37,63 +38,228 @@ def safe_records(df,max_rows=100):
     return output
 
 
-def run(ticker,outdir,quarters,contact):
+def run(ticker,outdir,quarters,contact,settings=None):
+    configure_runtime()
     import pandas as pd
     ticker=ticker.strip().upper()
     if not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):
         raise ValueError('Ticker Yahoo no válido')
     out=Path(outdir).resolve();out.mkdir(parents=True,exist_ok=True)
-    env=os.environ.copy()
+    env=child_environment()
     env['VALUACION_TICKER']=ticker
     env['VALUACION_NUM_TRIMESTRES']=str(quarters)
+    env['VALUACION_SNAPSHOT_DIR']=str(out)
     if contact:
         env['VALUACION_SEC_USER_AGENT']=f'StockValuationV5/1.0 (contact: {contact})'
+    if settings is not None:
+        from analisis_acciones import validate_settings
+        env['VALUACION_STOCK_SETTINGS']=json.dumps(validate_settings(settings),allow_nan=False)
     start=datetime.now(timezone.utc)
     name=re.sub(r'[^A-Za-z0-9._-]','_',ticker)
     with tempfile.TemporaryDirectory(prefix='valoracionV5_') as temp:
         cmd=[sys.executable,'-u',str(Path(__file__).resolve().with_name('valoracion_engine.py'))]
-        p=subprocess.run(cmd,cwd=temp,env=env,capture_output=True,text=True,errors='replace',timeout=1500)
+        try:
+            p=subprocess.run(cmd,cwd=temp,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=1500)
+        except subprocess.TimeoutExpired as exc:
+            (out/f'{name}_ejecucion.log').write_text('Timeout motor; '+str(exc),encoding='utf-8')
+            return save_failure(ticker,out,'Tiempo máximo del motor excedido',start)
         (out/f'{name}_ejecucion.log').write_text(p.stdout+'\n--- STDERR ---\n'+p.stderr,encoding='utf-8')
         files=list(Path(temp).glob(f'valoracion_completa_{name}*.xlsx'))
         if p.returncode!=0 or not files:
-            raise RuntimeError(f'Error motor ({p.returncode}); revisar {name}_ejecucion.log: '+(p.stderr or p.stdout)[-900:])
+            if 'No se obtuvo histórico anual de SEC EDGAR ni cuenta de resultados anual de Yahoo' in p.stderr:
+                return save_unavailable(ticker,out,start)
+            return save_failure(ticker,out,f'Error motor ({p.returncode}); consultar {name}_ejecucion.log',start)
         src=max(files,key=lambda f:f.stat().st_mtime)
         excel=out/f'valoracion_{name}_{start:%Y%m%dT%H%M%SZ}.xlsx'
         excel.write_bytes(src.read_bytes())
-    sheets=pd.read_excel(excel,sheet_name=None)
-    summary={'schema_version':'v5.0','ticker':ticker,'generado_utc':start.isoformat(),
-             'excel':excel.name,'fuente':'Yahoo Finance + SEC si está disponible'}
-    keep={'General':60,'Control modelo':60,'Actualidad resultados':10,
-          'Referencia comparables':10,'Comparables depurados':25,
-          'Valoracion fundamental':40,'Base TTM y balance':40,
-          'Supuestos fundamentales':90,'Resumen Yahoo SEC':25}
-    for sheet,n in keep.items():
-        if sheet in sheets: summary[sheet]=safe_records(sheets[sheet],n)
-    summary['auditoria']={
-        'comparables_elegibles':int(sheets['Comparables depurados']['Elegible'].sum())
-            if 'Comparables depurados' in sheets and 'Elegible' in sheets['Comparables depurados'] else 0,
-        'total_candidatos':len(sheets.get('Universo comparables',[])),
-        'errores_bloqueantes':sum(x.get('Estado')=='BLOQUEO' for x in summary.get('Control modelo',[])),
-    }
-    (out/f'{name}_resumen.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
+    # Respeta los tipos de las celdas: un CIK o ticker con ceros iniciales es
+    # texto, aunque toda su columna contenga dígitos. No cambia cifras numéricas.
+    sheets=pd.read_excel(excel,sheet_name=None,dtype=object)
+    return save_summary(ticker,out,excel,sheets,start)
+
+
+def save_unavailable(ticker,out,start):
+    """Ausencia de estados no es un error de software ni una cifra cero."""
+    import numpy as np
+    import pandas as pd
+    from flujo_acciones import stock_tables,excel_bytes
+    from auditoria_io import write_snapshot
+    kwargs=dict(price=np.nan,market_cap=np.nan,shares_outstanding=np.nan,financial_currency='',quote_currency='',
+                fx=np.nan,fiscal_end_date=None,as_of=start.date(),ticker=ticker,info={},quarterly=pd.DataFrame(),source='Sin estados SEC/Yahoo disponibles')
+    a=pd.DataFrame();peers=pd.DataFrame();history=pd.DataFrame()
+    _,sheets=stock_tables(a,peers,kwargs,history)
+    path=out/f'{ticker}_inputs.json'
+    write_snapshot(path,a,peers,kwargs,{'Referencia histórica auditada':history},
+                   evidence={'stock_model':{'version':'stock-dashboard-v1','settings':{}}})
+    excel=out/f'valoracion_{ticker}_{start:%Y%m%dT%H%M%SZ}.xlsx';excel.write_bytes(excel_bytes(sheets))
+    return save_summary(ticker,out,excel,sheets,start)
+
+
+def save_failure(ticker,out,message,start):
+    from auditoria_io import provenance
+    payload={'schema_version':'v7.0','ticker':ticker,'generado_utc':start.isoformat(),
+        'provenance':provenance(),'estado_tecnico':'ERROR','detail':message,
+        'auditoria':{'estado_financiero':'BLOQUEO','publicable':False,'exit_code':1}}
+    (out/f'{ticker}_resumen.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8')
+    print(message,file=sys.stderr)
+    return 1
+
+
+def save_summary(ticker,out,excel,sheets,start):
+    import pandas as pd
+    from auditoria_io import assess,provenance
+    summary={'schema_version':'v7.0','ticker':ticker,'generado_utc':start.isoformat(),
+        'excel':excel.name,'fuente':'Yahoo Finance + SEC/IR con cobertura explícita',
+        'provenance':provenance(),'estado_tecnico':'COMPLETADO'}
+    keep=['General','Control modelo','Actualidad resultados','Referencia comparables',
+          'Comparables depurados','Universo comparables','Comparables requisitos','Fuentes comparables','Revision filings','Componentes CAPEX DA','DCF sensibilidad','DCF validacion','Valoracion fundamental','Base TTM y balance',
+          'Supuestos fundamentales','Resumen Yahoo SEC','Registro valoraciones','Escenarios EPS PER',
+          'Escenarios FCF','Estadisticas crecimiento','Parametros riesgo','ROIC TTM capital medio','Fuentes fundamentales','Conciliacion TTM','Pendientes fundamentales','Contraste IR','Extraordinarios IR']
+    if 'Estado metodos' in sheets:
+        summary['schema_version']='stock-dashboard-v1'
+        keep=list(sheets)
+    for sheet in keep:
+        if sheet in sheets:summary[sheet]=safe_records(sheets[sheet],len(sheets[sheet]))
+    summary['auditoria']=assess(sheets)
+    peers=sheets.get('Comparables seleccionados',sheets.get('Comparables depurados'))
+    summary['auditoria']['comparables_elegibles']=int(peers['Elegible'].fillna(False).sum()) if peers is not None and 'Elegible' in peers else 0
+    summary['auditoria']['total_candidatos']=len(sheets.get('Universo comparables',[]))
+    definitions=sheets.get('Comparables requisitos',pd.DataFrame())
+    for method,key in [('PER','definiciones_per_completas'),('EV/EBITDA','definiciones_ev_ebitda_completas')]:
+        summary['auditoria'][key]=int((definitions['Método'].eq(method)&definitions['Definición completa'].eq(True)).sum()) if 'Método' in definitions else 0
+    if peers is not None:
+        for column,key in [('PER TTM verificado','comparables_per_ttm'),('PER NTM verificado','comparables_per_ntm')]:
+            summary['auditoria'][key]=int(pd.to_numeric(peers.get(column,pd.Series(dtype=float)),errors='coerce').notna().sum())
+    snapshot=out/f'{ticker}_inputs.json'
+    if snapshot.exists():
+        import hashlib
+        summary['input_sha256']=hashlib.sha256(snapshot.read_bytes()).hexdigest()
+    (out/f'{ticker}_resumen.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
     print('Excel:',excel)
-    print('Resumen JSON:',out/f'{name}_resumen.json')
+    print('Resumen JSON:',out/f'{ticker}_resumen.json')
     print('Auditoría:',summary['auditoria'])
-    return 0
+    return summary['auditoria']['exit_code']
+
+
+def replay(snapshot,outdir,settings=None):
+    """Reproduce un snapshot propio en JSON; no consulta red ni evalúa código."""
+    import pandas as pd
+    from auditoria_io import read_snapshot,restore_frame,valuation_registry
+    from modelo_fundamental import build_fundamental_model
+    annual,peers,kwargs,payload=read_snapshot(snapshot)
+    if payload.get('evidence',{}).get('stock_model'):
+        return replay_stock(snapshot,outdir,payload,settings)
+    if settings is not None:raise ValueError('Este snapshot antiguo no tiene referencias auditadas del modelo EPS/PER; usar el flujo nuevo')
+    if kwargs.get('share_schedule'):kwargs['share_schedule']={int(k):v for k,v in kwargs['share_schedule'].items()}
+    # Sólo parámetros consumidos por el modelo; el snapshot no modifica rutas, UA ni credenciales.
+    allowed=['TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','RIESGO_PAIS','WACC','BETA','COSTE_DEUDA',
+      'PARAMETROS_MONEDA','ERP_INCLUYE_PAIS','TASA_IMPOSITIVA','CRECIMIENTO_VENTAS',
+      'VAR_CAPITAL_TRABAJO_PCT','CRECIMIENTO_ACCIONES','PAGOS_ACCIONISTAS_SOBRE_VENTAS',
+      'CRECIMIENTO_TERMINAL','EMPRESA_CICLICA','MARGEN_NORMALIZADO','COMPARABLES','MODO_COMPARABLES']
+    keys={'VALUACION_'+key for key in allowed}
+    for key in ['TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','BETA','COSTE_DEUDA']:
+        keys.update('VALUACION_'+key+suffix for suffix in ['_FECHA','_FUENTE','_CADUCIDAD'])
+    previous={k:os.environ.get(k) for k in keys}
+    try:
+        for key in keys:
+            value=payload.get('assumption_environment',{}).get(key)
+            if value is None:os.environ.pop(key,None)
+            else:os.environ[key]=value
+        result=build_fundamental_model(annual,peers,**kwargs)
+        from dcf_audit import audit_dcf
+        sensitivity,validation=audit_dcf(annual,peers,kwargs,result,references=payload.get('evidence',{}).get('risk_references',[]))
+    finally:
+        for key,value in previous.items():
+            if value is None:os.environ.pop(key,None)
+            else:os.environ[key]=value
+    ticker=kwargs['ticker'];out=Path(outdir).resolve();out.mkdir(parents=True,exist_ok=True)
+    historical={k:restore_frame(v) for k,v in payload.get('historical',{}).items()}
+    eps=historical.get('Escenarios EPS PER',pd.DataFrame());fcf=historical.get('Escenarios FCF',pd.DataFrame())
+    registry=valuation_registry(result.valuation,eps,fcf,as_of=kwargs['as_of'],fy_date=kwargs['fiscal_end_date'],
+        ttm_date=result.assumptions.set_index('Supuesto').loc['Fecha base TTM','Valor'],currency=kwargs['quote_currency'],
+        source=kwargs.get('source','N/D'),freshness=(kwargs.get('recent_results_check') or {}).get('status','NO_VERIFICADO'))
+    sheets={'Registro valoraciones':registry,'Valoracion fundamental':result.valuation,'Control modelo':result.checks,
+      'Base TTM y balance':result.base_ttm,'Proyeccion negocio':result.projected,'DCF detalle':result.dcf_detail,
+      'Supuestos fundamentales':result.assumptions,'Comparables depurados':result.peers,
+      'Universo comparables':result.peer_universe,'Referencia comparables':result.peer_reference,
+      'Parametros riesgo':result.risk_parameters,'ROIC TTM capital medio':result.roic_ttm,'Comparables requisitos':result.peer_definitions,'Escenarios EPS PER':eps,'Escenarios FCF':fcf}
+    sheets['Fuentes comparables']=pd.DataFrame(payload.get('evidence',{}).get('peer_sources',[]))
+    from filing_review import components_reconciliation
+    sheets['DCF sensibilidad'],sheets['DCF validacion']=sensitivity,validation
+    sheets['Revision filings']=pd.DataFrame(payload.get('evidence',{}).get('filing_review',[]))
+    sheets['Componentes CAPEX DA']=components_reconciliation(kwargs.get('quarterly'))
+    evidence=payload.get('evidence',{}).get('ir',{})
+    fundamentals=payload.get('evidence',{}).get('official_fundamentals',{})
+    sheets['Fuentes fundamentales']=pd.DataFrame(fundamentals.get('changes',[])).drop(columns=['Componentes'],errors='ignore')
+    from fuentes_fundamentales import ttm_reconciliation
+    sheets['Conciliacion TTM']=ttm_reconciliation(kwargs['quarterly'],annual,kwargs['as_of'],kwargs['fiscal_end_date'])
+    sheets['Pendientes fundamentales']=pd.DataFrame({'Incidencia':fundamentals.get('issues',[])})
+    sheets['Contraste IR']=pd.DataFrame(evidence.get('comparisons',[]))
+    sheets['Extraordinarios IR']=pd.DataFrame(evidence.get('extraordinary',[]))
+    excel=out/f'valoracion_{ticker}_replay.xlsx'
+    with pd.ExcelWriter(excel,engine='openpyxl') as writer:
+        for name,table in sheets.items():table.to_excel(writer,sheet_name=name,index=False)
+    (out/f'{ticker}_inputs.json').write_bytes(Path(snapshot).read_bytes())
+    (out/f'{ticker}_ejecucion.log').write_text('Replay offline del snapshot '+str(Path(snapshot).resolve()),encoding='utf-8')
+    return save_summary(ticker,out,excel,sheets,datetime.now(timezone.utc))
+
+
+def replay_stock(snapshot,outdir,payload,settings=None):
+    from flujo_acciones import analysis_from_snapshot,excel_bytes
+    from analisis_acciones import validate_settings
+    from auditoria_io import clean
+    # Sólo variables financieras conocidas; ni rutas ni credenciales desde el snapshot.
+    names=['WACC','TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','BETA','COSTE_DEUDA','RIESGO_PAIS',
+        'PARAMETROS_MONEDA','ERP_INCLUYE_PAIS','CRECIMIENTO_TERMINAL','CRECIMIENTO_VENTAS','TASA_IMPOSITIVA',
+        'VAR_CAPITAL_TRABAJO_PCT','CRECIMIENTO_ACCIONES','PAGOS_ACCIONISTAS_SOBRE_VENTAS','EMPRESA_CICLICA','MARGEN_NORMALIZADO']
+    keys={'VALUACION_'+n for n in names}
+    for n in ['TIPO_LIBRE_RIESGO','PRIMA_RIESGO_MERCADO','BETA','COSTE_DEUDA']:
+        keys.update('VALUACION_'+n+s for s in ['_FECHA','_FUENTE','_CADUCIDAD'])
+    original={k:os.environ.get(k) for k in keys}
+    try:
+        for k in keys:
+            value=payload.get('assumption_environment',{}).get(k)
+            if value is None:os.environ.pop(k,None)
+            else:os.environ[k]=value
+        result,tables=analysis_from_snapshot(payload,settings)
+    finally:
+        for k,value in original.items():
+            if value is None:os.environ.pop(k,None)
+            else:os.environ[k]=value
+    out=Path(outdir).resolve();out.mkdir(parents=True,exist_ok=True);ticker=result.summary['ticker']
+    excel=out/f'valoracion_{ticker}_replay.xlsx';excel.write_bytes(excel_bytes(tables))
+    if settings is None:(out/f'{ticker}_inputs.json').write_bytes(Path(snapshot).read_bytes())
+    else:
+        payload['evidence']['stock_model']['settings']=validate_settings(settings)
+        (out/f'{ticker}_inputs.json').write_text(json.dumps(clean(payload),ensure_ascii=False,allow_nan=False,indent=2),encoding='utf-8')
+    (out/f'{ticker}_ejecucion.log').write_text('Replay offline stock-dashboard-v1; snapshot '+str(Path(snapshot).resolve()),encoding='utf-8')
+    return save_summary(ticker,out,excel,tables,datetime.now(timezone.utc))
 
 
 def main():
     ap=argparse.ArgumentParser(description='Ejecuta y audita valoración V5')
-    ap.add_argument('--ticker',required=True)
+    ap.add_argument('--ticker')
+    ap.add_argument('--advanced',action='store_true',help='Incluir DCF/EV opcionales, sin bloquear EPS/PER')
+    ap.add_argument('--assumptions',help='Archivo JSON de escenarios y umbrales explícitos')
+    ap.add_argument('--snapshot',help='Reproducir entradas JSON offline (sin --ticker)')
     ap.add_argument('--outdir',default='Resultados')
     ap.add_argument('--num-quarters',type=int,default=12)
     ap.add_argument('--sec-email',default=os.environ.get('SEC_CONTACT_EMAIL',''))
     args=ap.parse_args()
     if args.num_quarters<4 or args.num_quarters>24:
         ap.error('Selecciona de 4 a 24 trimestres')
-    try:return run(args.ticker,args.outdir,args.num_quarters,args.sec_email)
+    if not args.ticker and not args.snapshot:ap.error('Indica --ticker o --snapshot')
+    if args.ticker and args.snapshot:ap.error('Selecciona --ticker o --snapshot, no ambos')
+    settings=json.loads(Path(args.assumptions).read_text(encoding='utf-8')) if args.assumptions else {}
+    if args.advanced:settings['advanced']=True
+    try:return replay(args.snapshot,args.outdir,settings if args.assumptions or args.advanced else None) if args.snapshot else run(args.ticker,args.outdir,args.num_quarters,args.sec_email,settings)
     except Exception as e:
         print(f'FALLO: {type(e).__name__}: {e}',file=sys.stderr)
         return 1
 
-if __name__=='__main__':sys.exit(main())
+if __name__=='__main__':
+    try:
+        configure_runtime()
+        sys.exit(main())
+    except RuntimeConfigurationError as exc:
+        print(str(exc),file=sys.stderr);sys.exit(1)

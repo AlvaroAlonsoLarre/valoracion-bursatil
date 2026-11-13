@@ -1,0 +1,28 @@
+{
+  "tabs": [
+    "Resumen",
+    "Histórico",
+    "Trimestrales",
+    "Comparables",
+    "Valoración",
+    "Datos y auditoría"
+  ],
+  "errors": [],
+  "overflow": {
+    "body": 390,
+    "viewport": 390
+  },
+  "exports": [
+    "export.xlsx",
+    "resultados.json",
+    "inputs.json"
+  ],
+  "viewport_desktop": [
+    1440,
+    1200
+  ],
+  "viewport_mobile": [
+    390,
+    844
+  ]
+}

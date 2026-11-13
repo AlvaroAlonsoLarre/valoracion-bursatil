@@ -1,0 +1,80 @@
+[
+  {
+    "ticker": "AMZN",
+    "base_1y": null,
+    "base_3y": null,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "GOOG",
+    "base_1y": 273.42649376147796,
+    "base_3y": 361.59109157169206,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "GOOGL",
+    "base_1y": 271.78972610759337,
+    "base_3y": 359.426558813818,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "META",
+    "base_1y": 912.5522535478975,
+    "base_3y": 1352.8370900429143,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "MSFT",
+    "base_1y": 696.8406273758014,
+    "base_3y": 940.6814417866705,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "NFLX",
+    "base_1y": 93.86422540907589,
+    "base_3y": 121.7799718969586,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "NVDA",
+    "base_1y": 496.89794956311687,
+    "base_3y": 1159.41109704551,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "000660.KS",
+    "base_1y": null,
+    "base_3y": null,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "JNJ",
+    "base_1y": 234.23030585507968,
+    "base_3y": 282.7386884409116,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "JPM",
+    "base_1y": 290.933370395285,
+    "base_3y": 383.6809889009414,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "MU",
+    "base_1y": 416.8759944447622,
+    "base_3y": 665.5969873366536,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "SNDK",
+    "base_1y": null,
+    "base_3y": null,
+    "sin_cambio_financiero": true
+  },
+  {
+    "ticker": "SPCX",
+    "base_1y": null,
+    "base_3y": null,
+    "sin_cambio_financiero": true
+  }
+]

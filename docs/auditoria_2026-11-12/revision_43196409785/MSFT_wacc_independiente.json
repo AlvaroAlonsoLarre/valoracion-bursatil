@@ -1,0 +1,15 @@
+{
+  "moneda": "USD",
+  "rf_supuesto": 0.04100000000000001,
+  "beta_proveedor": 1.045,
+  "erp_supuesto": 0.055,
+  "ke_recalculado": 0.09847500000000001,
+  "intereses_FY": 3051000000.0,
+  "deuda_media_FY": 41722500000.0,
+  "kd_historico_recalculado": 0.07312601114506562,
+  "equity_market": 3869975511040.0,
+  "deuda_financiera_reciente": 35481000000.0,
+  "tax_normalizado": 0.18231326597827194,
+  "wacc_recalculado": 0.09812358536951071,
+  "nota": "Identidades aritméticas verificadas; no certifica hipótesis prospectivas ni calendario de leases"
+}

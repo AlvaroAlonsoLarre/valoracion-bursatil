@@ -1,0 +1,136 @@
+{
+  "valuation": [],
+  "controls": [
+    {
+      "Comprobación": "Divisas y FX",
+      "Estado": "OK",
+      "Detalle": "KRW→KRW; fuente: mismas monedas; factor de unidad 1.0"
+    },
+    {
+      "Comprobación": "Precio y número acciones",
+      "Estado": "OK",
+      "Detalle": "acciones al cierre, no acciones medias del ejercicio; se valida capitalización"
+    },
+    {
+      "Comprobación": "Capitalización = precio × acciones",
+      "Estado": "OK",
+      "Detalle": "Diferencia 0.0%; split/ADR y acciones a reconciliar"
+    },
+    {
+      "Comprobación": "Cobertura histórica",
+      "Estado": "REVISAR",
+      "Detalle": "4 ejercicios fuente Yahoo Finance (fallback: SEC no disponible para este ticker); sin SEC se usa Yahoo cuando exista"
+    },
+    {
+      "Comprobación": "Publicación posterior a datos trimestrales",
+      "Estado": "NO_VERIFICADO",
+      "Detalle": "Último cierre trimestral Yahoo: 2026-09-30 (43 días); emisor sin CIK SEC: revisar fuentes oficiales del país"
+    },
+    {
+      "Comprobación": "Actualidad trimestral",
+      "Estado": "OK",
+      "Detalle": "Último trimestre 2026-09-30, 43 días hasta fecha valoración; si supera 125 días comprobar nueva publicación"
+    },
+    {
+      "Comprobación": "Puente año fiscal actual",
+      "Estado": "OK",
+      "Detalle": "3 trimestres publicados, ingresos YTD 236,510.03 miles MM"
+    },
+    {
+      "Comprobación": "Base de proyección",
+      "Estado": "OK",
+      "Detalle": "TTM real hasta 2026-09-30"
+    },
+    {
+      "Comprobación": "Beneficio neto TTM extraordinario",
+      "Estado": "OK",
+      "Detalle": "Margen neto TTM=70.2%; no extrapolar de forma automática el EPS"
+    },
+    {
+      "Comprobación": "Deuda neta más reciente",
+      "Estado": "OK",
+      "Detalle": "Fuente: trimestre; 2026-09-30 00:00:00; divisa contable"
+    },
+    {
+      "Comprobación": "Vigencia balance",
+      "Estado": "OK",
+      "Detalle": "Fecha 2026-09-30 00:00:00; límite conservador 400 días, valores antiguos pueden estar obsoletos"
+    },
+    {
+      "Comprobación": "Capex de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "CAPEX TTM / ventas nan% si disponible; referencia anual 26.8%"
+    },
+    {
+      "Comprobación": "Depreciación de periodos recientes",
+      "Estado": "BLOQUEO",
+      "Detalle": "D&A puede incluir «and other» en SEC; verificar en cuentas"
+    },
+    {
+      "Comprobación": "Crecimiento comparable",
+      "Estado": "OK",
+      "Detalle": "Mediana crecimiento FY (sin TTM interanual); nunca TTM / FY"
+    },
+    {
+      "Comprobación": "Remuneración accionistas",
+      "Estado": "OK",
+      "Detalle": "Pagos cash / ventas 1.7%; recompras no se asumen cambio de acciones, crecimiento de acciones editable"
+    },
+    {
+      "Comprobación": "Compensación en acciones",
+      "Estado": "REVISAR",
+      "Detalle": "SBC requiere reconcilación: dilución futura configurada, no hay gasto doble contabilizado"
+    },
+    {
+      "Comprobación": "Margen operativo elevado",
+      "Estado": "REVISAR",
+      "Detalle": "Margen EBIT base 62.8%: evaluar sostenibilidad/ciclo"
+    },
+    {
+      "Comprobación": "Extraordinarios y beneficios",
+      "Estado": "OK",
+      "Detalle": "Ingresos no operativos normalizados 0.5% de ventas; eventos excepcionales no extrapolados"
+    },
+    {
+      "Comprobación": "WACC específico",
+      "Estado": "OK",
+      "Detalle": "16.43%; rf 3.10%; beta 2.47; Ke 16.66%; Kd 4.11%; WACC aproximado CAPM; beta de Yahoo (puede estar desactualizada); intereses último FY / deuda media inicial-final del mismo FY; proxy histórico, no coste prospectivo"
+    },
+    {
+      "Comprobación": "Terminal descontable",
+      "Estado": "OK",
+      "Detalle": "WACC 16.43%, g terminal 2.00%; WACC debe superar g por al menos 1.5pp"
+    },
+    {
+      "Comprobación": "Definición D&A para FCFF",
+      "Estado": "OK",
+      "Detalle": "D&A: D&A consolidada Yahoo; desglose no verificado; agregado no permite DCF/EV-EBITDA"
+    },
+    {
+      "Comprobación": "Perímetro leases",
+      "Estado": "OK",
+      "Detalle": "Deuda que incluye leases requiere FCFF conciliado antes de DCF y EV/EBITDA"
+    },
+    {
+      "Comprobación": "Comparables económicos",
+      "Estado": "REVISAR",
+      "Detalle": "Mediana PER peers nan; EV/EBITDA peers nan; Yahoo propia 2.34072/3.808 solo referencia NO valorativa"
+    },
+    {
+      "Comprobación": "Fuentes externos",
+      "Estado": "OK",
+      "Detalle": "Yahoo/SEC sujetos a retrasos/cambios; sin consenso de analistas, guidance o ajustes especiales"
+    },
+    {
+      "Comprobación": "Integridad para precio objetivo",
+      "Estado": "BLOQUEO",
+      "Detalle": "Todos ingresos, EBIT, CAPEX, D&A, FX, deuda neta, acciones y descuento deben existir"
+    },
+    {
+      "Comprobación": "Ciclo y normalización",
+      "Estado": "REVISAR",
+      "Detalle": "Actividad cíclica: crecimiento converge desde año 1; margen EBIT vuelve hacia 25.4% con el tiempo"
+    }
+  ],
+  "code_ref": "0faccd1d832d985b7817b999a3ee821d9b24d0b6"
+}

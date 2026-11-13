@@ -1,0 +1,47 @@
+{
+  "base_v6": "b50a51d37523d6cef0a2ca1013e5ecfb8ce9ba61",
+  "codigo_financiero_consulta": "c7ea5dfc49b395fa03a3f2f47f3cc2123b084ad0",
+  "codigo_correccion_tipos_y_pruebas": "a3660034a4a9b5a86ce8fb5ac21181e6794a2557",
+  "archivos": {
+    "INFORME.md": {
+      "sha256": "d210d85760423285ba0bbb3446ab0ebbd616a99b8be7cee2dc561a420c28b0d7",
+      "bytes": 11965
+    },
+    "casos_adicionales.json": {
+      "sha256": "86afbf3add7191207c52d720a2709b0f493dbd55acf752f0fdffbfddf7a1f005",
+      "bytes": 1973
+    },
+    "comparacion_archivada.json": {
+      "sha256": "f955ed1f94b74e91428e4edeae1b1c74c94b9574a76e4ed65487d522c7c910ad",
+      "bytes": 1632
+    },
+    "consistencia_verificada.json": {
+      "sha256": "262460218b0b8a4d945aae1ba0fd3b58b18bc391e5f03b85c6b42d2c6d4b9495",
+      "bytes": 2394
+    },
+    "evidencias.zip": {
+      "sha256": "89f0037b671f7dc3854d84436c4af741653e544c1ae98f5f86acfc2ebb24d18c",
+      "bytes": 2723720
+    },
+    "navegador.json": {
+      "sha256": "6291df568fbb68313d64accc5df4b0ff2ce116967148fd3e097ebb4043232cff",
+      "bytes": 845
+    },
+    "resumen.png": {
+      "sha256": "9806d56fd4a4143f6ad6a1104e4e105dbbbf2c12b8bce2a178afb39de5bd6c58",
+      "bytes": 182073
+    },
+    "tests_full.log": {
+      "sha256": "6a428637f92772e1f41c218ed0fa1cb0bea9beaebc6b9b21781ec64972ec928a",
+      "bytes": 1234
+    },
+    "tests_v7.log": {
+      "sha256": "1adb678ee85e10748ca2e67aa00bb58a133ad5f9645cf35df639497e59d40bad",
+      "bytes": 100
+    },
+    "validar_evidencias.py": {
+      "sha256": "e1e48f8714078841611ac0bd9eaca22552c0ae7a978cc4948c142f305a5fce2c",
+      "bytes": 5467
+    }
+  }
+}

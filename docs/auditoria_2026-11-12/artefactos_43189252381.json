@@ -1,0 +1,21 @@
+{
+  "run_id": 43189252381,
+  "sha": "e424b193fef7b7d24b7b3bcc190ba76b48fb7a03",
+  "artifacts": [
+    {
+      "artifact_id": 13929254013,
+      "size": 186929,
+      "sha256": "927b2dc2c1a6f2c1576e8f24cfa69fc0311be8c0981177f781c80d7791073318"
+    },
+    {
+      "artifact_id": 13930560064,
+      "size": 439,
+      "sha256": "7c586f8293f8a345d09c7df6915f345f99f604cf0cdf1efc00eb84d8e545c573"
+    },
+    {
+      "artifact_id": 13930425340,
+      "size": 259193,
+      "sha256": "ef5cc1de43a6828a97e9a1486c15a765f830a641c2f8e89dcfd5f86d3c1cf2a7"
+    }
+  ]
+}

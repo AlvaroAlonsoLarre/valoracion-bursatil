@@ -1,0 +1,4 @@
+2026-11-12T14:38:47.6456129Z 90 passed, 2 warnings in 12.85s
+2026-11-12T14:38:48.5571596Z PASS: TTM, cierre fiscal parcial, deuda reciente, ciclo, peers, FX y bloqueos de calidad
+2026-11-12T14:38:49.0558223Z PASS autodiscovery and relevance tests
+2026-11-12T14:38:49.5844798Z PASS V5: publicación SEC posterior, fecha Yahoo solo alerta, selección única, bloqueo N<3 y JSON válido

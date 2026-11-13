@@ -6,7 +6,7 @@ try {
         Write-Host 'No hay un servidor registrado en esta carpeta.'
         exit 0
     }
-    $saved = Get-Content -LiteralPath $StateFile -Raw | ConvertFrom-Json
+    $saved = Get-Content -LiteralPath $StateFile -Raw -Encoding UTF8 | ConvertFrom-Json
     $expectedAppFile = Join-Path $AppDir 'dashboard_app.py'
     if ($saved.AppFile -ne $expectedAppFile) {
         throw 'Los datos del servidor no corresponden con esta carpeta.'
