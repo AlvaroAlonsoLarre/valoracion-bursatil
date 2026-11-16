@@ -1,0 +1,705 @@
+{
+  "cotizacion": {
+    "Empresa": "Microsoft Corporation",
+    "Ticker": "MSFT",
+    "Precio": 524.6950073242188,
+    "Moneda": "USD",
+    "Fecha precio": "2026-11-16",
+    "PER actual TTM": 27.38491687495923,
+    "PER mediana 5 FY": 35.179752948855565,
+    "Descuento PER (%)": 22.157165473073366,
+    "PER comparables TTM": null,
+    "QoQ neto reciente (%)": 2.4129061119498862,
+    "QoQ neto anterior (%)": 12.549562590471396,
+    "QoQ neto tercero (%)": -17.36959800301627,
+    "QoQ media 5a (%)": 3.525761900898325,
+    "QoQ mediana 5a (%)": 2.1501610572968732,
+    "Cobertura QoQ": "20/20",
+    "EV/EBITDA último FY": null,
+    "EV/EBITDA mediana 5 FY": null,
+    "EV/EBITDA comparables NTM": null,
+    "Últimos resultados": "2026-09-30",
+    "Origen": "SEC EDGAR (CompanyFacts + Inline XBRL), hasta 10 ejercicios",
+    "Advertencias": "Menos de tres comparables válidos homogéneos · Menos de tres comparables válidos homogéneos · V7 no aporta EV/EBITDA FY acreditado: falta puente EV al cierre, perímetro y D&A pura; no se sustituye por Yahoo TTM/NTM · El beneficio neto/EPS TTM reportado contiene resultados de inversiones; PER y QoQ no son beneficios recurrentes normalizados · QoQ del neto reportado, no recurrente; extraordinarios y estacionalidad pueden distorsionar la comparación"
+  },
+  "targets": [
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 449.20937252769926,
+      "Moneda": "USD",
+      "EPS aplicado": 16.878365734262,
+      "Moneda EPS": "USD",
+      "PER aplicado": 26.61450638054566,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": -14.38657386535327,
+      "Rentabilidad anualizada (%)": -14.38657386535327,
+      "Confianza": "Baja",
+      "Estado": "ESTIMADO",
+      "Fecha objetivo": "2027-11-16",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Pesimista",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 544.355125907359,
+      "Moneda": "USD",
+      "EPS aplicado": 20.453324143004394,
+      "Moneda EPS": "USD",
+      "PER aplicado": 26.61450638054566,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 3.746961245810354,
+      "Rentabilidad anualizada (%)": 1.233704229671373,
+      "Confianza": "Baja",
+      "Estado": "ESTIMADO",
+      "Fecha objetivo": "2029-11-16",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Base",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 696.8406273758014,
+      "Moneda": "USD",
+      "EPS aplicado": 19.808002301462164,
+      "Moneda EPS": "USD",
+      "PER aplicado": 35.179752948855565,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 32.80870175027428,
+      "Rentabilidad anualizada (%)": 32.80870175027428,
+      "Confianza": "Baja",
+      "Estado": "ESTIMADO",
+      "Fecha objetivo": "2027-11-16",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Base",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 940.6814417866705,
+      "Moneda": "USD",
+      "EPS aplicado": 26.739285041433806,
+      "Moneda EPS": "USD",
+      "PER aplicado": 35.179752948855565,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 79.28156903642996,
+      "Rentabilidad anualizada (%)": 21.481985516706903,
+      "Confianza": "Baja",
+      "Estado": "ESTIMADO",
+      "Fecha objetivo": "2029-11-16",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Optimista",
+      "Horizonte (años)": 1,
+      "Precio objetivo": 836.3389633234345,
+      "Moneda": "USD",
+      "EPS aplicado": 22.9341255216911,
+      "Moneda EPS": "USD",
+      "PER aplicado": 36.46700906613705,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 1: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 59.395258511893026,
+      "Rentabilidad anualizada (%)": 59.395258511893026,
+      "Confianza": "Baja",
+      "Estado": "ESTIMADO",
+      "Fecha objetivo": "2027-11-16",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    },
+    {
+      "Método": "EPS × PER",
+      "Escenario": "Optimista",
+      "Horizonte (años)": 3,
+      "Precio objetivo": 1240.6922283260599,
+      "Moneda": "USD",
+      "EPS aplicado": 34.02231935380069,
+      "Moneda EPS": "USD",
+      "PER aplicado": 36.46700906613705,
+      "Periodo PER": "TTM",
+      "Periodo EPS": "Año 3: 12 meses hasta horizonte",
+      "Origen PER": "Histórico propio 5 FY, 5 observaciones",
+      "Potencial (%)": 136.4596977305357,
+      "Rentabilidad anualizada (%)": 33.224994206959856,
+      "Confianza": "Baja",
+      "Estado": "ESTIMADO",
+      "Fecha objetivo": "2029-11-16",
+      "Limitación": "Sensibilidad sin probabilidades; sin dividendos, costes ni impuestos personales"
+    }
+  ],
+  "qoq": [
+    {
+      "Cierre": "2021-12-31T00:00:00",
+      "Inicio": "2021-10-01T00:00:00",
+      "Beneficio neto": 18765000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2021-10-01",
+          "end": "2021-12-31",
+          "val": 18765000000,
+          "accn": "0001564590-23-000733",
+          "fy": 2023,
+          "fp": "Q2",
+          "form": "10-Q",
+          "filed": "2023-01-24",
+          "frame": "CY2021Q4",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": -8.485735186539866,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2022-03-31T00:00:00",
+      "Inicio": "2022-01-01T00:00:00",
+      "Beneficio neto": 16728000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2022-01-01",
+          "end": "2022-03-31",
+          "val": 16728000000,
+          "accn": "0000950170-23-014423",
+          "fy": 2023,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2023-04-25",
+          "frame": "CY2022Q1",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": -10.855315747402084,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2022-06-30T00:00:00",
+      "Inicio": "2022-04-01T00:00:00",
+      "Beneficio neto": 16740000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2021-07-01",
+          "end": "2022-06-30",
+          "val": 72738000000,
+          "accn": "0000950170-24-087843",
+          "fy": 2024,
+          "fp": "FY",
+          "form": "10-K",
+          "filed": "2024-07-30",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        },
+        {
+          "start": "2021-07-01",
+          "end": "2022-03-31",
+          "val": 55998000000,
+          "accn": "0000950170-23-014423",
+          "fy": 2023,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2023-04-25",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD",
+          "coefficient": -1
+        }
+      ],
+      "Estado": "SEC diferencia YTD (flujo aditivo)",
+      "QoQ (%)": 0.0717360114777632,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2022-09-30T00:00:00",
+      "Inicio": "2022-07-01T00:00:00",
+      "Beneficio neto": 17556000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2022-07-01",
+          "end": "2022-09-30",
+          "val": 17556000000,
+          "accn": "0000950170-23-054855",
+          "fy": 2024,
+          "fp": "Q1",
+          "form": "10-Q",
+          "filed": "2023-10-24",
+          "frame": "CY2022Q3",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 4.874551971326158,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2022-12-31T00:00:00",
+      "Inicio": "2022-10-01T00:00:00",
+      "Beneficio neto": 16425000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2022-10-01",
+          "end": "2022-12-31",
+          "val": 16425000000,
+          "accn": "0000950170-24-008814",
+          "fy": 2024,
+          "fp": "Q2",
+          "form": "10-Q",
+          "filed": "2024-01-30",
+          "frame": "CY2022Q4",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": -6.44224196855776,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2023-03-31T00:00:00",
+      "Inicio": "2023-01-01T00:00:00",
+      "Beneficio neto": 18299000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2023-01-01",
+          "end": "2023-03-31",
+          "val": 18299000000,
+          "accn": "0000950170-24-048288",
+          "fy": 2024,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2024-04-25",
+          "frame": "CY2023Q1",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 11.409436834094366,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2023-06-30T00:00:00",
+      "Inicio": "2023-04-01T00:00:00",
+      "Beneficio neto": 20081000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2022-07-01",
+          "end": "2023-06-30",
+          "val": 72361000000,
+          "accn": "0000950170-25-100235",
+          "fy": 2025,
+          "fp": "FY",
+          "form": "10-K",
+          "filed": "2025-07-30",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        },
+        {
+          "start": "2022-07-01",
+          "end": "2023-03-31",
+          "val": 52280000000,
+          "accn": "0000950170-24-048288",
+          "fy": 2024,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2024-04-25",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD",
+          "coefficient": -1
+        }
+      ],
+      "Estado": "SEC diferencia YTD (flujo aditivo)",
+      "QoQ (%)": 9.738237062134548,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2023-09-30T00:00:00",
+      "Inicio": "2023-07-01T00:00:00",
+      "Beneficio neto": 22291000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2023-07-01",
+          "end": "2023-09-30",
+          "val": 22291000000,
+          "accn": "0000950170-24-118967",
+          "fy": 2025,
+          "fp": "Q1",
+          "form": "10-Q",
+          "filed": "2024-10-30",
+          "frame": "CY2023Q3",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 11.005428016533036,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2023-12-31T00:00:00",
+      "Inicio": "2023-10-01T00:00:00",
+      "Beneficio neto": 21870000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2023-10-01",
+          "end": "2023-12-31",
+          "val": 21870000000,
+          "accn": "0000950170-25-010491",
+          "fy": 2025,
+          "fp": "Q2",
+          "form": "10-Q",
+          "filed": "2025-01-29",
+          "frame": "CY2023Q4",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": -1.8886546139697646,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2024-03-31T00:00:00",
+      "Inicio": "2024-01-01T00:00:00",
+      "Beneficio neto": 21939000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2024-01-01",
+          "end": "2024-03-31",
+          "val": 21939000000,
+          "accn": "0000950170-25-061046",
+          "fy": 2025,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2025-04-30",
+          "frame": "CY2024Q1",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 0.31550068587105073,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2024-06-30T00:00:00",
+      "Inicio": "2024-04-01T00:00:00",
+      "Beneficio neto": 22036000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2023-07-01",
+          "end": "2024-06-30",
+          "val": 88136000000,
+          "accn": "0001193125-26-323660",
+          "fy": 2026,
+          "fp": "FY",
+          "form": "10-K",
+          "filed": "2026-07-29",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2024-03-31",
+          "val": 66100000000,
+          "accn": "0000950170-25-061046",
+          "fy": 2025,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2025-04-30",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD",
+          "coefficient": -1
+        }
+      ],
+      "Estado": "SEC diferencia YTD (flujo aditivo)",
+      "QoQ (%)": 0.4421350107115085,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2024-09-30T00:00:00",
+      "Inicio": "2024-07-01T00:00:00",
+      "Beneficio neto": 24667000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2024-07-01",
+          "end": "2024-09-30",
+          "val": 24667000000,
+          "accn": "0001193125-25-256321",
+          "fy": 2026,
+          "fp": "Q1",
+          "form": "10-Q",
+          "filed": "2025-10-29",
+          "frame": "CY2024Q3",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 11.939553457977858,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2024-12-31T00:00:00",
+      "Inicio": "2024-10-01T00:00:00",
+      "Beneficio neto": 24108000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2024-10-01",
+          "end": "2024-12-31",
+          "val": 24108000000,
+          "accn": "0001193125-26-027207",
+          "fy": 2026,
+          "fp": "Q2",
+          "form": "10-Q",
+          "filed": "2026-01-28",
+          "frame": "CY2024Q4",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": -2.266185592086589,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2025-03-31T00:00:00",
+      "Inicio": "2025-01-01T00:00:00",
+      "Beneficio neto": 25824000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2025-01-01",
+          "end": "2025-03-31",
+          "val": 25824000000,
+          "accn": "0001193125-26-191507",
+          "fy": 2026,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2026-04-29",
+          "frame": "CY2025Q1",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 7.117969138875058,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2025-06-30T00:00:00",
+      "Inicio": "2025-04-01T00:00:00",
+      "Beneficio neto": 27233000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2024-07-01",
+          "end": "2025-06-30",
+          "val": 101832000000,
+          "accn": "0001193125-26-323660",
+          "fy": 2026,
+          "fp": "FY",
+          "form": "10-K",
+          "filed": "2026-07-29",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        },
+        {
+          "start": "2024-07-01",
+          "end": "2025-03-31",
+          "val": 74599000000,
+          "accn": "0001193125-26-191507",
+          "fy": 2026,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2026-04-29",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD",
+          "coefficient": -1
+        }
+      ],
+      "Estado": "SEC diferencia YTD (flujo aditivo)",
+      "QoQ (%)": 5.456164807930608,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2025-09-30T00:00:00",
+      "Inicio": "2025-07-01T00:00:00",
+      "Beneficio neto": 27747000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2025-07-01",
+          "end": "2025-09-30",
+          "val": 27747000000,
+          "accn": "0001193125-26-436133",
+          "fy": 2027,
+          "fp": "Q1",
+          "form": "10-Q",
+          "filed": "2026-10-28",
+          "frame": "CY2025Q3",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 1.8874160026438602,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2025-12-31T00:00:00",
+      "Inicio": "2025-10-01T00:00:00",
+      "Beneficio neto": 38458000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2025-10-01",
+          "end": "2025-12-31",
+          "val": 38458000000,
+          "accn": "0001193125-26-027207",
+          "fy": 2026,
+          "fp": "Q2",
+          "form": "10-Q",
+          "filed": "2026-01-28",
+          "frame": "CY2025Q4",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 38.602371427541726,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2026-03-31T00:00:00",
+      "Inicio": "2026-01-01T00:00:00",
+      "Beneficio neto": 31778000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2026-01-01",
+          "end": "2026-03-31",
+          "val": 31778000000,
+          "accn": "0001193125-26-191507",
+          "fy": 2026,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2026-04-29",
+          "frame": "CY2026Q1",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": -17.36959800301627,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2026-06-30T00:00:00",
+      "Inicio": "2026-04-01T00:00:00",
+      "Beneficio neto": 35766000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2025-07-01",
+          "end": "2026-06-30",
+          "val": 133749000000,
+          "accn": "0001193125-26-323660",
+          "fy": 2026,
+          "fp": "FY",
+          "form": "10-K",
+          "filed": "2026-07-29",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        },
+        {
+          "start": "2025-07-01",
+          "end": "2026-03-31",
+          "val": 97983000000,
+          "accn": "0001193125-26-191507",
+          "fy": 2026,
+          "fp": "Q3",
+          "form": "10-Q",
+          "filed": "2026-04-29",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD",
+          "coefficient": -1
+        }
+      ],
+      "Estado": "SEC diferencia YTD (flujo aditivo)",
+      "QoQ (%)": 12.549562590471396,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    },
+    {
+      "Cierre": "2026-09-30T00:00:00",
+      "Inicio": "2026-07-01T00:00:00",
+      "Beneficio neto": 36629000000.0,
+      "Fuente": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "SHA256": "3984de9d3a94c6845cb97dd84f5a2d628b196dec39e509f07c4ac9b00d84e4b2",
+      "Componentes": [
+        {
+          "start": "2026-07-01",
+          "end": "2026-09-30",
+          "val": 36629000000,
+          "accn": "0001193125-26-436133",
+          "fy": 2027,
+          "fp": "Q1",
+          "form": "10-Q",
+          "filed": "2026-10-28",
+          "frame": "CY2026Q3",
+          "concept": "us-gaap:NetIncomeLoss",
+          "unit": "USD"
+        }
+      ],
+      "Estado": "SEC directo",
+      "QoQ (%)": 2.4129061119498862,
+      "Motivo QoQ": "Beneficio neto reportado; no ajustado por extraordinarios; no anualizado"
+    }
+  ],
+  "error": null,
+  "actualizado_epoch": 1794839859.2494354
+}

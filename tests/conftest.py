@@ -5,6 +5,10 @@ import pandas as pd
 import pytest
 from modelo_fundamental import build_fundamental_model
 
+@pytest.fixture(autouse=True)
+def isolate_watchlist(tmp_path,monkeypatch):
+    monkeypatch.setenv('VALUACION_WATCHLIST_DIR',str(tmp_path/'seguimiento'))
+
 @pytest.fixture
 def model_inputs():
     annual=pd.DataFrame({

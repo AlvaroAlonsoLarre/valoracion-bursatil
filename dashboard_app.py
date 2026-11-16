@@ -1,4 +1,4 @@
-"""Dashboard fundamental: seis pestañas, una proyección principal y fuentes auditables.
+"""Dashboard fundamental: seguimiento, seis apartados de análisis y fuentes auditables.
 
 Ejecutar: streamlit run dashboard_app.py. Recalcular supuestos no consulta red.
 """
@@ -22,6 +22,10 @@ from flujo_acciones import analysis_from_snapshot,excel_bytes,tables_summary
 from estado_dashboard import prepare_capture,default_capture,per_settings,edited_settings,model_fingerprint
 from grafico_cotizacion import render as render_price_chart
 from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
+from seguimiento_ui import consume_open,render as render_watch
+from seguimiento_servicio import load_v7_capture as load_capture
+
+TAB_NAMES=['Mi seguimiento','Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría']
 
 ROOT=Path(__file__).resolve().parent
 st.set_page_config(page_title='Fundamental · Acciones',page_icon='◈',layout='wide')
@@ -70,19 +74,9 @@ def calculate(payload_json,settings_json):
     return cached_calculate(payload_json,settings_json,model_fingerprint(ROOT))
 
 
-def load_capture(ticker,quarters,contact):
-    if not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):raise ValueError('Ticker no válido')
-    if contact and not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',contact):raise ValueError('Contacto SEC no válido')
-    with tempfile.TemporaryDirectory(prefix='fundamental_ui_') as folder:
-        env=child_environment()
-        if contact:env['SEC_CONTACT_EMAIL']=contact
-        args=[sys.executable,str(ROOT/'ejecutar_analisis.py'),'--ticker',ticker,'--num-quarters',str(quarters),'--outdir',folder]
-        proc=subprocess.run(args,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=1500)
-        snapshot=Path(folder)/(ticker+'_inputs.json')
-        if proc.returncode not in (0,2) or not snapshot.exists():raise RuntimeError((proc.stderr or proc.stdout)[-1800:])
-        return snapshot.read_text(encoding='utf-8')
 
 
+consume_open()
 with st.sidebar:
     st.markdown('### ◈ Fundamental')
     st.caption('V7 integrada · motor financiero original')
@@ -133,8 +127,9 @@ st.markdown('<div class="overline">ANÁLISIS FUNDAMENTAL / RENTA VARIABLE</div>'
 if 'capture' not in st.session_state:
     st.title('Del negocio al precio por acción')
     st.write('Consulta un ticker para analizar sus resultados, comparar valoraciones y explorar escenarios a uno y tres años.')
-    tabs=st.tabs(['Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría'])
-    with tabs[0]:st.info('Elige una empresa en el panel lateral. También puedes importar una captura auditada para trabajar sin red.')
+    tabs=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
+    with tabs[0]:render_watch(load_capture)
+    with tabs[1]:st.info('Elige una empresa en el panel lateral. También puedes importar una captura auditada para trabajar sin red.')
     st.stop()
 
 raw=st.session_state['capture'];payload=json.loads(raw);capture_id=hashlib.sha256(raw.encode()).hexdigest()[:12]
@@ -142,14 +137,21 @@ try:
     result,tables=calculate(raw,st.session_state.get('settings','{}'))
     defaults,_=calculate(raw,'{}')
 except (ValueError,KeyError,TypeError) as exc:
-    st.error('La captura no permite completar el análisis: '+str(exc));st.stop()
+    st.error('La captura no permite completar el análisis: '+str(exc))
+    tabs=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
+    with tabs[0]:render_watch(load_capture)
+    st.stop()
 s=result.summary;info=payload['kwargs'].get('info') or {};currency=s['currency']
-st.title(str(info.get('longName') or s['ticker']))
-st.caption(f"{s['ticker']}  ·  {currency}  ·  Corte {s['as_of']} / cotización {s.get('quote_date') or 'sin fecha'}  ·  Histórico {s['source']}")
-st.caption(st.session_state.get('capture_note','Captura financiera auditada.'))
-st.markdown(f'<span class="status">ESCENARIOS CONDICIONALES · CONFIANZA {html.escape(s["confidence"].upper())}</span>',unsafe_allow_html=True)
+st.title('Mi seguimiento' if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento' else str(info.get('longName') or s['ticker']))
+if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento':
+    st.caption('Lista personal persistente · cada empresa conserva sus propias fechas, moneda y auditoría. Actualización bajo demanda, sin descargas al ordenar.')
+else:
+    st.caption(f"{s['ticker']}  ·  {currency}  ·  Corte {s['as_of']} / cotización {s.get('quote_date') or 'sin fecha'}  ·  Histórico {s['source']}")
+    st.caption(st.session_state.get('capture_note','Captura financiera auditada.'))
+    st.markdown(f'<span class="status">ESCENARIOS CONDICIONALES · CONFIANZA {html.escape(s["confidence"].upper())}</span>',unsafe_allow_html=True)
 
-resumen,historico,trimestrales,comparables,valoracion,auditoria=st.tabs(['Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría'])
+seguimiento,resumen,historico,trimestrales,comparables,valoracion,auditoria=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
+with seguimiento:render_watch(load_capture,payload,result.settings)
 with resumen:
     cols=st.columns(4)
     cols[0].metric(f'Precio actual · {currency}',fmt(s['price']),help='Precio observado en la captura; revisar su fecha y consultar fuentes para actualizar.')

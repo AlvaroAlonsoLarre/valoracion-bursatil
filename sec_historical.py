@@ -65,6 +65,11 @@ def _headers(user_agent: str) -> dict[str, str]:
 
 
 def _get_json(url: str, user_agent: str) -> dict:
+    from seguimiento_fuentes import cached_sec
+    return cached_sec(url,lambda:_download_json(url,user_agent))
+
+
+def _download_json(url: str, user_agent: str) -> dict:
     try:
         response = requests.get(url, headers=_headers(user_agent), timeout=60)
         response.raise_for_status()

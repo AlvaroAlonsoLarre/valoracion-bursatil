@@ -61,6 +61,9 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import yfinance as yf
+if os.environ.get('VALUACION_SOURCE_CACHE'):
+    from seguimiento_fuentes import CachedYahoo
+    yf=CachedYahoo(yf,os.environ['VALUACION_SOURCE_CACHE'],TICKER,os.environ.get('VALUACION_SOURCE_FORCE')=='1')
 from sec_historical import download_sec_annual_history
 from modelo_fundamental import build_fundamental_model, fx_rate
 from comparables_inteligentes import selected_candidates, discover_candidates, score_and_filter, economic_seeds

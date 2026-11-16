@@ -8,9 +8,11 @@ python -m venv .venv
 .venv/bin/streamlit run dashboard_app.py
 ```
 
-En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real. [Informe V7, pruebas y captura de pantalla](docs/v7_integrada_2026-11-13/INFORME.md).
+En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El análisis individual conserva seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real. [Informe V7, pruebas y captura de pantalla](docs/v7_integrada_2026-11-13/INFORME.md).
 
 La distribución estable es `main`: [descarga el ZIP sin Git](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/main.zip), extrae todo y abre `iniciar_dashboard.bat` con Python 3.12 x64 instalado. El lanzador prepara `.venv`, comprueba las dependencias fijadas y configura UTF-8/HTTPS, sin descargar ni parchear el código. [Consolidación Windows y validación financiera](docs/consolidacion_v7_2026-11-13/INFORME.md).
+
+**[Mi seguimiento](SEGUIMIENTO.md)** es la primera pestaña: lista persistente, búsqueda de empresas por nombre/ticker, métricas V7, QoQ fiscal y actualización bajo demanda con caché. Conserva los seis apartados del análisis individual y sus controles. [Validación y captura](docs/seguimiento_2026-11-16/INFORME.md).
 
 ## Modelo principal
 

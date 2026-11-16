@@ -258,7 +258,7 @@ def test_dashboard_has_six_tabs_exports_and_recalculates_policy(tmp_path,stock_i
     monkeypatch.setenv('VALUACION_DASHBOARD_SNAPSHOT',str(path))
     at=AppTest.from_file(Path(__file__).resolve().parents[1]/'dashboard_app.py').run(timeout=40)
     assert not at.exception
-    assert [t.label for t in at.tabs]==['Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría']
+    assert [t.label for t in at.tabs]==['Mi seguimiento','Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría']
     assert len(at.metric)==4 and at.metric[0].value=='100.00'
     # Retorno exigido afecta al valor razonable descontado, no al precio futuro EPS/PER.
     before=at.metric[1].value

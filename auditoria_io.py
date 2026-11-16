@@ -54,7 +54,7 @@ def write_snapshot(path,annual,peers,kwargs,historical=None,evidence=None):
     payload={'schema':'audit-inputs-v1','frames':{k:frame_payload(v) for k,v in frames.items()},
        'kwargs':clean(scalar),'historical':{k:frame_payload(v) for k,v in (historical or {}).items()},
        'provenance':provenance(),'evidence':clean(evidence or {}),
-       'assumption_environment':{k:v for k,v in os.environ.items() if k.startswith('VALUACION_') and not any(x in k for x in ['USER_AGENT','EMAIL','TOKEN','SECRET','PASSWORD','KEY','SNAPSHOT','TICKER','NUM_TRIMESTRES'])}}
+       'assumption_environment':{k:v for k,v in os.environ.items() if k.startswith('VALUACION_') and not any(x in k for x in ['USER_AGENT','EMAIL','TOKEN','SECRET','PASSWORD','KEY','SNAPSHOT','TICKER','NUM_TRIMESTRES','SOURCE_CACHE','SOURCE_FORCE','WATCHLIST_DIR'])}}
     # Environment values are evidence, never instructions for the replay process.
     encoded=json.dumps(payload,ensure_ascii=False,allow_nan=False,sort_keys=True,indent=2).encode()
     Path(path).write_bytes(encoded)
