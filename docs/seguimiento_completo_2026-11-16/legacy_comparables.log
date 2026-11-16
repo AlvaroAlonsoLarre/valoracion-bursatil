@@ -1,0 +1,20 @@
+
+ MSFT median 21.0 12.0
+Ticker  Puntuación económica (0-100)  Similitud de actividad (0-100)  Elegible  PER admisible
+  ORCL                          80.5                            62.9      True           True
+   SAP                          38.5                            19.9      True           True
+   CRM                          37.2                            19.6      True           True
+   IBM                          29.4                            32.6      True           True
+  CRWD                          29.7                             7.4     False          False
+  PANW                          20.9                             4.9     False          False
+   NET                          19.0                             3.1     False          False
+
+ 000660.KS median 9.0 12.0
+   Ticker  Puntuación económica (0-100)  Similitud de actividad (0-100)  Elegible  PER admisible
+       MU                          80.4                            74.4      True           True
+005930.KS                          60.5                            40.7      True           True
+  2408.TW                          60.4                            33.0      True           True
+000990.KS                          23.0                             5.4     False          False
+036540.KQ                          18.6                             7.0     False          False
+Discovered: ['005930.KS', '000990.KS', 'MU', 'INTC', 'NVDA', '2408.TW', '2344.TW', '285A.T', 'WDC', 'AVGO', 'AMD'] errors []
+PASS autodiscovery and relevance tests

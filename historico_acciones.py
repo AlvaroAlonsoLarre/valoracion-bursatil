@@ -10,6 +10,16 @@ def number(value):
     except (TypeError,ValueError):return np.nan
 
 
+def enterprise_multiple(capitalization,net_debt,ebitda):
+    """Fórmula histórica V7: EV = capitalización + deuda neta; EV / EBITDA.
+
+    La validación del periodo, moneda y composición se mantiene en cada caller.
+    """
+    cap=number(capitalization);debt=number(net_debt);flow=number(ebitda)
+    ev=cap+debt if np.isfinite(cap) and np.isfinite(debt) else np.nan
+    return ev,ev/flow if np.isfinite(ev) and np.isfinite(flow) and flow!=0 else np.nan
+
+
 def historical_multiples(annual,prices,financial_currency,quote_currency,as_of,*,is_adr=False):
     """Close de Yahoo está ajustado por splits, no por dividendos.
 

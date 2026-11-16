@@ -1,49 +1,61 @@
 # Mi seguimiento
 
-La primera pestaña del dashboard conserva una lista de acciones y sus últimas capturas V7. Las seis pestañas anteriores y sus exportaciones siguen disponibles.
+La primera pestaña guarda una lista de empresas y sus capturas completas del **mismo motor V7**. Las seis pestañas del análisis individual siguen disponibles. El gráfico principal de cotización y escenarios se encuentra aquí, encima de la tabla; Resumen conserva valoraciones y controles.
 
 ## Uso
 
-1. Escribe parte del nombre o el ticker en **Buscar empresa o ticker**. La búsqueda Yahoo admite coincidencia aproximada y ordena las coincidencias por nombre/ticker. Selecciona la compañía y comprueba su bolsa antes de **Añadir empresa confirmada**. No se agregan ETF ni duplicados.
-2. La primera consulta puede tardar porque ejecuta el mismo motor V7. Desmarca **Descargar datos al añadir** si sólo quieres preparar la lista.
-3. También puedes **Guardar empresa y ajustes del análisis abierto** para añadir una captura sin red, incluidos PER manual y supuestos personalizados. Se conserva la fecha original de sus datos; guardar no los convierte en datos de hoy.
-4. Ordena por las cabeceras, desplázate horizontalmente y elige las columnas que quieres ver. La selección de columnas se guarda automáticamente. Seleccionar una fila abre su captura en **Resumen**, restaurando sus ajustes.
-5. Usa **Actualizar empresa** o **Actualizar todas**. Los datos con caché vigente se reutilizan. **Forzar todas las fuentes** ignora las caducidades y puede realizar muchas consultas: úsalo sólo cuando sea necesario confirmar una publicación o revisar un fallo.
-6. Consulta los desplegables de detalle para ver periodos, fuentes, componentes SEC, cobertura, mediana/N de comparables y motivos de exclusión. **Eliminar empresa** la retira de la lista y elimina su captura guardada; la caché pública de fuentes puede permanecer.
+1. Busca por nombre, parte del nombre o ticker; Yahoo admite búsqueda aproximada. Confirma **nombre, ticker y bolsa** antes de añadir. No se agregan ETF ni duplicados.
+2. **Añadir empresa confirmada** ejecuta automáticamente el análisis V7 completo, con progreso, fuentes, históricos, comparables y escenarios. Puede tardar. Las insuficiencias financieras mantienen sus controles y permiten conservar los datos parciales utilizables.
+3. También puedes **Guardar empresa y ajustes del análisis abierto** para incorporar una captura sin red. Guardarla no convierte sus datos antiguos en datos de hoy.
+4. Selecciona la **Empresa del gráfico** o la **Empresa guardada** de la barra lateral para recuperar captura y supuestos inmediatamente. Elegir una fila de la tabla abre Resumen con esa empresa, también después de ordenar. Los cambios de PER, crecimiento y márgenes de empresas guardadas se conservan al aplicar el formulario.
+5. El gráfico reutiliza `grafico_cotizacion.py`: histórico de 1 semana/4 meses/1 año, previsión ninguna/1 mes/4 meses/1 año/3 años. Los extremos anuales proceden de EPS × PER; las trayectorias intermedias son interpolaciones ilustrativas. Sin objetivos válidos sólo muestra el histórico y su limitación. Cada empresa conserva su moneda y controles de gráfico.
+6. Ordena numéricamente por las cabeceras, desplázate horizontalmente y elige columnas. Las ausencias se muestran como **—**. Verde/+ significa PER TTM inferior a la mediana FY; rojo/−, superior. No es una señal de compra.
+7. **Actualizar empresa/todas** utiliza la actualización incremental. **Forzar actualización completa** reconsulta todas las fuentes de la empresa elegida, conservando los supuestos. **Eliminar empresa** borra su fila/captura, sin borrar la caché pública de fuentes.
+8. **Importar / exportar copia de seguimiento** guarda lista, capturas, ajustes y columnas en JSON. Importar no descarga; valida antes de guardar y reemplaza las capturas de los mismos tickers. Exporta antes si quieres conservar ambas versiones. Admite las exportaciones antiguas de la lista.
 
-Cambiar pestañas, ordenar o modificar las columnas no descarga estados. Si falla una actualización se conserva la última captura y aparece **Desactualizado**, con el error y la fecha de la última actualización válida. Una empresa sin ninguna captura conserva también el diagnóstico del primer fallo.
+Seleccionar empresas, pestañas, periodos gráficos, columnas u ordenación no realiza consultas de red. Excel, JSON de resultados y captura reproducible del análisis activo siguen en Datos y auditoría.
 
-## Qué significan las columnas
+## Métricas y periodos
 
-- **PER actual TTM**: el que ya calcula la tabla de disponibilidad de V7 sobre EPS diluido TTM y la base de cotización/ADR/FX admitida. No se sustituye por PER forward ni por el `trailingPE` sin validar de Yahoo. Es EPS reportado, no necesariamente recurrente; las ganancias de inversiones identificadas se advierten.
-- **PER mediana 5 FY**: estadística de V7, excluyendo observaciones rechazadas por su auditoría de base por acción, extraordinarios, pérdidas, fiscalidad, ciclo o cambio de régimen. Se muestra su cobertura; menos de tres FY limpios no se convierte en referencia automática suficiente.
-- **Descuento PER (%)**: `(mediana FY − PER TTM) / mediana FY × 100`, sólo con ambos múltiplos positivos disponibles. Verde y signo `+` si el TTM es menor; rojo y signo `−` si es mayor. Contrasta FY con TTM de forma explícita: no es una rentabilidad esperada ni una señal de compra. Los extraordinarios del TTM pueden distorsionarlo.
-- **PER comparables TTM**: media sobre al menos tres emisores únicos económicamente elegibles, con TTM y moneda compatibles y evidencia aprobada por V7. No se completa el número con empresas rechazadas ni con NTM. El detalle presenta por separado el PER NTM, la mediana, N y advertencias. Se rechazan cohortes/perímetros mezclados y dispersión excesiva.
-- **QoQ neto**: neto reportado de un trimestre fiscal frente al inmediatamente anterior. Se exige cadencia de 70–105 días y continuidad de los componentes oficiales, sin periodos artificiales de cuatro meses. No hay porcentaje si falta un dato, existe conflicto o el denominador es cero/negativo. Una caída desde beneficio a pérdida sí conserva su porcentaje y contexto.
-- **Histórico QoQ 5 años**: hasta 20 variaciones de los cinco años que terminan en el último cierre disponible. Puede necesitar un cierre anterior adicional. Se intenta completar con CompanyFacts SEC y el reconstructor YTD aditivo existente: Q2 = 6m−3m, Q3 = 9m−6m y Q4 = FY−9m, con mismo inicio fiscal, unidad/concepto y componentes publicados antes del corte. No se diferencia EPS ni medias de acciones. Las discrepancias SEC–captura invalidan ese dato. Se muestran media, mediana y variaciones válidas/20; no se inventan trimestres si Yahoo/SEC no los aportan. Son cambios del beneficio reportado, sensibles a estacionalidad y extraordinarios, no una previsión recurrente.
-- **EV/EBITDA FY**: las columnas de último FY y mediana 5 FY permanecen no disponibles cuando V7 no acredita el puente EV al cierre, D&A consolidada pura y el perímetro histórico. Actualmente las capturas V7 no exportan ese múltiplo FY auditado: esta extensión no fabrica un cálculo nuevo ni convierte el EV/EBITDA aproximado del Excel heredado en dato validado.
-- **EV/EBITDA comparables NTM**: sólo referencias que V7 ya considera admisibles, en una cohorte homogénea. Nunca se presenta esa media NTM como si fuese FY o TTM. Se detallan mediana, N, fechas y perímetro; puede no haber suficientes comparables.
+- **PER actual TTM**: EPS diluido reportado y base de cotización/acciones/ADR/FX admitida por V7; no se sustituye por `trailingPE` sin validar. Los resultados extraordinarios detectados, incluidas inversiones, siguen advertidos.
+- **PER mediana 5 FY**: referencia depurada existente de V7. Excluye observaciones rechazadas por beneficios atípicos, pérdidas, fiscalidad, ciclo, régimen y base por acción. Menos de tres FY limpios no se convierte en referencia automática suficiente.
+- **Descuento PER (%)**: `(mediana FY − PER TTM) / mediana FY × 100`, con ambos positivos. Contrasta explícitamente periodos diferentes; no equivale a rentabilidad prevista.
+- **QoQ neto**: beneficio reportado de trimestres fiscales contiguos de 70–105 días. Sin porcentajes con denominador nulo/negativo, sin puentear ausencias o conflictos SEC–captura. Una caída desde beneficio a pérdida sí conserva el porcentaje y contexto.
+- **Histórico QoQ 5 años**: hasta 20 variaciones, con un cierre predecesor adicional cuando está disponible. Se reutiliza el reconstructor SEC YTD: Q2 = 6m−3m, Q3 = 9m−6m, Q4 = FY−9m, con mismo inicio, concepto/unidad y fecha de publicación admisible. Se guardan componentes y evidencias para recuperar la cobertura sin red. Las capturas antiguas sin el predecesor pueden recuperar sólo 19 variaciones de 20 cierres. Media, mediana y cobertura no son una previsión recurrente: influyen estacionalidad y extraordinarios.
+- **EV/EBITDA Yahoo**: `enterpriseToEbitda` sin reconciliar, separado del FY, con cierre `mostRecentQuarter` si el proveedor lo aporta. Si no lo aporta, el periodo se declara desconocido; nunca se rebautiza como NTM.
+- **EV/EBITDA último FY / mediana 5 FY**: usa la fórmula compartida V7 `EV = capitalización + deuda − efectivo`, dividida por EBIT + D&A del FY. Precio observado al cierre (hasta 7 días anteriores), acciones en base split coherente, deuda/efectivo del ejercicio. Prefiere acciones instantáneas SEC; si sólo hay medias diluidas las identifica como aproximación. Conserva ese subconjunto oficial en la captura para importación y edición de ajustes. Usa D&A pura validada cuando existe; D&A consolidada reportada sin conciliación completa reduce la confianza. No utiliza D&A que mezcle otros ajustes. La mediana no mezcla perímetros de arrendamientos distintos. Sin FX histórico, puente ADR/clases, deuda, efectivo o EBITDA positivo admisible, muestra ausencia y motivo. No sustituye deuda ausente por cero. Los cálculos son **aproximados, confianza baja**, o **contrastados, confianza media y no auditados**, según componentes; no se usan para modificar objetivos.
 
-Una celda ausente no es cero. Precio, moneda, fecha de cotización, último cierre financiero, origen, estado y advertencias acompañan a las métricas.
+## Dos niveles de comparables
 
-## Persistencia y rendimiento
+**A — Validados:** controles económicos y financieros originales V7 para valoración. PER TTM y NTM separados; EV/EBITDA NTM con cohorte, periodo, divisa y perímetro homogéneos. Medias sólo con al menos tres emisores únicos admisibles, sin dispersión excesiva; detalle con mediana, N, fuentes y exclusiones.
 
-La lista, preferencias, últimas capturas válidas, diagnósticos y caché se guardan en una base SQLite local con transacciones y JSON, sin `pickle`. Por defecto se usa la carpeta de datos del usuario `ValoracionBursatil/seguimiento` (Windows: dentro de `%LOCALAPPDATA%`). La pestaña muestra la ruta exacta. Sobrevive al cierre de Streamlit y a las actualizaciones del código. La lista está vacía al instalar; las empresas de las capturas de documentación son ejemplos, no se incorporan automáticamente.
+**B — Informativos:** hasta seis candidatos relacionados por actividad/industria/sector del universo económico ya descubierto. Muestra `trailingPE`, `forwardPE` y `enterpriseToEbitda` Yahoo en series distintas. Forward Yahoo no acredita por sí solo NTM. Medias y medianas descriptivas con N visible, incluso N=1, sólo valores positivos de misma moneda de cotización y financiera. Las discrepancias de divisa se excluyen de las medias, aunque el candidato siga visible. Sus periodos/beneficios/perímetros **no están conciliados** y la confianza es baja. Nunca entran en precios objetivo. Consulta candidatos y motivo por el que no cumplen A.
 
-Caducidades:
+## Actualización, fallos y persistencia
 
-| Fuente/componente | Caducidad |
-|---|---:|
-| Cotizaciones y fast_info | 15 minutos |
-| Búsquedas y submissions SEC | 1 hora |
-| Estados del objetivo y CompanyFacts SEC | 24 horas |
-| Estados/información de comparables | 72 horas |
-| Histórico de precios y directorio de tickers SEC | 7 días |
+El encabezado muestra la actualización de la tabla y la última **consulta** de cotización en la zona del navegador, manteniendo timestamps UTC. Cada fila conserva la fecha del precio y de resultados. Una consulta reciente no convierte un último cierre en tiempo real. Hay un contador visible de datos pendientes, antiguos o parciales.
 
-Los fallos y respuestas financieras vacías no se guardan como descargas válidas. La actualización completa sólo se ejecuta si no hay captura, caducan los estados o se fuerza; en otro caso se actualiza la cotización y se reutilizan estados y referencias. El adaptador de fuentes sólo se activa en esta ruta; los análisis V7 habituales conservan su comportamiento. Los logs de consultas están en `logs/TICKER.log` dentro de la carpeta de seguimiento.
+| Componente | Política |
+|---|---|
+| Cotización | 15 min en sesión conocida; 1 h fuera de sesión; hasta 6 h en fin de semana; caducidad recortada ante próxima apertura |
+| Búsqueda y submissions SEC | 1 h |
+| Estados y CompanyFacts SEC | 24 h |
+| Evidencia financiera de comparables A | 72 h |
+| Perfil/ratios Yahoo del objetivo y comparables B | 1 h |
+| Histórico completo/directorio SEC | 7 días; cierres recientes incorporados incrementalmente |
 
-Para una copia de seguridad cierra el servidor y copia la carpeta completa; también puedes descargar **Exportar lista y capturas de seguimiento** para inspección/archivo JSON. Para elegir otra ubicación configura `VALUACION_WATCHLIST_DIR` antes de arrancar (opcional, no necesario para el uso normal).
+Los horarios de sesión son orientativos (Nueva York, Seúl, Londres); no se incorpora un calendario de festivos. Otros mercados usan 15 min.
 
-La lista es local al usuario del sistema que ejecuta Streamlit. En un servidor compartido se comparte la lista de esa instalación: utiliza una instancia propia para datos personales; no se añade un sistema de usuarios/autenticación. En Streamlit Cloud la durabilidad del disco depende del alojamiento: exporta tu copia antes de reinicios/recreaciones del contenedor.
+Se compara accession/fecha/formulario y contenido de CompanyFacts; sin SEC, contenido de los estados Yahoo. Una revisión del mismo FY puede renovar el análisis. Sin cambios se reutilizan estados y evaluación económica de candidatos. El histórico incorpora los cierres recientes ya consultados con el precio o descarga sólo el tramo faltante con solape; elimina duplicados y aplica correcciones. Un split detectado exige serie completa coherente y revalidación. Forzar evita las cachés de fuentes.
 
-Se conservan las correcciones [Windows UTF-8 y HTTPS](WINDOWS.md). No hay dependencias nuevas ni instaladores por parches.
+La sección **Actualización incremental** muestra componentes consultados/reutilizados y errores. Si falla una fuente se conserva el dato anterior con advertencia; un análisis parcial puede actualizar componentes válidos, conservando también la captura previa sin incidencias para descarga. Un fallo terminal no sustituye la última captura. Las respuestas financieras vacías no se almacenan como descargas válidas. Una empresa sin datos no impide abrir el resto.
+
+Una sola base SQLite transaccional guarda lista, preferencias, capturas y caché en el perfil del sistema (`%LOCALAPPDATA%\ValoracionBursatil\seguimiento` en Windows). La pestaña muestra la ruta. Sobrevive a reinicios y cambios de carpeta del código. La lista inicial está vacía; las capturas documentadas son ejemplos. Puede configurarse `VALUACION_WATCHLIST_DIR` opcionalmente. Para respaldo completo, cierra Streamlit y copia esa carpeta, o exporta la lista con capturas.
+
+En servidores compartidos la lista es de la instalación, sin aislamiento por usuario web. En alojamientos con disco efímero exporta antes de recrear el contenedor.
+
+## Windows 11 sin Git
+
+Mientras la PR #3 esté pendiente de tu revisión, [descarga el ZIP de esta rama](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/feat/mi-seguimiento.zip), extrae **todo** en una carpeta nueva y haz doble clic en `iniciar_dashboard.bat` (Python 3.12). Se abre el navegador y se reutiliza la lista guardada del perfil. No hace falta modificar ni borrar la instalación anterior. La primera ejecución instala dependencias fijadas y necesita Internet. [Detalles UTF-8, HTTPS y rutas Unicode](WINDOWS.md).
+
+[Informe, pruebas, captura y limitaciones de esta ampliación](docs/seguimiento_completo_2026-11-16/INFORME.md). La ejecución interactiva documentada es en la nube, no en el ordenador personal del usuario; la PR queda abierta para su comprobación.

@@ -20,9 +20,11 @@ from analisis_acciones import SCENARIOS,DEFAULT_POLICY,evaluate_position,validat
 from auditoria_io import clean,provenance
 from flujo_acciones import analysis_from_snapshot,excel_bytes,tables_summary
 from estado_dashboard import prepare_capture,default_capture,per_settings,edited_settings,model_fingerprint
-from grafico_cotizacion import render as render_price_chart
+from grafico_cotizacion import chart_data
 from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
-from seguimiento_ui import consume_open,render as render_watch
+from seguimiento_ui import consume_open,render as render_watch,saved_selector,store_for
+from seguimiento_store import storage_path
+from seguimiento_servicio import Service
 from seguimiento_servicio import load_v7_capture as load_capture
 
 TAB_NAMES=['Mi seguimiento','Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría']
@@ -80,6 +82,7 @@ consume_open()
 with st.sidebar:
     st.markdown('### ◈ Fundamental')
     st.caption('V7 integrada · motor financiero original')
+    saved_selector()
     st.divider()
     with st.form('company'):
         ticker=st.text_input('Ticker',value=st.session_state.get('selected_ticker','MSFT'),help='EE. UU.: MSFT, JNJ, JPM. También admite 000660.KS y otras bolsas.').strip().upper()
@@ -114,7 +117,10 @@ if uploaded is not None:
         except (ValueError,UnicodeDecodeError) as exc:st.session_state['capture_error']=str(exc)
 if 'capture' not in st.session_state:
     try:
-        text_capture=default_capture(ROOT,os.environ.get('VALUACION_DASHBOARD_SNAPSHOT'))
+        saved_store=store_for(str(storage_path()))
+        saved_entries=[e for e in saved_store.entries() if e['payload']]
+        remembered=next((e for e in saved_entries if e['ticker']==saved_store.meta('selected_company')),saved_entries[0] if saved_entries else None)
+        text_capture=json.dumps(remembered['payload'],ensure_ascii=False) if remembered and not os.environ.get('VALUACION_DASHBOARD_SNAPSHOT') else default_capture(ROOT,os.environ.get('VALUACION_DASHBOARD_SNAPSHOT'))
         text_capture,notes=prepare_capture(text_capture)
         st.session_state['capture']=text_capture
         st.session_state['settings']=json.dumps(json.loads(text_capture)['evidence']['stock_model'].get('settings',{}))
@@ -142,6 +148,8 @@ except (ValueError,KeyError,TypeError) as exc:
     with tabs[0]:render_watch(load_capture)
     st.stop()
 s=result.summary;info=payload['kwargs'].get('info') or {};currency=s['currency']
+# Persistir únicamente cambios de hipótesis: no sustituye estados ni descarga.
+if st.session_state.pop('settings_dirty',False):Service(store_for(str(storage_path()))).save_settings(s['ticker'],result.settings)
 st.title('Mi seguimiento' if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento' else str(info.get('longName') or s['ticker']))
 if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento':
     st.caption('Lista personal persistente · cada empresa conserva sus propias fechas, moneda y auditoría. Actualización bajo demanda, sin descargas al ordenar.')
@@ -161,9 +169,10 @@ with resumen:
     st.write('')
     left,right=st.columns([1.8,1])
     with left:
-        st.subheader('Cotización y escenarios del motor')
+        st.subheader('Escenarios del motor')
         rows=result.valuation[result.valuation['Método'].eq('EPS × PER')]
-        chart_rows=render_price_chart(payload,s,result.valuation,capture_id)
+        st.caption('El gráfico único de cotización y previsiones está en Mi seguimiento. Aquí se conservan valoraciones, hipótesis y controles.')
+        chart_rows=chart_data(payload,s,result.valuation,st.session_state.get('hist_watch_'+s['ticker'],'1 año'),st.session_state.get('fut_watch_'+s['ticker'],'1 año'))
         tables['Grafico cotizacion']=chart_rows
         if not s['primary_available']:
             method=result.methods[result.methods['Método'].eq('EPS × PER')].iloc[0]
@@ -206,7 +215,7 @@ with resumen:
             try:
                 chosen=per_settings(saved,mode,chosen_pe,lower/100,upper/100,per_reason,per_basis,exploratory)
                 calculate(raw,json.dumps(chosen,allow_nan=False))
-                st.session_state['settings']=json.dumps(chosen,allow_nan=False);st.rerun()
+                st.session_state['settings']=json.dumps(chosen,allow_nan=False);st.session_state['settings_dirty']=True;st.rerun()
             except (ValueError,TypeError) as exc:st.error(str(exc))
     st.subheader('El negocio en cuatro diagnósticos')
     for column,(_,diagnostic) in zip(st.columns(4),result.diagnostics.iterrows()):
@@ -226,7 +235,7 @@ with resumen:
             update_policy=st.form_submit_button('Aplicar criterios y posición')
         if update_policy:
             chosen=json.loads(st.session_state.get('settings','{}'));chosen['policy']=new_policy
-            st.session_state['settings']=json.dumps(chosen);st.session_state['position']={'shares':shares,'cost_price':cost,'portfolio_value':portfolio};st.rerun()
+            st.session_state['settings']=json.dumps(chosen);st.session_state['settings_dirty']=True;st.session_state['position']={'shares':shares,'cost_price':cost,'portfolio_value':portfolio};st.rerun()
         position=st.session_state.get('position')
         if position is not None:
             decision=evaluate_position(s,policy,position)
@@ -331,7 +340,7 @@ with valoracion:
                 if value.strip():optional[key]=float(value.replace(',','.'))/100
             custom['optional_assumptions']=optional
             validate_settings(custom);calculate(raw,json.dumps(custom,allow_nan=False))
-            st.session_state['settings']=json.dumps(custom,allow_nan=False);st.rerun()
+            st.session_state['settings']=json.dumps(custom,allow_nan=False);st.session_state['settings_dirty']=True;st.rerun()
         except (ValueError,TypeError) as exc:st.error(str(exc))
     st.caption('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan CAGR compuestos a 5/10 FY y márgenes normalizados desde el primer año, sin calibración al precio.')
     st.caption('Los valores automáticos son hipótesis mecánicas y se identifican como tales. Cambiar la cotización no recalibra crecimiento, márgenes ni PER. Para NTM manual introduce los tres PER explícitos.')

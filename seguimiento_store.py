@@ -2,6 +2,7 @@
 from contextlib import contextmanager
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -46,6 +47,70 @@ class Store:
     def set_preferences(self,columns):
         with self.connection() as c:c.execute("INSERT OR REPLACE INTO preferences VALUES('columns',?)",(dumps(columns),))
 
+    def meta(self,key,default=None):
+        with self.connection() as c:row=c.execute('SELECT value FROM preferences WHERE key=?',(key,)).fetchone()
+        return json.loads(row[0]) if row else default
+
+    def set_meta(self,key,value):
+        with self.connection() as c:c.execute('INSERT OR REPLACE INTO preferences VALUES(?,?)',(key,dumps(value)))
+
+    def update_metrics(self,ticker,metrics):
+        with self.connection() as c:c.execute('UPDATE analyses SET metrics=? WHERE ticker=?',(dumps(metrics),ticker_key(ticker)))
+
+    def upgrade_snapshot(self,ticker,payload,metrics):
+        with self.connection() as c:c.execute('UPDATE analyses SET payload=?,metrics=? WHERE ticker=?',(dumps(payload),dumps(metrics),ticker_key(ticker)))
+
+    def peek(self,key):
+        digest=hashlib.sha256(key.encode('utf-8')).hexdigest()
+        with self.connection() as c:row=c.execute('SELECT value FROM cache WHERE key=?',(digest,)).fetchone()
+        return self.decode(json.loads(row[0])) if row else None
+
+    def fresh(self,key):
+        digest=hashlib.sha256(key.encode('utf-8')).hexdigest()
+        with self.connection() as c:
+            row=c.execute('SELECT expires FROM cache WHERE key=?',(digest,)).fetchone()
+            failed=c.execute('SELECT 1 FROM failures WHERE key=?',(digest,)).fetchone()
+        return bool(row and row[0]>self.clock() and not failed)
+
+    def put(self,key,value,ttl):
+        digest=hashlib.sha256(key.encode('utf-8')).hexdigest()
+        with self.connection() as c:c.execute('INSERT OR REPLACE INTO cache VALUES(?,?,?)',(digest,dumps(self.encode(value)),self.clock()+ttl))
+
+    def export(self):return {'schema':'watchlist-v2','companies':self.entries(),'columns':self.preferences()}
+
+    def import_list(self,raw):
+        """Validación completa antes de una única transacción; importar no usa red."""
+        from estado_dashboard import prepare_capture
+        from seguimiento_metricas import summarize
+        from flujo_acciones import analysis_from_snapshot
+        data=json.loads(raw);rows=data if isinstance(data,list) else data.get('companies') if isinstance(data,dict) and data.get('schema')=='watchlist-v2' else None
+        if not isinstance(rows,list) or len(rows)>250:raise ValueError('Lista de seguimiento incompatible (máximo 250 empresas)')
+        prepared=[];seen=set()
+        for e in rows:
+            if not isinstance(e,dict) or not isinstance(e.get('metrics',{}),dict):raise ValueError('Fila de seguimiento incompatible')
+            key=ticker_key(e['ticker'])
+            if key in seen:continue
+            seen.add(key);p=e.get('payload');m={}
+            if p is not None:
+                canonical,_=prepare_capture(dumps(p));p=json.loads(canonical)
+                if p['kwargs']['ticker'].upper()!=key:raise ValueError('El ticker de la captura no coincide con su fila')
+                if e.get('metrics',{}).get('quarters') and 'Seguimiento neto trimestral' not in p.get('historical',{}):
+                    p.setdefault('historical',{})['Seguimiento neto trimestral']=frame_payload(pd.DataFrame(e['metrics']['quarters']))
+                result,_=analysis_from_snapshot(p);m=summarize(p,result);m['financial_updated']=0
+                m['imported_at']=self.clock()  # No convertir fechas importadas en consultas nuevas.
+            updated=float(e.get('updated') or 0)
+            if not math.isfinite(updated) or updated<0:raise ValueError('Timestamp de seguimiento inválido')
+            prepared.append((key,str(e.get('name') or key),str(e.get('exchange') or ''),p,m,updated))
+        columns=data.get('columns') if isinstance(data,dict) else None
+        if columns is not None and (not isinstance(columns,list) or len(columns)>100 or not all(isinstance(c,str) and len(c)<=100 for c in columns)):raise ValueError('Preferencias de columnas incompatibles')
+        with self.connection() as c:
+            for key,name,exchange,p,m,updated in prepared:
+                c.execute('INSERT OR IGNORE INTO companies VALUES(?,?,?,?)',(key,name,exchange,self.clock()))
+                if p is not None:c.execute('INSERT INTO analyses VALUES(?,?,?,?,?,?) ON CONFLICT(ticker) DO UPDATE SET payload=excluded.payload,metrics=excluded.metrics,updated=excluded.updated,attempted=excluded.attempted,error=excluded.error',(key,dumps(p),dumps(m),min(updated,self.clock()),self.clock(),None))
+            if columns is not None:c.execute("INSERT OR REPLACE INTO preferences VALUES('columns',?)",(dumps(columns),))
+            c.execute('INSERT OR REPLACE INTO preferences VALUES(?,?)',('last_table_update',dumps(self.clock())))
+        return len(prepared)
+
     @contextmanager
     def connection(self):
         c=sqlite3.connect(self.db,timeout=30)
@@ -58,10 +123,14 @@ class Store:
         ticker=ticker_key(ticker)
         with self.connection() as c:
             c.execute('INSERT OR IGNORE INTO companies VALUES(?,?,?,?)',(ticker,name or ticker,exchange,self.clock()))
-            return c.execute('SELECT changes()').fetchone()[0]==1
+            added=c.execute('SELECT changes()').fetchone()[0]==1
+            if added:c.execute('INSERT OR REPLACE INTO preferences VALUES(?,?)',('last_table_update',dumps(self.clock())))
+            return added
 
     def remove(self,ticker):
-        with self.connection() as c:c.execute('DELETE FROM companies WHERE ticker=?',(ticker_key(ticker),))
+        with self.connection() as c:
+            c.execute('DELETE FROM companies WHERE ticker=?',(ticker_key(ticker),))
+            c.execute('INSERT OR REPLACE INTO preferences VALUES(?,?)',('last_table_update',dumps(self.clock())))
 
     def entries(self):
         with self.connection() as c:
@@ -74,6 +143,10 @@ class Store:
     def save(self,ticker,payload,metrics,error=None):
         ticker=ticker_key(ticker);now=self.clock()
         with self.connection() as c:
+            if error:
+                previous=c.execute('SELECT payload,metrics,updated,error FROM analyses WHERE ticker=?',(ticker,)).fetchone()
+                if previous and previous[0]!='null' and not previous[3]:
+                    c.execute('INSERT OR REPLACE INTO preferences VALUES(?,?)',('last_valid:'+ticker,dumps({'payload':json.loads(previous[0]),'metrics':json.loads(previous[1]),'updated':previous[2]})))
             c.execute('INSERT INTO analyses VALUES(?,?,?,?,?,?) ON CONFLICT(ticker) DO UPDATE SET payload=excluded.payload,metrics=excluded.metrics,updated=excluded.updated,attempted=excluded.attempted,error=excluded.error',(ticker,dumps(payload),dumps(metrics),now,now,error))
 
     def failed(self,ticker,error):

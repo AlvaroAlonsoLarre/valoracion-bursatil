@@ -12,7 +12,7 @@ En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); sigue
 
 La distribución estable es `main`: [descarga el ZIP sin Git](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/main.zip), extrae todo y abre `iniciar_dashboard.bat` con Python 3.12 x64 instalado. El lanzador prepara `.venv`, comprueba las dependencias fijadas y configura UTF-8/HTTPS, sin descargar ni parchear el código. [Consolidación Windows y validación financiera](docs/consolidacion_v7_2026-11-13/INFORME.md).
 
-**[Mi seguimiento](SEGUIMIENTO.md)** es la primera pestaña: lista persistente, búsqueda de empresas por nombre/ticker, métricas V7, QoQ fiscal y actualización bajo demanda con caché. Conserva los seis apartados del análisis individual y sus controles. [Validación y captura](docs/seguimiento_2026-11-16/INFORME.md).
+**[Mi seguimiento](SEGUIMIENTO.md)** es la primera pestaña: lista persistente, gráfico único de cotización/escenarios, búsqueda por nombre/ticker, métricas V7, EV/EBITDA FY con calidad explícita, QoQ fiscal y actualización incremental con caché. Separa comparables validados e informativos y permite importar/exportar lista y capturas. Conserva los seis apartados del análisis individual y sus controles. [Validación y captura](docs/seguimiento_completo_2026-11-16/INFORME.md).
 
 ## Modelo principal
 

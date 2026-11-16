@@ -655,6 +655,7 @@ mostrar(tabla_financiera)
 # 6. HISTÓRICO DE PRECIOS Y VALORACIÓN AL CIERRE FISCAL
 # ============================================================
 filas_valoracion = []
+from historico_acciones import enterprise_multiple
 for anio, datos in tabla_financiera_usd.iterrows():
     fecha_fiscal = normalizar_fecha(datos["Fecha cierre fiscal"])
     precio = precio_cierre_en_o_antes(precios, fecha_fiscal)
@@ -666,9 +667,8 @@ for anio, datos in tabla_financiera_usd.iterrows():
 
     # Aproximación: las acciones diluidas medias no son las acciones exactas al cierre.
     capitalizacion = precio * acciones if pd.notna(precio) and pd.notna(acciones) else np.nan
-    valor_empresa = capitalizacion + deuda_neta if pd.notna(capitalizacion) and pd.notna(deuda_neta) else np.nan
+    valor_empresa,ev_ebitda = enterprise_multiple(capitalizacion,deuda_neta,ebitda)
     per = dividir_seguro(precio, eps)
-    ev_ebitda = dividir_seguro(valor_empresa, ebitda)
     ev_fcf = dividir_seguro(valor_empresa, fcf)
     fcf_yield = dividir_seguro(fcf, capitalizacion)
     roic = dividir_seguro(datos["NOPAT aproximado"], datos["Capital invertido aproximado"])

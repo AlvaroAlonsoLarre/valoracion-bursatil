@@ -176,11 +176,15 @@ def test_refresh_quote_uses_cached_financials_preserves_settings_and_failure(tmp
     settings={'scenarios':{'Base':{'pe':20.,'growth':.10}},'per_reason':'Prueba persistencia'}
     service.save_capture(p,settings);entry=s.entry('MSFT');entry['metrics']['financial_updated']=1900.;s.save('MSFT',entry['payload'],entry['metrics'])
     monkeypatch.setattr(module,'quote',lambda *a,**k:{'price':500.,'date':str(pd.Timestamp.now(tz='UTC').date()),'currency':'USD','market_cap':None,'shares':None,'source':'fixture fechada'})
+    monkeypatch.setattr(module,'provider_profile',lambda *a,**k:{'info':{},'queried_at':2000.})
+    monkeypatch.setattr(module,'update_history',lambda *a,**k:(restore_frame(p['historical']['Precios y splits']),False,'reutilizado'))
     current=service.refresh('MSFT');assert not current['error'] and current['payload']['kwargs']['price']==500.
     assert current['payload']['evidence']['stock_model']['settings']==settings
     previous=current['payload']
     monkeypatch.setattr(module,'quote',lambda *a,**k:(_ for _ in ()).throw(ConnectionError('offline')))
-    failed=service.refresh('MSFT');assert failed['payload']==previous and failed['error']
+    failed=service.refresh('MSFT')
+    assert failed['payload']['kwargs']==previous['kwargs'] and failed['payload']['frames']==previous['frames'] and failed['error']
+    assert s.meta('last_valid:MSFT')['payload']==previous
 
 
 def test_ui_has_first_tab_and_persists_without_network(tmp_path,monkeypatch):
