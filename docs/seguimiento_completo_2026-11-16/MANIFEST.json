@@ -32,8 +32,8 @@
       "bytes": 6473
     },
     "cerrar_dashboard.bat": {
-      "sha256": "ca592e24d706cffa5de3604592f9a179c1a463f1ec7bdfb391f1b4d51e1e853d",
-      "bytes": 283
+      "sha256": "c8245f71668eaff120da2c4b36cba2e9e68901d1301267ed5f1bc82aa0167bea",
+      "bytes": 291
     },
     "cobertura.py": {
       "sha256": "20a6e609a92445b7289f03988b3b92ceeba038d8b5031e6f8eb38a2ceaa1bc0f",
@@ -52,8 +52,8 @@
       "bytes": 9908
     },
     "crear_acceso_directo.bat": {
-      "sha256": "6d33a2a217fcdc9582eb7ac4b834d21c3bdd5b9942b07d83660bd0bcaad86a51",
-      "bytes": 130
+      "sha256": "55f2e69789fb750f63f19ab51a8783bc6fde0f2c43d61030952a78994630f76b",
+      "bytes": 135
     },
     "dashboard_app.py": {
       "sha256": "e401079a41f1c39bea0f63a65f1113fbc518d93e401004339c72ad7b0d01b2ff",
@@ -315,5 +315,6 @@
       "sha256": "9a4f1ff4dad693a5c1783705c79fb22ecb5901c376929c54fa44cec1edd18754",
       "bytes": 8450
     }
-  }
+  },
+  "hash_basis": "Bytes de git archive (atributos eol=crlf aplicados a BAT); MANIFEST excluido de su propia firma."
 }
