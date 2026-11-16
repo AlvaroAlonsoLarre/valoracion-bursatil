@@ -214,6 +214,13 @@ def test_single_chart_saved_company_selection_and_no_network_on_rerun(tmp_path,m
     assert not app.exception and app.session_state['selected_ticker']=='NVDA' and app.session_state['principal_tabs']=='Mi seguimiento'
     app.run(timeout=40);assert not app.exception and len([c for c in app.get('vega_lite_chart') if json.loads(c.proto.spec).get('mark',{}).get('type')=='line'])==1
     assert store.entry('MSFT')['payload']['evidence']['stock_model']['settings']==archived('MSFT')['evidence']['stock_model']['settings']
+    saved={'scenarios':{'Base':{'pe':20.,'growth':.1}},'per_reason':'Persistencia al reiniciar'}
+    service.save_settings('NVDA',saved)
+    restarted=AppTest.from_file(Path(__file__).resolve().parents[1]/'dashboard_app.py').run(timeout=40)
+    assert not restarted.exception and restarted.session_state['selected_ticker']=='NVDA'
+    assert json.loads(restarted.session_state['settings'])==saved
+    assert next(s for s in restarted.selectbox if s.label=='Empresa del gráfico').value=='NVDA'
+    assert next(s for s in restarted.selectbox if s.label=='Empresa guardada').value=='NVDA'
 
 
 @pytest.mark.parametrize('ticker',['MSFT','NVDA','MU','AMZN','META','GOOG','GOOGL','NFLX','JNJ','JPM','000660.KS','SNDK','SPCX'])

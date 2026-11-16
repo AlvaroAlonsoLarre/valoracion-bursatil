@@ -60,9 +60,10 @@ def queue_open(ticker,tab=None):
 
 
 def saved_selector():
-    entries=store_for(str(storage_path())).entries();labels={e['ticker']:e['name']+' · '+e['ticker'] for e in entries if e['payload']}
+    store=store_for(str(storage_path()));entries=store.entries();labels={e['ticker']:e['name']+' · '+e['ticker'] for e in entries if e['payload']}
     if labels:
         if st.session_state.get('saved_company') not in ['']+list(labels):st.session_state.pop('saved_company',None)
+        if 'saved_company' not in st.session_state:st.session_state['saved_company']=store.meta('selected_company') if store.meta('selected_company') in labels else ''
         st.selectbox('Empresa guardada',['']+list(labels),format_func=lambda t:labels.get(t,'Selecciona para recuperar su análisis'),
                      key='saved_company',on_change=lambda:queue_open(st.session_state['saved_company']))
 
@@ -117,7 +118,7 @@ def render(load_capture,payload=None,settings=None):
     st.caption(f'{stale}/{len(entries)} empresas con datos pendientes, antiguos o parciales. Precios observados/últimos cierres fechados, no cotización garantizada en tiempo real.')
     if entries:
         labels={e['ticker']:e['name']+' · '+e['ticker'] for e in entries}
-        if st.session_state.get('watch_chart_ticker') not in labels:st.session_state.pop('watch_chart_ticker',None)
+        if st.session_state.get('watch_chart_ticker') not in labels:st.session_state['watch_chart_ticker']=st.session_state.get('selected_ticker') if st.session_state.get('selected_ticker') in labels else next(iter(labels))
         selected_chart=st.selectbox('Empresa del gráfico',list(labels),format_func=labels.get,key='watch_chart_ticker',
             on_change=lambda:queue_open(st.session_state['watch_chart_ticker'],'Mi seguimiento'))
         chart_for_entry(next(e for e in entries if e['ticker']==selected_chart))

@@ -64,8 +64,8 @@
       "bytes": 4633
     },
     "docs/seguimiento_completo_2026-11-16/INFORME.md": {
-      "sha256": "aeb69e65537a5ffce16127640765bec0e00629ee133256c8ba5351bb271bae6f",
-      "bytes": 9632
+      "sha256": "092be14fe8023e12eae7f308c183aac01f2db5849d5c4d98e14a973181772544",
+      "bytes": 9804
     },
     "docs/seguimiento_completo_2026-11-16/capturas_msft_nvda.zip": {
       "sha256": "9b6ce649855dda17809c78e631591d9d878f678312e25c9a95da55887ce40abe",
@@ -236,8 +236,8 @@
       "bytes": 12685
     },
     "seguimiento_ui.py": {
-      "sha256": "1ba7b57984c1d3ee4f5592f305f0b99dc94ce99e941c63e42f9836a6d29dd7af",
-      "bytes": 16631
+      "sha256": "86b4773605849adde1488fef21e7f6afb1871b575be2e0b691c2c012d0d83aaa",
+      "bytes": 16919
     },
     "test_v5.py": {
       "sha256": "29ad86b0f97a9145aead0ecf0197da2b13360c49c590e3a748d0ffea7e338486",
@@ -296,8 +296,8 @@
       "bytes": 12097
     },
     "tests/test_seguimiento_completo.py": {
-      "sha256": "38090a1f9e85e6300c1b5f02d615549bde99bbb8eca32f993aa7a8ccb089dc20",
-      "bytes": 15576
+      "sha256": "e30da204b9bbef9f7b62d2588c5cd980d38ac8ba03dac81e31a80246ea3ecb68",
+      "bytes": 16163
     },
     "tests/test_stock_dashboard.py": {
       "sha256": "178fdf0b8bfdc5d16e7c3af027d7b94a7b8406a159bf27bc199274d70defabb7",
@@ -314,6 +314,10 @@
     "verificar_generalizacion.py": {
       "sha256": "9a4f1ff4dad693a5c1783705c79fb22ecb5901c376929c54fa44cec1edd18754",
       "bytes": 8450
+    },
+    "docs/seguimiento_completo_2026-11-16/prueba_reinicio.log": {
+      "sha256": "7e2e4900d1919556a2a1877cfca6fa89d79280db06efc057b28a66b53d313b07",
+      "bytes": 99
     }
   },
   "hash_basis": "Bytes de git archive (atributos eol=crlf aplicados a BAT); MANIFEST excluido de su propia firma."
