@@ -12,7 +12,7 @@ El histórico de beneficio neto usa trimestres fiscales reales de 70–105 días
 
 ## Validación
 
-- Pruebas específicas: **22 passed**. Batería completa Linux: **206 passed, 1 skipped**, dos advertencias esperadas SEC. El caso omitido es la prueba nativa de permisos Windows; se ejecuta en Actions Windows. Tres suites heredadas: PASS.
+- Pruebas específicas: **24 passed**. Batería completa Linux: **208 passed, 1 skipped**, dos advertencias esperadas SEC. El caso omitido es la prueba nativa de permisos Windows; se ejecuta en Actions Windows. Tres suites heredadas: PASS.
 - Pruebas de persistencia y duplicados, rutas Unicode, recuperación del último análisis ante errores, caducidades, frames/fechas DST, rechazo de cachés vacías, buscador y confirmación, cohortes/monedas/perímetros, colores, reconstrucción YTD, 20 trimestres, pérdidas/ceros/gaps, captura V7 y apertura de Resumen.
 - Chromium/Streamlit real: siete pestañas, cinco empresas, selección de fila abre Resumen, lista restaurada tras recarga, exportación JSON y viewport móvil de 390 px sin desbordamiento global ni errores de página. [Captura de la pestaña](mi_seguimiento.png), [registro](navegador.json).
 - Se repite la comparación offline de los **13 tickers** archivados. Valoración, EPS, supuestos, controles, diagnósticos y disponibilidad no cambian; incluye MSFT, NVDA, MU, AMZN y SK Hynix. Se verifica también la coherencia de las exportaciones anteriores, 135.717 celdas. [Resultados](comparacion_financiera.json).
@@ -20,6 +20,8 @@ El histórico de beneficio neto usa trimestres fiscales reales de 70–105 días
 - Búsqueda real parcial `Microsof`: devuelve Microsoft y su mercado, con confirmación del usuario antes de añadir. Las múltiples coincidencias se prueban además con respuestas controladas. [Respuesta archivada](busqueda.json).
 
 La consulta real se realizó sobre el árbol de trabajo basado en 40e1a05; su captura conserva esa procedencia original. Los hashes del código entregado se registran en el manifiesto. La imagen combina MSFT consultado con cuatro capturas archivadas, todas con sus fechas visibles: no se presentan como cotizaciones en tiempo real de hoy.
+
+Se comprueba además que abrir MSFT tras subir una captura AMZN limpia el archivo anterior del widget, sin reimportarlo ni cambiar la empresa seleccionada. [Registro](subida_captura.json). Los metadatos opcionales de capitalización/acciones no impiden conservar una cotización válida; el detalle advierte la cobertura parcial. Los identificadores opcionales ausentes no convierten emisores distintos en un mismo comparable.
 
 ## Corrección de un caso límite detectado
 

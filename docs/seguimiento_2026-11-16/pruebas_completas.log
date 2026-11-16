@@ -11,4 +11,4 @@ tests/test_stock_dashboard.py::test_sec_index_403_does_not_force_yahoo_financial
     warnings.warn('Índice ticker SEC no accesible; se contrasta identidad mediante filings/submissions: '+str(exc)[:130])
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-208 passed, 1 skipped, 2 warnings in 37.51s
+208 passed, 1 skipped, 2 warnings in 42.03s
