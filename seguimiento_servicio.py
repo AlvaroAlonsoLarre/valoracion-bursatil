@@ -76,8 +76,13 @@ def quote(ticker,store,yf=None,force=False):
         values=pd.to_numeric(h['Close'],errors='coerce').dropna();values=values[values>0]
         if values.empty:raise ValueError('Yahoo no devuelve un precio positivo')
         date=pd.Timestamp(values.index[-1]).date().isoformat()
+        warnings=[]
+        def optional(key):
+            try:return obj.fast_info.get(key)
+            except Exception as exc:
+                warnings.append(key+': '+network_diagnostic(exc,'Yahoo'));return None
         return {'price':float(values.iloc[-1]),'date':date,'currency':obj.fast_info.get('currency'),
-                'market_cap':obj.fast_info.get('market_cap'),'shares':obj.fast_info.get('shares'),'source':'Yahoo history 1d / fast_info'}
+                'market_cap':optional('market_cap'),'shares':optional('shares'),'source':'Yahoo history 1d / fast_info','warnings':warnings}
     return store.cached('watch-quote:'+ticker,fetch,TTL['quote'],force)
 
 
@@ -121,6 +126,7 @@ class Service:
                 if str(facts.get('cik','')).lstrip('0')!=cik.lstrip('0'):raise ValueError('Identidad CompanyFacts incompatible')
             series=quarter_series(q,k['as_of'],facts,k['financial_currency'])
             r,_=analysis_from_snapshot(p);m=summarize(p,r,series)
+            if latest.get('warnings'):m['row']['Advertencias']+=' · Metadatos de mercado parciales: '+'; '.join(latest['warnings'])
             m['financial_updated']=start if full else financial_at;m['quote_source']=latest['source']
             errors=self.store.errors_since(start)
             if errors and old['payload']:raise RuntimeError('; '.join(errors))

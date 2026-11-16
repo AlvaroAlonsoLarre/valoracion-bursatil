@@ -122,6 +122,24 @@ def test_peer_means_use_only_homogeneous_unique_valid_issuers():
     p.loc[1,'ok']=False;assert cohort_stats(p,'v','ok')['mean'] is None
 
 
+def test_peer_optional_nan_identity_does_not_merge_unrelated_companies():
+    p=pd.DataFrame({'Ticker':['A','B','C'],'Emisor económico':[float('nan')]*3,'Emisor id':['idA','idB','idC'],'v':[10.,20.,30.],'ok':[True]*3})
+    stats=cohort_stats(p,'v','ok')
+    assert stats['n']==3 and stats['mean']==20.
+
+
+def test_quote_keeps_valid_price_when_optional_market_cap_is_missing(tmp_path):
+    from seguimiento_servicio import quote
+    class Fast:
+        def get(self,key):
+            if key=='currency':return 'USD'
+            raise ConnectionError('optional metadata offline')
+    yf=SimpleNamespace(Ticker=lambda ticker:SimpleNamespace(history=lambda **k:pd.DataFrame({'Close':[100.]},index=pd.to_datetime(['2026-11-16'])),fast_info=Fast()))
+    result=quote('ABC',Store(tmp_path),yf=yf)
+    assert result['price']==100. and result['currency']=='USD'
+    assert result['market_cap'] is None and result['shares'] is None and len(result['warnings'])==2
+
+
 @pytest.mark.parametrize('value,expected',[(20.,'#dcfce7'),(-20.,'#fee2e2'),(0.,''),(None,'')])
 def test_discount_colors(value,expected):assert expected in discount_color(value)
 
@@ -169,6 +187,8 @@ def test_ui_has_first_tab_and_persists_without_network(tmp_path,monkeypatch):
     from streamlit.testing.v1 import AppTest
     store=Store(tmp_path/'list');service=Service(store,None);service.save_capture(archived('MSFT'))
     monkeypatch.setenv('VALUACION_WATCHLIST_DIR',str(store.path))
+    initial=tmp_path/'AMZN_inputs.json';initial.write_text(json.dumps(archived('AMZN')),encoding='utf-8')
+    monkeypatch.setenv('VALUACION_DASHBOARD_SNAPSHOT',str(initial))
     app=AppTest.from_file(Path(__file__).resolve().parents[1]/'dashboard_app.py').run(timeout=40)
     assert not app.exception and app.tabs[0].label=='Mi seguimiento' and len(app.tabs)==7
     assert len(store.entries())==1
@@ -177,3 +197,4 @@ def test_ui_has_first_tab_and_persists_without_network(tmp_path,monkeypatch):
     next(b for b in app.button if b.label=='Abrir análisis V7').click().run(timeout=40)
     assert not app.exception and app.session_state['selected_ticker']=='MSFT'
     assert app.session_state['principal_tabs']=='Resumen'
+    assert app.session_state['watch_grid_epoch']==1

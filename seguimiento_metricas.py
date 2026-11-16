@@ -55,7 +55,8 @@ def cohort_stats(peers,column,allowed,cohort=None,period='TTM',currency=None):
     p=peers[peers.get(allowed,pd.Series(False,index=peers.index)).eq(True)].copy()
     p=p[pd.to_numeric(p[column],errors='coerce').gt(0)]
     if currency and 'Divisa cotización' in p:p=p[p['Divisa cotización'].eq(currency)]
-    p['issuer']=[str(r.get('Emisor económico') or r.get('Emisor id') or r.get('Ticker')).upper() for _,r in p.iterrows()]
+    p['issuer']=[next((str(r[k]).upper() for k in ['Emisor económico','Emisor id','Ticker'] if k in r and pd.notna(r[k]) and str(r[k]).strip()),'') for _,r in p.iterrows()]
+    p=p[p['issuer'].ne('')]
     p=p.drop_duplicates('issuer')
     v=pd.to_numeric(p[column],errors='coerce');reason=''
     if cohort and (cohort not in p or p[cohort].nunique(dropna=False)!=1):reason='Cohortes contables/temporales/perímetros heterogéneos'

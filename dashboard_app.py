@@ -88,7 +88,7 @@ with st.sidebar:
         fetch=st.form_submit_button('Consultar fuentes',type='primary',width='stretch')
     st.caption('SEC · histórico anual\n\nYahoo · cotizaciones y trimestres')
     st.divider()
-    uploaded=st.file_uploader('Abrir captura JSON auditada',type=['json'])
+    uploaded=st.file_uploader('Abrir captura JSON auditada',type=['json'],key='capture_upload_'+str(st.session_state.get('watch_grid_epoch',0)))
     st.caption('Los cambios de supuestos usan la captura cargada; no vuelven a descargar las fuentes.')
 
 if fetch:
