@@ -85,3 +85,43 @@ La [revisión económica final](docs/economia_final_2026-11-12/INFORME.md) compa
 La V7 integrada parte de la V6 verificada `b50a51d` y utiliza los mismos módulos financieros. [Ejecución Windows](WINDOWS.md). El gráfico utiliza cierres archivados a una semana/cuatro meses/un año y permite ocultar o mostrar escenarios a uno/cuatro meses/un año/tres años; los puntos intermedios son interpolaciones ilustrativas, nunca un motor mensual alternativo. Los objetivos de uno/tres años son exclusivamente los del motor EPS × PER.
 
 El PER manual se configura en Resumen, con distancias pesimista/optimista y justificación. Sus cambios conservan todos los demás supuestos. La referencia de dos PER limpios es una opción exploratoria explícita de confianza Baja; con cero o uno se necesita un PER manual justificado. Nunca evita requisitos de EPS, divisas, acciones o contabilidad.
+
+# Comparables: selección de cinco empresas
+
+El dashboard y el Excel incluyen `Comparables informativos`: hasta cinco
+emisores con actividad relacionada, datos básicos y al menos un múltiplo
+positivo disponible. La tabla muestra el motivo económico, los límites de la
+comparación, las monedas, las fechas y cada ratio por separado. Un dato ausente
+no elimina los otros indicadores. No se añaden empresas de otro negocio para
+completar cinco. Las clases de acciones del mismo emisor se cuentan una vez.
+
+El descubrimiento usa Yahoo Industry/Search/Sector y las semillas económicas
+revisables de `comparables_config.json`. Las semillas pasan los mismos controles;
+no otorgan elegibilidad para valorar. Con `FMP_API_KEY` y/o `FINNHUB_API_KEY` en el
+entorno también consulta sus endpoints de peers. No hay claves incluidas en el
+repositorio. El acceso depende del plan y la cobertura del proveedor; sin claves
+o si un proveedor falla, sigue funcionando con Yahoo. Los sufijos de bolsa
+desconocidos no se traducen por conjetura.
+
+La caché del dashboard conserva perfiles/listas durante 72 horas y los ratios
+informativos se renuevan siguiendo la política existente. El descubrimiento
+evita repetir Industry/growth/performance, descarga perfiles por lotes y termina
+cuando hay cobertura suficiente. Si Yahoo limita consultas, no insiste con toda
+la lista. Una cobertura parcial se identifica como tal.
+
+Los ratios Yahoo de esta tabla son descriptivos y **no se usan automáticamente
+para calcular precios objetivo**. Los controles de PER TTM/NTM, definición GAAP,
+periodos, moneda y EV/EBITDA de valoración se mantienen separados.
+
+Para reproducir una comprobación con datos actuales:
+
+```bash
+python verificar_comparables.py --tickers MSFT 000660.KS JNJ JPM NVDA --outdir Resultados/comparables
+```
+
+Guarda JSON y CSV con perfiles, candidatos, fechas, resultados y errores. Código
+de salida 2 significa cobertura insuficiente/error de proveedor en algún ticker;
+no equivale a cinco comparables correctos. Las consultas pueden quedar limitadas
+por Yahoo. Los resultados observados el 16-11-2026 y las pruebas se documentan
+en `docs/comparables_2026-11-16/INFORME.md`.
+

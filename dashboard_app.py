@@ -273,7 +273,13 @@ with trimestrales:
 
 with comparables:
     st.subheader('Actividad similar, múltiplos separados')
-    st.caption('Preferencia de 3 a 6 empresas. No se fuerza completar el grupo. Los candidatos descartados y sus motivos se conservan en la auditoría.')
+    from seguimiento_metricas import informative_peers
+    descriptive=informative_peers(result.universe,payload['kwargs'].get('info') or {})
+    st.caption(descriptive['coverage'])
+    if descriptive.get('warning'):st.info(descriptive['warning'])
+    st.dataframe(pd.DataFrame(descriptive['rows']),hide_index=True,width='stretch')
+    st.caption('Datos Yahoo informativos. La relación económica y sus límites se muestran por empresa. Cada ratio puede faltar por separado; estos datos sin verificar no se incorporan a los precios objetivo.')
+    st.markdown('**Comparables con controles de valoración**')
     selected=result.peers
     if selected.empty:st.info('No hay pares con actividad suficientemente comparable. Se examina el histórico propio como referencia de menor confianza.')
     else:
@@ -376,3 +382,4 @@ with auditoria:
     b.download_button('Descargar resultados JSON',json.dumps(summary,ensure_ascii=False,allow_nan=False,indent=2),file_name=f"{s['ticker']}_resultados.json",mime='application/json',width='stretch')
     c.download_button('Descargar captura reproducible',capture_export,file_name=f"{s['ticker']}_inputs.json",mime='application/json',width='stretch')
     st.caption('Excel y JSON contienen los supuestos visibles y los mismos resultados. La captura incluye las fuentes y entradas para reproducir el cálculo sin red. Los datos de posición sólo se exportan si se han introducido.')
+

@@ -79,36 +79,44 @@ def fiscal_ev(payload,annual,qualified):
 
 def informative_peers(universe,info,provider_infos=None):
     """Nivel B descriptivo; jamás se devuelve al selector ni al motor de valoración."""
+    from comparables_inteligentes import basic_peer_row,select_display_peers
     provider_infos=provider_infos or {};rows=[]
-    def text(x):return str(x).casefold() if pd.notna(x) else ''
-    for _,r in universe.iterrows():
+    merged=universe.copy()
+    # Renovar también actividad y cobertura antes de volver a ordenar.
+    for i,r in merged.iterrows():
+        profile=provider_infos.get(str(r.get('Ticker') or ''),{})
+        if profile:
+            fresh=basic_peer_row(r['Ticker'],profile,r.get('Origen') or 'Yahoo Finance')
+            for key,value in fresh.items():
+                if 'longBusinessSummary' in profile or (value is not None and not (isinstance(value,float) and np.isnan(value)) and value!=''):
+                    merged.at[i,key]=value
+    selected=select_display_peers(merged,info,max_peers=max(5,len(merged)))
+    for _,r in selected.iterrows():
         ticker=str(r.get('Ticker') or '');provider=provider_infos.get(ticker,{})
-        same_ind=(r.get('Misma industria') is True or bool(text(r.get('Industria clave')) and text(r.get('Industria clave'))==text(info.get('industryKey'))))
-        same_sector=(r.get('Mismo sector') is True or bool(text(r.get('Sector clave')) and text(r.get('Sector clave'))==text(info.get('sectorKey')))
-                     or bool(text(r.get('Sector')) and text(r.get('Sector'))==text(info.get('sector'))))
-        similarity=number(r.get('Similitud de actividad (0-100)'))
-        related=same_ind or same_sector or similarity>=25
-        if not related:continue
         currency=provider.get('currency') or r.get('Divisa cotización')
         financial=provider.get('financialCurrency') or r.get('Divisa financiera')
         reported_end=pd.to_datetime(provider.get('mostRecentQuarter'),unit='s',utc=True,errors='coerce')
-        end_label=str(reported_end.date()) if pd.notna(reported_end) else None
+        end_label=str(reported_end.date()) if pd.notna(reported_end) else r.get('Cierre reportado Yahoo')
         vals={label:number(provider.get(key,r.get(raw))) for label,key,raw in [('PER TTM Yahoo','trailingPE','PER trailing'),('PER forward Yahoo','forwardPE','PER forward'),('EV/EBITDA Yahoo','enterpriseToEbitda','EV/EBITDA')]}
         rows.append({'Ticker':ticker,'Empresa':r.get('Empresa') or ticker,'Moneda cotización':currency,'Moneda financiera':financial,
-            **vals,'Relación B':'Misma industria' if same_ind else 'Mismo sector' if same_sector else 'Actividad relacionada',
+            **vals,'Relación B':r['Relación B'],'Justificación económica':r['Justificación económica'],
+            'Limitación económica':r['Limitación económica'],
+            **{c:r.get(c) for c in ['Precio actual','Capitalización (miles de millones)','Ingresos TTM (miles de millones)','EBITDA TTM (miles de millones)','Beneficio neto TTM (miles de millones)','Fecha cotización']},
             'Nivel':'B · informativo, no validado para objetivos','Periodo PER':'TTM reportado / forward Yahoo no acreditado como NTM',
             'Periodo EV':'LTM Yahoo; ventana exacta no acreditada','Cierre reportado Yahoo':end_label,'Origen':'Yahoo Finance','Estado A':r.get('Observación','No reúne evidencia A'),
-            'Prioridad':(2 if same_ind else 1)+(.1 if any(v>0 for v in vals.values()) else 0)+(similarity/1000 if np.isfinite(similarity) else 0)})
+            'Prioridad':r['Prioridad']})
     rows=sorted(rows,key=lambda r:(-r['Prioridad'],r['Ticker']));seen=set();unique=[]
     for row in rows:
         if row['Ticker'] not in seen:unique.append(row);seen.add(row['Ticker'])
-    chosen=unique[:6];summary={}
+    chosen=unique[:5];summary={}
     for column in ['PER TTM Yahoo','PER forward Yahoo','EV/EBITDA Yahoo']:
         eligible=[r[column] for r in chosen if number(r[column])>0 and r['Moneda cotización']==info.get('currency') and r['Moneda financiera']==r['Moneda cotización']]
         summary[column]={'mean':float(np.mean(eligible)) if eligible else None,'median':float(np.median(eligible)) if eligible else None,'n':len(eligible),
                          'confidence':'Baja · descriptivo; sin validar periodos/perímetro/beneficios','period':column,
                          'warning':'No utilizar en objetivos. Cada media conserva su definición; forward Yahoo no se renombra NTM. Sólo misma moneda; no se usan valores no positivos.'}
-    return clean({'rows':chosen,'candidates':unique,'stats':summary})
+    return clean({'rows':chosen,'candidates':unique,'stats':summary,'target_count':5,
+        'coverage':f'{len(chosen)}/5 empresas con actividad relacionada y datos básicos',
+        'warning':'' if len(chosen)==5 else 'No hay cinco candidatos razonables con datos; no se completa con empresas de otro negocio.'})
 
 
 def summarize(payload,result,quarters=None):
@@ -165,3 +173,4 @@ def summarize(payload,result,quarters=None):
 def discount_color(value):
     n=number(value)
     return 'background-color: #dcfce7; color: #14532d' if n>0 else 'background-color: #fee2e2; color: #7f1d1d' if n<0 else ''
+

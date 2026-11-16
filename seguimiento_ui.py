@@ -225,7 +225,10 @@ def render(load_capture,payload=None,settings=None):
             st.caption(m.get('ev_fy',{}).get('warning',''));show_detail(pd.DataFrame(m.get('ev_fy',{}).get('rows',[])))
         with st.expander('Nivel B — comparables informativos (no se usan en objetivos)'):
             b=m.get('informative_peers',{})
+            st.caption(b.get('coverage',''))
+            if b.get('warning'):st.info(b['warning'])
             st.write(b.get('stats',{}));show_detail(pd.DataFrame(b.get('rows',[])))
             st.caption('Candidatos, relaciones y motivos por los que no cumplen el nivel A')
             show_detail(pd.DataFrame(b.get('candidates',[])))
     st.caption('Ubicación local de la lista: '+str(store.path)+'. En servidores compartidos esta instalación comparte la misma lista; para datos personales usa una instancia propia.')
+

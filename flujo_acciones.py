@@ -18,6 +18,11 @@ def stock_tables(annual,peers,kwargs,history,settings=None,optional_environment=
         'Universo comparables':result.universe.drop(columns=['Evidencia múltiplos','Evidencia TTM'],errors='ignore'),
         'Referencias historicas':history,'Estadisticas 5 y 10':result.history_statistics,'Base TTM y balance':result.base_ttm,
         'Financieros anuales':annual.reset_index(),'Resultados trimestrales':kwargs['quarterly'].reset_index() if kwargs.get('quarterly') is not None else pd.DataFrame()}
+    from seguimiento_metricas import informative_peers
+    descriptive=informative_peers(result.universe,kwargs.get('info') or {})
+    tables['Comparables informativos']=pd.DataFrame(descriptive['rows'])
+    tables['Cobertura comparables']=pd.DataFrame([{'Objetivo':5,'Obtenidos':len(descriptive['rows']),
+        'Estado':descriptive['coverage'],'Limitación':descriptive['warning']}])
     from revision_economica import bridge,sensitivity,implied_requirements
     tables.update({'Puente recurrencia':bridge(annual),'Recurrencia trimestral':bridge(kwargs['quarterly']) if kwargs.get('quarterly') is not None else pd.DataFrame(),'Sensibilidad EPS PER':sensitivity(result,kwargs['financial_currency'],kwargs['quote_currency']),
                    'Expectativas implicitas':implied_requirements(result),'Referencias historicas':result.qualified_history})
@@ -136,3 +141,4 @@ def excel_bytes(tables):
     with pd.ExcelWriter(stream,engine='openpyxl') as writer:
         for key,table in tables.items():table.to_excel(writer,sheet_name=key[:31],index=False)
     return stream.getvalue()
+

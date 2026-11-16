@@ -171,8 +171,9 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
         regions=[r.strip().upper() for r in override.split(',') if len(r.strip())==2]
     # Lista internacional más amplia para semiconductores y otras empresas globales.
     # Se limita a 4 regiones adicionales para evitar consultas excesivas.
-    industry_regions=regions[:6]
-    candidates={}
+    industry_regions=regions[:3]
+    from comparables_proveedores import provider_candidates
+    candidates, provider_errors = provider_candidates(ticker)
     def add(symbol,origin,priority=2):
         symbol=normalize_ticker(symbol)
         # Reservar ~35% de universo para Search y Sector, incluso si Industry
@@ -193,7 +194,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
         else:
             for s in df.index[:max_candidates]:
                 if isinstance(s,str) and re.search('[a-zA-Z]',s):add(s,origin,priority)
-    errors=[]
+    errors=list(provider_errors)
     if industry_key and hasattr(yf,'Industry'):
         for reg in industry_regions:
             if len(candidates)>=max_candidates:break
@@ -204,7 +205,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
                 before=len(candidates)
                 top=obj.top_companies
                 data_frame(top.head(13) if isinstance(top,pd.DataFrame) else None,'Industria Yahoo '+reg,0)
-                if len(candidates)-before<9 and len(candidates)<max_candidates:
+                if len(candidates)==before and len(candidates)<max_candidates:
                     try:
                         growth=obj.top_growth_companies
                         data_frame(growth.head(6) if isinstance(growth,pd.DataFrame) else None,'Crecimiento industria '+reg,1)
@@ -220,7 +221,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
     if industry_name:phrases.append(industry_name)
     if kw:phrases.append(' '.join(kw[:3]))
     if len(kw)>=5:phrases.append(' '.join(kw[2:5]))
-    if hasattr(yf,'Search'):
+    if len(candidates)<15 and hasattr(yf,'Search'):
         for query in dict.fromkeys(phrases[:3]):
             if len(candidates)>=max_candidates:break
             try:
@@ -232,7 +233,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
                         if x.get('quoteType','EQUITY')=='EQUITY':
                             add(x.get('symbol'),'Búsqueda actividad: '+query[:38],2)
             except Exception as e:errors.append('Search '+query+': '+str(e)[:85])
-    if len(candidates)<max_candidates and industry_name and hasattr(yf,'screen') and hasattr(yf,'EquityQuery'):
+    if len(candidates)<15 and industry_name and hasattr(yf,'screen') and hasattr(yf,'EquityQuery'):
         # El nombre tiene que coincidir con los códigos de Yahoo; nunca suponemos
         # que un nombre de perfil es un valor de screener válido.
         try:
@@ -244,7 +245,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
                 for r in resp.get('quotes',[]) if isinstance(resp,dict) else []:
                     add(r.get('symbol'),'Screener industria Yahoo',1)
         except Exception as e:errors.append('Screener: '+str(e)[:85])
-    if len(candidates)<max_candidates and sector_key and hasattr(yf,'Sector'):
+    if len(candidates)<15 and sector_key and hasattr(yf,'Sector'):
         for reg in regions[:2]:
             try:
                 df=yf.Sector(sector_key,region=reg).top_companies
@@ -256,12 +257,13 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
 # Categorías económicas GENERALES, no listas de tickers. No equivalen a
 # segmentos contables auditados; sirven para descartar candidatos incompatibles.
 ACTIVITY_PATTERNS = {
-    'memoria': r'\b(dram|hbm|nand|flash memory|memory chip|memory semiconductor|dynamic random access|ddr[345]|lpddr)\b',
+    'computo_datacenter': r'\b(data centers?|datacenters?|ai accelerators?|gpus?|cpus?|graphics processing)\b',
+    'memoria': r'\b(dram|hbm|nand|flash memory|memory chip|memory semiconductor|memory storage products|dynamic random access|high.bandwidth memory|ddr[345]|lpddr)\b',
     'fundicion': r'\b(foundr(?:y|ies)|wafer fabrication|contract chip manufactur|semiconductor fabrication|pure.play foundry)\b',
-    'diseno_chips': r'\b(chip design|fabless|gpu|microprocessor|cpu|processor designs|graphics processing)\b',
+    'diseno_chips': r'\b(chip design|fabless|asics?|soc design|gpus?|microprocessors?|cpus?|application processors|processor designs|graphics processing)\b',
     'equipos_semis': r'\b(lithography|wafer equipment|semiconductor equipment|etching|deposition equipment)\b',
-    'software_empresa': r'\b(enterprise software|enterprise application|business software|crm|erp|productivity software|office software|database software|saas)\b',
-    'infra_cloud': r'\b(cloud computing|cloud infrastructure|data center infrastructure|hyperscale|azure|aws|cloud platform)\b',
+    'software_empresa': r'\b(enterprise software|enterprise application|business software|business solution applications|customer relationship management|workflow automation|digital workflows?|enterprise workflows|crm|erp|productivity software|office software|database software|saas|software.as.a.service)\b',
+    'infra_cloud': r'\b(cloud computing|cloud infrastructure|cloud services|cloud.based compute|data center infrastructure|hyperscale|azure|aws|cloud platform)\b',
     'ciberseguridad': r'\b(cybersecurity|cyber security|network security|endpoint security|firewall|threat intelligence)\b',
     'dispositivos': r'\b(smartphone|iphone|consumer electronic|mobile device|personal computer|consumer device|wearable)\b',
     'consultoria_it': r'\b(it consulting|consulting services|outsourcing|system integration|professional services)\b',
@@ -269,18 +271,28 @@ ACTIVITY_PATTERNS = {
     'seguros': r'\b(insurance underwrit|life insurance|property and casualty insurance|insurance polic)\b',
     'petroleo_gas': r'\b(oil and gas|crude oil|natural gas|upstream petroleum|hydrocarbon)\b',
     'automovil': r'\b(automotive manufactur|passenger vehicle|automaker|electric vehicle|motor vehicle)\b',
-    'farmaceutica': r'\b(pharmaceutical|drug discovery|therapeutic drug|prescription medicine|biopharmaceutical)\b',
+    'farmaceutica': r'\b(pharmaceutical|drug discovery|therapeutic drug|therapeutic areas|prescription medicine|prescription use|biopharmaceutical|oncology|immunology)\b',
     'retail': r'\b(retail stores|supermarket|grocery stores|online retail|e.commerce marketplace)\b',
 }
 
 
 def activity_tags(description):
     txt = str(description or '').lower().replace('–', '-').replace('—','-')
-    return {name for name,rx in ACTIVITY_PATTERNS.items() if re.search(rx,txt)}
+    tags = {name for name,rx in ACTIVITY_PATTERNS.items() if re.search(rx,txt)}
+    if re.search(r'\b(designs?|develops|designing)\b.{0,100}\b(semiconductor|integrated circuits|system.on.a.chip)',txt,re.S):
+        tags.add('diseno_chips')
+    # IP de memoria vendida por un diseñador ASIC no es fabricación de DRAM/NAND.
+    if 'diseno_chips' in tags and re.search(r'\bmemory ips?\b',txt) and not re.search(r'\b(dram|nand|flash memory)\b',txt):
+        tags.discard('memoria')
+    return tags
 
 
 def activity_conflict(target, peer):
     """Impedimentos sectoriales explícitos. Se penalizan sin afirmar negocios iguales."""
+    # Una actividad secundaria del objetivo no convierte una fundición pura
+    # en fabricante de memoria (SK hynix también menciona foundry).
+    if 'memoria' in target and 'memoria' not in peer and peer.intersection({'fundicion','equipos_semis','diseno_chips'}):
+        return 'Actividad distinta: fabricante de memoria frente a fundición/diseño/equipos sin memoria'
     blockers = (
         ('memoria', ('fundicion','equipos_semis','diseno_chips')),
         ('fundicion', ('memoria','equipos_semis','diseno_chips')),
@@ -294,9 +306,126 @@ def activity_conflict(target, peer):
     return ''
 
 
+def basic_peer_row(symbol, profile, origin='Yahoo Finance'):
+    """Mismo adaptador de datos para el dashboard y la comprobación con red."""
+    def billions(key):
+        return _num(profile.get(key)) / 1e9
+    def dated(key):
+        value = pd.to_datetime(profile.get(key), unit='s', utc=True, errors='coerce')
+        return str(value.date()) if pd.notna(value) else None
+    return {
+        'Ticker': symbol, 'Empresa': profile.get('longName') or profile.get('shortName') or symbol,
+        'Emisor id': profile.get('longName') or profile.get('underlyingSymbol') or symbol,
+        'Descripción actividad': str(profile.get('longBusinessSummary') or ''),
+        'Industria clave': profile.get('industryKey') or '', 'Industria': profile.get('industry') or '',
+        'Sector clave': profile.get('sectorKey') or '', 'Sector': profile.get('sector') or '',
+        'Divisa cotización': profile.get('currency'), 'Divisa financiera': profile.get('financialCurrency'),
+        'Precio actual': _num(profile.get('currentPrice') or profile.get('regularMarketPrice')),
+        'Capitalización (miles de millones)': billions('marketCap'),
+        'Ingresos TTM (miles de millones)': billions('totalRevenue'),
+        'EBITDA TTM (miles de millones)': billions('ebitda'),
+        'Beneficio neto TTM (miles de millones)': billions('netIncomeToCommon'),
+        'Deuda total (miles de millones)': billions('totalDebt'),
+        'Efectivo (miles de millones)': billions('totalCash'),
+        'PER trailing': _num(profile.get('trailingPE')), 'PER forward': _num(profile.get('forwardPE')),
+        'EV/EBITDA': _num(profile.get('enterpriseToEbitda')),
+        'Margen operativo (%)': 100 * _num(profile.get('operatingMargins')),
+        'Crecimiento ventas (%)': 100 * _num(profile.get('revenueGrowth')),
+        'Fecha cotización': dated('regularMarketTime'), 'Cierre reportado Yahoo': dated('mostRecentQuarter'),
+        'Origen': origin,
+    }
+
+
+def select_display_peers(universe, info, max_peers=5):
+    """Selección descriptiva: actividad + datos, sin certificar múltiplos.
+
+    Las etiquetas son evidencia heurística y se muestran al usuario. El tamaño
+    se compara sólo entre capitalizaciones en la misma moneda. Cada múltiplo
+    conserva su disponibilidad individual; pérdidas no eliminan toda la fila.
+    """
+    if universe is None or universe.empty:
+        return pd.DataFrame()
+    info = info or {}
+    target_tags = activity_tags(info.get('longBusinessSummary'))
+    focus = target_tags & {'memoria', 'farmaceutica', 'banca', 'seguros', 'petroleo_gas', 'automovil'}
+    target_industry = str(info.get('industryKey') or '')
+    if target_industry.startswith('semiconductor'):
+        # Aplicaciones para vehículos no convierten a NVIDIA en un fabricante
+        # de coches. Clasificar su actividad productiva antes que sus clientes.
+        lead = str(info.get('longBusinessSummary') or '')[:450].lower()
+        if 'memoria' in target_tags and re.search(r'\b(memory|dram|nand|hbm)\b',lead):
+            focus = {'memoria'}
+        else:
+            focus = target_tags & {'diseno_chips','equipos_semis'}
+            if not focus:focus = target_tags & {'fundicion'}
+    if not focus and 'software_empresa' in target_tags:
+        focus = {'software_empresa'}
+    target_tokens = set(_tokens(info.get('longBusinessSummary')))
+    target_cap = _num(info.get('marketCap')) / 1e9
+    target_name = str(info.get('longName') or '').strip().casefold()
+    rows = []
+    for _, row in universe.iterrows():
+        r = row.to_dict()
+        symbol = normalize_ticker(r.get('Ticker'))
+        name = str(r.get('Empresa') or symbol).strip().casefold()
+        if not symbol or symbol == str(info.get('symbol') or '').upper() or (target_name and name == target_name):
+            continue
+        desc = str(r.get('Descripción actividad') or '')
+        tags = activity_tags(desc)
+        shared = target_tags & tags
+        same_ind = bool(info.get('industryKey') and str(info['industryKey']).casefold() == str(r.get('Industria clave') or '').casefold())
+        same_sec = bool(info.get('sectorKey') and str(info['sectorKey']).casefold() == str(r.get('Sector clave') or '').casefold())
+        if target_industry.startswith('banks-') and str(r.get('Industria clave') or '').startswith('insurance-'):
+            continue  # Una participación en banca no convierte al asegurador en banco.
+        if target_industry.startswith('semiconductor') and 'diseno_chips' in focus:
+            peer_lead=desc[:450].lower()
+            if re.search(r'\b(memory|dram|nand|hbm)\b',peer_lead):
+                continue  # Fabricantes de memoria no son diseñadores de procesadores.
+            if re.search(r'\b(analog and embedded|the analog segment|data converter products|power products)\b',peer_lead) and not re.search(r'\b(analog and embedded|the analog segment|data converter products|power products)\b',str(info.get('longBusinessSummary') or '')[:450].lower()):
+                continue  # La mera etiqueta semiconductors no basta.
+            if 'foundry' in peer_lead and not re.search(r'\b(gpus?|cpus?|microprocessors?)\b',peer_lead):
+                continue
+        sim = _num(r.get('Similitud de actividad (0-100)')) / 100
+        common = target_tokens & set(_tokens(desc))
+        conflict = activity_conflict(target_tags, tags)
+        if focus and not (focus & tags):
+            continue
+        if 'software_empresa' in target_tags and 'ciberseguridad' not in target_tags and 'ciberseguridad' in tags:
+            continue
+        related = (shared and (same_ind or same_sec) and len(common) >= 2) or (same_ind and sim >= .23)
+        if not desc or conflict or not related:
+            continue
+        positive = sum(_num(r.get(k)) > 0 for k in ['PER trailing', 'PER forward', 'EV/EBITDA'])
+        basics = sum(_num(r.get(k)) > 0 for k in ['Precio actual', 'Capitalización (miles de millones)', 'Ingresos TTM (miles de millones)'])
+        if not positive or basics < 2:
+            continue
+        cap = _num(r.get('Capitalización (miles de millones)'))
+        size = 0.
+        if r.get('Divisa cotización') == info.get('currency') and cap > 0 and target_cap > 0:
+            size = 35 * math.exp(-abs(math.log(cap / target_cap)) / 3)
+        # No premiar múltiples menciones de negocios secundarios por encima
+        # de un negocio principal común ni la distinción infrastructure/application.
+        industry_family = same_ind or (str(info.get('industryKey') or '').startswith('software-') and str(r.get('Industria clave') or '').startswith('software-'))
+        overlap = len((focus or target_tags) & tags) / max(1,len(focus or target_tags))
+        score = 20 * overlap + 5 * industry_family + 10 * (sim if np.isfinite(sim) else 0) + size + positive
+        if target_industry.startswith('semiconductor') and 'computo_datacenter' in shared:
+            score += 8
+        partial = not same_ind or bool(tags - target_tags)
+        r.update({'Relación B': 'Actividad relacionada · comparación parcial' if partial else 'Misma industria y actividad',
+            'Justificación económica': ', '.join(sorted(shared)) or 'Misma industria y descripción similar',
+            'Limitación económica': 'Mezcla de negocios/tamaño/exposición diferentes; revisar segmentos' if partial else 'Similitud heurística; revisar exposición, crecimiento y márgenes',
+            'Prioridad': round(score, 3), 'Ratios disponibles': positive,
+            'Emisor económico': r.get('Emisor económico') or name})
+        rows.append(r)
+    if not rows:
+        return pd.DataFrame()
+    out = pd.DataFrame(rows).sort_values(['Prioridad', 'Ticker'], ascending=[False, True])
+    return out.drop_duplicates('Emisor económico').head(max_peers).reset_index(drop=True)
+
+
 def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.nan,
                      target_cap=np.nan, curated=None, target_info=None,
-                     max_peers=10, min_peers=3, return_universe=False, as_of=None):
+                     max_peers=5, min_peers=3, return_universe=False, as_of=None):
     """Una sola clasificación para TODO el universo y para las referencias.
 
     - Confianza Baja NUNCA es elegible.
@@ -455,3 +584,4 @@ def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.na
     reference=pd.DataFrame(refs)
     values=(selected,per,ev,reference)
     return (*values,full) if return_universe else values
+
