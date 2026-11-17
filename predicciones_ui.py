@@ -1,3 +1,4 @@
+from presentacion_dashboard import info as help_info,numero
 """Controles PER reutilizados en Seguimiento y Resumen; sin fórmulas nuevas."""
 import hashlib
 import json
@@ -19,12 +20,12 @@ def render_per_controls(result,key,on_apply):
     version=hashlib.sha256(json.dumps(saved,sort_keys=True,default=str).encode()).hexdigest()[:12]
     prefix='per_'+key+'_'+version
     with st.expander('Referencia PER · automático o manual',expanded=True):
-        st.caption('Las dos vistas comparten empresa y supuestos. Automático usa la referencia admisible del modelo; Manual aplica tu hipótesis al EPS proyectado. La mediana informativa de comparables no sustituye sus controles.')
-        st.caption('Referencia del modelo: '+str(result.summary.get('per_source') or 'No disponible'))
+        help_info('Las dos vistas comparten empresa y supuestos. Automático usa la referencia admisible del modelo; Manual aplica tu hipótesis al EPS proyectado. La mediana informativa de comparables no sustituye sus controles.')
+        help_info('Referencia del modelo: '+str(result.summary.get('per_source') or 'No disponible'))
         current=result.metrics[result.metrics['Indicador'].eq('PER TTM')]
         current_pe=float(current.iloc[0]['Valor']) if len(current) else float('nan')
         if math.isfinite(current_pe) and math.isfinite(observed):
-            st.caption(f'PER actual TTM: {current_pe:,.2f}× · PER Base supuesto: {observed:,.2f}×. Un objetivo puede depender de una expansión o contracción del múltiplo, además del crecimiento del beneficio.')
+            help_info(f'PER actual TTM: {numero(current_pe)}× · PER Base supuesto: {numero(observed)}×. Un objetivo puede depender de una expansión o contracción del múltiplo, además del crecimiento del beneficio.')
         if not math.isfinite(observed):st.info('Sin PER automático admisible. El 20 del formulario es sólo un valor inicial de edición; no es un PER calculado ni aplicado.')
         with st.form(prefix):
             mode=st.radio('Modo del PER',['Automático','Manual'],index=1 if manual else 0,horizontal=True,key=prefix+'_mode')
@@ -36,7 +37,7 @@ def render_per_controls(result,key,on_apply):
             basis=st.selectbox('Base temporal del PER manual',['TTM','NTM'],index=1 if saved.get('per_basis')=='NTM' else 0,key=prefix+'_basis')
             exploratory=st.checkbox('Permitir valoración exploratoria con 2 PER históricos limpios',value=saved.get('exploratory_pe',False),key=prefix+'_exploratory')
             apply=st.form_submit_button('Aplicar referencia PER',type='primary')
-        st.caption('El valor Base y las distancias se aplican en Manual. Con dos referencias históricas, la opción exploratoria tiene confianza Baja. El PER manual no resuelve ausencias de EPS ni bloqueos contables; se conservan los demás ajustes.')
+        help_info('El valor Base y las distancias se aplican en Manual. Con dos referencias históricas, la opción exploratoria tiene confianza Baja. El PER manual no resuelve ausencias de EPS ni bloqueos contables; se conservan los demás ajustes.')
         if result.summary.get('exploratory_pe'):st.warning('Valoración exploratoria: sólo dos referencias históricas; confianza Baja.')
         if apply:
             try:on_apply(per_settings(saved,mode,chosen,lower/100,upper/100,reason,basis,exploratory))

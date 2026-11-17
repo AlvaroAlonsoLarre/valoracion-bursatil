@@ -259,14 +259,14 @@ def test_dashboard_has_six_tabs_exports_and_recalculates_policy(tmp_path,stock_i
     at=AppTest.from_file(Path(__file__).resolve().parents[1]/'dashboard_app.py').run(timeout=40)
     assert not at.exception
     assert [t.label for t in at.tabs]==['Mi seguimiento','Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría']
-    assert len(at.metric)==4 and at.metric[0].value=='100.00'
+    assert len(at.metric)==14 and at.metric[0].value=='100,00'
     # Retorno exigido afecta al valor razonable descontado, no al precio futuro EPS/PER.
     before=at.metric[1].value
     control=next(n for n in at.number_input if n.label=='Retorno exigido')
     control.set_value(20.)
     next(b for b in at.button if b.label=='Aplicar criterios y posición').click().run(timeout=40)
     assert not at.exception and at.metric[1].value!=before
-    assert at.metric[2].value=='-12.5 %'
+    assert at.metric[2].value=='-12,5 %'
 
 
 def test_stale_price_blocks_comparison_not_the_future_eps(stock_inputs):
@@ -385,3 +385,4 @@ def test_sec_index_403_does_not_force_yahoo_financial_history(monkeypatch):
     monkeypatch.setattr(sec,'cik_from_filing_links',lambda ticker,ua:('0000789019','Microsoft Corporation') if ticker=='MSFT' else (None,None))
     assert sec.resolve_cik('MSFT','StockValuationProject/1.0')==('0000789019','Microsoft Corporation')
     assert sec.resolve_cik('UNKNOWN','StockValuationProject/1.0')==(None,None)
+

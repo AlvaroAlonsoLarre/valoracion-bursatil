@@ -314,7 +314,7 @@ class Service:
         return self.store.entry(ticker)
 
     def ensure_metrics(self,entry):
-        if entry['payload'] and (entry['metrics'].get('schema_version')!=4 or 'methods' not in entry['metrics']):
+        if entry['payload'] and (entry['metrics'].get('schema_version')!=5 or 'methods' not in entry['metrics']):
             p=deepcopy(entry['payload'])
             if entry['metrics'].get('quarters') and 'Seguimiento neto trimestral' not in p.get('historical',{}):
                 p.setdefault('historical',{})['Seguimiento neto trimestral']=frame_payload(pd.DataFrame(entry['metrics']['quarters']))
@@ -333,3 +333,4 @@ class Service:
         for key in ['financial_updated','financial_checked','revision_hash','quote_queried_at','peers_updated','components','component_errors']:
             if key in entry['metrics']:m[key]=entry['metrics'][key]
         self.store.save(ticker,p,m,entry['error'])
+
