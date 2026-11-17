@@ -8,9 +8,11 @@ python -m venv .venv
 .venv/bin/streamlit run dashboard_app.py
 ```
 
-En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El dashboard contiene seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real. [Informe V7, pruebas y captura de pantalla](docs/v7_integrada_2026-11-13/INFORME.md).
+En Windows consulta las [instrucciones de ejecución directa](WINDOWS.md); siguen disponibles `iniciar_dashboard.bat` y `iniciar_dashboard.ps1`. El análisis individual conserva seis pestañas: **Resumen, Histórico, Trimestrales, Comparables, Valoración y Datos y auditoría**. Puede consultar un ticker o abrir una captura auditada JSON sin red. La captura de ejemplo tiene fecha explícita; no representa una cotización en tiempo real. [Informe V7, pruebas y captura de pantalla](docs/v7_integrada_2026-11-13/INFORME.md).
 
 La distribución estable es `main`: [descarga el ZIP sin Git](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/main.zip), extrae todo y abre `iniciar_dashboard.bat` con Python 3.12 x64 instalado. El lanzador prepara `.venv`, comprueba las dependencias fijadas y configura UTF-8/HTTPS, sin descargar ni parchear el código. [Consolidación Windows y validación financiera](docs/consolidacion_v7_2026-11-13/INFORME.md).
+
+**[Mi seguimiento](SEGUIMIENTO.md)** es la primera pestaña: lista persistente, gráfico único de cotización/escenarios, búsqueda por nombre/ticker, métricas V7, EV/EBITDA FY con calidad explícita, QoQ fiscal y actualización incremental con caché. Separa comparables validados e informativos y permite importar/exportar lista y capturas. Conserva los seis apartados del análisis individual y sus controles. [Validación y captura](docs/seguimiento_completo_2026-11-16/INFORME.md).
 
 ## Modelo principal
 
@@ -83,3 +85,53 @@ La [revisión económica final](docs/economia_final_2026-11-12/INFORME.md) compa
 La V7 integrada parte de la V6 verificada `b50a51d` y utiliza los mismos módulos financieros. [Ejecución Windows](WINDOWS.md). El gráfico utiliza cierres archivados a una semana/cuatro meses/un año y permite ocultar o mostrar escenarios a uno/cuatro meses/un año/tres años; los puntos intermedios son interpolaciones ilustrativas, nunca un motor mensual alternativo. Los objetivos de uno/tres años son exclusivamente los del motor EPS × PER.
 
 El PER manual se configura en Resumen, con distancias pesimista/optimista y justificación. Sus cambios conservan todos los demás supuestos. La referencia de dos PER limpios es una opción exploratoria explícita de confianza Baja; con cero o uno se necesita un PER manual justificado. Nunca evita requisitos de EPS, divisas, acciones o contabilidad.
+
+# Comparables: hasta diez empresas y mediana en Mi seguimiento
+
+El dashboard y el Excel incluyen `Comparables informativos`: hasta diez
+emisores con actividad relacionada, datos básicos y al menos un múltiplo
+positivo disponible. La tabla muestra el motivo económico, los límites de la
+comparación, las monedas, las fechas y cada ratio por separado. Un dato ausente
+no elimina los otros indicadores. No se añaden empresas de otro negocio para
+completar diez. Las clases de acciones del mismo emisor se cuentan una vez.
+
+El descubrimiento usa Yahoo Industry/Search/Sector y las semillas económicas
+revisables de `comparables_config.json`. Las semillas pasan los mismos controles;
+no otorgan elegibilidad para valorar. Con `FMP_API_KEY` y/o `FINNHUB_API_KEY` en el
+entorno también consulta sus endpoints de peers. No hay claves incluidas en el
+repositorio. El acceso depende del plan y la cobertura del proveedor; sin claves
+o si un proveedor falla, sigue funcionando con Yahoo. Los sufijos de bolsa
+desconocidos no se traducen por conjetura.
+
+La caché del dashboard conserva perfiles/listas durante 72 horas y los ratios
+informativos se renuevan siguiendo la política existente. El descubrimiento
+evita repetir Industry/growth/performance, descarga perfiles por lotes y termina
+cuando hay cobertura suficiente. Si Yahoo limita consultas, no insiste con toda
+la lista. Una cobertura parcial se identifica como tal.
+
+Los ratios Yahoo de esta tabla son descriptivos y **no se usan automáticamente
+para calcular precios objetivo**. Los controles de PER TTM/NTM, definición GAAP,
+periodos, moneda y EV/EBITDA de valoración se mantienen separados.
+
+Para reproducir una comprobación con datos actuales:
+
+```bash
+python verificar_comparables.py --tickers NFLX MSFT 000660.KS JNJ JPM NVDA --outdir Resultados/comparables
+```
+
+Guarda JSON y CSV con perfiles, candidatos, fechas, resultados y errores. Código
+de salida 2 significa cobertura insuficiente/error de proveedor en algún ticker;
+no equivale a diez comparables correctos. Las consultas pueden quedar limitadas
+por Yahoo. Los resultados observados el 16-11-2026 y las pruebas se documentan
+en `docs/comparables_2026-11-16/INFORME.md`.
+
+
+La columna PER comparables TTM de Mi seguimiento muestra la **mediana**, con N
+ y origen explícitos. Prefiere TTM verificado homogéneo; si no está disponible,
+ muestra la mediana TTM Yahoo informativa sin trasladarla a objetivos. Forward
+ sigue separado. Los otros múltiplos de comparables de la tabla también usan
+ mediana. Las listas existentes recalculan estos valores al abrir, sin red ni
+ borrar capturas. Para ampliar una búsqueda antigua a diez, usa una vez
+ Forzar actualización completa; se conservan los ajustes del usuario.
+ Netflix dispone de clasificación de vídeo/contenido y candidatos de respaldo
+ revisables por actividad, sujetos a los mismos filtros y cobertura de datos.

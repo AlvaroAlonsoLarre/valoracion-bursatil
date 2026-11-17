@@ -1,0 +1,12 @@
+{
+  "rows": 5,
+  "tabs": 7,
+  "selected_row_opens_summary": true,
+  "persistence_after_reload": true,
+  "json_export": true,
+  "widths": {
+    "viewport": 390,
+    "body": 390
+  },
+  "errors": []
+}

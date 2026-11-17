@@ -1,0 +1,14 @@
+{
+  "timezone": "Europe/Madrid",
+  "chart_company": "NVDA",
+  "single_price_chart": true,
+  "summary_no_price_chart": true,
+  "sorted_price_opens_NVDA": true,
+  "export_import": true,
+  "rows": 5,
+  "width": {
+    "viewport": 390,
+    "body": 390
+  },
+  "errors": []
+}

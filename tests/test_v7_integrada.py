@@ -137,6 +137,9 @@ def test_streamlit_per_and_other_settings_persist_through_reruns(tmp_path,monkey
     from streamlit.testing.v1 import AppTest
     p=deepcopy(archived('MSFT'));p['evidence']['stock_model']['settings']={'scenarios':{'Base':{'growth':.10}},'policy':{'required_return':.12}}
     path=tmp_path/'capture.json';path.write_text(json.dumps(p));monkeypatch.setenv('VALUACION_DASHBOARD_SNAPSHOT',str(path))
+    from seguimiento_servicio import Service
+    from seguimiento_store import Store
+    Service(Store()).save_capture(p)
     a=AppTest.from_file(ROOT/'dashboard_app.py').run(timeout=40);assert not a.exception
     next(r for r in a.radio if r.label=='Modo del PER').set_value('Manual')
     next(n for n in a.number_input if n.label=='PER objetivo Base').set_value(20.)
@@ -170,9 +173,12 @@ def test_legacy_manual_capture_keeps_prices_when_recalculating_other_form(tmp_pa
 
 def test_model_fingerprint_changes_with_financial_source(tmp_path):
     from estado_dashboard import model_fingerprint
-    for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py']:(tmp_path/name).write_text('base')
+    for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py','comparables_inteligentes.py','seguimiento_metricas.py']:(tmp_path/name).write_text('base')
     before=model_fingerprint(tmp_path);(tmp_path/'analisis_acciones.py').write_text('revision')
     assert model_fingerprint(tmp_path)!=before
+    for name in ['comparables_inteligentes.py','seguimiento_metricas.py']:
+        before=model_fingerprint(tmp_path);(tmp_path/name).write_text('comparables y mediana revisados')
+        assert model_fingerprint(tmp_path)!=before
 
 
 @pytest.mark.parametrize('payload',[[],{'schema':'audit-inputs-v1','frames':{'annual':{} ,'peers':{}},'kwargs':{}},{'schema':'audit-inputs-v1','frames':[], 'kwargs':{}}])

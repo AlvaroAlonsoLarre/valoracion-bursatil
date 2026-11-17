@@ -1,0 +1,20 @@
+{
+  "MSFT": {
+    "celdas_excel_json": 18379,
+    "objetivos_eps_per": 6,
+    "base_1y": 696.8406273758014,
+    "base_3y": 940.6814417866705,
+    "qoq": "20/20",
+    "ev_fy_reproducible": true,
+    "importacion_sin_red": true
+  },
+  "NVDA": {
+    "celdas_excel_json": 17527,
+    "objetivos_eps_per": 6,
+    "base_1y": 496.89794956311687,
+    "base_3y": 1159.41109704551,
+    "qoq": "20/20",
+    "ev_fy_reproducible": true,
+    "importacion_sin_red": true
+  }
+}

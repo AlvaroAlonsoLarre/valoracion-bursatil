@@ -40,7 +40,7 @@ configure_runtime()
 TICKER = os.environ.get("VALUACION_TICKER", "MSFT").strip().upper() or "MSFT"
 NUM_TRIMESTRES = int(os.environ.get("VALUACION_NUM_TRIMESTRES", "12"))
 HORIZONTES = (1, 3)
-MAX_COMPARABLES = 6
+MAX_COMPARABLES = 10
 MAX_CANDIDATOS_INFO = max(15, min(100, int(os.environ.get("VALUACION_MAX_CANDIDATOS", "55"))))
 ANIOS_HISTORICO_SEC = 10
 # Se admite un contacto real opcional; el valor por defecto identifica el software.
@@ -61,6 +61,9 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import yfinance as yf
+if os.environ.get('VALUACION_SOURCE_CACHE'):
+    from seguimiento_fuentes import CachedYahoo
+    yf=CachedYahoo(yf,os.environ['VALUACION_SOURCE_CACHE'],TICKER,os.environ.get('VALUACION_SOURCE_FORCE')=='1')
 from sec_historical import download_sec_annual_history
 from modelo_fundamental import build_fundamental_model, fx_rate
 from comparables_inteligentes import selected_candidates, discover_candidates, score_and_filter, economic_seeds
@@ -652,6 +655,7 @@ mostrar(tabla_financiera)
 # 6. HISTÓRICO DE PRECIOS Y VALORACIÓN AL CIERRE FISCAL
 # ============================================================
 filas_valoracion = []
+from historico_acciones import enterprise_multiple
 for anio, datos in tabla_financiera_usd.iterrows():
     fecha_fiscal = normalizar_fecha(datos["Fecha cierre fiscal"])
     precio = precio_cierre_en_o_antes(precios, fecha_fiscal)
@@ -663,9 +667,8 @@ for anio, datos in tabla_financiera_usd.iterrows():
 
     # Aproximación: las acciones diluidas medias no son las acciones exactas al cierre.
     capitalizacion = precio * acciones if pd.notna(precio) and pd.notna(acciones) else np.nan
-    valor_empresa = capitalizacion + deuda_neta if pd.notna(capitalizacion) and pd.notna(deuda_neta) else np.nan
+    valor_empresa,ev_ebitda = enterprise_multiple(capitalizacion,deuda_neta,ebitda)
     per = dividir_seguro(precio, eps)
-    ev_ebitda = dividir_seguro(valor_empresa, ebitda)
     ev_fcf = dividir_seguro(valor_empresa, fcf)
     fcf_yield = dividir_seguro(fcf, capitalizacion)
     roic = dividir_seguro(datos["NOPAT aproximado"], datos["Capital invertido aproximado"])
@@ -1216,39 +1219,7 @@ print("=" * 100)
 print(f"Empresa analizada: {nombre_empresa} ({TICKER})")
 print(f"Sector Yahoo: {sector_objetivo} | Industria Yahoo: {industria_objetivo}")
 
-# A) Universo principal: empresas de la misma industria.
-# Se usan los objetos Industry/Sector de yfinance en vez de EquityQuery,
-# porque el nombre de industria devuelto por Ticker.info puede no coincidir
-# exactamente con la enumeración estricta del screener.
-if industria_key_objetivo and hasattr(yf, "Industry"):
-    try:
-        industria_yahoo = yf.Industry(
-            industria_key_objetivo,
-            region=(region_key_objetivo.upper() if region_key_objetivo else "US"),
-        )
-        procesar_tabla_empresas(
-            industria_yahoo.top_companies, "Top companies: misma industria",
-            0 if region_key_objetivo else 1
-        )
-        # Estas listas complementan el universo si la tabla principal es pequeña.
-        try:
-            procesar_tabla_empresas(
-                industria_yahoo.top_growth_companies,
-                "Top growth: misma industria", 0 if region_key_objetivo else 1
-            )
-        except Exception:
-            pass
-        try:
-            procesar_tabla_empresas(
-                industria_yahoo.top_performing_companies,
-                "Top performing: misma industria", 0 if region_key_objetivo else 1
-            )
-        except Exception:
-            pass
-    except Exception as error:
-        warnings.warn(f"No se pudieron consultar empresas de la industria: {error}")
-
-
+# Descubrimiento único: evita repetir Industry/growth/performance por mercado.
 # Descubrimiento multi-región automático (sin catálogo por ticker).
 # Complementa Industry local/US con Japón, Corea, Taiwán y buscador de actividad;
 # elimina la limitación de solo un país y añade competidores transfronterizos.
@@ -1335,6 +1306,7 @@ def extraer_metricas_peer(simbolo, datos_info, origen, prioridad_origen):
     )
     similitud = 100 * np.exp(-distancia) if pd.notna(distancia) else np.nan
 
+    from comparables_inteligentes import basic_peer_row
     return {
         "Ticker": simbolo,
         "Empresa": datos_info.get("longName") or datos_info.get("shortName") or simbolo,
@@ -1372,6 +1344,7 @@ def extraer_metricas_peer(simbolo, datos_info, origen, prioridad_origen):
         "Prioridad relación": prioridad_relacion,
         "Prioridad origen": prioridad_origen,
         "Distancia de tamaño": distancia,
+        **basic_peer_row(simbolo,datos_info,origen),
     }
 
 
@@ -1387,12 +1360,14 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
         return 999.0 # Screener no acredita divisa; nunca comparar capitalizaciones nativas
     # Muestreo diversificado: evita que una única región o el primer listado de
     # Industry consuma toda la cuota de get_info() y oculte empresas afines.
-    grupos = {'manual': [], 'industria_local': [], 'industria_global': [],
+    grupos = {'manual': [], 'proveedor': [], 'industria_local': [], 'industria_global': [],
               'actividad': [], 'sector': []}
     for item in lista:
         origen = str(item.get('Origen candidatos','')).lower()
         if item['Ticker'] in comparables_economicos_config or item['Ticker'] in economic_seeds(TICKER):
             key='manual'
+        elif origen.startswith('peers '):
+            key='proveedor'
         elif 'búsqueda actividad' in origen or 'busqueda actividad' in origen:
             key='actividad'
         elif 'sector yahoo' in origen or 'mismo sector' in origen:
@@ -1405,14 +1380,14 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
             key='industria_local'
         grupos[key].append(item)
     for items in grupos.values():
-        items.sort(key=lambda c:(distancia_previa(c),c['Ticker']))
+        items.sort(key=lambda c:(c['Prioridad origen'],distancia_previa(c)))
     cuotas={'manual':max(len(economic_seeds(TICKER)),len(comparables_economicos_config),3,int(max_candidatos*.10)),
-            'industria_local':max(12,int(max_candidatos*.36)),
+            'proveedor':10,'industria_local':max(12,int(max_candidatos*.36)),
             'industria_global':max(10,int(max_candidatos*.25)),
             'actividad':max(7,int(max_candidatos*.20)),
             'sector':max(3,int(max_candidatos*.09))}
     chosen=[]; chosen_tickers=set()
-    for key in ('manual','industria_local','industria_global','actividad','sector'):
+    for key in ('manual','proveedor','industria_local','industria_global','actividad','sector'):
         for item in grupos[key][:cuotas[key]]:
             if item['Ticker'] not in chosen_tickers and len(chosen)<max_candidatos:
                 chosen.append(item);chosen_tickers.add(item['Ticker'])
@@ -1440,10 +1415,18 @@ def descargar_metricas_candidatos(lista_candidatos, max_candidatos=MAX_CANDIDATO
             if fila is not None:
                 filas.append(fila)
                 registro_candidatos[simbolo].update({'Estado descarga':'DESCARGADO'})
+                # Terminar por lotes: permitir evaluar toda la lista económica
+                # inicial antes de gastar decenas de peticiones en más países.
+                if len(filas)>=10 and len(filas)%5==0:
+                    from comparables_inteligentes import select_display_peers
+                    if len(select_display_peers(pd.DataFrame(filas),info))>=MAX_COMPARABLES:
+                        break
             else:registro_candidatos[simbolo].update({'Estado descarga':'EXCLUIDO','Detalle descarga':'Fuera de sector/industria'})
         except Exception as error:
             registro_candidatos[simbolo].update({'Estado descarga':'ERROR','Detalle descarga':str(error)[:250]})
             warnings.warn(f"No se pudieron descargar las métricas de {simbolo}: {error}")
+            if type(error).__name__=='YFRateLimitError':
+                break  # No agravar el límite insistiendo con todos los candidatos.
     return filas
 
 
@@ -1464,7 +1447,9 @@ def seleccionar_mejores_peers(filas, cantidad):
 peers_seleccionados = seleccionar_mejores_peers(filas_peer_industria, MAX_COMPARABLES)
 
 # B) Si no hay diez comparables de la misma industria, ampliar al mismo sector.
-if len(peers_seleccionados) < MAX_COMPARABLES and sector_key_objetivo and hasattr(yf, "Sector"):
+from comparables_inteligentes import select_display_peers
+limite_yahoo=any('too many requests' in r.get('Detalle descarga','').lower() for r in registro_candidatos.values())
+if not limite_yahoo and len(select_display_peers(pd.DataFrame(filas_peer_industria),info)) < MAX_COMPARABLES and sector_key_objetivo and hasattr(yf, "Sector"):
     candidatos_sector = {}
     try:
         sector_yahoo = yf.Sector(
@@ -1478,7 +1463,7 @@ if len(peers_seleccionados) < MAX_COMPARABLES and sector_key_objetivo and hasatt
         warnings.warn(f"No se pudieron consultar empresas del sector: {error}")
 
     # Solo consultamos candidatos aún no valorados; conservamos los mejores de industria.
-    tickers_ya_consultados = {fila["Ticker"] for fila in filas_peer_industria}
+    tickers_ya_consultados = {t for t,r in registro_candidatos.items() if not r["Estado descarga"].startswith("NO_INTENTADO")}
     candidatos_nuevos = {
         ticker: datos for ticker, datos in candidatos.items()
         if ticker not in tickers_ya_consultados
@@ -1723,8 +1708,8 @@ from historico_acciones import historical_multiples
 historico_auditado=historical_multiples(tabla_financiera_usd,precios,divisa_financiera,divisa_cotizacion,hoy,
     is_adr=needs_adr_bridge(info,divisa_financiera,divisa_cotizacion))
 # Seleccionar por economía antes de gastar consultas de evidencia; preferencia 3–6, sin forzar el mínimo.
-peers_economicos,_,_,_=score_and_filter(universo_df,TICKER,target_info=info,max_peers=6,as_of=hoy)
-peers_economicos,evidencia_comparables=attach_observed_evidence(peers_economicos,yf,hoy,limit=6)
+peers_economicos,_,_,_=score_and_filter(universo_df,TICKER,target_info=info,max_peers=10,as_of=hoy)
+peers_economicos,evidencia_comparables=attach_observed_evidence(peers_economicos,yf,hoy,limit=10)
 if not peers_economicos.empty:
     universo_df['Evidencia múltiplos']=universo_df['Ticker'].map(peers_economicos.set_index('Ticker')['Evidencia múltiplos'])
 from comparables_ttm import collect_ttm_evidence
@@ -1860,3 +1845,4 @@ print(f"Empresa: {nombre_empresa} ({TICKER})")
 print(f"Archivo Excel creado: {archivo_salida.resolve()}")
 print("Hojas: Resumen, Valoracion EPS PER, Supuestos EPS PER, Estado metodos,")
 print("       Comparables seleccionados, Historico, Trimestres y auditoria de fuentes.")
+

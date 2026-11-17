@@ -10,6 +10,16 @@ def number(value):
     except (TypeError,ValueError):return np.nan
 
 
+def enterprise_multiple(capitalization,net_debt,ebitda):
+    """Fórmula histórica V7: EV = capitalización + deuda neta; EV / EBITDA.
+
+    La validación del periodo, moneda y composición se mantiene en cada caller.
+    """
+    cap=number(capitalization);debt=number(net_debt);flow=number(ebitda)
+    ev=cap+debt if np.isfinite(cap) and np.isfinite(debt) else np.nan
+    return ev,ev/flow if np.isfinite(ev) and np.isfinite(flow) and flow!=0 else np.nan
+
+
 def historical_multiples(annual,prices,financial_currency,quote_currency,as_of,*,is_adr=False):
     """Close de Yahoo está ajustado por splits, no por dividendos.
 
@@ -38,7 +48,7 @@ def historical_multiples(annual,prices,financial_currency,quote_currency,as_of,*
             'EPS base cotización':np.nan,'Precio cierre fiscal':np.nan,'Estado base acción':'N/D','Base acción conciliada':False}
         if pd.isna(date) or date>today:
             rows.append(record);continue
-        available=market[(market.index<=date)&(market.index>=date-pd.Timedelta(days=7))]
+        available=market[(market.index<=date)&(market.index>=date-pd.Timedelta(days=7))] if not market.empty else pd.DataFrame()
         if available.empty or 'Close' not in available:
             record['Estado base acción']='Sin cierre observado dentro de 7 días';rows.append(record);continue
         px=number(available['Close'].iloc[-1]);record['Precio cierre fiscal']=px

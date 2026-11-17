@@ -82,6 +82,6 @@ def model_fingerprint(root):
     """Evita reutilizar un cálculo de otra revisión del motor en Streamlit."""
     import hashlib
     digest=hashlib.sha256()
-    for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py']:
+    for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py','comparables_inteligentes.py','seguimiento_metricas.py']:
         digest.update(name.encode());digest.update((Path(root)/name).read_bytes())
     return digest.hexdigest()

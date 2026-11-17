@@ -1,5 +1,7 @@
 # V7 en Windows 11, sin Git
 
+**Revisión de Mi seguimiento (PR #3):** [descarga la rama de prueba](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/feat/mi-seguimiento.zip), extrae todo en una **carpeta nueva** y ejecuta `iniciar_dashboard.bat`. No borres ni sustituyas tu instalación anterior. `main` aún no contiene esta ampliación; la PR permanece abierta hasta tu comprobación visual.
+
 1. Instala **Python 3.12 de 64 bits** desde [python.org](https://www.python.org/downloads/windows/), incluyendo el lanzador `py`.
 2. [Descarga el ZIP de `main`](https://github.com/AlvaroAlonsoLarre/valoracion-bursatil/archive/refs/heads/main.zip). Extrae **todo** el contenido en una carpeta corta, por ejemplo `C:\Bolsa`. También se admiten espacios, acentos y nombres Unicode; la ruta corta evita los límites de longitud de Windows.
 3. Cierra el servidor anterior con `cerrar_dashboard.bat` antes de sustituir una copia. Conserva tus capturas `*_inputs.json` fuera de la carpeta que vayas a reemplazar.

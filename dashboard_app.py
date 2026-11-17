@@ -1,4 +1,4 @@
-"""Dashboard fundamental: seis pestañas, una proyección principal y fuentes auditables.
+"""Dashboard fundamental: seguimiento, seis apartados de análisis y fuentes auditables.
 
 Ejecutar: streamlit run dashboard_app.py. Recalcular supuestos no consulta red.
 """
@@ -20,8 +20,15 @@ from analisis_acciones import SCENARIOS,DEFAULT_POLICY,evaluate_position,validat
 from auditoria_io import clean,provenance
 from flujo_acciones import analysis_from_snapshot,excel_bytes,tables_summary
 from estado_dashboard import prepare_capture,default_capture,per_settings,edited_settings,model_fingerprint
-from grafico_cotizacion import render as render_price_chart
+from grafico_cotizacion import chart_data
+from predicciones_ui import render_predictions
 from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
+from seguimiento_ui import consume_open,render as render_watch,saved_selector,store_for
+from seguimiento_store import storage_path
+from seguimiento_servicio import Service
+from seguimiento_servicio import load_v7_capture as load_capture
+
+TAB_NAMES=['Mi seguimiento','Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría']
 
 ROOT=Path(__file__).resolve().parent
 st.set_page_config(page_title='Fundamental · Acciones',page_icon='◈',layout='wide')
@@ -70,22 +77,13 @@ def calculate(payload_json,settings_json):
     return cached_calculate(payload_json,settings_json,model_fingerprint(ROOT))
 
 
-def load_capture(ticker,quarters,contact):
-    if not re.fullmatch(r'[A-Z0-9][A-Z0-9.\-^=]{0,24}',ticker):raise ValueError('Ticker no válido')
-    if contact and not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',contact):raise ValueError('Contacto SEC no válido')
-    with tempfile.TemporaryDirectory(prefix='fundamental_ui_') as folder:
-        env=child_environment()
-        if contact:env['SEC_CONTACT_EMAIL']=contact
-        args=[sys.executable,str(ROOT/'ejecutar_analisis.py'),'--ticker',ticker,'--num-quarters',str(quarters),'--outdir',folder]
-        proc=subprocess.run(args,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=1500)
-        snapshot=Path(folder)/(ticker+'_inputs.json')
-        if proc.returncode not in (0,2) or not snapshot.exists():raise RuntimeError((proc.stderr or proc.stdout)[-1800:])
-        return snapshot.read_text(encoding='utf-8')
 
 
+consume_open()
 with st.sidebar:
     st.markdown('### ◈ Fundamental')
     st.caption('V7 integrada · motor financiero original')
+    saved_selector()
     st.divider()
     with st.form('company'):
         ticker=st.text_input('Ticker',value=st.session_state.get('selected_ticker','MSFT'),help='EE. UU.: MSFT, JNJ, JPM. También admite 000660.KS y otras bolsas.').strip().upper()
@@ -94,7 +92,7 @@ with st.sidebar:
         fetch=st.form_submit_button('Consultar fuentes',type='primary',width='stretch')
     st.caption('SEC · histórico anual\n\nYahoo · cotizaciones y trimestres')
     st.divider()
-    uploaded=st.file_uploader('Abrir captura JSON auditada',type=['json'])
+    uploaded=st.file_uploader('Abrir captura JSON auditada',type=['json'],key='capture_upload_'+str(st.session_state.get('watch_grid_epoch',0)))
     st.caption('Los cambios de supuestos usan la captura cargada; no vuelven a descargar las fuentes.')
 
 if fetch:
@@ -120,7 +118,10 @@ if uploaded is not None:
         except (ValueError,UnicodeDecodeError) as exc:st.session_state['capture_error']=str(exc)
 if 'capture' not in st.session_state:
     try:
-        text_capture=default_capture(ROOT,os.environ.get('VALUACION_DASHBOARD_SNAPSHOT'))
+        saved_store=store_for(str(storage_path()))
+        saved_entries=[e for e in saved_store.entries() if e['payload']]
+        remembered=next((e for e in saved_entries if e['ticker']==saved_store.meta('selected_company')),saved_entries[0] if saved_entries else None)
+        text_capture=json.dumps(remembered['payload'],ensure_ascii=False) if remembered and not os.environ.get('VALUACION_DASHBOARD_SNAPSHOT') else default_capture(ROOT,os.environ.get('VALUACION_DASHBOARD_SNAPSHOT'))
         text_capture,notes=prepare_capture(text_capture)
         st.session_state['capture']=text_capture
         st.session_state['settings']=json.dumps(json.loads(text_capture)['evidence']['stock_model'].get('settings',{}))
@@ -133,8 +134,9 @@ st.markdown('<div class="overline">ANÁLISIS FUNDAMENTAL / RENTA VARIABLE</div>'
 if 'capture' not in st.session_state:
     st.title('Del negocio al precio por acción')
     st.write('Consulta un ticker para analizar sus resultados, comparar valoraciones y explorar escenarios a uno y tres años.')
-    tabs=st.tabs(['Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría'])
-    with tabs[0]:st.info('Elige una empresa en el panel lateral. También puedes importar una captura auditada para trabajar sin red.')
+    tabs=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
+    with tabs[0]:render_watch(load_capture)
+    with tabs[1]:st.info('Elige una empresa en el panel lateral. También puedes importar una captura auditada para trabajar sin red.')
     st.stop()
 
 raw=st.session_state['capture'];payload=json.loads(raw);capture_id=hashlib.sha256(raw.encode()).hexdigest()[:12]
@@ -142,14 +144,23 @@ try:
     result,tables=calculate(raw,st.session_state.get('settings','{}'))
     defaults,_=calculate(raw,'{}')
 except (ValueError,KeyError,TypeError) as exc:
-    st.error('La captura no permite completar el análisis: '+str(exc));st.stop()
+    st.error('La captura no permite completar el análisis: '+str(exc))
+    tabs=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
+    with tabs[0]:render_watch(load_capture)
+    st.stop()
 s=result.summary;info=payload['kwargs'].get('info') or {};currency=s['currency']
-st.title(str(info.get('longName') or s['ticker']))
-st.caption(f"{s['ticker']}  ·  {currency}  ·  Corte {s['as_of']} / cotización {s.get('quote_date') or 'sin fecha'}  ·  Histórico {s['source']}")
-st.caption(st.session_state.get('capture_note','Captura financiera auditada.'))
-st.markdown(f'<span class="status">ESCENARIOS CONDICIONALES · CONFIANZA {html.escape(s["confidence"].upper())}</span>',unsafe_allow_html=True)
+# Persistir únicamente cambios de hipótesis: no sustituye estados ni descarga.
+if st.session_state.pop('settings_dirty',False):Service(store_for(str(storage_path()))).save_settings(s['ticker'],result.settings)
+st.title('Mi seguimiento' if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento' else str(info.get('longName') or s['ticker']))
+if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento':
+    st.caption('Lista personal persistente · cada empresa conserva sus propias fechas, moneda y auditoría. Actualización bajo demanda, sin descargas al ordenar.')
+else:
+    st.caption(f"{s['ticker']}  ·  {currency}  ·  Corte {s['as_of']} / cotización {s.get('quote_date') or 'sin fecha'}  ·  Histórico {s['source']}")
+    st.caption(st.session_state.get('capture_note','Captura financiera auditada.'))
+    st.markdown(f'<span class="status">ESCENARIOS CONDICIONALES · CONFIANZA {html.escape(s["confidence"].upper())}</span>',unsafe_allow_html=True)
 
-resumen,historico,trimestrales,comparables,valoracion,auditoria=st.tabs(['Resumen','Histórico','Trimestrales','Comparables','Valoración','Datos y auditoría'])
+seguimiento,resumen,historico,trimestrales,comparables,valoracion,auditoria=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
+with seguimiento:render_watch(load_capture,payload,result.settings)
 with resumen:
     cols=st.columns(4)
     cols[0].metric(f'Precio actual · {currency}',fmt(s['price']),help='Precio observado en la captura; revisar su fecha y consultar fuentes para actualizar.')
@@ -157,16 +168,14 @@ with resumen:
     cols[2].metric('Potencial a 1 año',fmt(s['upside_1y'],True),help='Precio Base a 1 año / precio de captura − 1. No incluye dividendos.')
     cols[3].metric('Anualizada a 3 años',fmt(s['annual_return_3y'],True),help='(Precio Base a 3 años / precio de captura)^(1/3) − 1. No incluye dividendos, costes o impuestos personales.')
     st.write('')
-    left,right=st.columns([1.8,1])
-    with left:
-        st.subheader('Cotización y escenarios del motor')
-        rows=result.valuation[result.valuation['Método'].eq('EPS × PER')]
-        chart_rows=render_price_chart(payload,s,result.valuation,capture_id)
-        tables['Grafico cotizacion']=chart_rows
-        if not s['primary_available']:
-            method=result.methods[result.methods['Método'].eq('EPS × PER')].iloc[0]
-            st.warning('EPS × PER: '+method['Detalle'])
-    with right:
+    def apply_summary_per(chosen):
+        calculate(raw,json.dumps(chosen,allow_nan=False))
+        st.session_state['settings']=json.dumps(chosen,allow_nan=False)
+        st.session_state['settings_dirty']=True
+        st.rerun()
+    tables['Grafico cotizacion']=render_predictions(payload,result,'summary_'+s['ticker'],apply_summary_per)
+    rows=result.valuation[result.valuation['Método'].eq('EPS × PER')]
+    with st.container():
         st.subheader('Lectura de valoración')
         st.markdown('**'+s['Atractivo']+'**')
         st.write(s['per_source'])
@@ -180,32 +189,6 @@ with resumen:
         if len(rows):
             compact=rows.pivot(index='Escenario',columns='Horizonte (años)',values='Precio objetivo').reindex(SCENARIOS)
             st.dataframe(compact.rename(columns={1:'1 año',3:'3 años'}).style.format('{:,.2f}',na_rep='—'),width='stretch')
-    with st.expander('Referencia PER · automático o manual',expanded=True):
-        saved=result.settings
-        manual=any('pe' in v for v in saved.get('scenarios',{}).values())
-        base_pe=float(result.assumptions.query("Escenario=='Base' and Parámetro=='pe'")['Valor'].iloc[0])
-        base_pe=base_pe if np.isfinite(base_pe) else 20.
-        scenario_settings=saved.get('scenarios',{})
-        down=max(0.,min(.95,1-scenario_settings.get('Pesimista',{}).get('pe',base_pe*.8)/base_pe))
-        up=max(0.,min(1.,scenario_settings.get('Optimista',{}).get('pe',base_pe*1.2)/base_pe-1))
-        with st.form('per_'+capture_id):
-            mode=st.radio('Modo del PER',['Automático','Manual'],index=1 if manual else 0,horizontal=True)
-            a,b,c=st.columns(3)
-            chosen_pe=a.number_input('PER objetivo Base',min_value=.1,max_value=200.,value=float(base_pe),step=.5)
-            lower=b.number_input('Distancia pesimista (%)',min_value=0.,max_value=95.,value=float(round(down*100,6)))
-            upper=c.number_input('Distancia optimista (%)',min_value=0.,max_value=100.,value=float(round(up*100,6)))
-            per_reason=st.text_input('Justificación del PER',value=saved.get('per_reason',''))
-            per_basis=st.selectbox('Base temporal del PER manual',['TTM','NTM'],index=1 if saved.get('per_basis')=='NTM' else 0)
-            exploratory=st.checkbox('Permitir valoración exploratoria con 2 PER históricos limpios',value=saved.get('exploratory_pe',False))
-            pe_apply=st.form_submit_button('Aplicar referencia PER',type='primary')
-        st.caption('Con dos referencias: exploratoria y confianza Baja, banda al menos ±20%. Con cero o una: PER manual justificado. El PER no corrige faltas de EPS ni otros bloqueos contables. Se preservan el resto de ajustes.')
-        if s.get('exploratory_pe'):st.warning('Valoración exploratoria: sólo dos referencias históricas; confianza Baja.')
-        if pe_apply:
-            try:
-                chosen=per_settings(saved,mode,chosen_pe,lower/100,upper/100,per_reason,per_basis,exploratory)
-                calculate(raw,json.dumps(chosen,allow_nan=False))
-                st.session_state['settings']=json.dumps(chosen,allow_nan=False);st.rerun()
-            except (ValueError,TypeError) as exc:st.error(str(exc))
     st.subheader('El negocio en cuatro diagnósticos')
     for column,(_,diagnostic) in zip(st.columns(4),result.diagnostics.iterrows()):
         with column:
@@ -224,7 +207,7 @@ with resumen:
             update_policy=st.form_submit_button('Aplicar criterios y posición')
         if update_policy:
             chosen=json.loads(st.session_state.get('settings','{}'));chosen['policy']=new_policy
-            st.session_state['settings']=json.dumps(chosen);st.session_state['position']={'shares':shares,'cost_price':cost,'portfolio_value':portfolio};st.rerun()
+            st.session_state['settings']=json.dumps(chosen);st.session_state['settings_dirty']=True;st.session_state['position']={'shares':shares,'cost_price':cost,'portfolio_value':portfolio};st.rerun()
         position=st.session_state.get('position')
         if position is not None:
             decision=evaluate_position(s,policy,position)
@@ -262,7 +245,13 @@ with trimestrales:
 
 with comparables:
     st.subheader('Actividad similar, múltiplos separados')
-    st.caption('Preferencia de 3 a 6 empresas. No se fuerza completar el grupo. Los candidatos descartados y sus motivos se conservan en la auditoría.')
+    from seguimiento_metricas import informative_peers
+    descriptive=informative_peers(result.universe,payload['kwargs'].get('info') or {})
+    st.caption(descriptive['coverage'])
+    if descriptive.get('warning'):st.info(descriptive['warning'])
+    st.dataframe(pd.DataFrame(descriptive['rows']),hide_index=True,width='stretch')
+    st.caption('Datos Yahoo informativos. La relación económica y sus límites se muestran por empresa. Cada ratio puede faltar por separado; estos datos sin verificar no se incorporan a los precios objetivo.')
+    st.markdown('**Comparables con controles de valoración**')
     selected=result.peers
     if selected.empty:st.info('No hay pares con actividad suficientemente comparable. Se examina el histórico propio como referencia de menor confianza.')
     else:
@@ -329,7 +318,7 @@ with valoracion:
                 if value.strip():optional[key]=float(value.replace(',','.'))/100
             custom['optional_assumptions']=optional
             validate_settings(custom);calculate(raw,json.dumps(custom,allow_nan=False))
-            st.session_state['settings']=json.dumps(custom,allow_nan=False);st.rerun()
+            st.session_state['settings']=json.dumps(custom,allow_nan=False);st.session_state['settings_dirty']=True;st.rerun()
         except (ValueError,TypeError) as exc:st.error(str(exc))
     st.caption('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan CAGR compuestos a 5/10 FY y márgenes normalizados desde el primer año, sin calibración al precio.')
     st.caption('Los valores automáticos son hipótesis mecánicas y se identifican como tales. Cambiar la cotización no recalibra crecimiento, márgenes ni PER. Para NTM manual introduce los tres PER explícitos.')
@@ -365,3 +354,5 @@ with auditoria:
     b.download_button('Descargar resultados JSON',json.dumps(summary,ensure_ascii=False,allow_nan=False,indent=2),file_name=f"{s['ticker']}_resultados.json",mime='application/json',width='stretch')
     c.download_button('Descargar captura reproducible',capture_export,file_name=f"{s['ticker']}_inputs.json",mime='application/json',width='stretch')
     st.caption('Excel y JSON contienen los supuestos visibles y los mismos resultados. La captura incluye las fuentes y entradas para reproducir el cálculo sin red. Los datos de posición sólo se exportan si se han introducido.')
+
+

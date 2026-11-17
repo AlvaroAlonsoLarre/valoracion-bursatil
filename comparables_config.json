@@ -74,5 +74,70 @@
       }
     ],
     "ciclica": true
+  },
+  "NFLX": {
+    "segmento": "Vídeo, contenido audiovisual y streaming; pares parciales, no equivalentes puros",
+    "candidatos": [
+      {
+        "ticker": "DIS",
+        "grupo": "Parcial",
+        "justificacion": "Disney: streaming y estudios; parques y otros negocios reducen comparabilidad"
+      },
+      {
+        "ticker": "CMCSA",
+        "grupo": "Parcial",
+        "justificacion": "Comcast: Peacock y producción audiovisual; conectividad y parques son otros negocios"
+      },
+      {
+        "ticker": "WBD",
+        "grupo": "Parcial",
+        "justificacion": "Warner Bros. Discovery: estudios, televisión y streaming; validar cotización vigente"
+      },
+      {
+        "ticker": "PSKY",
+        "grupo": "Parcial",
+        "justificacion": "Paramount Skydance: producción audiovisual, televisión y streaming; validar identidad vigente"
+      },
+      {
+        "ticker": "ROKU",
+        "grupo": "Parcial",
+        "justificacion": "Plataforma de streaming y publicidad; modelo diferente de suscripción de Netflix"
+      },
+      {
+        "ticker": "IQ",
+        "grupo": "Parcial",
+        "justificacion": "iQIYI: suscripciones de vídeo y producción de contenido; mercado y ADR distintos"
+      },
+      {
+        "ticker": "BILI",
+        "grupo": "Parcial",
+        "justificacion": "Bilibili: plataforma de vídeo, publicidad y otros negocios; comparación parcial"
+      },
+      {
+        "ticker": "SONY",
+        "grupo": "Parcial",
+        "justificacion": "Sony: producción audiovisual; videojuegos y electrónica alteran múltiplos consolidados"
+      },
+      {
+        "ticker": "LGNA",
+        "grupo": "Parcial",
+        "justificacion": "Lionsgate: estudio audiovisual; no reproduce el modelo de plataforma de Netflix"
+      },
+      {
+        "ticker": "ITV.L",
+        "grupo": "Parcial",
+        "justificacion": "ITV: producción audiovisual, televisión y streaming; mercado y moneda diferentes"
+      },
+      {
+        "ticker": "TFI.PA",
+        "grupo": "Parcial",
+        "justificacion": "TF1: producción, televisión y vídeo digital; comparación parcial"
+      },
+      {
+        "ticker": "035760.KQ",
+        "grupo": "Parcial",
+        "justificacion": "CJ ENM: contenido audiovisual y entretenimiento; mezcla de negocios distinta"
+      }
+    ]
   }
 }
