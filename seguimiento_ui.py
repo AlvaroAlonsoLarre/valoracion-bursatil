@@ -8,7 +8,8 @@ from seguimiento_store import Store,storage_path,TTL
 from seguimiento_servicio import Service,search_companies
 from seguimiento_metricas import discount_color
 from seguimiento_incremental import local_stamp,quote_ttl
-from grafico_cotizacion import render as render_price_chart
+from predicciones_ui import render_predictions
+from flujo_acciones import analysis_from_snapshot
 
 COLUMNS=['Empresa','Ticker','Precio','Moneda','Fecha precio','PER actual TTM','PER mediana 5 FY','Descuento PER (%)','PER comparables TTM',
          'QoQ neto reciente (%)','QoQ neto anterior (%)','QoQ neto tercero (%)','QoQ media 5a (%)','QoQ mediana 5a (%)','Cobertura QoQ',
@@ -99,12 +100,13 @@ def chart_for_entry(entry):
     m=entry['metrics'];p=entry['payload']
     if not p:st.info('Empresa sin captura financiera: actualiza para obtener los datos disponibles');return
     st.caption(f"{entry['name']} · {entry['ticker']} · {p['kwargs']['quote_currency']} · Precio fechado: {m.get('summary',{}).get('quote_date') or '—'} · Guardado: {local_stamp(entry['updated'],st.context.timezone or 'UTC')}")
-    data=render_price_chart(p,m['summary'],pd.DataFrame(m['targets']),'watch_'+entry['ticker'])
-    if not m['summary'].get('primary_available'):
-        methods=m.get('methods',[])
-        reason=next((r.get('Detalle') for r in methods if r.get('Método')=='EPS × PER'),m['summary'].get('per_source','Cobertura insuficiente'))
-        st.info('Limitación de objetivos V7: '+str(reason))
-    return data
+    result,_=analysis_from_snapshot(p)
+    def apply_watch_per(chosen):
+        Service(store_for(str(storage_path()))).save_settings(entry['ticker'],chosen)
+        queue_open(entry['ticker'],'Mi seguimiento')
+        st.rerun()
+    return render_predictions(p,result,'watch_'+entry['ticker'],apply_watch_per)
+
 
 
 def render(load_capture,payload=None,settings=None):
@@ -117,6 +119,34 @@ def render(load_capture,payload=None,settings=None):
     st.caption(f"Tabla: {local_stamp(table_time,zone)} · Última consulta de cotización: {local_stamp(last_query.get('at'),zone)} · Zona local: {zone}")
     stale=sum(table_rows(entries)['Estado datos'].ne('Guardado')) if entries else 0
     st.caption(f'{stale}/{len(entries)} empresas con datos pendientes, antiguos o parciales. Precios observados/últimos cierres fechados, no cotización garantizada en tiempo real.')
+    if entries:
+        frame=table_rows(entries,zone=zone)
+        with st.expander('Personalizar columnas'):
+            saved=store.preferences()
+            if saved is not None:saved=['Actualización local' if c=='Actualización (UTC)' else c for c in saved]
+            if saved is not None and not store.meta('columns_v4'):
+                saved=saved+[c for c in COLUMNS if c not in OLD_COLUMNS and c not in saved];store.set_preferences(saved)
+            store.set_meta('columns_v4',True)
+            default=[c for c in saved if c in frame] if saved is not None else frame.columns.tolist()
+            columns=st.multiselect('Columnas visibles',frame.columns.tolist(),default=default)
+            if columns!=saved:store.set_preferences(columns)
+        if not columns:
+            st.info('Selecciona al menos una columna para mostrar la tabla')
+            columns=['Empresa','Ticker']
+        view=frame[columns].copy()
+        numeric=[c for c in columns if c not in TEXT_COLUMNS]
+        styled,config=present_frame(view,numeric)
+        for name in ['PER comparables TTM','PER TTM comparables B','PER forward comparables B','EV/EBITDA comparables B','EV/EBITDA comparables NTM']:
+            if name in view:config[name]=st.column_config.NumberColumn(name+' · mediana',help='Mediana de valores positivos disponibles. Consultar N, origen y periodo; TTM y forward no se mezclan.')
+        if 'Actualización local' in view:config['Actualización local']=st.column_config.TextColumn('Actualización local',help='Timestamp UTC almacenado; presentado en '+zone)
+        event=st.dataframe(styled,hide_index=True,width='stretch',column_config=config,height=min(560,100+35*len(view)),
+                           key='watch_table_'+str(st.session_state.get('watch_grid_epoch',0)),on_select='rerun',selection_mode='single-row')
+        st.caption('Comparables: medianas de ratios positivos, con N y origen visibles. La mediana Yahoo informativa puede completar el PER TTM mostrado, pero no se utiliza automáticamente en precios objetivo. El forward se mantiene separado.')
+        st.caption('Ordena pulsando cualquier cabecera y desplázate horizontalmente. Seleccionar una fila actualiza el gráfico y las predicciones de abajo. Verde/+ = PER TTM inferior a la mediana FY; rojo/− = superior. No es una señal de compra ni comparación entre periodos idénticos.')
+        if event.selection.rows:
+            entry=entries[event.selection.rows[0]]
+            if entry['payload']:queue_open(entry['ticker'],'Mi seguimiento');st.rerun()
+            else:st.info('Esta empresa aún no tiene una captura; usa Actualizar empresa')
     if entries:
         labels={e['ticker']:e['name']+' · '+e['ticker'] for e in entries}
         if st.session_state.get('watch_chart_ticker') not in labels:st.session_state['watch_chart_ticker']=st.session_state.get('selected_ticker') if st.session_state.get('selected_ticker') in labels else next(iter(labels))
@@ -164,13 +194,13 @@ def render(load_capture,payload=None,settings=None):
         st.info('Tu lista está vacía. Busca y confirma una empresa o guarda el análisis abierto para empezar sin descargar datos.')
         st.caption('Persistencia: '+str(store.path));return
     labels={e['ticker']:e['name']+' · '+e['ticker'] for e in entries}
-    with st.expander('Actualizar y gestionar empresas',expanded=True):
+    with st.expander('Actualizar y gestionar empresas',expanded=False):
         managed=st.selectbox('Empresa de la lista',list(labels),format_func=labels.get)
         force=st.button('Forzar actualización completa',help='Reconsulta todas las fuentes de la empresa seleccionada; conserva tus supuestos manuales.')
         a,b,c,d=st.columns(4)
         one=a.button('Actualizar empresa',width='stretch');all_=b.button('Actualizar todas',width='stretch')
         if c.button('Abrir análisis V7',width='stretch'):
-            if store.entry(managed)['payload']:st.session_state['watch_open']=managed;st.rerun()
+            if store.entry(managed)['payload']:queue_open(managed,'Resumen');st.rerun()
             else:st.info('Actualiza primero la empresa para disponer de una captura')
         remove=d.button('Eliminar empresa',width='stretch')
         if remove:store.remove(managed);st.rerun()
@@ -181,31 +211,6 @@ def render(load_capture,payload=None,settings=None):
                 progress.progress(i/len(tickers),text=f'Actualizando {ticker}…')
                 service.refresh(ticker,force=force)
             progress.empty();st.rerun()
-    frame=table_rows(entries,zone=zone)
-    with st.expander('Personalizar columnas'):
-        saved=store.preferences()
-        if saved is not None:saved=['Actualización local' if c=='Actualización (UTC)' else c for c in saved]
-        if saved is not None and not store.meta('columns_v4'):
-            saved=saved+[c for c in COLUMNS if c not in OLD_COLUMNS and c not in saved];store.set_preferences(saved)
-        store.set_meta('columns_v4',True)
-        default=[c for c in saved if c in frame] if saved is not None else frame.columns.tolist()
-        columns=st.multiselect('Columnas visibles',frame.columns.tolist(),default=default)
-        if columns!=saved:store.set_preferences(columns)
-    if not columns:st.info('Selecciona al menos una columna');return
-    view=frame[columns].copy()
-    numeric=[c for c in columns if c not in TEXT_COLUMNS]
-    styled,config=present_frame(view,numeric)
-    for name in ['PER comparables TTM','PER TTM comparables B','PER forward comparables B','EV/EBITDA comparables B','EV/EBITDA comparables NTM']:
-        if name in view:config[name]=st.column_config.NumberColumn(name+' · mediana',help='Mediana de valores positivos disponibles. Consultar N, origen y periodo; TTM y forward no se mezclan.')
-    if 'Actualización local' in view:config['Actualización local']=st.column_config.TextColumn('Actualización local',help='Timestamp UTC almacenado; presentado en '+zone)
-    event=st.dataframe(styled,hide_index=True,width='stretch',column_config=config,height=min(560,100+35*len(view)),
-                       key='watch_table_'+str(st.session_state.get('watch_grid_epoch',0)),on_select='rerun',selection_mode='single-row')
-    st.caption('Comparables: medianas de ratios positivos, con N y origen visibles. La mediana Yahoo informativa puede completar el PER TTM mostrado, pero no se utiliza automáticamente en precios objetivo. El forward se mantiene separado.')
-    st.caption('Ordena pulsando cualquier cabecera y desplázate horizontalmente. Seleccionar una fila abre su análisis V7. Verde/+ = PER TTM inferior a la mediana FY; rojo/− = superior. No es una señal de compra ni comparación entre periodos idénticos.')
-    if event.selection.rows:
-        entry=entries[event.selection.rows[0]]
-        if entry['payload']:st.session_state['watch_open']=entry['ticker'];st.rerun()
-        else:st.info('Esta empresa aún no tiene una captura; usa Actualizar empresa')
     detail=st.selectbox('Detalle de fuentes y cobertura',list(labels),format_func=labels.get)
     entry=next(e for e in entries if e['ticker']==detail);m=entry['metrics']
     if entry['error']:st.warning('Se conserva la última captura válida. '+entry['error'])
@@ -235,4 +240,5 @@ def render(load_capture,payload=None,settings=None):
             st.caption('Candidatos, relaciones y motivos por los que no cumplen el nivel A')
             show_detail(pd.DataFrame(b.get('candidates',[])))
     st.caption('Ubicación local de la lista: '+str(store.path)+'. En servidores compartidos esta instalación comparte la misma lista; para datos personales usa una instancia propia.')
+
 

@@ -21,6 +21,7 @@ from auditoria_io import clean,provenance
 from flujo_acciones import analysis_from_snapshot,excel_bytes,tables_summary
 from estado_dashboard import prepare_capture,default_capture,per_settings,edited_settings,model_fingerprint
 from grafico_cotizacion import chart_data
+from predicciones_ui import render_predictions
 from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
 from seguimiento_ui import consume_open,render as render_watch,saved_selector,store_for
 from seguimiento_store import storage_path
@@ -167,17 +168,14 @@ with resumen:
     cols[2].metric('Potencial a 1 año',fmt(s['upside_1y'],True),help='Precio Base a 1 año / precio de captura − 1. No incluye dividendos.')
     cols[3].metric('Anualizada a 3 años',fmt(s['annual_return_3y'],True),help='(Precio Base a 3 años / precio de captura)^(1/3) − 1. No incluye dividendos, costes o impuestos personales.')
     st.write('')
-    left,right=st.columns([1.8,1])
-    with left:
-        st.subheader('Escenarios del motor')
-        rows=result.valuation[result.valuation['Método'].eq('EPS × PER')]
-        st.caption('El gráfico único de cotización y previsiones está en Mi seguimiento. Aquí se conservan valoraciones, hipótesis y controles.')
-        chart_rows=chart_data(payload,s,result.valuation,st.session_state.get('hist_watch_'+s['ticker'],'1 año'),st.session_state.get('fut_watch_'+s['ticker'],'1 año'))
-        tables['Grafico cotizacion']=chart_rows
-        if not s['primary_available']:
-            method=result.methods[result.methods['Método'].eq('EPS × PER')].iloc[0]
-            st.warning('EPS × PER: '+method['Detalle'])
-    with right:
+    def apply_summary_per(chosen):
+        calculate(raw,json.dumps(chosen,allow_nan=False))
+        st.session_state['settings']=json.dumps(chosen,allow_nan=False)
+        st.session_state['settings_dirty']=True
+        st.rerun()
+    tables['Grafico cotizacion']=render_predictions(payload,result,'summary_'+s['ticker'],apply_summary_per)
+    rows=result.valuation[result.valuation['Método'].eq('EPS × PER')]
+    with st.container():
         st.subheader('Lectura de valoración')
         st.markdown('**'+s['Atractivo']+'**')
         st.write(s['per_source'])
@@ -191,32 +189,6 @@ with resumen:
         if len(rows):
             compact=rows.pivot(index='Escenario',columns='Horizonte (años)',values='Precio objetivo').reindex(SCENARIOS)
             st.dataframe(compact.rename(columns={1:'1 año',3:'3 años'}).style.format('{:,.2f}',na_rep='—'),width='stretch')
-    with st.expander('Referencia PER · automático o manual',expanded=True):
-        saved=result.settings
-        manual=any('pe' in v for v in saved.get('scenarios',{}).values())
-        base_pe=float(result.assumptions.query("Escenario=='Base' and Parámetro=='pe'")['Valor'].iloc[0])
-        base_pe=base_pe if np.isfinite(base_pe) else 20.
-        scenario_settings=saved.get('scenarios',{})
-        down=max(0.,min(.95,1-scenario_settings.get('Pesimista',{}).get('pe',base_pe*.8)/base_pe))
-        up=max(0.,min(1.,scenario_settings.get('Optimista',{}).get('pe',base_pe*1.2)/base_pe-1))
-        with st.form('per_'+capture_id):
-            mode=st.radio('Modo del PER',['Automático','Manual'],index=1 if manual else 0,horizontal=True)
-            a,b,c=st.columns(3)
-            chosen_pe=a.number_input('PER objetivo Base',min_value=.1,max_value=200.,value=float(base_pe),step=.5)
-            lower=b.number_input('Distancia pesimista (%)',min_value=0.,max_value=95.,value=float(round(down*100,6)))
-            upper=c.number_input('Distancia optimista (%)',min_value=0.,max_value=100.,value=float(round(up*100,6)))
-            per_reason=st.text_input('Justificación del PER',value=saved.get('per_reason',''))
-            per_basis=st.selectbox('Base temporal del PER manual',['TTM','NTM'],index=1 if saved.get('per_basis')=='NTM' else 0)
-            exploratory=st.checkbox('Permitir valoración exploratoria con 2 PER históricos limpios',value=saved.get('exploratory_pe',False))
-            pe_apply=st.form_submit_button('Aplicar referencia PER',type='primary')
-        st.caption('Con dos referencias: exploratoria y confianza Baja, banda al menos ±20%. Con cero o una: PER manual justificado. El PER no corrige faltas de EPS ni otros bloqueos contables. Se preservan el resto de ajustes.')
-        if s.get('exploratory_pe'):st.warning('Valoración exploratoria: sólo dos referencias históricas; confianza Baja.')
-        if pe_apply:
-            try:
-                chosen=per_settings(saved,mode,chosen_pe,lower/100,upper/100,per_reason,per_basis,exploratory)
-                calculate(raw,json.dumps(chosen,allow_nan=False))
-                st.session_state['settings']=json.dumps(chosen,allow_nan=False);st.session_state['settings_dirty']=True;st.rerun()
-            except (ValueError,TypeError) as exc:st.error(str(exc))
     st.subheader('El negocio en cuatro diagnósticos')
     for column,(_,diagnostic) in zip(st.columns(4),result.diagnostics.iterrows()):
         with column:
@@ -382,4 +354,5 @@ with auditoria:
     b.download_button('Descargar resultados JSON',json.dumps(summary,ensure_ascii=False,allow_nan=False,indent=2),file_name=f"{s['ticker']}_resultados.json",mime='application/json',width='stretch')
     c.download_button('Descargar captura reproducible',capture_export,file_name=f"{s['ticker']}_inputs.json",mime='application/json',width='stretch')
     st.caption('Excel y JSON contienen los supuestos visibles y los mismos resultados. La captura incluye las fuentes y entradas para reproducir el cálculo sin red. Los datos de posición sólo se exportan si se han introducido.')
+
 

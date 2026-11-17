@@ -201,7 +201,7 @@ def test_official_fy_shares_survive_import_and_manual_settings_without_network(t
     assert 'test-only-official-shares' in target.entry('MSFT')['metrics']['ev_fy']['rows'][-1]['Origen acciones']
 
 
-def test_single_chart_saved_company_selection_and_no_network_on_rerun(tmp_path,monkeypatch):
+def test_shared_charts_saved_company_selection_and_no_network_on_rerun(tmp_path,monkeypatch):
     from streamlit.testing.v1 import AppTest
     store=Store(tmp_path);service=Service(store)
     service.save_capture(archived('MSFT'));service.save_capture(archived('NVDA'))
@@ -209,10 +209,10 @@ def test_single_chart_saved_company_selection_and_no_network_on_rerun(tmp_path,m
     monkeypatch.setattr('seguimiento_ui.Service.refresh',lambda *a,**k:pytest.fail('La selección no descarga fuentes'))
     monkeypatch.setattr('seguimiento_ui.search_companies',lambda *a,**k:pytest.fail('La selección no busca empresas'))
     app=AppTest.from_file(Path(__file__).resolve().parents[1]/'dashboard_app.py').run(timeout=40)
-    assert not app.exception and len([c for c in app.get('vega_lite_chart') if json.loads(c.proto.spec).get('mark',{}).get('type')=='line'])==1
+    assert not app.exception and len([c for c in app.get('vega_lite_chart') if json.loads(c.proto.spec).get('mark',{}).get('type')=='line'])==2
     next(s for s in app.selectbox if s.label=='Empresa del gráfico').set_value('NVDA').run(timeout=40)
     assert not app.exception and app.session_state['selected_ticker']=='NVDA' and app.session_state['principal_tabs']=='Mi seguimiento'
-    app.run(timeout=40);assert not app.exception and len([c for c in app.get('vega_lite_chart') if json.loads(c.proto.spec).get('mark',{}).get('type')=='line'])==1
+    app.run(timeout=40);assert not app.exception and len([c for c in app.get('vega_lite_chart') if json.loads(c.proto.spec).get('mark',{}).get('type')=='line'])==2
     assert store.entry('MSFT')['payload']['evidence']['stock_model']['settings']==archived('MSFT')['evidence']['stock_model']['settings']
     saved={'scenarios':{'Base':{'pe':20.,'growth':.1}},'per_reason':'Persistencia al reiniciar'}
     service.save_settings('NVDA',saved)
@@ -230,3 +230,4 @@ def test_informative_overlays_never_change_formal_valuations(ticker):
     p['evidence']['watch_peer_profiles']={'FAKE':{'info':{'trailingPE':1.,'enterpriseToEbitda':1.}}}
     r2,t2=analysis_from_snapshot(p);summarize(p,r2)
     for name in ['Valoracion EPS PER','Proyeccion EPS','Supuestos EPS PER','Control por metodo']:pd.testing.assert_frame_equal(t[name],t2[name])
+
