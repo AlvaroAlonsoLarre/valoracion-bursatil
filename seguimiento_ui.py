@@ -10,7 +10,7 @@ from seguimiento_metricas import discount_color
 from seguimiento_incremental import local_stamp,quote_ttl
 from predicciones_ui import render_predictions
 from flujo_acciones import analysis_from_snapshot
-from presentacion_dashboard import info as help_info,numero,mostrar
+from presentacion_dashboard import info as help_info,numero,mostrar,escala,SYMBOLS
 
 COLUMNS=['Empresa','Ticker','Precio','Moneda','Fecha precio','PER actual TTM','PER mediana 5 FY','Diferencia PER con histórico (%)','PER comparables TTM',
          'QoQ neto reciente (%)','QoQ neto anterior (%)','QoQ neto tercero (%)','QoQ media 5a (%)','QoQ mediana 5a (%)','Cobertura QoQ',
@@ -82,8 +82,10 @@ def present_frame(frame,numeric):
     strings parseables y NumberColumn; los ausentes son un guion real.
     """
     view=frame.copy()
+    price_factor,price_suffix=escala(view['Precio']) if 'Precio' in view else (1.,'')
     for column in numeric:
         values=pd.to_numeric(view[column],errors='coerce')
+        if column=='Precio':values/=price_factor
         view[column]=values.map(lambda n:'—' if pd.isna(n) else str(float(n)))
     for column in view.columns.difference(numeric):view[column]=view[column].map(lambda v:'—' if v is None or (not isinstance(v,(dict,list)) and pd.isna(v)) else json.dumps(v,ensure_ascii=False) if isinstance(v,(dict,list)) else str(v))
     def formatter(column):
@@ -91,13 +93,16 @@ def present_frame(frame,numeric):
     styled=view.style.format({c:formatter(c) for c in numeric})
     if 'Diferencia PER con histórico (%)' in view:styled=styled.map(discount_color,subset=['Diferencia PER con histórico (%)'])
     config={c:st.column_config.NumberColumn(COLUMN_LABELS.get(c,c),help='— = dato no disponible; consultar fuentes y cobertura') for c in numeric}
+    if 'Precio' in view:
+        currencies=frame['Moneda'].dropna().unique() if 'Moneda' in frame else []
+        symbol=SYMBOLS.get(currencies[0],currencies[0]) if len(currencies)==1 else 'moneda por fila'
+        unit=' '.join(x for x in [price_suffix,symbol] if x)
+        config['Precio']=st.column_config.NumberColumn('Precio ('+unit+')')
     return styled,config
 
 
 def show_detail(frame):
-    numeric=[c for c in frame if pd.api.types.is_numeric_dtype(frame[c]) and not pd.api.types.is_bool_dtype(frame[c])]
-    styled,config=present_frame(frame,numeric)
-    st.dataframe(styled,hide_index=True,width='stretch',column_config=config)
+    mostrar(frame)
 
 
 def chart_for_entry(entry):

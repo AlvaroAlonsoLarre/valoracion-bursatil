@@ -59,6 +59,7 @@ def vista(frame,currency=None):
             labels[c]=re.sub(r'\(miles de millones\)',f'(MM {SYMBOLS.get(currency,currency or "")})',str(c)).replace('MM )','MM)')
         elif factor!=1 or (currency and es_importe(c)):
             labels[c]=cabecera_unidad(c,factor,suffix,currency,'acciones' in n)
+        if n.startswith('eps') and currency:labels[c]=str(c)+' ('+SYMBOLS.get(currency,currency)+'/acción)'
         fraction=n in ['roic','tasa fiscal','margen bruto','margen operativo','margen neto','margen fcf']
         if fraction:d[c]*=100;labels[c]=str(c)+' (%)'
         formats[labels.get(c,c)]=lambda v:numero(v)
@@ -131,6 +132,8 @@ def mostrar_historico(frame,currency):
         factor,suffix=escala([r[c] for c in cols]) if amount else (1.,'')
         for c in cols:d.loc[i,c]=pd.to_numeric(pd.Series([r[c]]),errors='coerce').iloc[0]/factor
         units.append(' '.join(x for x in [suffix,SYMBOLS.get(currency,currency) if amount else '×' if 'PER' in str(r['Indicador']) or '/' in str(r['Indicador']) else ''] if x))
+    for i,label in enumerate(d['Indicador']):
+        if str(label).startswith('EPS'):units[i]=SYMBOLS.get(currency,currency)+'/acción'
     d.insert(1,'Unidad',units)
     formats={c:numero for c in d if c.startswith(('Media ','Mediana ','CAGR '))}
     st.dataframe(d.style.format(formats,na_rep='—'),hide_index=True,width='stretch')
