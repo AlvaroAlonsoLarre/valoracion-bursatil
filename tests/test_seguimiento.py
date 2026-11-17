@@ -140,7 +140,7 @@ def test_quote_keeps_valid_price_when_optional_market_cap_is_missing(tmp_path):
     assert result['market_cap'] is None and result['shares'] is None and len(result['warnings'])==2
 
 
-@pytest.mark.parametrize('value,expected',[(20.,'#dcfce7'),(-20.,'#fee2e2'),(0.,''),(None,'')])
+@pytest.mark.parametrize('value,expected',[(20.,'#fee2e2'),(-20.,'#dcfce7'),(0.,''),(None,'')])
 def test_discount_colors(value,expected):assert expected in discount_color(value)
 
 
