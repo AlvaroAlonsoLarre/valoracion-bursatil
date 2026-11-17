@@ -90,7 +90,7 @@ def informative_peers(universe,info,provider_infos=None):
             for key,value in fresh.items():
                 if 'longBusinessSummary' in profile or (value is not None and not (isinstance(value,float) and np.isnan(value)) and value!=''):
                     merged.at[i,key]=value
-    selected=select_display_peers(merged,info,max_peers=max(5,len(merged)))
+    selected=select_display_peers(merged,info,max_peers=max(10,len(merged)))
     for _,r in selected.iterrows():
         ticker=str(r.get('Ticker') or '');provider=provider_infos.get(ticker,{})
         currency=provider.get('currency') or r.get('Divisa cotización')
@@ -108,15 +108,15 @@ def informative_peers(universe,info,provider_infos=None):
     rows=sorted(rows,key=lambda r:(-r['Prioridad'],r['Ticker']));seen=set();unique=[]
     for row in rows:
         if row['Ticker'] not in seen:unique.append(row);seen.add(row['Ticker'])
-    chosen=unique[:5];summary={}
+    chosen=unique[:10];summary={}
     for column in ['PER TTM Yahoo','PER forward Yahoo','EV/EBITDA Yahoo']:
         eligible=[r[column] for r in chosen if number(r[column])>0 and r['Moneda cotización']==info.get('currency') and r['Moneda financiera']==r['Moneda cotización']]
         summary[column]={'mean':float(np.mean(eligible)) if eligible else None,'median':float(np.median(eligible)) if eligible else None,'n':len(eligible),
                          'confidence':'Baja · descriptivo; sin validar periodos/perímetro/beneficios','period':column,
-                         'warning':'No utilizar en objetivos. Cada media conserva su definición; forward Yahoo no se renombra NTM. Sólo misma moneda; no se usan valores no positivos.'}
-    return clean({'rows':chosen,'candidates':unique,'stats':summary,'target_count':5,
-        'coverage':f'{len(chosen)}/5 empresas con actividad relacionada y datos básicos',
-        'warning':'' if len(chosen)==5 else 'No hay cinco candidatos razonables con datos; no se completa con empresas de otro negocio.'})
+                         'warning':'No utilizar en objetivos. Cada mediana conserva su definición; forward Yahoo no se renombra NTM. Sólo misma moneda; no se usan valores no positivos.'}
+    return clean({'rows':chosen,'candidates':unique,'stats':summary,'target_count':10,
+        'coverage':f'{len(chosen)}/10 empresas con actividad relacionada y datos básicos',
+        'warning':'' if len(chosen)==10 else 'No hay diez candidatos razonables con datos; no se completa con empresas de otro negocio.'})
 
 
 def summarize(payload,result,quarters=None):
@@ -137,7 +137,7 @@ def summarize(payload,result,quarters=None):
     if 'PER TTM verificado' in peers:
         peers['ttm_ok']=pd.to_numeric(peers['PER TTM verificado'],errors='coerce').between(2,100)
     per=cohort_stats(peers,'PER TTM verificado','ttm_ok',period='TTM',currency=s['currency'])
-    # No se sustituye la media TTM principal por una mezcla de observaciones forward.
+    # Mediana TTM y forward separadas; un forward no sustituye un TTM ausente.
     ntm=cohort_stats(peers,'PER NTM verificado','PER admisible','PER cohorte',period='NTM',currency=s['currency'])
     ev=cohort_stats(peers,'EV/EBITDA (x)','EV/EBITDA admisible','EV cohorte',period='NTM',currency=s['currency'])
     fy=fiscal_ev(payload,a,result.qualified_history)
@@ -159,14 +159,18 @@ def summarize(payload,result,quarters=None):
     informative=informative_peers(result.universe,info,{ticker:source.get('info',{}) for ticker,source in profiles.items()})
     for candidate in informative['rows']+informative['candidates']:
         candidate['Ratios consultados (UTC)']=pd.to_datetime(profiles.get(candidate['Ticker'],{}).get('queried_at'),unit='s',utc=True,errors='coerce') if profiles.get(candidate['Ticker']) else s['as_of']+' · captura archivada'
+    strict_per = per['median'] if not per['warning'] else None
+    shown_per = strict_per if strict_per is not None else informative['stats']['PER TTM Yahoo']['median']
+    shown_n = per['n'] if strict_per is not None else informative['stats']['PER TTM Yahoo']['n']
+    shown_origin = ('TTM verificado' if strict_per is not None else 'Yahoo informativo; sin validación para objetivos') if shown_per is not None else 'Sin PER TTM positivo disponible'
     row={'Empresa':info.get('longName') or info.get('shortName') or s['ticker'],'Ticker':s['ticker'],'Precio':s['price'],'Moneda':s['currency'],'Fecha precio':s.get('quote_date'),
          'PER actual TTM':pe,'PER mediana 5 FY':median,'Descuento PER (%)':100*(median-pe)/median if median>0 and pe>0 else np.nan,
-         'PER comparables TTM':per['mean'],'QoQ neto reciente (%)':latest[0],'QoQ neto anterior (%)':latest[1],'QoQ neto tercero (%)':latest[2],
+         'PER comparables TTM':shown_per,'N PER comparables':shown_n,'N PER forward comparables':informative['stats']['PER forward Yahoo']['n'],'Origen PER comparables':shown_origin,'PER TTM comparables validado':strict_per,'QoQ neto reciente (%)':latest[0],'QoQ neto anterior (%)':latest[1],'QoQ neto tercero (%)':latest[2],
          'QoQ media 5a (%)':values.mean(),'QoQ mediana 5a (%)':values.median(),'Cobertura QoQ':f'{int(values.notna().sum())}/20',
          'EV/EBITDA Yahoo':provider['value'],'Periodo EV Yahoo':provider['period'],'EV/EBITDA último FY':fy['last'],'EV/EBITDA mediana 5 FY':fy['median'],'Calidad EV FY':fy['last_type']+' · '+fy['last_confidence'] if fy['last'] else 'No disponible',
-         'EV/EBITDA comparables NTM':ev['mean'],'PER TTM comparables B':informative['stats']['PER TTM Yahoo']['mean'],'PER forward comparables B':informative['stats']['PER forward Yahoo']['mean'],'EV/EBITDA comparables B':informative['stats']['EV/EBITDA Yahoo']['mean'],
+         'EV/EBITDA comparables NTM':ev['median'] if not ev['warning'] else None,'PER TTM comparables B':informative['stats']['PER TTM Yahoo']['median'],'PER forward comparables B':informative['stats']['PER forward Yahoo']['median'],'EV/EBITDA comparables B':informative['stats']['EV/EBITDA Yahoo']['median'],
          'Últimos resultados':str(q.index.max().date()) if len(q) else None,'Origen':s['source'],'Advertencias':' · '.join(warnings)}
-    return clean({'schema_version':3,'summary':s,'methods':result.methods.to_dict('records'),'informative_peers':informative,'provider_ev':provider,'row':row,'per_peers':per,'per_ntm':ntm,'ev_peers':ev,'ev_fy':fy,'per_history_n':count,'quarters':series.to_dict('records'),
+    return clean({'schema_version':4,'summary':s,'methods':result.methods.to_dict('records'),'informative_peers':informative,'provider_ev':provider,'row':row,'per_peers':per,'per_ntm':ntm,'ev_peers':ev,'ev_fy':fy,'per_history_n':count,'quarters':series.to_dict('records'),
                   'historical_pe':result.qualified_history.to_dict('records'),'assumptions':result.settings,'targets':result.valuation.to_dict('records')})
 
 

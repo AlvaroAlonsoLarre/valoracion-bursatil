@@ -86,14 +86,14 @@ La V7 integrada parte de la V6 verificada `b50a51d` y utiliza los mismos módulo
 
 El PER manual se configura en Resumen, con distancias pesimista/optimista y justificación. Sus cambios conservan todos los demás supuestos. La referencia de dos PER limpios es una opción exploratoria explícita de confianza Baja; con cero o uno se necesita un PER manual justificado. Nunca evita requisitos de EPS, divisas, acciones o contabilidad.
 
-# Comparables: selección de cinco empresas
+# Comparables: hasta diez empresas y mediana en Mi seguimiento
 
-El dashboard y el Excel incluyen `Comparables informativos`: hasta cinco
+El dashboard y el Excel incluyen `Comparables informativos`: hasta diez
 emisores con actividad relacionada, datos básicos y al menos un múltiplo
 positivo disponible. La tabla muestra el motivo económico, los límites de la
 comparación, las monedas, las fechas y cada ratio por separado. Un dato ausente
 no elimina los otros indicadores. No se añaden empresas de otro negocio para
-completar cinco. Las clases de acciones del mismo emisor se cuentan una vez.
+completar diez. Las clases de acciones del mismo emisor se cuentan una vez.
 
 El descubrimiento usa Yahoo Industry/Search/Sector y las semillas económicas
 revisables de `comparables_config.json`. Las semillas pasan los mismos controles;
@@ -116,12 +116,22 @@ periodos, moneda y EV/EBITDA de valoración se mantienen separados.
 Para reproducir una comprobación con datos actuales:
 
 ```bash
-python verificar_comparables.py --tickers MSFT 000660.KS JNJ JPM NVDA --outdir Resultados/comparables
+python verificar_comparables.py --tickers NFLX MSFT 000660.KS JNJ JPM NVDA --outdir Resultados/comparables
 ```
 
 Guarda JSON y CSV con perfiles, candidatos, fechas, resultados y errores. Código
 de salida 2 significa cobertura insuficiente/error de proveedor en algún ticker;
-no equivale a cinco comparables correctos. Las consultas pueden quedar limitadas
+no equivale a diez comparables correctos. Las consultas pueden quedar limitadas
 por Yahoo. Los resultados observados el 16-11-2026 y las pruebas se documentan
 en `docs/comparables_2026-11-16/INFORME.md`.
 
+
+La columna PER comparables TTM de Mi seguimiento muestra la **mediana**, con N
+ y origen explícitos. Prefiere TTM verificado homogéneo; si no está disponible,
+ muestra la mediana TTM Yahoo informativa sin trasladarla a objetivos. Forward
+ sigue separado. Los otros múltiplos de comparables de la tabla también usan
+ mediana. Las listas existentes recalculan estos valores al abrir, sin red ni
+ borrar capturas. Para ampliar una búsqueda antigua a diez, usa una vez
+ Forzar actualización completa; se conservan los ajustes del usuario.
+ Netflix dispone de clasificación de vídeo/contenido y candidatos de respaldo
+ revisables por actividad, sujetos a los mismos filtros y cobertura de datos.

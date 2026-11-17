@@ -17,14 +17,14 @@ from seguimiento_metricas import informative_peers
     ('JNJ',{'ABBV','LLY','MRK','AMGN','GILD'}),
     ('JPM',{'BAC','C','WFC','RY','TD'}),
 ])
-def test_archived_real_profiles_give_five_logical_companies(ticker,expected):
+def test_archived_real_profiles_keep_top_five_and_expand_to_ten(ticker,expected):
     # Capturas fechadas del repositorio: regresión económica, NO una consulta de hoy.
     path=Path('docs/v6_simplificada_2026-11-12/inputs')/(ticker+'_after.json')
     p=json.loads(path.read_text());peers=restore_frame(p['frames']['peers'])
     *_,universe=score_and_filter(peers,ticker,target_info=p['kwargs']['info'],return_universe=True,as_of=p['kwargs']['as_of'])
     result=informative_peers(universe,p['kwargs']['info'])
-    assert {r['Ticker'] for r in result['rows']}==expected
-    assert not result['warning'] and len(result['rows'])==5
+    assert {r['Ticker'] for r in result['rows'][:5]}==expected
+    assert 5<=len(result['rows'])<=10 and result['target_count']==10
 
 
 def test_secondary_foundry_and_hbm_ip_are_not_memory_manufacturers():

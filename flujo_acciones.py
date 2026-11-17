@@ -21,7 +21,7 @@ def stock_tables(annual,peers,kwargs,history,settings=None,optional_environment=
     from seguimiento_metricas import informative_peers
     descriptive=informative_peers(result.universe,kwargs.get('info') or {})
     tables['Comparables informativos']=pd.DataFrame(descriptive['rows'])
-    tables['Cobertura comparables']=pd.DataFrame([{'Objetivo':5,'Obtenidos':len(descriptive['rows']),
+    tables['Cobertura comparables']=pd.DataFrame([{'Objetivo':10,'Obtenidos':len(descriptive['rows']),
         'Estado':descriptive['coverage'],'Limitación':descriptive['warning']}])
     from revision_economica import bridge,sensitivity,implied_requirements
     tables.update({'Puente recurrencia':bridge(annual),'Recurrencia trimestral':bridge(kwargs['quarterly']) if kwargs.get('quarterly') is not None else pd.DataFrame(),'Sensibilidad EPS PER':sensitivity(result,kwargs['financial_currency'],kwargs['quote_currency']),

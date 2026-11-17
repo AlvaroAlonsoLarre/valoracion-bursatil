@@ -314,12 +314,12 @@ class Service:
         return self.store.entry(ticker)
 
     def ensure_metrics(self,entry):
-        if entry['payload'] and (entry['metrics'].get('schema_version')!=3 or 'methods' not in entry['metrics']):
+        if entry['payload'] and (entry['metrics'].get('schema_version')!=4 or 'methods' not in entry['metrics']):
             p=deepcopy(entry['payload'])
             if entry['metrics'].get('quarters') and 'Seguimiento neto trimestral' not in p.get('historical',{}):
                 p.setdefault('historical',{})['Seguimiento neto trimestral']=frame_payload(pd.DataFrame(entry['metrics']['quarters']))
             r,_=analysis_from_snapshot(p);m=summarize(p,r)
-            for key in ['financial_updated','financial_checked','revision_hash','quote_queried_at','peers_updated']:m[key]=entry['metrics'].get(key,0)
+            for key in ['financial_updated','financial_checked','revision_hash','quote_queried_at','peers_updated','components','component_errors']:m[key]=entry['metrics'].get(key,{} if key in ('components','component_errors') else 0)
             self.store.upgrade_snapshot(entry['ticker'],p,m);entry={**entry,'payload':p,'metrics':m}
         return entry
 

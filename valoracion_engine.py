@@ -40,7 +40,7 @@ configure_runtime()
 TICKER = os.environ.get("VALUACION_TICKER", "MSFT").strip().upper() or "MSFT"
 NUM_TRIMESTRES = int(os.environ.get("VALUACION_NUM_TRIMESTRES", "12"))
 HORIZONTES = (1, 3)
-MAX_COMPARABLES = 5
+MAX_COMPARABLES = 10
 MAX_CANDIDATOS_INFO = max(15, min(100, int(os.environ.get("VALUACION_MAX_CANDIDATOS", "55"))))
 ANIOS_HISTORICO_SEC = 10
 # Se admite un contacto real opcional; el valor por defecto identifica el software.
@@ -1708,8 +1708,8 @@ from historico_acciones import historical_multiples
 historico_auditado=historical_multiples(tabla_financiera_usd,precios,divisa_financiera,divisa_cotizacion,hoy,
     is_adr=needs_adr_bridge(info,divisa_financiera,divisa_cotizacion))
 # Seleccionar por economía antes de gastar consultas de evidencia; preferencia 3–6, sin forzar el mínimo.
-peers_economicos,_,_,_=score_and_filter(universo_df,TICKER,target_info=info,max_peers=5,as_of=hoy)
-peers_economicos,evidencia_comparables=attach_observed_evidence(peers_economicos,yf,hoy,limit=5)
+peers_economicos,_,_,_=score_and_filter(universo_df,TICKER,target_info=info,max_peers=10,as_of=hoy)
+peers_economicos,evidencia_comparables=attach_observed_evidence(peers_economicos,yf,hoy,limit=10)
 if not peers_economicos.empty:
     universo_df['Evidencia múltiplos']=universo_df['Ticker'].map(peers_economicos.set_index('Ticker')['Evidencia múltiplos'])
 from comparables_ttm import collect_ttm_evidence

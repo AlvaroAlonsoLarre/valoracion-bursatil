@@ -15,8 +15,9 @@ COLUMNS=['Empresa','Ticker','Precio','Moneda','Fecha precio','PER actual TTM','P
          'EV/EBITDA último FY','EV/EBITDA mediana 5 FY','EV/EBITDA comparables NTM','Últimos resultados','Origen','Advertencias','Actualización (UTC)','Estado datos']
 OLD_COLUMNS=COLUMNS.copy()
 COLUMNS=COLUMNS[:15]+['EV/EBITDA Yahoo','Periodo EV Yahoo']+COLUMNS[15:18]+['Calidad EV FY','PER TTM comparables B','PER forward comparables B','EV/EBITDA comparables B']+COLUMNS[18:]
+COLUMNS += ['N PER comparables','Origen PER comparables','N PER forward comparables','PER TTM comparables validado']
 COLUMNS=['Actualización local' if c=='Actualización (UTC)' else c for c in COLUMNS]
-TEXT_COLUMNS=['Empresa','Ticker','Moneda','Fecha precio','Cobertura QoQ','Últimos resultados','Origen','Advertencias','Actualización local','Estado datos','Periodo EV Yahoo','Calidad EV FY']
+TEXT_COLUMNS=['Empresa','Ticker','Moneda','Fecha precio','Cobertura QoQ','Últimos resultados','Origen','Advertencias','Actualización local','Estado datos','Periodo EV Yahoo','Calidad EV FY','Origen PER comparables']
 
 
 @st.cache_resource
@@ -184,9 +185,9 @@ def render(load_capture,payload=None,settings=None):
     with st.expander('Personalizar columnas'):
         saved=store.preferences()
         if saved is not None:saved=['Actualización local' if c=='Actualización (UTC)' else c for c in saved]
-        if saved is not None and not store.meta('columns_v3'):
+        if saved is not None and not store.meta('columns_v4'):
             saved=saved+[c for c in COLUMNS if c not in OLD_COLUMNS and c not in saved];store.set_preferences(saved)
-        store.set_meta('columns_v3',True)
+        store.set_meta('columns_v4',True)
         default=[c for c in saved if c in frame] if saved is not None else frame.columns.tolist()
         columns=st.multiselect('Columnas visibles',frame.columns.tolist(),default=default)
         if columns!=saved:store.set_preferences(columns)
@@ -194,9 +195,12 @@ def render(load_capture,payload=None,settings=None):
     view=frame[columns].copy()
     numeric=[c for c in columns if c not in TEXT_COLUMNS]
     styled,config=present_frame(view,numeric)
+    for name in ['PER comparables TTM','PER TTM comparables B','PER forward comparables B','EV/EBITDA comparables B','EV/EBITDA comparables NTM']:
+        if name in view:config[name]=st.column_config.NumberColumn(name+' · mediana',help='Mediana de valores positivos disponibles. Consultar N, origen y periodo; TTM y forward no se mezclan.')
     if 'Actualización local' in view:config['Actualización local']=st.column_config.TextColumn('Actualización local',help='Timestamp UTC almacenado; presentado en '+zone)
     event=st.dataframe(styled,hide_index=True,width='stretch',column_config=config,height=min(560,100+35*len(view)),
                        key='watch_table_'+str(st.session_state.get('watch_grid_epoch',0)),on_select='rerun',selection_mode='single-row')
+    st.caption('Comparables: medianas de ratios positivos, con N y origen visibles. La mediana Yahoo informativa puede completar el PER TTM mostrado, pero no se utiliza automáticamente en precios objetivo. El forward se mantiene separado.')
     st.caption('Ordena pulsando cualquier cabecera y desplázate horizontalmente. Seleccionar una fila abre su análisis V7. Verde/+ = PER TTM inferior a la mediana FY; rojo/− = superior. No es una señal de compra ni comparación entre periodos idénticos.')
     if event.selection.rows:
         entry=entries[event.selection.rows[0]]
@@ -218,7 +222,7 @@ def render(load_capture,payload=None,settings=None):
             show_detail(pd.DataFrame(m.get('historical_pe',[])))
             for key,title in [('per_peers','PER TTM'),('per_ntm','PER NTM separado'),('ev_peers','EV/EBITDA NTM')]:
                 stats=m.get(key,{})
-                st.write(title,{'Media':stats.get('mean'),'Mediana':stats.get('median'),'N':stats.get('n'),'Advertencia':stats.get('warning')})
+                st.write(title,{'Mediana':stats.get('median'),'N':stats.get('n'),'Advertencia':stats.get('warning')})
                 if stats.get('rows'):show_detail(pd.DataFrame(stats['rows']))
         with st.expander('EV/EBITDA: proveedor, cálculo FY y componentes históricos'):
             st.write('Proveedor Yahoo',m.get('provider_ev',{}))

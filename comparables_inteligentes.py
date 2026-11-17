@@ -204,7 +204,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
                 # el presupuesto (p.ej., todo Corea y ningún competidor US/TW).
                 before=len(candidates)
                 top=obj.top_companies
-                data_frame(top.head(13) if isinstance(top,pd.DataFrame) else None,'Industria Yahoo '+reg,0)
+                data_frame(top.head(25) if isinstance(top,pd.DataFrame) else None,'Industria Yahoo '+reg,0)
                 if len(candidates)==before and len(candidates)<max_candidates:
                     try:
                         growth=obj.top_growth_companies
@@ -218,10 +218,11 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
              'electronic','systems','information','services','devices','consumer'}
     kw=[t for t,c in token_counts.most_common(25) if t not in ignored and (c>=2 or len(t)>=5)]
     phrases=[]
+    if industry_key=='entertainment':phrases.extend(['video streaming television', 'film television production'])
     if industry_name:phrases.append(industry_name)
     if kw:phrases.append(' '.join(kw[:3]))
     if len(kw)>=5:phrases.append(' '.join(kw[2:5]))
-    if len(candidates)<15 and hasattr(yf,'Search'):
+    if (len(candidates)<25 or industry_key=='entertainment') and hasattr(yf,'Search'):
         for query in dict.fromkeys(phrases[:3]):
             if len(candidates)>=max_candidates:break
             try:
@@ -257,6 +258,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
 # Categorías económicas GENERALES, no listas de tickers. No equivalen a
 # segmentos contables auditados; sirven para descartar candidatos incompatibles.
 ACTIVITY_PATTERNS = {
+    'video_entretenimiento': r'\b(tv series|television series|feature films|motion pictures|film production|television production|television programming|video streaming|streaming video|streaming television|tv streaming|video content|video platforms?|video.on.demand|entertainment content|film and television)\b',
     'computo_datacenter': r'\b(data centers?|datacenters?|ai accelerators?|gpus?|cpus?|graphics processing)\b',
     'memoria': r'\b(dram|hbm|nand|flash memory|memory chip|memory semiconductor|memory storage products|dynamic random access|high.bandwidth memory|ddr[345]|lpddr)\b',
     'fundicion': r'\b(foundr(?:y|ies)|wafer fabrication|contract chip manufactur|semiconductor fabrication|pure.play foundry)\b',
@@ -336,7 +338,7 @@ def basic_peer_row(symbol, profile, origin='Yahoo Finance'):
     }
 
 
-def select_display_peers(universe, info, max_peers=5):
+def select_display_peers(universe, info, max_peers=10):
     """Selección descriptiva: actividad + datos, sin certificar múltiplos.
 
     Las etiquetas son evidencia heurística y se muestran al usuario. El tamaño
@@ -358,6 +360,8 @@ def select_display_peers(universe, info, max_peers=5):
         else:
             focus = target_tags & {'diseno_chips','equipos_semis'}
             if not focus:focus = target_tags & {'fundicion'}
+    if target_industry == 'entertainment' and 'video_entretenimiento' in target_tags:
+        focus = {'video_entretenimiento'}
     if not focus and 'software_empresa' in target_tags:
         focus = {'software_empresa'}
     target_tokens = set(_tokens(info.get('longBusinessSummary')))
@@ -385,6 +389,8 @@ def select_display_peers(universe, info, max_peers=5):
                 continue  # La mera etiqueta semiconductors no basta.
             if 'foundry' in peer_lead and not re.search(r'\b(gpus?|cpus?|microprocessors?)\b',peer_lead):
                 continue
+        if 'video_entretenimiento' in focus and re.search(r'\b(motorsports?|motor sports?|sports rights|professional wrestling|combat sports)\b',desc[:450].lower()):
+            continue  # Derechos deportivos/eventos no equivalen a catálogo audiovisual.
         sim = _num(r.get('Similitud de actividad (0-100)')) / 100
         common = target_tokens & set(_tokens(desc))
         conflict = activity_conflict(target_tags, tags)
@@ -392,7 +398,7 @@ def select_display_peers(universe, info, max_peers=5):
             continue
         if 'software_empresa' in target_tags and 'ciberseguridad' not in target_tags and 'ciberseguridad' in tags:
             continue
-        related = (shared and (same_ind or same_sec) and len(common) >= 2) or (same_ind and sim >= .23)
+        related = (shared and (same_ind or same_sec) and (len(common) >= 2 or 'video_entretenimiento' in shared)) or (same_ind and sim >= .23)
         if not desc or conflict or not related:
             continue
         positive = sum(_num(r.get(k)) > 0 for k in ['PER trailing', 'PER forward', 'EV/EBITDA'])
@@ -410,7 +416,7 @@ def select_display_peers(universe, info, max_peers=5):
         score = 20 * overlap + 5 * industry_family + 10 * (sim if np.isfinite(sim) else 0) + size + positive
         if target_industry.startswith('semiconductor') and 'computo_datacenter' in shared:
             score += 8
-        partial = not same_ind or bool(tags - target_tags)
+        partial = not same_ind or bool(tags - target_tags) or 'video_entretenimiento' in focus
         r.update({'Relación B': 'Actividad relacionada · comparación parcial' if partial else 'Misma industria y actividad',
             'Justificación económica': ', '.join(sorted(shared)) or 'Misma industria y descripción similar',
             'Limitación económica': 'Mezcla de negocios/tamaño/exposición diferentes; revisar segmentos' if partial else 'Similitud heurística; revisar exposición, crecimiento y márgenes',
@@ -425,7 +431,7 @@ def select_display_peers(universe, info, max_peers=5):
 
 def score_and_filter(peers, ticker, *, target_margin=np.nan, target_growth=np.nan,
                      target_cap=np.nan, curated=None, target_info=None,
-                     max_peers=5, min_peers=3, return_universe=False, as_of=None):
+                     max_peers=10, min_peers=3, return_universe=False, as_of=None):
     """Una sola clasificación para TODO el universo y para las referencias.
 
     - Confianza Baja NUNCA es elegible.

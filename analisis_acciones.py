@@ -240,7 +240,7 @@ def build_stock_analysis(annual,peers,*,price,market_cap,shares_outstanding,fina
     history_qualified=qualified_history(raw_annual,history if history is not None else pd.DataFrame(),info,kind=='FINANCIERA')
     stats=historical_statistics(raw_annual,history_qualified)
     if changed_regime(raw_annual):check('Histórico','Cambio de régimen económico',False,'Margen de últimos 3 FY cambia ≥2× y ≥5 pp frente a los 3 anteriores; no completar el PER con régimen anterior')
-    eligible,_,_,_,universe=score_and_filter(peers,ticker,target_info=info,return_universe=True,max_peers=5,as_of=today)
+    eligible,_,_,_,universe=score_and_filter(peers,ticker,target_info=info,return_universe=True,max_peers=10,as_of=today)
     selected,peer_ttm,peer_forward=_peer_references(eligible,today,info,end)
     own_pes,own_note,own_count=_historical_reference(stats,'PER histórico')
     per_basis='TTM';confidence='Baja';per_note=own_note;pes=own_pes

@@ -187,3 +187,42 @@ jobs:
           name: cobertura-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: cobertura.json
           if-no-files-found: error
+
+  comparables_netflix:
+    if: github.event_name == 'pull_request' && github.head_ref == 'fix/comparables-cinco'
+    needs: pruebas
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.lock
+      - name: Netflix con perfiles actuales y mediana de comparables
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          from verificar_comparables import run
+          out=Path('Resultados/comparables_netflix')
+          out.mkdir(parents=True,exist_ok=True)
+          result=run('NFLX',out,budget=55)
+          rows=result['result']['rows']
+          stats=result['result']['stats']['PER TTM Yahoo']
+          print('COMPARABLES_NETFLIX',json.dumps({'tickers':[r['Ticker'] for r in rows],'n_empresas':len(rows),'mediana_PER_TTM':stats['median'],'n_PER_TTM':stats['n'],'media_solo_diagnostico':stats['mean']},ensure_ascii=False))
+          assert 3<=len(rows)<=10,'Cobertura real insuficiente; revisar evidencia de fuentes'
+          assert stats['n']>=3 and stats['median'] is not None,'Menos de tres PER TTM disponibles'
+          positive=[r['PER TTM Yahoo'] for r in rows if r['PER TTM Yahoo'] and r['PER TTM Yahoo']>0 and r['Moneda cotización']=='USD' and r['Moneda financiera']=='USD']
+          assert stats['median']==float(pd.Series(positive).median())
+          PY
+      - name: Guardar candidatos, perfiles, fechas y ratios de Netflix
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: comparables-netflix-${{ github.run_id }}
+          path: Resultados/comparables_netflix/
+          if-no-files-found: warn
+          retention-days: 30
