@@ -22,6 +22,7 @@ from flujo_acciones import analysis_from_snapshot,excel_bytes,tables_summary
 from estado_dashboard import prepare_capture,default_capture,per_settings,edited_settings,model_fingerprint
 from grafico_cotizacion import chart_data
 from predicciones_ui import render_predictions
+from presentacion_dashboard import (info as help_info,numero,SYMBOLS,mostrar,columnas,mostrar_historico,pintar_resumen,ANNUAL_REMOVE,ANNUAL_HIDDEN,QUARTER_REMOVE,QUARTER_HIDDEN,PEER_REMOVE)
 from entorno_ejecucion import configure_runtime,child_environment,RuntimeConfigurationError
 from seguimiento_ui import consume_open,render as render_watch,saved_selector,store_for
 from seguimiento_store import storage_path
@@ -52,18 +53,11 @@ h1 {letter-spacing:-.04em;font-size:2.35rem!important} h2,h3 {letter-spacing:-.0
 </style>''',unsafe_allow_html=True)
 
 
-def fmt(value,percent=False):
-    try:
-        n=float(value)
-        if not np.isfinite(n):return '—'
-        return f'{n*100:,.1f} %' if percent else f'{n:,.2f}'
-    except (ValueError,TypeError):return '—'
+def fmt(value,percent=False):return numero(value,decimals=1 if percent else 2,percent=percent)
 
 
 def table(tables,key):
-    frame=tables.get(key,pd.DataFrame())
-    if frame.empty:st.caption('Sin datos suficientes para esta tabla.')
-    else:st.dataframe(frame,hide_index=True,width='stretch')
+    mostrar(tables.get(key,pd.DataFrame()),globals().get('currency'))
 
 
 @st.cache_data(show_spinner=False)
@@ -82,7 +76,7 @@ def calculate(payload_json,settings_json):
 consume_open()
 with st.sidebar:
     st.markdown('### ◈ Fundamental')
-    st.caption('V7 integrada · motor financiero original')
+    help_info('V7 integrada · motor financiero original')
     saved_selector()
     st.divider()
     with st.form('company'):
@@ -90,10 +84,10 @@ with st.sidebar:
         quarters=st.selectbox('Trimestres solicitados',[8,12,16,24],index=1)
         contact=st.text_input('Contacto SEC (opcional)',help='Identificación real de las consultas. No se exporta al informe.')
         fetch=st.form_submit_button('Consultar fuentes',type='primary',width='stretch')
-    st.caption('SEC · histórico anual\n\nYahoo · cotizaciones y trimestres')
+    help_info('SEC · histórico anual\n\nYahoo · cotizaciones y trimestres')
     st.divider()
     uploaded=st.file_uploader('Abrir captura JSON auditada',type=['json'],key='capture_upload_'+str(st.session_state.get('watch_grid_epoch',0)))
-    st.caption('Los cambios de supuestos usan la captura cargada; no vuelven a descargar las fuentes.')
+    help_info('Los cambios de supuestos usan la captura cargada; no vuelven a descargar las fuentes.')
 
 if fetch:
     try:
@@ -153,20 +147,21 @@ s=result.summary;info=payload['kwargs'].get('info') or {};currency=s['currency']
 if st.session_state.pop('settings_dirty',False):Service(store_for(str(storage_path()))).save_settings(s['ticker'],result.settings)
 st.title('Mi seguimiento' if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento' else str(info.get('longName') or s['ticker']))
 if st.session_state.get('principal_tabs','Mi seguimiento')=='Mi seguimiento':
-    st.caption('Lista personal persistente · cada empresa conserva sus propias fechas, moneda y auditoría. Actualización bajo demanda, sin descargas al ordenar.')
+    help_info('Lista personal persistente · cada empresa conserva sus propias fechas, moneda y auditoría. Actualización bajo demanda, sin descargas al ordenar.')
 else:
     st.caption(f"{s['ticker']}  ·  {currency}  ·  Corte {s['as_of']} / cotización {s.get('quote_date') or 'sin fecha'}  ·  Histórico {s['source']}")
-    st.caption(st.session_state.get('capture_note','Captura financiera auditada.'))
+    help_info(st.session_state.get('capture_note','Captura financiera auditada.'))
     st.markdown(f'<span class="status">ESCENARIOS CONDICIONALES · CONFIANZA {html.escape(s["confidence"].upper())}</span>',unsafe_allow_html=True)
 
 seguimiento,resumen,historico,trimestrales,comparables,valoracion,auditoria=st.tabs(TAB_NAMES,key='principal_tabs',on_change='rerun')
 with seguimiento:render_watch(load_capture,payload,result.settings)
 with resumen:
     cols=st.columns(4)
-    cols[0].metric(f'Precio actual · {currency}',fmt(s['price']),help='Precio observado en la captura; revisar su fecha y consultar fuentes para actualizar.')
-    cols[1].metric(f'Valor razonable hoy · {currency}',fmt(s['fair_value']),help='Precio Base a 1 año / (1 + retorno exigido). Es una referencia descontada, no una media de métodos.')
+    cols[0].metric(f'Precio actual ({SYMBOLS.get(currency,currency)})',fmt(s['price']),help='Precio observado en la captura; revisar su fecha y consultar fuentes para actualizar.')
+    cols[1].metric(f'Valor razonable hoy ({SYMBOLS.get(currency,currency)})',fmt(s['fair_value']),help='Precio Base a 1 año / (1 + retorno exigido). Es una referencia descontada, no una media de métodos.')
     cols[2].metric('Potencial a 1 año',fmt(s['upside_1y'],True),help='Precio Base a 1 año / precio de captura − 1. No incluye dividendos.')
     cols[3].metric('Anualizada a 3 años',fmt(s['annual_return_3y'],True),help='(Precio Base a 3 años / precio de captura)^(1/3) − 1. No incluye dividendos, costes o impuestos personales.')
+    pintar_resumen(payload,result)
     st.write('')
     def apply_summary_per(chosen):
         calculate(raw,json.dumps(chosen,allow_nan=False))
@@ -180,21 +175,22 @@ with resumen:
         st.markdown('**'+s['Atractivo']+'**')
         st.write(s['per_source'])
         base_h=result.assumptions.query("Escenario=='Base'").set_index('Parámetro')['Valor']
-        st.caption('Base · crecimiento '+fmt(base_h.get('growth'),True)+' → '+fmt(base_h.get('growth_terminal'),True)+
+        help_info('Base · crecimiento '+fmt(base_h.get('growth'),True)+' → '+fmt(base_h.get('growth_terminal'),True)+
                    ' · margen '+fmt(base_h.get('margin'),True)+' → '+fmt(base_h.get('margin_terminal'),True)+
                    ' · PER '+fmt(base_h.get('pe'))+'×. Extremos de años 1 y 3; editables en Valoración.')
 
-        st.caption('La referencia propia reduce la confianza; las bandas son supuestos, no probabilidades.')
+        help_info('La referencia propia reduce la confianza; las bandas son supuestos, no probabilidades.')
         st.write('Margen de seguridad exigido: **'+fmt(s['Margen de seguridad exigido (%)']/100,True)+'**')
         if len(rows):
             compact=rows.pivot(index='Escenario',columns='Horizonte (años)',values='Precio objetivo').reindex(SCENARIOS)
-            st.dataframe(compact.rename(columns={1:'1 año',3:'3 años'}).style.format('{:,.2f}',na_rep='—'),width='stretch')
+            st.dataframe(compact.rename(columns={1:'1 año',3:'3 años'}).style.format(numero,na_rep='—'),width='stretch')
     st.subheader('El negocio en cuatro diagnósticos')
     for column,(_,diagnostic) in zip(st.columns(4),result.diagnostics.iterrows()):
         with column:
-            st.markdown('<div class="diagnostic"><div class="label">'+html.escape(diagnostic['Diagnóstico'])+'</div><div class="value">'+html.escape(diagnostic['Lectura'])+'</div><div class="note">'+html.escape(diagnostic['Detalle'])+'</div></div>',unsafe_allow_html=True)
+            st.markdown('<div class="diagnostic"><div class="label">'+html.escape(diagnostic['Diagnóstico'])+'</div><div class="value">'+html.escape(diagnostic['Lectura'])+'</div></div>',unsafe_allow_html=True)
+            help_info(diagnostic['Detalle'])
     with st.expander('Criterios de atractivo y posición (opcional)'):
-        st.caption('Umbrales en %. Una mayor incertidumbre exige más margen de seguridad. Las reglas no envían órdenes ni garantizan resultados.')
+        help_info('Umbrales en %. Una mayor incertidumbre exige más margen de seguridad. Las reglas no envían órdenes ni garantizan resultados.')
         policy={**DEFAULT_POLICY,**result.settings.get('policy',{})}
         with st.form('position_rules_form'):
             cols=st.columns(6);new_policy={}
@@ -212,52 +208,63 @@ with resumen:
         if position is not None:
             decision=evaluate_position(s,policy,position)
             st.write('Decisión orientativa: **'+decision['Decisión']+'**')
-            st.caption(decision['Motivo'])
+            help_info(decision['Motivo'])
             st.json(clean(decision),expanded=False)
-        st.caption('Reglas: comprar sólo si el descuento supera el margen exigido, el retorno a 3 años supera el mínimo y el escenario pesimista limita la caída. Ampliar exige peso conocido inferior al máximo. Reducir por sobrevaloración o exceso de peso; vender exige una prima doble. El coste afecta a la plusvalía informativa, no al valor del negocio.')
-    st.caption('Escenarios de precio sin dividendos ni probabilidades. No constituyen garantías ni sustituyen la revisión de riesgos y de la situación personal.')
+        help_info('Reglas: comprar sólo si el descuento supera el margen exigido, el retorno a 3 años supera el mínimo y el escenario pesimista limita la caída. Ampliar exige peso conocido inferior al máximo. Reducir por sobrevaloración o exceso de peso; vender exige una prima doble. El coste afecta a la plusvalía informativa, no al valor del negocio.')
+    help_info('Escenarios de precio sin dividendos ni probabilidades. No constituyen garantías ni sustituyen la revisión de riesgos y de la situación personal.')
 
 with historico:
-    st.subheader('Histórico SEC y referencias de valoración')
-    st.caption('Importes de cuentas en unidades de '+s['financial_currency']+'. EPS por acción; PER y Precio/FCF en veces. Cobertura explícita por ventana de 5 y 10 ejercicios.')
-    st.caption('Los estados anteriores a cotizar son historia financiera: no crean precios ni PER. Los registros de separación requieren revisar su perímetro económico antes de normalizar.')
-    table(tables,'Estadisticas 5 y 10')
-    st.subheader('Cuentas anuales seleccionadas')
-    table(tables,'Financieros anuales')
+    st.subheader('Histórico SEC')
+    help_info('Media y mediana a 5 y 10 ejercicios, juntas por indicador. Dispon. Datos cuenta observaciones válidas, sin completar ausencias. MM = miles de millones, M = millones y K = miles. Las unidades son comunes a ambas ventanas de cada fila. El CAGR sólo existe con extremos comparables.')
+    mostrar_historico(tables.get('Estadisticas 5 y 10',pd.DataFrame()),s['financial_currency'])
+    st.subheader('Cuentas anuales')
+    help_info('Acciones diluidas medias es la media ponderada para calcular el BPA diluido. Incorpora instrumentos potencialmente dilutivos cuando las normas contables lo requieren; excluye los antidilutivos. No equivale a acciones exactas al cierre ni a todas las opciones concedidas.')
+    annual_view=columnas(tables.get('Financieros anuales',pd.DataFrame()),'anuales',ANNUAL_REMOVE,ANNUAL_HIDDEN)
+    mostrar(annual_view,s['financial_currency'])
     with st.expander('Referencia de precio y base de acción de cada ejercicio'):
+        help_info('Relaciona el cierre fiscal con el precio observado cercano a esa fecha, el BPA y las acciones del mismo ejercicio. Los factores de split ponen precio y BPA en una base coherente para calcular el PER histórico. Las comprobaciones BPA × acciones ≈ beneficio ayudan a detectar bases incompatibles. Son referencias retrospectivas: no prueban qué información conocía el mercado entonces ni constituyen un backtest.')
         table(tables,'Referencias historicas')
-        st.caption('Precios Close ajustados por splits, sin ajuste por dividendos. EPS y acciones se concilian con el beneficio común y los eventos posteriores al filing. Es retrospectivo; no es un backtest con información disponible en cada fecha histórica.')
 
 with trimestrales:
     st.subheader('La base actual del negocio')
-    with st.expander('Conciliación SEC–Yahoo y fechas reales'):
-        table(tables,'Conciliacion SEC Yahoo')
-    table(tables,'Disponibilidad metricas')
-    table(tables,'Base TTM y balance')
-    st.caption('TTM exige cuatro trimestres consecutivos; no se multiplica un trimestre por cuatro. El balance utiliza el cierre más reciente.')
+    help_info('Disponibilidad de métricas indica qué se puede calcular, su periodo y el motivo de las ausencias. Base TTM y balance muestra los cuatro trimestres sumados para flujos y el último cierre para deuda, efectivo y acciones: no suma balances. El EBITDA aproximado de esta tabla puede no cumplir los controles del EBITDA validado.')
+    with st.expander('Comparación de datos SEC-Yahoo'):
+        comparison=tables.get('Conciliacion SEC Yahoo',pd.DataFrame()).drop(columns=['Fuente','SHA256','Componentes'],errors='ignore')
+        help_info('Cada bloque agrupa la comparación de un trimestre por su fecha Yahoo; se conserva la fecha SEC para detectar desajustes. Las pruebas, fuentes y componentes completos permanecen en Datos y auditoría y en la exportación.')
+        if not comparison.empty:
+            group='Fecha Yahoo' if 'Fecha Yahoo' in comparison else 'Fecha SEC' if 'Fecha SEC' in comparison else None
+            if group:
+                for date,part in comparison.groupby(group,sort=True,dropna=False):
+                    day=pd.to_datetime(date,errors='coerce')
+                    label='Trimestre cerrado '+day.strftime('%Y/%m/%d') if pd.notna(day) else 'Fecha no disponible'
+                    with st.expander(label):mostrar(part,s['financial_currency'])
+            else:mostrar(comparison,s['financial_currency'])
+    st.markdown('**Disponibilidad de métricas**')
+    mostrar(tables.get('Disponibilidad metricas',pd.DataFrame()),s['financial_currency'])
+    st.markdown('**Base TTM y balance**')
+    mostrar(tables.get('Base TTM y balance',pd.DataFrame()),s['financial_currency'])
     q=tables.get('Resultados trimestrales',pd.DataFrame())
     if not q.empty and 'Ingresos' in q:
-        date=q.columns[0];plot=q[[date,'Ingresos','Beneficio neto']].copy();plot[date]=pd.to_datetime(plot[date],errors='coerce')
-        plot=plot.melt(id_vars=[date],var_name='Métrica',value_name='Importe').dropna()
-        plot['Importe']/=1e9
-        st.altair_chart(alt.Chart(plot).mark_bar().encode(x=alt.X(date+':T',title='Cierre'),y=alt.Y('Importe:Q',title='Miles de millones de '+s['financial_currency']),color='Métrica:N',xOffset='Métrica:N',tooltip=[date,'Métrica','Importe']).properties(height=280),width='stretch')
-    table(tables,'Resultados trimestrales')
+        from presentacion_dashboard import fechas_grafico_trimestral
+        date=q.columns[0];plot,date_label,date_note=fechas_grafico_trimestral(q,s['as_of'])
+        plot=plot.melt(id_vars=[date,'Trimestre'],var_name='Métrica',value_name='Importe').dropna()
+        from presentacion_dashboard import escala,SYMBOLS
+        factor,suffix=escala(plot['Importe']);plot['Importe']/=factor
+        plot['Valor']=plot['Importe'].map(numero)
+        left,_=st.columns([3,1])
+        with left:
+            st.altair_chart(alt.Chart(plot).mark_bar().encode(x=alt.X('Trimestre:N',sort=sorted(plot['Trimestre'].unique()),title=date_label,axis=alt.Axis(labelAngle=-45)),y=alt.Y('Importe:Q',title='Importe ('+' '.join([suffix,SYMBOLS.get(s['financial_currency'],s['financial_currency'])])+')'),color='Métrica:N',xOffset='Métrica:N',tooltip=['Trimestre','Métrica','Valor']).properties(height=250),width='stretch')
+        help_info('Ingresos y beneficio neto reportados de cada trimestre. El eje sólo muestra fechas presentes en la captura, sin fechas intermedias. '+date_note)
+    st.subheader('Cuentas trimestrales')
+    quarterly_view=columnas(q,'trimestrales',QUARTER_REMOVE,QUARTER_HIDDEN)
+    mostrar(quarterly_view,s['financial_currency'])
 
 with comparables:
     st.subheader('Actividad similar, múltiplos separados')
     from seguimiento_metricas import informative_peers
     descriptive=informative_peers(result.universe,payload['kwargs'].get('info') or {})
-    st.caption(descriptive['coverage'])
-    if descriptive.get('warning'):st.info(descriptive['warning'])
-    st.dataframe(pd.DataFrame(descriptive['rows']),hide_index=True,width='stretch')
-    st.caption('Datos Yahoo informativos. La relación económica y sus límites se muestran por empresa. Cada ratio puede faltar por separado; estos datos sin verificar no se incorporan a los precios objetivo.')
-    st.markdown('**Comparables con controles de valoración**')
-    selected=result.peers
-    if selected.empty:st.info('No hay pares con actividad suficientemente comparable. Se examina el histórico propio como referencia de menor confianza.')
-    else:
-        preferred=['Ticker','Empresa','Confianza en comparabilidad','Justificación económica','PER TTM verificado','PER NTM verificado','Estado PER TTM','Estado PER NTM','Puntuación económica (0-100)']
-        st.dataframe(selected[[c for c in preferred if c in selected]],hide_index=True,width='stretch')
-    st.caption('TTM reportado y NTM forward se verifican por separado: periodo, moneda, base contable, acción ordinaria/ADR y beneficios. Un forwardPE o un forecast normalized de proveedor no acredita GAAP NTM.')
+    help_info(descriptive['coverage']+'\n\n'+descriptive.get('warning','')+'\n\nRatios Yahoo informativos; los negocios pueden ser parcialmente comparables. TTM, forward y EV/EBITDA conservan su definición. No se trasladan automáticamente a los objetivos. Las justificaciones y controles completos se conservan en fuentes y exportaciones.')
+    mostrar(pd.DataFrame(descriptive['rows']).drop(columns=PEER_REMOVE,errors='ignore'),currency)
     with st.expander('Fuentes y cobertura de múltiplos'):
         table(tables,'Fuentes comparables TTM');table(tables,'Fuentes comparables')
     with st.expander('Todos los candidatos y motivos de selección'):
@@ -265,27 +272,27 @@ with comparables:
 
 with valoracion:
     st.subheader('EPS proyectado × PER razonable')
-    st.caption('Ingresos TTM → crecimiento previsto → EBIT normalizado + resultado no operativo → impuestos → beneficio común / acciones diluidas. Para financieras se usa margen PBT, con resultado financiero ya incluido. Un REIT requiere FFO/AFFO/NAV.')
-    if s['profit_model']=='PBT directo':st.info('Esta captura utiliza margen PBT normalizado: el resultado financiero ya está incluido. No se inventa una serie EBIT ni se suma el financiero dos veces.')
+    help_info('Ingresos TTM → crecimiento previsto → EBIT normalizado + resultado no operativo → impuestos → beneficio común / acciones diluidas. Para financieras se usa margen PBT, con resultado financiero ya incluido. Un REIT requiere FFO/AFFO/NAV.')
+    if s['profit_model']=='PBT directo':help_info('Esta captura utiliza margen PBT normalizado: el resultado financiero ya está incluido. No se inventa una serie EBIT ni se suma el financiero dos veces.')
     table(tables,'Valoracion EPS PER')
     with st.expander('Sensibilidad y comparación con la cotización'):
-        st.caption('Cada variable cambia por separado. Sensibilidad: ±5 puntos de crecimiento, ±3 de margen y ±20% PER. Los supuestos no se ajustan automáticamente al precio.')
+        help_info('Cada variable cambia por separado. Sensibilidad: ±5 puntos de crecimiento, ±3 de margen y ±20% PER. Los supuestos no se ajustan automáticamente al precio.')
         data=tables.get('Sensibilidad EPS PER',pd.DataFrame()).copy()
         if not data.empty:
             data['Parámetro']=data['Parámetro'].map({'growth':'Crecimiento','margin':'Margen','pe':'PER'})
             data['Cambio']=[f'{v*100:+.0f} %' if parameter=='PER' else f'{v*100:+.0f} pp' for v,parameter in zip(data['Cambio'],data['Parámetro'])]
-            st.dataframe(data[['Horizonte (años)','Parámetro','Cambio','Precio sensibilidad','Moneda']],hide_index=True,width='stretch')
+            mostrar(data[['Horizonte (años)','Parámetro','Cambio','Precio sensibilidad','Moneda']],currency)
         implied=tables.get('Expectativas implicitas',pd.DataFrame()).copy()
         for col in ['Crecimiento uniforme implícito','Margen implícito']:
             if col in implied:implied[col+' (%)']=implied.pop(col)*100
         st.markdown('**Contraste de retorno de precio cero**')
         display=['Horizonte (años)','Precio observado','Precio objetivo Base','Crecimiento uniforme implícito (%)','Margen implícito (%)','PER implícito','Año EPS']
-        st.dataframe(implied[[c for c in display if c in implied]].rename(columns={
-            'Precio observado':'Cotización','Precio objetivo Base':'Objetivo Base','Crecimiento uniforme implícito (%)':'Crecim. uniforme (%)'}),hide_index=True,width='stretch')
-        st.caption('Este contraste iguala el precio futuro a la cotización observada: retorno de precio cero. Resuelve una incógnita manteniendo el resto Base; no estima las expectativas del mercado ni es un pronóstico. El crecimiento implícito es uniforme hasta el año del EPS, distinto de una senda desacelerada. Sin dividendos ni descuento.')
+        mostrar(implied[[c for c in display if c in implied]].rename(columns={
+            'Precio observado':'Cotización','Precio objetivo Base':'Objetivo Base','Crecimiento uniforme implícito (%)':'Crecim. uniforme (%)'}),currency)
+        help_info('Este contraste iguala el precio futuro a la cotización observada: retorno de precio cero. Resuelve una incógnita manteniendo el resto Base; no estima las expectativas del mercado ni es un pronóstico. El crecimiento implícito es uniforme hasta el año del EPS, distinto de una senda desacelerada. Sin dividendos ni descuento.')
     with st.expander('Resultados recurrentes y calidad del PER histórico'):
         table(tables,'Puente recurrencia');table(tables,'Recurrencia trimestral');table(tables,'Referencias historicas');table(tables,'Notas inversiones oficiales')
-        st.caption('Importes pretax en moneda financiera. Los beneficios reportados se conservan: no se inventa un impuesto ni un EPS ajustado. Un PER puede excluirse de la referencia sin ocultar el dato histórico.')
+        help_info('Importes pretax en moneda financiera. Los beneficios reportados se conservan: no se inventa un impuesto ni un EPS ajustado. Un PER puede excluirse de la referencia sin ocultar el dato histórico.')
     st.subheader('Supuestos editables')
     initial=result.assumptions.pivot(index='Escenario',columns='Parámetro',values='Valor').reindex(SCENARIOS)
     labels={'growth':'Crecimiento ventas (%)','margin':'Margen EBIT / PBT (%)','tax':'Fiscalidad (%)','financial_sales':'No operativo / ventas (%)','dilution':'Variación acciones (%)','pe':'PER (x)','growth_terminal':'Crecimiento año 3 (%)','margin_terminal':'Margen año 3 (%)'}
@@ -295,7 +302,7 @@ with valoracion:
     editor=editor.rename(columns=labels).reset_index()
     with st.form('assumptions'):
         edited=st.data_editor(editor,hide_index=True,disabled=['Escenario',labels['pe']]+([labels['financial_sales']] if defaults.summary['profit_model']=='PBT directo' else []),width='stretch',key='hypotheses_'+capture_id)
-        st.caption('El PER se configura en Resumen. Este formulario conserva esa referencia y modifica sólo los ajustes editados.')
+        help_info('El PER se configura en Resumen. Este formulario conserva esa referencia y modifica sólo los ajustes editados.')
         turnaround=st.checkbox('Caso explícito de recuperación desde EPS negativo',value=bool(result.settings.get('allow_turnaround')))
         turn_reason=st.text_input('Justificación de recuperación',value=result.settings.get('turnaround_reason',''))
         with st.expander('Acción / ADR y análisis opcionales'):
@@ -305,7 +312,7 @@ with valoracion:
             advanced=st.checkbox('Calcular EV/EBITDA y DCF opcionales',value=bool(result.settings.get('advanced')))
             wacc=st.text_input('WACC opcional (%)',value=str(result.settings.get('optional_assumptions',{}).get('wacc','')*100) if 'wacc' in result.settings.get('optional_assumptions',{}) else '',placeholder='Automático; requiere revisión de riesgo y moneda')
             terminal=st.text_input('Crecimiento terminal opcional (%)',value=str(result.settings.get('optional_assumptions',{}).get('terminal_growth','')*100) if 'terminal_growth' in result.settings.get('optional_assumptions',{}) else '',placeholder='Automático; debe ser compatible con WACC')
-            st.caption('Los fallos de estos métodos no invalidan una proyección EPS/PER suficiente. Las financieras y REIT necesitan métodos sectoriales.')
+            help_info('Los fallos de estos métodos no invalidan una proyección EPS/PER suficiente. Las financieras y REIT necesitan métodos sectoriales.')
         apply=st.form_submit_button('Recalcular escenarios',type='primary')
     if apply:
         try:
@@ -320,8 +327,8 @@ with valoracion:
             validate_settings(custom);calculate(raw,json.dumps(custom,allow_nan=False))
             st.session_state['settings']=json.dumps(custom,allow_nan=False);st.session_state['settings_dirty']=True;st.rerun()
         except (ValueError,TypeError) as exc:st.error(str(exc))
-    st.caption('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan CAGR compuestos a 5/10 FY y márgenes normalizados desde el primer año, sin calibración al precio.')
-    st.caption('Los valores automáticos son hipótesis mecánicas y se identifican como tales. Cambiar la cotización no recalibra crecimiento, márgenes ni PER. Para NTM manual introduce los tres PER explícitos.')
+    help_info('El crecimiento y margen evolucionan linealmente del año 1 al año 3; después conservan el nivel del año 3. En ciclos o crecimientos excepcionales se usan CAGR compuestos a 5/10 FY y márgenes normalizados desde el primer año, sin calibración al precio.')
+    help_info('Los valores automáticos son hipótesis mecánicas y se identifican como tales. Cambiar la cotización no recalibra crecimiento, márgenes ni PER. Para NTM manual introduce los tres PER explícitos.')
     with st.expander('Trayectoria de beneficios y origen de cada supuesto'):
         table(tables,'Proyeccion EPS');table(tables,'Supuestos EPS PER')
     st.subheader('Suficiencia por método')
@@ -333,10 +340,10 @@ with valoracion:
 
 with auditoria:
     st.subheader('Datos y auditoría')
-    st.caption('Aplicación integrada · código '+provenance()['sha']+' · captura '+capture_id+' · modo PER '+s.get('per_mode','Automático'))
+    help_info('Aplicación integrada · código '+provenance()['sha']+' · captura '+capture_id+' · modo PER '+s.get('per_mode','Automático'))
     tables['Identidad aplicacion']=pd.DataFrame([{'Aplicación':'dashboard_app.py · V7 integrada','Firma motor':model_fingerprint(ROOT),'Commit':provenance()['sha']}])
     table(tables,'Identidad aplicacion')
-    st.caption('CRÍTICO bloquea sólo el ámbito indicado. ADVERTENCIA informa de límites y reduce confianza; no se rellena un dato ausente para obtener un precio.')
+    help_info('CRÍTICO bloquea sólo el ámbito indicado. ADVERTENCIA informa de límites y reduce confianza; no se rellena un dato ausente para obtener un precio.')
     table(tables,'Control por metodo')
     for title,keys in [
         ('Fuentes y conciliación contable',['Fuentes SEC','Fuentes fundamentales','Conciliacion TTM','Componentes CAPEX DA','Resumen Yahoo SEC']),
@@ -353,6 +360,6 @@ with auditoria:
     a.download_button('Descargar Excel',excel_bytes(tables),file_name=f"{s['ticker']}_fundamental.xlsx",mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',width='stretch')
     b.download_button('Descargar resultados JSON',json.dumps(summary,ensure_ascii=False,allow_nan=False,indent=2),file_name=f"{s['ticker']}_resultados.json",mime='application/json',width='stretch')
     c.download_button('Descargar captura reproducible',capture_export,file_name=f"{s['ticker']}_inputs.json",mime='application/json',width='stretch')
-    st.caption('Excel y JSON contienen los supuestos visibles y los mismos resultados. La captura incluye las fuentes y entradas para reproducir el cálculo sin red. Los datos de posición sólo se exportan si se han introducido.')
+    help_info('Excel y JSON contienen los supuestos visibles y los mismos resultados. La captura incluye las fuentes y entradas para reproducir el cálculo sin red. Los datos de posición sólo se exportan si se han introducido.')
 
 

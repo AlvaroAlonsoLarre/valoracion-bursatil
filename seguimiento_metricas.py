@@ -164,17 +164,18 @@ def summarize(payload,result,quarters=None):
     shown_n = per['n'] if strict_per is not None else informative['stats']['PER TTM Yahoo']['n']
     shown_origin = ('TTM verificado' if strict_per is not None else 'Yahoo informativo; sin validación para objetivos') if shown_per is not None else 'Sin PER TTM positivo disponible'
     row={'Empresa':info.get('longName') or info.get('shortName') or s['ticker'],'Ticker':s['ticker'],'Precio':s['price'],'Moneda':s['currency'],'Fecha precio':s.get('quote_date'),
-         'PER actual TTM':pe,'PER mediana 5 FY':median,'Descuento PER (%)':100*(median-pe)/median if median>0 and pe>0 else np.nan,
+         'PER actual TTM':pe,'PER mediana 5 FY':median,'Diferencia PER con histórico (%)':100*(pe/median-1) if median>0 and pe>0 else np.nan,
          'PER comparables TTM':shown_per,'N PER comparables':shown_n,'N PER forward comparables':informative['stats']['PER forward Yahoo']['n'],'Origen PER comparables':shown_origin,'PER TTM comparables validado':strict_per,'QoQ neto reciente (%)':latest[0],'QoQ neto anterior (%)':latest[1],'QoQ neto tercero (%)':latest[2],
          'QoQ media 5a (%)':values.mean(),'QoQ mediana 5a (%)':values.median(),'Cobertura QoQ':f'{int(values.notna().sum())}/20',
          'EV/EBITDA Yahoo':provider['value'],'Periodo EV Yahoo':provider['period'],'EV/EBITDA último FY':fy['last'],'EV/EBITDA mediana 5 FY':fy['median'],'Calidad EV FY':fy['last_type']+' · '+fy['last_confidence'] if fy['last'] else 'No disponible',
-         'EV/EBITDA comparables NTM':ev['median'] if not ev['warning'] else None,'PER TTM comparables B':informative['stats']['PER TTM Yahoo']['median'],'PER forward comparables B':informative['stats']['PER forward Yahoo']['median'],'EV/EBITDA comparables B':informative['stats']['EV/EBITDA Yahoo']['median'],
+         'EV/EBITDA comparables TTM Yahoo':informative['stats']['EV/EBITDA Yahoo']['median'],'N EV/EBITDA comparables':informative['stats']['EV/EBITDA Yahoo']['n'],'EV/EBITDA comparables NTM':ev['median'] if not ev['warning'] else None,'PER TTM comparables B':informative['stats']['PER TTM Yahoo']['median'],'PER forward comparables B':informative['stats']['PER forward Yahoo']['median'],'EV/EBITDA comparables B':informative['stats']['EV/EBITDA Yahoo']['median'],
          'Últimos resultados':str(q.index.max().date()) if len(q) else None,'Origen':s['source'],'Advertencias':' · '.join(warnings)}
-    return clean({'schema_version':4,'summary':s,'methods':result.methods.to_dict('records'),'informative_peers':informative,'provider_ev':provider,'row':row,'per_peers':per,'per_ntm':ntm,'ev_peers':ev,'ev_fy':fy,'per_history_n':count,'quarters':series.to_dict('records'),
+    return clean({'schema_version':5,'summary':s,'methods':result.methods.to_dict('records'),'informative_peers':informative,'provider_ev':provider,'row':row,'per_peers':per,'per_ntm':ntm,'ev_peers':ev,'ev_fy':fy,'per_history_n':count,'quarters':series.to_dict('records'),
                   'historical_pe':result.qualified_history.to_dict('records'),'assumptions':result.settings,'targets':result.valuation.to_dict('records')})
 
 
 def discount_color(value):
     n=number(value)
-    return 'background-color: #dcfce7; color: #14532d' if n>0 else 'background-color: #fee2e2; color: #7f1d1d' if n<0 else ''
+    return 'background-color: #dcfce7; color: #14532d' if n<0 else 'background-color: #fee2e2; color: #7f1d1d' if n>0 else ''
+
 

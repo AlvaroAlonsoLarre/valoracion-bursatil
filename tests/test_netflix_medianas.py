@@ -54,7 +54,7 @@ def test_watchlist_uses_median_and_explicit_informative_origin():
     assert 'Yahoo informativo' in m['row']['Origen PER comparables']
     assert m['row']['PER TTM comparables validado'] is None
     assert m['row']['PER forward comparables B']==15.
-    assert m['schema_version']==4
+    assert m['schema_version']==5
 
 
 def test_saved_schema_three_is_recalculated_without_network(tmp_path,monkeypatch):
@@ -65,7 +65,8 @@ def test_saved_schema_three_is_recalculated_without_network(tmp_path,monkeypatch
     store.update_metrics('NFLX',metrics)
     monkeypatch.setattr('seguimiento_servicio.provider_profile',lambda *a,**k:pytest.fail('Migración no debe acceder a la red'))
     upgraded=service.ensure_metrics(store.entry('NFLX'))
-    assert upgraded['metrics']['schema_version']==4
+    assert upgraded['metrics']['schema_version']==5
     assert upgraded['metrics']['row']['PER comparables TTM']!=999999.
     assert upgraded['metrics']['components']=={'old':'preserved'}
     assert upgraded['payload']['kwargs']['ticker']=='NFLX'
+

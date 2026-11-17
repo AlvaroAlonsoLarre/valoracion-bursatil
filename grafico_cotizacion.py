@@ -1,3 +1,4 @@
+from presentacion_dashboard import info as help_info,numero,escala,SYMBOLS
 """Vista de cotización y escenarios del motor original, sin red ni nuevo motor."""
 import numpy as np
 import pandas as pd
@@ -53,15 +54,20 @@ def render(payload,summary,valuation,key):
     history=a.selectbox('Histórico de cotización',HISTORY,index=2,key='hist_'+key)
     forecast=b.selectbox('Previsión gráfica',list(FORECAST),index=3,key='fut_'+key)
     data=chart_data(payload,summary,valuation,history,forecast)
-    if data[data['Tipo'].eq('Observado')].empty:st.caption('La captura no contiene cierres diarios para este periodo. No se fabrica un histórico ni se vuelve a descargar al cambiar el selector.')
+    if data[data['Tipo'].eq('Observado')].empty:help_info('La captura no contiene cierres diarios para este periodo. No se fabrica un histórico ni se vuelve a descargar al cambiar el selector.')
     if FORECAST[forecast] and data[data['Tipo'].eq('Proyección')].empty:st.info('Sin objetivos EPS × PER admisibles para dibujar. Consulta el motivo por método; un PER manual sólo resuelve la falta de múltiplo.')
     if not data.empty:
         names=list(COLORS)
-        chart=alt.Chart(data).mark_line(strokeWidth=2.4).encode(
-            x=alt.X('Fecha:T',title='Fecha'),y=alt.Y('Precio:Q',title='Precio · '+summary['currency'],scale=alt.Scale(zero=False)),
+        factor,suffix=escala(data['Precio']);display=data.copy()
+        display['Precio gráfico']=display['Precio']/factor
+        display['Precio mostrado']=display['Precio gráfico'].map(numero)
+        unit=' '.join(x for x in [suffix,SYMBOLS.get(summary['currency'],summary['currency'])] if x)
+        chart=alt.Chart(display).mark_line(strokeWidth=2.4).encode(
+            x=alt.X('Fecha:T',title='Fecha'),y=alt.Y('Precio gráfico:Q',title='Precio ('+unit+')',scale=alt.Scale(zero=False)),
             color=alt.Color('Serie:N',scale=alt.Scale(domain=names,range=list(COLORS.values())),title=''),
             strokeDash=alt.StrokeDash('Tipo:N',scale=alt.Scale(domain=['Observado','Proyección'],range=[[1,0],[7,5]]),legend=None),
-            tooltip=[alt.Tooltip('Fecha:T',format='%d/%m/%Y'),alt.Tooltip('Precio:Q',format=',.2f'),'Serie:N','Origen:N'])
+            tooltip=[alt.Tooltip('Fecha:T',format='%d/%m/%Y'),alt.Tooltip('Precio mostrado:N',title='Precio ('+unit+')'),'Serie:N','Origen:N'])
         st.altair_chart(chart.properties(height=330).interactive(),width='stretch')
-    st.caption('Sólida: cotización observada archivada. Discontinuas: escenarios del motor a 1/3 años. Los puntos intermedios son interpolaciones geométricas ilustrativas, no previsiones mensuales. Sin dividendos. No se extrapola un horizonte ausente.')
+    help_info('Sólida: cotización observada archivada. Discontinuas: escenarios del motor a 1/3 años. Los puntos intermedios son interpolaciones geométricas ilustrativas, no previsiones mensuales. Sin dividendos. No se extrapola un horizonte ausente.')
     return data
+
