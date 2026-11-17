@@ -11,7 +11,7 @@ from seguimiento_servicio import Service
 from seguimiento_store import Store
 from seguimiento_metricas import summarize,discount_color
 from seguimiento_ui import DEFAULT_COLUMNS,COLUMNS,COLUMN_LABELS
-from presentacion_dashboard import historico_compacto,vista,numero,resumen_metricas,ANNUAL_REMOVE,ANNUAL_HIDDEN
+from presentacion_dashboard import historico_compacto,vista,numero,resumen_metricas,ANNUAL_REMOVE,ANNUAL_HIDDEN,fechas_grafico_trimestral
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -73,3 +73,14 @@ def test_compact_ui_controls_defaults_and_metrics(tmp_path,monkeypatch):
     assert set(ANNUAL_HIDDEN)&set(annual.options) and not set(ANNUAL_HIDDEN)&set(annual.value)
     assert any(e.label=='Comparación de datos SEC-Yahoo' for e in quarterly.expander)
     assert not any('controles de valoración' in str(x.value) for x in peers.markdown)
+
+
+def test_chart_dates_use_only_stored_publications_or_explicit_fiscal_fallback():
+    q=pd.DataFrame({'Cierre':['2026-03-31','2026-06-30'],'Ingresos':[10.,12.],'Beneficio neto':[1.,2.],
+        'Publicación de resultados estimada/registrada':['2026-04-20','2026-07-20']})
+    plot,label,_=fechas_grafico_trimestral(q,'2026-11-17')
+    assert plot['Trimestre'].tolist()==['2026/04/20','2026/07/20'] and 'Yahoo' in label
+    q.loc[1,'Publicación de resultados estimada/registrada']=None
+    plot,label,note=fechas_grafico_trimestral(q,'2026-11-17')
+    assert plot['Trimestre'].tolist()==['2026/03/31','2026/06/30'] and label=='Cierre del trimestre'
+    assert 'Faltan fechas' in note

@@ -77,8 +77,9 @@ def mostrar(frame,currency=None,**kwargs):
             units.append(unit)
             for c in ['Valor Yahoo','Valor SEC']:d.loc[i,c]=pd.to_numeric(pd.Series([r[c]]),errors='coerce').iloc[0]/factor
         d['Unidad']=units
-        styled,_=vista(d)
-        st.dataframe(styled,hide_index=True,width='stretch',**kwargs);return
+        for c in ['Fecha Yahoo','Fecha SEC']:
+            if c in d:d[c]=pd.to_datetime(d[c],errors='coerce').dt.strftime('%Y/%m/%d')
+        st.dataframe(d.style.format({'Valor Yahoo':numero,'Valor SEC':numero},na_rep='—'),hide_index=True,width='stretch',**kwargs);return
     if ('Indicador' in frame and 'Valor' in frame) or ('Campo' in frame and 'Base TTM (unidades)' in frame):
         key='Indicador' if 'Indicador' in frame else 'Campo';value='Valor' if 'Valor' in frame else 'Base TTM (unidades)'
         d=frame.copy();units=[];shown=[]
@@ -177,3 +178,18 @@ def pintar_resumen(payload,result):
         for col,item in zip(st.columns(5),items[start:start+5]):
             col.metric(item['label'],numero(item['value'])+(' %' if '(%)' in item['label'] and math.isfinite(item['value']) else ''),help=item['help'])
     info('Q es el último trimestre fiscal observado; el crecimiento compara con Q−1 y puede reflejar estacionalidad o extraordinarios. TTM suma cuatro trimestres consecutivos. Acciones diluidas medias incluye el efecto dilutivo de opciones, RSU y convertibles cuando procede; no equivale a acciones exactas al cierre ni incluye automáticamente toda opción existente. EV/EBITDA Yahoo es informativo TTM/LTM; deuda neta/EBITDA utiliza EBITDA aproximado y puede diferir del EBITDA validado. Los datos ausentes permanecen sin valor.')
+
+
+def fechas_grafico_trimestral(q,as_of):
+    date=q.columns[0];plot=q[[date,'Ingresos','Beneficio neto']].copy()
+    closes=pd.to_datetime(plot[date],errors='coerce')
+    published=pd.to_datetime(q.get('Publicación de resultados estimada/registrada',pd.Series(pd.NaT,index=q.index)),errors='coerce')
+    valid=published.notna() & (published>closes) & ((published-closes).dt.days<=90) & (published<=pd.Timestamp(as_of))
+    if len(plot) and valid.all():
+        plot[date]=published;label='Publicación Yahoo (registrada/estimada)'
+        note='Fechas del calendario Yahoo guardadas en la captura y asociadas al cierre precedente; pueden ser registradas o estimadas. No acreditan por sí solas la publicación oficial.'
+    else:
+        plot[date]=closes;label='Cierre del trimestre'
+        note='Faltan fechas de publicación completas o coherentes: se muestran cierres fiscales para no omitir trimestres ni inventar publicaciones. Una fecha de cierre fiscal no es una fecha de presentación.'
+    plot=plot.sort_values(date);plot['Trimestre']=plot[date].dt.strftime('%Y/%m/%d')
+    return plot,label,note

@@ -245,16 +245,16 @@ with trimestrales:
     mostrar(tables.get('Base TTM y balance',pd.DataFrame()),s['financial_currency'])
     q=tables.get('Resultados trimestrales',pd.DataFrame())
     if not q.empty and 'Ingresos' in q:
-        date=q.columns[0];plot=q[[date,'Ingresos','Beneficio neto']].copy();plot[date]=pd.to_datetime(plot[date],errors='coerce')
-        plot=plot.sort_values(date);plot['Trimestre']=plot[date].dt.strftime('%Y/%m/%d')
+        from presentacion_dashboard import fechas_grafico_trimestral
+        date=q.columns[0];plot,date_label,date_note=fechas_grafico_trimestral(q,s['as_of'])
         plot=plot.melt(id_vars=[date,'Trimestre'],var_name='Métrica',value_name='Importe').dropna()
         from presentacion_dashboard import escala,SYMBOLS
         factor,suffix=escala(plot['Importe']);plot['Importe']/=factor
         plot['Valor']=plot['Importe'].map(numero)
         left,_=st.columns([3,1])
         with left:
-            st.altair_chart(alt.Chart(plot).mark_bar().encode(x=alt.X('Trimestre:N',sort=sorted(plot['Trimestre'].unique()),title='Cierre del trimestre',axis=alt.Axis(labelAngle=-45)),y=alt.Y('Importe:Q',title='Importe ('+' '.join([suffix,SYMBOLS.get(s['financial_currency'],s['financial_currency'])])+')'),color='Métrica:N',xOffset='Métrica:N',tooltip=['Trimestre','Métrica','Valor']).properties(height=250),width='stretch')
-        help_info('Ingresos y beneficio neto reportados de cada trimestre. El eje muestra exclusivamente los cierres con datos, no fechas intermedias inventadas. Una fecha de cierre fiscal no es la fecha de publicación de resultados; esta última se conserva en la captura cuando está acreditada.')
+            st.altair_chart(alt.Chart(plot).mark_bar().encode(x=alt.X('Trimestre:N',sort=sorted(plot['Trimestre'].unique()),title=date_label,axis=alt.Axis(labelAngle=-45)),y=alt.Y('Importe:Q',title='Importe ('+' '.join([suffix,SYMBOLS.get(s['financial_currency'],s['financial_currency'])])+')'),color='Métrica:N',xOffset='Métrica:N',tooltip=['Trimestre','Métrica','Valor']).properties(height=250),width='stretch')
+        help_info('Ingresos y beneficio neto reportados de cada trimestre. El eje sólo muestra fechas presentes en la captura, sin fechas intermedias. '+date_note)
     st.subheader('Cuentas trimestrales')
     quarterly_view=columnas(q,'trimestrales',QUARTER_REMOVE,QUARTER_HIDDEN)
     mostrar(quarterly_view,s['financial_currency'])
