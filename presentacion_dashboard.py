@@ -49,7 +49,8 @@ def vista(frame,currency=None):
         n=normal(c)
         if 'fecha' in n or n in ['cierre','cierre del trimestre','inicio']:
             dates=pd.to_datetime(d[c],errors='coerce',utc=True)
-            if dates.notna().any():d[c]=dates.dt.strftime('%Y/%m/%d').where(dates.notna(),d[c])
+            d[c]=dates.dt.strftime('%Y/%m/%d').where(dates.notna(),d[c])
+            continue
         values=pd.to_numeric(d[c],errors='coerce')
         if pd.api.types.is_bool_dtype(d[c]) or n in ['ejercicio','horizonte (anos)','cik sec','prioridad']:continue
         if not values.notna().any() or (not pd.api.types.is_numeric_dtype(d[c]) and values.notna().sum()!=d[c].notna().sum()):continue

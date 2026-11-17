@@ -32,6 +32,8 @@ def test_financial_display_preserves_sources_and_same_scale_across_windows():
     assert scaled.data['Fecha cierre fiscal'].str.fullmatch(r'\d{4}/\d{2}/\d{2}').all()
     assert numero(1234567.89)=='1.234.567,89'
     assert numero(float('nan'))=='—'
+    missing,_=vista(pd.DataFrame({'Fecha cierre fiscal':[pd.NaT]}),'USD')
+    assert pd.isna(missing.data.iloc[0,0])
     assert json.dumps(p,sort_keys=True)==before
     assert len(list(resumen_metricas(p,r)))==10
 
