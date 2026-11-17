@@ -24,9 +24,10 @@ def test_netflix_video_activity_finds_ten_and_excludes_unrelated_music():
     rows=[basic_peer_row('V'+str(i),video('Video '+str(i),pe=10.+i)) for i in range(12)]
     rows.append(basic_peer_row('MUSIC',{**video('Music'),'longBusinessSummary':'Produces recorded music and distributes albums, songs and music publishing rights.'}))
     rows.append(basic_peer_row('SPORT',{**video('Sport'),'longBusinessSummary':'Operates in motorsports with sports rights and a TV series and video streaming platform.'}))
+    rows.append(basic_peer_row('MUSIC_VIDEO',{**video('Music Video'),'longBusinessSummary':'Music production, publishing and artist development. Also produces TV series and video content.'}))
     b=informative_peers(pd.DataFrame(rows),target)
     assert len(b['rows'])==10 and b['target_count']==10
-    assert not {'MUSIC','SPORT'} & {r['Ticker'] for r in b['rows']}
+    assert not {'MUSIC','SPORT','MUSIC_VIDEO'} & {r['Ticker'] for r in b['rows']}
     assert not b['warning']
     assert b['stats']['PER TTM Yahoo']['n']==10
 

@@ -258,7 +258,7 @@ def discover_candidates(yf,ticker,target_info, *, region=None, max_candidates=95
 # Categorías económicas GENERALES, no listas de tickers. No equivalen a
 # segmentos contables auditados; sirven para descartar candidatos incompatibles.
 ACTIVITY_PATTERNS = {
-    'video_entretenimiento': r'\b(tv series|television series|feature films|motion pictures|film production|television production|television programming|video streaming|streaming video|streaming television|tv streaming|video content|video platforms?|video.on.demand|entertainment content|film and television)\b',
+    'video_entretenimiento': r'\b(tv series|television series|feature films|motion pictures|film production|television production|television programming|video streaming|streaming video|streaming television|tv streaming|entertainment video|video platforms?|video.on.demand|entertainment content|film and television)\b',
     'computo_datacenter': r'\b(data centers?|datacenters?|ai accelerators?|gpus?|cpus?|graphics processing)\b',
     'memoria': r'\b(dram|hbm|nand|flash memory|memory chip|memory semiconductor|memory storage products|dynamic random access|high.bandwidth memory|ddr[345]|lpddr)\b',
     'fundicion': r'\b(foundr(?:y|ies)|wafer fabrication|contract chip manufactur|semiconductor fabrication|pure.play foundry)\b',
@@ -389,6 +389,8 @@ def select_display_peers(universe, info, max_peers=10):
                 continue  # La mera etiqueta semiconductors no basta.
             if 'foundry' in peer_lead and not re.search(r'\b(gpus?|cpus?|microprocessors?)\b',peer_lead):
                 continue
+        if 'video_entretenimiento' in focus and re.search(r'\b(music production|music publishing|record labels?|artist development|artist management|recorded music)\b',desc[:250].lower()):
+            continue  # Actividad musical principal; vídeo secundario no basta.
         if 'video_entretenimiento' in focus and re.search(r'\b(motorsports?|motor sports?|sports rights|professional wrestling|combat sports)\b',desc[:450].lower()):
             continue  # Derechos deportivos/eventos no equivalen a catálogo audiovisual.
         sim = _num(r.get('Similitud de actividad (0-100)')) / 100
