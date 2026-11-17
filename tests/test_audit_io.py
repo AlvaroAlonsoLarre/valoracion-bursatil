@@ -99,10 +99,14 @@ def test_workflow_yaml_is_valid_and_has_no_publication_writes():
     workflows=list(Path('.github/workflows').glob('*.yml'))
     assert len(workflows)==1
     data=yaml.load(workflows[0].read_text(encoding='utf-8'),Loader=yaml.BaseLoader)
-    assert {'pruebas','pruebas_windows','valorar','cobertura'}==set(data['jobs'])
+    assert {'pruebas','pruebas_windows','valorar','cobertura','comparables_netflix'}==set(data['jobs'])
     assert data['jobs']['pruebas_windows']['runs-on']=='windows-latest'
     assert data['permissions']=={'contents':'read'}
     assert 'pull_request' in data['on']
+    probe=data['jobs']['comparables_netflix']
+    assert probe['needs']=='pruebas'
+    assert "github.head_ref == 'fix/comparables-cinco'" in probe['if']
+    assert 'git push' not in str(probe) and 'contents: write' not in str(probe)
 
 
 def test_failed_engine_retains_log_and_failure_summary(tmp_path,monkeypatch):

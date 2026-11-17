@@ -173,9 +173,12 @@ def test_legacy_manual_capture_keeps_prices_when_recalculating_other_form(tmp_pa
 
 def test_model_fingerprint_changes_with_financial_source(tmp_path):
     from estado_dashboard import model_fingerprint
-    for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py']:(tmp_path/name).write_text('base')
+    for name in ['analisis_acciones.py','flujo_acciones.py','historico_acciones.py','revision_economica.py','comparables_inteligentes.py','seguimiento_metricas.py']:(tmp_path/name).write_text('base')
     before=model_fingerprint(tmp_path);(tmp_path/'analisis_acciones.py').write_text('revision')
     assert model_fingerprint(tmp_path)!=before
+    for name in ['comparables_inteligentes.py','seguimiento_metricas.py']:
+        before=model_fingerprint(tmp_path);(tmp_path/name).write_text('comparables y mediana revisados')
+        assert model_fingerprint(tmp_path)!=before
 
 
 @pytest.mark.parametrize('payload',[[],{'schema':'audit-inputs-v1','frames':{'annual':{} ,'peers':{}},'kwargs':{}},{'schema':'audit-inputs-v1','frames':[], 'kwargs':{}}])
